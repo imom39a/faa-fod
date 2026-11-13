@@ -114,6 +114,80 @@ export const ResetIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const ChatIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 5h16v11H10l-5 4v-4H4z" />
+  </Svg>
+);
+export const ListIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M8 6h12M8 12h12M8 18h12M3.5 6h.1M3.5 12h.1M3.5 18h.1" />
+  </Svg>
+);
+export const GridIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />
+  </Svg>
+);
+export const UserIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 21c0-4.4 3.600-7 8-7s8 2.600 8 7" />
+  </Svg>
+);
+/** Escalation: a double chevron pointing up. */
+export const EscalationIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="m5 12 7-7 7 7M5 19l7-7 7 7" />
+  </Svg>
+);
+export const CameraIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3 8h4l2-3h6l2 3h4v11H3z" />
+    <circle cx="12" cy="13" r="3.500" />
+  </Svg>
+);
+export const SendIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M21 3 10 14M21 3l-7 18-4-7-7-4z" />
+  </Svg>
+);
+export const QuestionIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9.500" />
+    <path d="M9.200 9.500a2.900 2.900 0 1 1 4.300 2.500c-.900.500-1.500 1.100-1.500 2.200M12 17.400v.1" />
+  </Svg>
+);
+/** A Report: a speech note. Never used for a Confirmation. */
+export const ReportIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M5 3h10l4 4v14H5z" />
+    <path d="M9 10h6M9 14h6M9 18h3" />
+  </Svg>
+);
+export const TaskIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M8 4H5v17h14V4h-3" />
+    <path d="M8 2.500h8v4H8zM8.500 13l2.500 2.500 4.500-5" />
+  </Svg>
+);
+export const AgentIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M5 8h14v11H5zM12 8V4M9 13v1.500M15 13v1.500M2.500 12v4M21.500 12v4" />
+    <circle cx="12" cy="3.500" r="1" />
+  </Svg>
+);
+export const ArrowRightIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 12h15M13 6l6 6-6 6" />
+  </Svg>
+);
+export const SignOutIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h9" />
+  </Svg>
+);
+
 export function SeverityIcon({ severity, className }: { severity: Severity; className?: string }) {
   if (severity === 'HOLD') return <HoldIcon className={className} />;
   if (severity === 'REMOVE') return <RemoveIcon className={className} />;

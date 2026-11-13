@@ -95,12 +95,37 @@ function severityFor(seed: FindingSeed): Severity {
   return RULES.severity_matrix[seed.object_class][seed.zone_tier];
 }
 
-function isOpen(f: Finding): boolean {
+export function isOpen(f: Finding): boolean {
   if (f.status === 'confirmed') return false;
   return !(f.status === 'acknowledged' && f.zone_tier === 'outside_boundary');
 }
 
+/** What the real store records as an event; the mock dispatcher (dispatch.ts) reads these in order. */
+export type MockStoreEvent = {
+  id: number;
+  /** Demo seconds at which it happened (negative for the prelude before the demo starts). */
+  t: number;
+  type: 'inspection_completed' | 'finding_acknowledged' | 'finding_confirmed' | 'angle_checked_by_eye' | 'inspection_signed_off' | 'departed';
+  gate: string;
+  turn_id: string;
+  data: { inspection_id?: string; finding_id?: string; outcome?: string; angle?: string; by?: Person };
+};
+
+/** A Turn as the mock dispatcher needs it. `pushback_t` is in demo seconds. */
+export type MockTurnInfo = {
+  turn_id: string;
+  gate: string;
+  flight: string;
+  phase: TurnPhase;
+  minutes_to_pushback: number | null;
+  pushback_t: number | null;
+};
+
 export class MockBackend {
+  /** Bumped by reset(), so cursors held elsewhere start again. */
+  epoch = 0;
+  /** Every state change, oldest first. Cleared by reset(). */
+  events: MockStoreEvent[] = [];
   private t = 0;
   private playing = false;
   private speed: DemoSpeed = 1;
@@ -125,6 +150,8 @@ export class MockBackend {
   reset(): State {
     this.playing = false;
     this.seq = 0;
+    this.epoch += 1;
+    this.events = [];
     this.pending = [];
     this.frames.clear();
     this.seedKeys.clear();
@@ -234,11 +261,13 @@ export class MockBackend {
         if (latest && latest.status === 'awaiting_confirmation' && this.blockers(latest) === null) {
           latest.inspection_signoff = { by: SCRIPTED_LEAD, at: this.iso() };
           latest.status = 'confirmed';
+          this.emit('inspection_signed_off', latest, { by: SCRIPTED_LEAD });
         }
         break;
       }
       case 'scheduled_pushback':
         turn.phase = 'departed';
+        this.events.push({ id: this.events.length + 1, t: this.stamp, type: 'departed', gate: turn.def.gate, turn_id: turn.def.turn_id, data: {} });
         break;
       case 'turn_end':
         turn.ended = true;
@@ -278,6 +307,65 @@ export class MockBackend {
 
   getRules(): RuleSet {
     return RULES;
+  }
+
+  // ------------------------------------------------- read access for the mock dispatcher
+
+  /** Demo seconds. */
+  clock(): number {
+    return this.t;
+  }
+
+  finished(): boolean {
+    return this.t >= this.fx.duration;
+  }
+
+  demoSpeed(): number {
+    return this.speed;
+  }
+
+  private turnInfo(turn: TurnRuntime): MockTurnInfo {
+    const push = turn.def.events.find((e) => e.type === 'scheduled_pushback');
+    return {
+      turn_id: turn.def.turn_id,
+      gate: turn.def.gate,
+      flight: turn.def.flight,
+      phase: turn.phase ?? 'stand_prep',
+      minutes_to_pushback: this.minutesToPushback(turn),
+      pushback_t: push ? push.t : null,
+    };
+  }
+
+  /** The Turn in progress at a Gate, if any. */
+  currentTurn(gate: string): MockTurnInfo | null {
+    const turn = this.activeTurn(gate);
+    return turn ? this.turnInfo(turn) : null;
+  }
+
+  turn(turnId: string): MockTurnInfo | null {
+    const turn = this.turns.find((x) => x.def.turn_id === turnId && x.phase !== null);
+    return turn ? this.turnInfo(turn) : null;
+  }
+
+  /** The Turn's Inspections, oldest first (live objects: read only). */
+  reportsForTurn(turnId: string): Report[] {
+    return this.turns.find((x) => x.def.turn_id === turnId)?.reports ?? [];
+  }
+
+  /** Identity of the physical item behind a Finding: the same across re-inspections. */
+  itemKey(findingId: string): string | null {
+    return this.seedKeys.get(findingId) ?? null;
+  }
+
+  private emit(type: MockStoreEvent['type'], report: Report, data: MockStoreEvent['data'] = {}): void {
+    this.events.push({
+      id: this.events.length + 1,
+      t: this.stamp,
+      type,
+      gate: report.gate,
+      turn_id: report.turn_id,
+      data: { inspection_id: report.inspection_id, ...data },
+    });
   }
 
   private activeTurn(gate: string): TurnRuntime | undefined {
@@ -383,6 +471,7 @@ export class MockBackend {
 
     if (body.outcome === 'acknowledged') {
       finding.status = 'acknowledged';
+      this.emit('finding_acknowledged', report, { finding_id: finding.finding_id, by: who });
       return this.touch(report);
     }
     if (body.outcome === 'false_alarm' && !body.false_alarm_reason) {
@@ -415,12 +504,14 @@ export class MockBackend {
           confirmation: { ...confirmation, after_photo_ref: angle?.image_ref ?? null },
         });
         this.sortFindings(next);
+        this.emit('finding_confirmed', next, { finding_id: finding.finding_id, outcome: 'removed', by: who });
       }
       return this.touch(next);
     }
 
     finding.status = 'confirmed';
     finding.confirmation = confirmation;
+    this.emit('finding_confirmed', report, { finding_id: finding.finding_id, outcome: body.outcome, by: who });
     return this.touch(report);
   }
 
@@ -438,6 +529,7 @@ export class MockBackend {
         after_photo_ref: null,
         possible_source: null,
       };
+      this.emit('finding_confirmed', report, { finding_id: f.finding_id, outcome: 'removed', by: who });
     }
     return this.touch(report);
   }
@@ -459,6 +551,7 @@ export class MockBackend {
     if (!a) fail(404, 'not_found', `Angle ${angle} not found.`);
     if (a.status !== 'unusable') fail(409, 'angle_usable', `${angle} is usable; there is nothing to check by eye.`);
     a.checked_by_eye = { by: who, at: this.iso() };
+    this.emit('angle_checked_by_eye', report, { angle, by: who });
     return this.touch(report);
   }
 
@@ -474,6 +567,7 @@ export class MockBackend {
     }
     report.inspection_signoff = { by: who, at: this.iso() };
     report.status = 'confirmed';
+    this.emit('inspection_signed_off', report, { by: who });
     return this.touch(report);
   }
 
@@ -501,6 +595,7 @@ export class MockBackend {
       parentId: found.parent_inspection_id,
     });
     Object.assign(found, done);
+    this.emit('inspection_completed', found);
   }
 
   assistant(inspectionId: string, message: string): AssistantResponse {
@@ -699,6 +794,7 @@ export class MockBackend {
     );
     this.sortFindings(report);
     turn.reports.push(report);
+    this.emit('inspection_completed', report);
     return report;
   }
 

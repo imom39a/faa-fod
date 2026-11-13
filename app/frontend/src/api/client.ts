@@ -1,4 +1,14 @@
 import type {
+  ActivityResponse,
+  AgentApi,
+  Board,
+  CommandResult,
+  Inbox,
+  JoinResponse,
+  RosterResponse,
+  SayResult,
+} from './agentTypes';
+import type {
   AngleName,
   ApiErrorCode,
   AssistantRequest,
@@ -45,6 +55,8 @@ export interface Api {
   demoSpeed(speed: DemoSpeed): Promise<State>;
   assistant(body: AssistantRequest): Promise<AssistantResponse>;
   getRules(): Promise<RuleSet>;
+  /** The always-on agent: roster, sign-in, chat thread, commands, activity log. */
+  agent: AgentApi;
 }
 
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
@@ -75,12 +87,16 @@ function normaliseTurn(t: Turn): Turn {
 }
 
 export function createHttpApi(base = '/api', fetchImpl: FetchLike = (i, init) => fetch(i, init)): Api {
-  async function request<T>(method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
+  async function request<T>(method: 'GET' | 'POST', path: string, body?: unknown, token?: string): Promise<T> {
     let res: Response;
     try {
+      const headers: Record<string, string> = {};
+      if (body !== undefined) headers['Content-Type'] = 'application/json';
+      // The session token says who is acting; the server looks the role up in the roster.
+      if (token !== undefined) headers.Authorization = `Bearer ${token}`;
       res = await fetchImpl(base + path, {
         method,
-        headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+        headers: Object.keys(headers).length > 0 ? headers : undefined,
         body: body === undefined ? undefined : JSON.stringify(body),
       });
     } catch {
@@ -109,6 +125,25 @@ export function createHttpApi(base = '/api', fetchImpl: FetchLike = (i, init) =>
   const post = <T>(path: string, body: unknown = {}) => request<T>('POST', path, body);
   const report = (p: Promise<Report>) => p.then(normaliseReport);
 
+  const agent: AgentApi = {
+    roster: () => get<RosterResponse>('/agent/roster'),
+    join: (personId, pin) => post<JoinResponse>('/agent/join', { person_id: personId, pin }),
+    inbox: (token, after = 0) => request<Inbox>('GET', `/agent/inbox?after=${enc(String(after))}`, undefined, token),
+    command: (token, c) => request<CommandResult>('POST', '/agent/command', { command: c.command, args: c.args }, token),
+    commandText: (token, text) => request<CommandResult>('POST', '/agent/command', { text }, token),
+    answerProposal: (token, proposalId, accept) =>
+      request<CommandResult>('POST', `/agent/proposals/${enc(proposalId)}/answer`, { accept }, token),
+    say: (token, text) => request<SayResult>('POST', '/agent/say', { text }, token),
+    board: () => get<Board>('/agent/board'),
+    activity: (q = {}) => {
+      const params = new URLSearchParams({ after: String(q.after ?? 0) });
+      if (q.gate) params.set('gate', q.gate);
+      if (q.turn_id) params.set('turn_id', q.turn_id);
+      if (q.limit) params.set('limit', String(q.limit));
+      return get<ActivityResponse>(`/agent/activity?${params.toString()}`);
+    },
+  };
+
   return {
     getState: () => get<State>('/state'),
     getTurn: (turnId) => get<Turn>(`/turns/${enc(turnId)}`).then(normaliseTurn),
@@ -129,5 +164,6 @@ export function createHttpApi(base = '/api', fetchImpl: FetchLike = (i, init) =>
     demoSpeed: (speed) => post<State>('/demo/speed', { speed }),
     assistant: (body) => post<AssistantResponse>('/assistant', body),
     getRules: () => get<RuleSet>('/rules'),
+    agent,
   };
 }

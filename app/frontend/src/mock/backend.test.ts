@@ -63,15 +63,17 @@ describe('mock backend: demo clock and Gate status', () => {
     const b = new MockBackend({ startAt: 360 });
     expect(statuses(b).T1).toBe('awaiting_confirmation');
     expect(b.getState().gates[0]?.turn?.minutes_to_pushback).toBeLessThan(0);
-    expect(statuses(b).T8).toBe('idle');
+    expect(statuses(new MockBackend({ startAt: 168 })).T8).toBe('idle');
   });
 });
 
 describe('mock backend: queue', () => {
   it('lists HOLDs first, then by minutes to pushback ascending', () => {
     const q = new MockBackend({ startAt: 110 }).getState().queue;
-    expect(q[0]).toMatchObject({ gate: 'T1', reason: 'hold', severity: 'HOLD' });
-    const rest = q.slice(1).map((x) => x.minutes_to_pushback ?? Infinity);
+    // Two HOLDs are open at 1:50: T5 (earlier pushback) and T1.
+    expect(q.slice(0, 2).map((x) => [x.gate, x.reason])).toEqual([['T5', 'hold'], ['T1', 'hold']]);
+    const rest = q.slice(2).map((x) => x.minutes_to_pushback ?? Infinity);
+    expect(q.slice(2).every((x) => x.reason !== 'hold')).toBe(true);
     expect(rest).toEqual([...rest].sort((a, b) => a - b));
     expect(q.map((x) => x.reason)).toEqual(expect.arrayContaining(['hold', 'findings', 'incomplete']));
   });
@@ -184,8 +186,8 @@ describe('mock backend: confirm-all, checked by eye, sign-off', () => {
   });
 
   it('routes an outside-boundary Finding to the airport and closes it once reported', () => {
-    const b = new MockBackend({ startAt: 60 });
-    const report = latest(b, 'T5');
+    const b = new MockBackend({ startAt: 215 });
+    const report = latest(b, 'T8');
     const outside = report.findings.find((f) => f.zone_tier === 'outside_boundary')!;
     expect(outside).toMatchObject({ responsible_party: 'airport', rule_id: 'FOD-R10', angle: 'WIDE' });
     expect(outside.rule.text).toContain('reported');

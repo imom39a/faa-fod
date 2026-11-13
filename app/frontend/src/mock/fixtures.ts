@@ -36,6 +36,7 @@ const SOURCES = {
   tha3: { title: 'Thai Airbus A320 HS-TXS Denpasar 2025 (03).jpg', author: 'Bahnfrend', licence: 'CC BY-SA 4.0' },
   gar1: { title: 'Garuda Boeing 737 PK-GFV Jakarta 2023 (01).jpg', author: 'Bahnfrend', licence: 'CC BY-SA 4.0' },
   eidly: { title: 'Engine of Boeing 737-800 EI-DLY.JPG', author: 'Andy Mabbett', licence: 'CC BY-SA 3.0' },
+  vja6: { title: 'VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg', author: 'Bahnfrend', licence: 'CC BY-SA 4.0' },
 } as const;
 
 /** Which source photograph each fixture frame is a crop of. */
@@ -43,12 +44,14 @@ const FRAME_SOURCE: Record<string, keyof typeof SOURCES> = {
   pel_nose: 'pel3', 'pel_eng-l': 'pel2', pel_wide: 'pel2', 'pel_eng-r': 'pel1', pel_cargo: 'pel1', pel_aft: 'pel1',
   tha_nose: 'tha3', 'tha_eng-l': 'tha3', tha_cargo: 'tha3', 'tha_eng-r_clean': 'tha1', tha_wide: 'tha1',
   'tha_eng-r_blocked': 'tha2', tha_aft: 'tha2',
+  vja_: 'vja6',
   'gar_eng-l': 'eidly', gar_nose: 'gar1', 'gar_eng-r': 'gar1', gar_cargo: 'gar1', gar_aft: 'gar1', gar_wide: 'gar1',
 };
 
 const DEBRIS_FRAMES = new Set([
   'tha_nose_cutter', 'tha_eng-l_bolt', 'tha_cargo_strap', 'tha_aft_rocks',
   'gar_eng-r_nut', 'gar_cargo_strap', 'pel_cargo_tag', 'pel_aft_plastic',
+  'vja_eng-r_hammer', 'vja_cargo_tag',
 ]);
 
 export function attributionFor(name: string): Attribution {
@@ -60,6 +63,7 @@ export function attributionFor(name: string): Attribution {
   let derived = 'crop';
   if (DEBRIS_FRAMES.has(name)) derived = 'crop; debris composited from FOD-A (FOD-UNOmaha, MIT)';
   if (name.endsWith('_glare')) derived = 'crop; synthetic glare overlay';
+  if (name === 'vja_eng-l_clean') derived = 'crop, mirrored';
   return {
     title: src.title,
     url: COMMONS + encodeURIComponent(src.title.replace(/ /g, '_')),
@@ -115,10 +119,11 @@ function angle(f: FrameDef, reference: string | null, analysis = 'change_detecti
   return { ...f, reference, analysis };
 }
 
-type SetName = 'tha' | 'pel' | 'gar';
+type SetName = 'tha' | 'pel' | 'gar' | 'vja';
 const CLEAN: Record<SetName, Record<AngleName, string>> = {
   tha: { NOSE: 'tha_nose_clean', 'ENG-L': 'tha_eng-l_clean', 'ENG-R': 'tha_eng-r_clean', CARGO: 'tha_cargo_clean', AFT: 'tha_aft_capture2', WIDE: 'tha_wide_clean' },
   pel: { NOSE: 'pel_nose_clean', 'ENG-L': 'pel_eng-l_clean', 'ENG-R': 'pel_eng-r_clean', CARGO: 'pel_cargo_clean', AFT: 'pel_aft_clean', WIDE: 'pel_wide_clean' },
+  vja: { NOSE: 'vja_nose_clean', 'ENG-L': 'vja_eng-l_clean', 'ENG-R': 'vja_eng-r_clean', CARGO: 'vja_cargo_clean', AFT: 'vja_aft_clean', WIDE: 'vja_wide_clean' },
   gar: { NOSE: 'gar_nose_clean', 'ENG-L': 'gar_eng-l_clean', 'ENG-R': 'gar_eng-r_clean', CARGO: 'gar_cargo_clean', AFT: 'gar_aft_clean', WIDE: 'gar_wide_clean' },
 };
 
@@ -214,8 +219,28 @@ const plastic: FindingSeed = {
   confidence: 'medium', description: 'Grey plastic sheet on the pavement in the aft service zone.',
   detected_by: 'local_proposer', crop: 'plastic_cur', refCrop: 'plastic_ref',
 };
+const hammer: FindingSeed = {
+  key: 'hammer', bbox: [388, 678, 412, 722], label: 'hammer',
+  location_text: 'Right engine intake zone, on the pavement below the intake',
+  zone_tier: 'critical', finding_type: 'fod', category: 'tools', object_class: 'hard', size: 'M',
+  confidence: 'high', description: 'Hammer on the pavement in the right engine intake zone. Not present in the reference frame.',
+  detected_by: 'local_proposer', crop: 'hammer_cur', refCrop: 'hammer_ref',
+};
+const bagTag: FindingSeed = {
+  key: 'bagtag', bbox: [539, 720, 562, 745], label: 'bag tag',
+  location_text: 'Cargo service zone, by the belt loader',
+  zone_tier: 'service', finding_type: 'fod', category: 'luggage_parts', object_class: 'light', size: 'S',
+  confidence: 'high', description: 'Bag tag on the pavement by the belt loader.',
+  detected_by: 'local_proposer', crop: 'bagtag_cur', refCrop: 'bagtag_ref',
+};
 
 export const SCENES: SceneDef[] = [
+  scene('pa-vja-clean', 'pre_arrival', 'vja', 'Clean stand before arrival (mock: aircraft visible in the fixture photos).'),
+  // The always-on agent's scripted story (the real backend's `demo-hold` scene): both re-inspections come back clean.
+  scene('demo-hold', 'pre_departure', 'vja', 'A hammer left in the right engine zone (HOLD) and a bag tag by the belt loader (REMOVE).', {
+    'ENG-R': angle(frame('vja_eng-r_hammer', [hammer], { after: frame('vja_eng-r_clean') }), 'vja_eng-r_clean'),
+    CARGO: angle(frame('vja_cargo_tag', [bagTag], { after: frame('vja_cargo_clean') }), 'vja_cargo_clean'),
+  }),
   scene('pa-tha-clean', 'pre_arrival', 'tha', 'Clean stand before arrival (mock: aircraft visible in the fixture photos).'),
   scene('pa-pel-clean', 'pre_arrival', 'pel', 'Clean stand before arrival.'),
   scene('pd-pel-clean', 'pre_departure', 'pel', 'Clean stand before departure.'),
@@ -325,10 +350,11 @@ export const TURNS: TurnDef[] = [
     ],
   },
   {
-    turn_id: 'T5-DL519', gate: 'T5', flight: 'DL519', aircraft_type: 'A320',
+    // The always-on agent's HOLD story: hammer at ENG-R (HOLD), bag tag at CARGO (REMOVE).
+    turn_id: 'T5-DL1776', gate: 'T5', flight: 'DL1776', aircraft_type: 'A321neo',
     events: [
-      ...arrivedEarlier('pa-pel-clean'),
-      { t: 12, type: 'inspection', kind: 'pre_departure', scene_id: 'pd-pel-boundary' },
+      ...arrivedEarlier('pa-vja-clean'),
+      { t: 12, type: 'inspection', kind: 'pre_departure', scene_id: 'demo-hold' },
       { t: 200, type: 'scheduled_pushback' },
     ],
   },
@@ -340,6 +366,18 @@ export const TURNS: TurnDef[] = [
       { t: 100, type: 'auto_signoff' },
       { t: 130, type: 'scheduled_pushback' },
       { t: 165, type: 'turn_end' },
+    ],
+  },
+  {
+    // The next aircraft at T8: debris outside the gate safety envelope (FOD-R10).
+    turn_id: 'T8-DL519', gate: 'T8', flight: 'DL519', aircraft_type: 'A320',
+    events: [
+      { t: 172, type: 'stand_prep' },
+      { t: 176, type: 'inspection', kind: 'pre_arrival', scene_id: 'pa-pel-clean' },
+      { t: 186, type: 'auto_signoff' },
+      { t: 192, type: 'block_in' },
+      { t: 205, type: 'inspection', kind: 'pre_departure', scene_id: 'pd-pel-boundary' },
+      { t: 520, type: 'scheduled_pushback' },
     ],
   },
 ];
