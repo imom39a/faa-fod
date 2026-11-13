@@ -7,7 +7,8 @@ Read `README.md` first for what this is and how to run it. This file covers what
 - The app is in `app/`: `backend/` (Python 3.12, FastAPI, package `fodgate`), `frontend/` (Vite, React, TypeScript), `data/` (scenes, rule set, demo schedule).
 - `spec/` holds the approved decisions. `spec/requirements-baseline.md` is the index; each requirement names its source. Change behaviour only in line with these, or update the spec in the same change and say so.
 - `app/CONTRACT.md` fixes the data layout and the API between backend, dashboard and data. If you change an endpoint or a field, change the contract, the backend, the dashboard types (`app/frontend/src/api/`) and the dashboard mock together.
-- `GLOSSARY.md` defines the vocabulary (Gate, Turn, Inspection, Angle, Candidate, Finding, Verdict, Confirmation, Ramp Agent, Ramp Lead). Use these words exactly in code, API and UI.
+- `GLOSSARY.md` defines the vocabulary (Gate, Turn, Inspection, Angle, Candidate, Finding, Verdict, Confirmation, Ramp Agent, Ramp Lead, Roster, Shift, Task, Report, Escalation, Handover). Use these words exactly in code, API and UI.
+- The always-on agent is `app/backend/fodgate/dispatch/` (spec: `spec/dispatch.md`, API: `app/CONTRACT.md` section 5). It is started from a terminal and used from the browser: `dispatcher.py` is the code-only event loop, `agent.py` the Haiku tool loop, `commands.py` the slash commands. `fodgate/agent.py` is the process entry point with the display-only console.
 - `prototypes/` is throwaway evidence. Do not import from it or extend it.
 - `issues/` is the decision record. Each file is one closed decision; `0001-map-...md` indexes them.
 
@@ -16,6 +17,8 @@ Read `README.md` first for what this is and how to run it. This file covers what
 ```bash
 ./setup.sh                                     # install everything, build the dashboard
 ./run.sh                                       # app on http://localhost:8000
+./run-agent.sh                                 # the same app with the always-on agent and its live log
+cd app/backend  && uv run python -m fodgate.rehearse --keyless   # agent demo over HTTP, two scripted people, no cost
 cd app/backend  && uv run pytest               # must pass before you finish
 cd app/frontend && npm test && npm run build   # must pass before you finish
 cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detection scoring, no API cost
@@ -24,15 +27,19 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 ## Rules that must hold
 
 - **Severity, rule ID and Verdict are computed in code** (`app/backend/fodgate/rules.py`, `report.py`) from `app/data/rules/fod-rules.json`. Never take them from model output.
-- **Nothing clears without a person.** No code path may confirm a Finding, sign off an Inspection or change a Verdict on the model's say-so. The assistant has no tool that does any of these.
+- **Nothing clears without a person.** No code path may confirm a Finding, sign off an Inspection or change a Verdict on the model's say-so. Neither the assistant nor the always-on agent has a tool that does any of these.
+- **In `fodgate/dispatch/`, only `commands.py` may call `confirm_finding`, `confirm_all`, `checked_by_eye` or `signoff`**, and only as the signed-in person: a slash command, or that person's yes to a proposal. A Report ("done") never closes a Finding. `tests/test_dispatch_rules.py` pins this and the agent's tool list; if you add a tool, it must not be able to clear anything.
+- **Role comes from the roster on the server** for `/api/agent/*`. Never read a role from a request body or from message text there.
+- **The HOLD alert is sent by code**, at once, to every Ramp Lead on shift. It must not depend on a model call. Idle time makes no model calls: wake on store events and code timers, never poll the model.
 - **Only a Ramp Lead confirms a HOLD**, in two steps (acknowledged, then removed), and "removed" clears it only if a re-inspection of that Angle is clean.
 - **An unusable Angle makes the Verdict INCOMPLETE**, never ALL CLEAR. A failed analysis marks the Angle unusable.
-- **Models:** `claude-haiku-5-5` by default; `claude-sonnet-5-5` only behind `FOD_ESCALATION`. Opus is not used; the backend rejects it.
+- **Models:** `claude-haiku-5-5` by default; `claude-sonnet-5-5` only behind `FOD_ESCALATION`. Opus is not used; the backend rejects it. The always-on agent runs on `claude-haiku-5-5` only.
 - **Real photographs only**, openly licensed, with attribution recorded in `app/data/ATTRIBUTION.md` and shown in the UI.
 
 ## Money and secrets
 
 - The team's API balance is small. Tests mock Claude and must stay that way. Set `FOD_MAX_SPEND_USD` when running anything live, and prefer `--dry-run` and `--limit N` on the scoring script.
+- `FOD_MAX_SPEND_USD` covers the pipeline, the assistant and the agent. Anything new that calls Claude must call `llm.spend_allowed()` before each request and `llm.add_spend()` after. One scripted agent demo costs about $0.004; `FOD_AGENT=code` runs it without the model.
 - Claude results are saved by content hash in `app/var/cache/` and committed, so the demo replays for free. If you change a prompt, a schema, a crop size or the model, the saved results stop matching: re-run the demo and the scoring once with a key, then commit the new cache files.
 - The key lives in `.env`, which is ignored. Never print, log or commit it.
 
@@ -45,5 +52,6 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 
 - The equipment-inside-the-restraint-line check (FOD-R9) has little test evidence; the lines were drawn by eye on stand-in photos.
 - Accuracy numbers come from pasted debris and simulated reference images.
-- No sign-in: the role switch stands in for it.
+- No real sign-in. The dashboard's role switch stands in for it, and its endpoints trust the role the browser sends. The always-on agent's endpoints use a roster PIN and resolve the role on the server, which narrows the gap without closing it.
+- The chat page for the always-on agent is not built yet; its API is. Agent wakes take roughly 5 to 15 seconds each.
 - No live cameras, schedule feed or integrations. Each Inspection report can be exported as JSON.

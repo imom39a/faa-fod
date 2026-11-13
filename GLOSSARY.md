@@ -29,3 +29,15 @@
 **Gate safety envelope**: The painted boundary around a stand. FOD inside it is the airline's to remove; FOD outside it is not the ramp crew's to remove: it is reported to ramp control or Airport Operations, depending on where it lies and the local agreement.
 
 **Equipment restraint line**: The painted line GSE must stay behind while an aircraft moves on or off the stand.
+
+**Roster**: The list of people the system may give work to, each with a name, a role (Ramp Agent, Ramp Lead or supervisor) and the Gates they cover.
+
+**Shift**: Whether a person on the Roster is currently available for work: on, on a break, or off. Work is only given to people who are on.
+
+**Task**: One piece of work given to one person because of an Inspection: acknowledge a HOLD, remove an item, walk and report, check an Angle by eye, report an item outside the gate safety envelope, or sign off. A Task follows its Turn and closes when the Confirmation it was waiting for is recorded.
+
+**Report**: What a person says about a Task: accepted, done, not found, blocked, or a note. A Report changes the Task, never the Finding; it is not a Confirmation. (Not the Inspection report, which is the record an Inspection produces.)
+
+**Escalation**: Telling more people, in a fixed order, about a Task that is not moving: first the person again and the supervisor, then every Ramp Lead on Shift. Escalation only informs; it does not hold or release an aircraft.
+
+**Handover**: One person passing all their open Tasks to another, who must accept them. A Handover confirms nothing.

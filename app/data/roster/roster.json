@@ -1,0 +1,10 @@
+{
+  "note": "Demo roster. The PINs stand in for sign-in and are not secrets. Gates are the Gates a person covers.",
+  "people": [
+    { "person_id": "kim",    "name": "Kim",    "role": "ramp_agent", "gates": ["T5", "T8"],                   "pin": "1111", "shift": "on" },
+    { "person_id": "okafor", "name": "Okafor", "role": "ramp_lead",  "gates": ["T5", "T8"],                   "pin": "2222", "shift": "on" },
+    { "person_id": "patel",  "name": "Patel",  "role": "ramp_agent", "gates": ["T1", "T2", "T4"],             "pin": "3333", "shift": "on" },
+    { "person_id": "reyes",  "name": "Reyes",  "role": "ramp_lead",  "gates": ["T1", "T2", "T4"],             "pin": "4444", "shift": "on" },
+    { "person_id": "dana",   "name": "Dana",   "role": "supervisor", "gates": ["T1", "T2", "T4", "T5", "T8"], "pin": "9999", "shift": "on" }
+  ]
+}

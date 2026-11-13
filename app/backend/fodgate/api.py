@@ -9,7 +9,7 @@ import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Header, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +18,8 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import assistant, config
 from .demo import DemoPlayer
+from .dispatch import Dispatcher, commands
+from .dispatch.models import ACTIVE, ROLE_LABEL
 from .llm import LLM, process_spend
 from .rules import load_rules
 from .store import Store
@@ -51,26 +53,53 @@ class AssistantBody(BaseModel):
     message: str
 
 
+class JoinBody(BaseModel):
+    person_id: str | None = None
+    person: str | None = None             # accepted as an alias of person_id (a roster name also works)
+    pin: str
+
+
+class CommandBody(BaseModel):
+    text: str | None = None               # "/ack F1"
+    command: str | None = None            # or the structured form: "ack" with args ["F1"]
+    args: list[str | int] = []
+
+
+class AnswerBody(BaseModel):
+    accept: bool
+
+
+class TextBody(BaseModel):
+    text: str
+
+
 def create_app(*, store: Store | None = None, llm: LLM | None = None, start_player: bool = True,
-               assistant_create=None) -> FastAPI:
-    """Build the app. Tests pass their own store, a fake LLM and `start_player=False`."""
+               assistant_create=None, agent_create=None, agent_mode: str | None = None,
+               roster: dict | None = None) -> FastAPI:
+    """Build the app. Tests pass their own store, a fake LLM and `start_player=False`.
+    `agent_mode` (default FOD_AGENT) starts the dispatcher: `code` never calls the model, `on` may."""
     store = store or Store()
     if llm is None:
         config.load_api_key()                 # into this process only; never logged
         llm = LLM()
     wf = Workflow(store, llm)
     player = DemoPlayer(wf)
+    dispatcher = Dispatcher(wf, llm, player=player, create=agent_create, mode=agent_mode, roster=roster)
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
         if start_player:
             player.start()
+            if dispatcher.mode != "off":
+                dispatcher.start()
         yield
+        dispatcher.stop()
         player.stop()
         wf.shutdown()
 
     app = FastAPI(title="Gate FOD inspection PoC", version="0.1.0", lifespan=lifespan)
     app.state.workflow, app.state.player, app.state.store, app.state.llm = wf, player, store, llm
+    app.state.dispatcher = dispatcher
 
     # ------------------------------------------------------------------ errors
     def error(status: int, code: str, message: str) -> JSONResponse:
@@ -185,6 +214,82 @@ def create_app(*, store: Store | None = None, llm: LLM | None = None, start_play
                         data={"inspection_id": rep["inspection_id"], **out["usage"]})
         return {"reply": out["reply"], "suggested_reinspect_angles": out["suggested_reinspect_angles"],
                 "draft_report": out["draft_report"]}
+
+    # ------------------------------------------------------------------ always-on agent (spec/dispatch.md)
+    # Who is acting comes from the session token and the roster row behind it. A role or name sent in a
+    # request body is ignored here (the older endpoints above still trust the body; see spec/dispatch.md).
+    def signed_in(authorization: str | None) -> dict:
+        scheme, _, token = (authorization or "").partition(" ")
+        _, person = dispatcher.roster.session(token.strip() if scheme.lower() == "bearer" else "")
+        dispatcher.roster.touch(person["person_id"])
+        return person
+
+    @app.get("/api/agent/roster")
+    def agent_roster():
+        """For the sign-in picker. Names, roles, Gates and Shift only; a PIN never leaves the server."""
+        return {"people": dispatcher.roster.people()}
+
+    @app.post("/api/agent/join")
+    def agent_join(body: JoinBody):
+        token, person = dispatcher.roster.join(body.person_id or body.person or "", body.pin)
+        dispatcher.board.log("code", f"{person['name']} ({ROLE_LABEL[person['role']]}) signed in.", event="signed_in",
+                             actor=person["person_id"])
+        return {"token": token, "person": person}
+
+    @app.get("/api/agent/inbox")
+    def agent_inbox(after: int = 0, authorization: str | None = Header(default=None)):
+        person = signed_in(authorization)
+        pid, board = person["person_id"], dispatcher.board
+        messages = board.thread(pid, after)
+        mine = board.tasks(active=False, limit=1000) if person["role"] == "supervisor" else \
+            board.tasks(assignee_id=pid, active=False, limit=1000)
+        tasks = [t for t in mine if t["status"] in ACTIVE] + [t for t in mine if t["status"] not in ACTIVE][-10:]
+        return {"person": person, "epoch": store.epoch, "clock_t": round(dispatcher.clock(), 1),
+                "cursor": messages[-1]["message_id"] if messages else after, "messages": messages,
+                "tasks": [board.task_view(t) for t in sorted(tasks, key=lambda t: t["seq"])],
+                "pending_proposals": [board.proposal_view(p) for p in board.pending_proposals(pid)]}
+
+    def run(person: dict, text: str) -> dict:
+        return {"ok": True, "lines": commands.run_command(dispatcher, person, text)}
+
+    @app.post("/api/agent/command")
+    def agent_command(body: CommandBody, authorization: str | None = Header(default=None)):
+        person = signed_in(authorization)
+        text = body.text or ""
+        if body.command:                                      # structured form, for buttons
+            text = " ".join(["/" + body.command.strip().lstrip("/"), *[str(a) for a in body.args]])
+        if not commands.is_command(text):
+            raise WorkflowError(422, "invalid_command", "A command starts with / (or is y / n). Type /help.")
+        return run(person, text)
+
+    @app.post("/api/agent/proposals/{proposal_id}/answer")
+    def agent_answer(proposal_id: str, body: AnswerBody, authorization: str | None = Header(default=None)):
+        person = signed_in(authorization)
+        return run(person, f"{'y' if body.accept else 'n'} {proposal_id}")
+
+    @app.post("/api/agent/say")
+    def agent_say(body: TextBody, authorization: str | None = Header(default=None)):
+        person = signed_in(authorization)
+        text = " ".join(body.text.split())
+        if not text or len(text) > 500:
+            raise WorkflowError(422, "invalid_request", "text must be 1 to 500 characters")
+        if commands.is_command(text):            # commands are parsed by code and never reach the model
+            return run(person, text) | {"routed": "command"}
+        mid = dispatcher.board.send("agent", text, kind="person", from_id=person["person_id"])
+        store.add_event(type="person_message", t=wf.clock(), data={"message_id": mid, "person_id": person["person_id"]})
+        dispatcher.step()
+        return {"ok": True, "routed": "agent", "message_id": mid}
+
+    @app.get("/api/agent/board")
+    def agent_board():
+        return dispatcher.view()
+
+    @app.get("/api/agent/activity")
+    def agent_activity(after: int = 0, gate: str | None = None, turn_id: str | None = None, limit: int = 500):
+        """The log of what happened, oldest first. Poll with the last `cursor`; start again when `epoch` changes."""
+        rows = dispatcher.board.activity(after, gate=gate or None, turn_id=turn_id or None, limit=max(1, min(limit, 1000)))
+        return {"epoch": store.epoch, "cursor": rows[-1]["id"] if rows else after, "entries": rows,
+                "cost": dispatcher.cost()}
 
     # ------------------------------------------------------------------ images
     @app.get("/images/{scene_id}/{path:path}")

@@ -1,0 +1,20 @@
+{
+  "gates": ["T1", "T2", "T4", "T5", "T8"],
+  "turns": [
+    { "turn_id": "T8-DL0458", "gate": "T8", "flight": "DL0458", "aircraft_type": "A220-300",
+      "events": [
+        { "t": 0,   "type": "stand_prep" },
+        { "t": 8,   "type": "inspection", "kind": "pre_arrival", "scene_id": "pa-004" },
+        { "t": 70,  "type": "block_in" },
+        { "t": 250, "type": "inspection", "kind": "pre_departure", "scene_id": "pd-002" },
+        { "t": 420, "type": "scheduled_pushback" }
+      ] },
+    { "turn_id": "T5-DL1776", "gate": "T5", "flight": "DL1776", "aircraft_type": "757-200",
+      "events": [
+        { "t": 0,   "type": "stand_prep" },
+        { "t": 5,   "type": "block_in" },
+        { "t": 40,  "type": "inspection", "kind": "pre_departure", "scene_id": "demo-hold" },
+        { "t": 360, "type": "scheduled_pushback" }
+      ] }
+  ]
+}

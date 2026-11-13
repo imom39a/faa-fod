@@ -9,7 +9,8 @@ serves the API the dashboard uses. Contract: `app/CONTRACT.md` section 2. Specs:
 cd app/backend
 uv sync                                         # add --group dino for the optional DINOv2 step (installs torch)
 uv run uvicorn fodgate.api:app --port 8000      # API on /api, scene images on /images, dashboard on / if built
-uv run pytest                                   # 142 tests, no API calls (Claude is mocked)
+uv run pytest                                   # 187 tests, no API calls (Claude is mocked)
+uv run python -m fodgate.agent                  # the same server with the always-on agent and a live log (spec/dispatch.md)
 ```
 
 The API key is read from `<repo>/.env` (`ANTHROPIC_API_KEY=...`) into the server process only. It is never
@@ -33,7 +34,10 @@ FOD_DATA_DIR=tests/fixtures/data uv run uvicorn fodgate.api:app --port 8000
 | `FOD_LLM_CACHE` | `on` | Cache Claude results by content hash in `app/var/cache/`, so demo replays cost nothing. `off` disables it. |
 | `FOD_DATA_DIR` | `app/data` | Scenes, test set, demo timeline and rule set. Missing optional files are tolerated (no timeline means five idle Gates). |
 | `FOD_VAR_DIR` | `app/var` | SQLite database (`fod.sqlite`), LLM cache (`cache/`), Finding crops (`crops/`), evaluation output (`eval/`). |
-| `FOD_MAX_SPEND_USD` | unset | Optional cap on real (uncached) API spend per process. Once reached, no more calls are made. |
+| `FOD_MAX_SPEND_USD` | unset | Optional cap on real (uncached) API spend per process. Once reached, no more calls are made: pipeline, assistant and agent alike. |
+| `FOD_AGENT` | `off` | The always-on agent. `code`: the dispatcher routes work by fixed rules and never calls the model. `on`: it also wakes `claude-haiku-5-5` for free text and routing choices. `python -m fodgate.agent` defaults to `on`. |
+| `FOD_TIMELINE` | `timeline.json` | Which schedule to play: a file name in `<data>/demo/` or a path. `python -m fodgate.agent` defaults to `timeline-agent.json`. |
+| `FOD_ENV_FILE` | `<repo>/.env` | Where the API key is read from. `/dev/null` runs keyless. |
 
 A billing, credit or authentication error from the API stops all further calls for the life of the process.
 `GET /api/health` shows whether Claude is available, the models in use and what the process has spent.
@@ -64,6 +68,9 @@ targets NF-1 to NF-3. Detector thresholds are the ones fixed on the 22-frame spi
 | `workflow.py` | Confirmation rules and error codes, Inspection lifecycle, Gate status, "Needs a human" queue. |
 | `demo.py` | Scripted timeline player: play, pause, reset, speed. |
 | `assistant.py` | Haiku tool-use agent with five read-only tools. |
+| `dispatch/` | The always-on agent: `dispatcher.py` (event loop, code-only routing, HOLD alert, timers, Escalation), `agent.py` (Haiku tool loop and its tool list), `commands.py` (slash commands; the only caller of the Confirmation methods), `tasks.py`, `timers.py`, `roster.py`, `models.py`. |
+| `agent.py` | `python -m fodgate.agent`: server, dispatcher and the display-only console in one process. |
+| `rehearse.py` | `python -m fodgate.rehearse`: plays the agent demo over HTTP as two people and prints a Markdown record. |
 | `api.py` | FastAPI app. |
 | `evaluate.py` | Scoring CLI. |
 

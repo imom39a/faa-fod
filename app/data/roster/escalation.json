@@ -1,0 +1,8 @@
+{
+  "note": "Escalation ladder thresholds, in demo seconds (minutes in real use). Read by code only; the agent cannot change them.",
+  "hold_unacknowledged_s": [30, 60],
+  "hold_pushback_under_min": 2.0,
+  "no_report_ask_s": 60,
+  "no_report_offer_s": 120,
+  "proposal_expires_s": 120
+}

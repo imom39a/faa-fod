@@ -1,6 +1,6 @@
 # Build contract: data layout and API
 
-Three parts are built in parallel against this file: **test data** (`app/data/`, `app/tools/`), **backend** (`app/backend/`), **dashboard** (`app/frontend/`). If something here is wrong or missing, follow the specs in `spec/` and note the deviation in your final report. Do not change this file.
+Three parts are built in parallel against this file: **test data** (`app/data/`, `app/tools/`), **backend** (`app/backend/`), **dashboard** (`app/frontend/`). If something here is wrong or missing, follow the specs in `spec/` and note the deviation in your final report. The parallel build this file was frozen for is finished: change it together with the code it describes (`AGENTS.md`).
 
 Specs (read these first): `spec/requirements-baseline.md`, `spec/architecture.md`, `spec/fod-rules.md`, `spec/inspection-report-schema.md`, `spec/dashboard-ux.md`, `spec/test-data-plan.md`, `GLOSSARY.md`. Use glossary terms exactly in code, API and UI.
 
@@ -16,6 +16,9 @@ app/data/
     after/<ANGLE>.jpg                                         # frame returned when that Angle is re-inspected (optional)
   testset.json                  # { "scenes": ["<scene_id>", ...] }  the 30 scoring Inspections
   demo/timeline.json            # scripted Turns for the 5 Gates
+  demo/timeline-agent.json      # short schedule for the always-on agent demo (same format; pick with FOD_TIMELINE)
+  roster/roster.json            # demo Roster: { "people": [{ person_id, name, role, gates[], pin, shift }] }
+  roster/escalation.json        # Escalation ladder thresholds, in demo seconds
   ATTRIBUTION.md
 ```
 
@@ -83,7 +86,7 @@ The timeline must stage the five demo moments (requirements OF-4): a small bolt 
 
 Python 3.12, uv project in `app/backend/`, package `fodgate`. Run: `uv run uvicorn fodgate.api:app --port 8000` from `app/backend/`. Reads `ANTHROPIC_API_KEY` from `<repo>/.env`; never logs it. SQLite and caches live in `app/var/`. Serves `app/frontend/dist/` at `/` when it exists, and scene images at `/images/<scene_id>/<path>`.
 
-Env settings: `FOD_DECISION_MODEL` (default `claude-haiku-5-5`), `FOD_ESCALATION` (`off` default | `sonnet`), `FOD_DINO_WEIGHTS` (path; DINOv2 step is skipped with a note in `run_metadata` when unset or missing), `FOD_LLM_CACHE` (`on` default: cache LLM results by content hash in `app/var/cache/` so demo replays cost nothing).
+Env settings: `FOD_DECISION_MODEL` (default `claude-haiku-5-5`), `FOD_ESCALATION` (`off` default | `sonnet`), `FOD_DINO_WEIGHTS` (path; DINOv2 step is skipped with a note in `run_metadata` when unset or missing), `FOD_LLM_CACHE` (`on` default: cache LLM results by content hash in `app/var/cache/` so demo replays cost nothing), `FOD_AGENT` (`off` default | `code` | `on`: the always-on agent, section 5), `FOD_TIMELINE` (a file name in `app/data/demo/` or a path; default `timeline.json`), `FOD_MAX_SPEND_USD` (cap on real API spend per process; applies to the pipeline, the assistant and the agent).
 
 Pipeline per Inspection (requirements PL-1..PL-8, RU-3): usability check per Angle → local Candidates (change detection vs reference; DINOv2 on night/low-contrast Angles if available) → tiled Haiku safety net on Critical Angles → Haiku structured-output decision per Candidate batch (Candidate crop + reference crop + downscaled frame + rules) → code computes zone tier, severity, rule ID, Verdict. No reference → tiled Claude pass on that Angle, recorded as such. Reuse logic from `prototypes/local-detect/` (changedet.py, dinoanom.py, hybrid.py, common.py) and `prototypes/spike/run_spike.py`; copy what you need, do not import from `prototypes/`.
 
@@ -164,3 +167,114 @@ Vite + React + TypeScript in `app/frontend/`. `npm run dev` proxies `/api` and `
 - Downloads are untrusted: put them in their own directory, keep scripts elsewhere, run Python with `-I` when it reads them.
 - Anonymous, generic User-Agent for downloads; no personal or project details in any outbound request.
 - Not a git repo: do not `git init` or commit. Do not edit `spec/`, `issues/`, `research/` or `prototypes/`.
+
+## 5. Always-on agent API (owner: backend; client: the dashboard's chat page)
+
+Specification: `spec/dispatch.md`. All paths are under `/api/agent`. JSON in and out. The endpoints are always mounted; the dispatcher runs when `FOD_AGENT` is `code` or `on` (`./run-agent.sh` sets `on`).
+
+**Session.** `POST /join` returns a token. Send it on every call marked *session* as `Authorization: Bearer <token>`. Role, Shift and Gates are read from the Roster row behind the token on every call. `role`, `name` or `person_id` fields in any other request body are ignored. (Sections 2 and 3 are unchanged: those endpoints still take `role` and `name` from the body.)
+
+| Method & path | Auth | Body or query | Returns |
+|---|---|---|---|
+| GET `/roster` | none | | `{ people: Person[] }` for the sign-in picker. Never contains a PIN |
+| POST `/join` | none | `{ person_id, pin }` (`person_id` may also be the Roster name, any case) | `{ token, person: Person }` |
+| GET `/inbox` | session | `?after=<message_id>` (default 0) | `Inbox` |
+| POST `/say` | session | `{ text }` free text, 1 to 500 characters | `{ ok: true, routed: "agent", message_id }`. If the text is a command (starts with `/`, or is `y` / `n`), it is run as one and the result is `CommandResult` plus `routed: "command"` |
+| POST `/command` | session | `{ text: "/ack F1" }` or `{ command: "ack", args: ["F1"] }` | `CommandResult` |
+| POST `/proposals/{proposal_id}/answer` | session | `{ accept: boolean }` | `CommandResult` |
+| GET `/activity` | none | `?after=<id>&gate=<gate>&turn_id=<turn_id>&limit=<n>` (all optional; limit default 500, max 1000) | `Activity` |
+| GET `/board` | none | | `Board` |
+
+```ts
+type Person = { person_id: string; name: string; role: "ramp_agent" | "ramp_lead" | "supervisor";
+                gates: string[]; shift: "on" | "break" | "off";
+                signed_in: boolean };          // polled the inbox or the API in the last 15 s
+
+type Inbox = {
+  person: Person;
+  epoch: number;                 // changes on demo Reset: drop what you hold and poll again with after=0
+  clock_t: number;               // demo seconds
+  cursor: number;                // pass as ?after= on the next poll
+  messages: Message[];           // every message to or from this person with message_id > after, oldest first
+  tasks: Task[];                 // this person's open Tasks plus their last 10 closed ones (supervisor: everyone's)
+  pending_proposals: Proposal[]; // questions waiting for this person's yes or no, oldest first
+};
+type Message = { message_id: number;
+                 from: string;   // person_id | "agent" (model-written) | "code" (fixed wording)
+                 to: string;     // person_id | "agent" (free text) | "code" (a command)
+                 kind: "agent" | "code" | "timer" | "person" | "command";
+                 text: string;   // may contain "\n"
+                 task_id: string | null;
+                 proposal_id: string | null;   // set on the message that asks a proposal: show accept / decline here
+                 at: string; t: number };      // ISO time, demo seconds
+type Task = { task_id: string;                 // "K-3"
+              type: "ack_hold" | "remove" | "walk_and_report" | "check_by_eye" | "report_outside_boundary" | "sign_off";
+              gate: string; turn_id: string; inspection_id: string;   // always the Turn's latest Inspection
+              finding_id: string | null;       // short label, "F1"; stable across re-inspections
+              angle: string | null;
+              severity: "HOLD" | "REMOVE" | "ADVISORY" | null;   // copied from the Finding by code
+              required_role: "ramp_lead" | "any";
+              assignee_id: string | null; instruction: string;
+              status: "assigned" | "accepted" | "reported" | "closed" | "cancelled";
+              created_by: string;              // "code" | "agent" | person_id
+              escalation_level: number;        // 0 to 2
+              created_at: string; closed_at: string | null; close_reason: string | null;
+              closed_by_confirmation_id: number | null };
+type Proposal = { proposal_id: string;         // "P-2"
+                  kind: "confirm" | "reinspect" | "handover";
+                  question: string;            // "record F2 as removed"
+                  action: object;              // confirm: { label, outcome, false_alarm_reason, turn_id }
+                                               // reinspect: { gate, angle, turn_id }; handover: { from_id }
+                  created_by: string;          // "agent" | "code" | person_id
+                  created_at: string; status: "pending";
+                  expires_t: number; expires_in_s: number };     // demo seconds
+
+type CommandResult = { ok: true; lines: string[] };   // the same lines also arrive in the inbox as one message
+
+type Activity = { epoch: number; cursor: number; entries: Entry[]; cost: Cost };   // entries oldest first
+type Entry = { id: number; at: string; t: number;
+               kind: "code" | "agent" | "wake" | "timer" | "cost" | "idle" | "person" | "message";   // display class
+               event: string;                  // see the list below
+               gate: string | null; turn_id: string | null;
+               actor: string;                  // "code" | "agent" | "timer" | person_id | a person's name (confirmation)
+               text: string;                   // one human-readable line, may contain "\n"
+               data: object };                 // event-specific details
+type Cost = { agent_session_usd: number; wakes: number; model_requests: number; tokens_in: number; tokens_out: number;
+              process_usd: number; cap_usd: number | null };
+
+type Board = { mode: "off" | "code" | "on"; model: string; model_available: boolean; model_note: string;
+               clock_t: number;
+               tasks: (Task & { reports: { by_person_id, at, kind, raw_text, via: "command" | "free_text" }[] })[];  // last 100
+               roster: (Person & { open_tasks: number })[];
+               timers: { task_id: string; kind: string; fire_t: number }[];
+               activity: Entry[];              // the last 60 entries
+               cost: Cost };
+```
+
+**Polling.** The chat page polls `GET /inbox?after=<cursor>` about once a second (this also keeps `signed_in` true) and `GET /activity?after=<cursor>` for the log page. Neither call reaches a model. `gate` and `turn_id` filter the log to entries tied to that Gate or Turn; entries that belong to no Gate (sign-ins, most messages) are left out when a filter is given.
+
+**Activity events.** `inspection_completed` (data: `inspection_id, kind, verdict, highest_open_severity, open_findings[]`), `task_assigned` (data: the `Task`), `hold_alert`, `task_reassigned`, `task_accepted`, `task_reported` (data: `task_id, kind, via, raw_text`), `task_reopened`, `task_escalated` (data: `task_id, level, reason, notified[]`), `task_closed` / `task_cancelled` (data: `task_ids[], reason, confirmation_id`), `timer_fired`, `message` (data: `message_id, from, to, kind, task_id, proposal_id`), `proposal_created`, `proposal_answered` (data: `proposal_id, status: accepted | declined | void, action`), `confirmation` (data: `action: acknowledged | removed | false_alarm | not_found_on_walk | checked_by_eye | signoff, finding_id, angle, by: { role, name }, inspection_id`; `at` is when), `command_refused` (data: `command, error`), `handover`, `signed_in`, `agent_wake_started`, `agent_tool` (data: `tool, args, ok, result`), `agent_note`, `agent_wake` (data: `trigger, model, outcome, tokens_in, tokens_out, est_cost_usd, seconds, tool_calls[]`), `agent_wake_failed`, `model_unavailable`, `free_text_not_interpreted`, `unroutable`, `departed`, `idle`, `dispatcher_started`, `demo_reset`.
+
+**Commands** (the `text` form; the structured form is the same word without the slash, with `args` in the same order). Finding IDs are the short labels (`F1`), Task IDs are `K-n`, Gates are `T5`.
+
+| Command | Who | Effect |
+|---|---|---|
+| `/tasks` | anyone | list open Tasks (supervisor: everyone's) |
+| `/accept K-3` `/done K-3 [note]` `/cant K-3 <reason>` | the assignee | a Report on the Task. Never a Confirmation. `/done` on a REMOVE or ADVISORY Task creates a proposal for that person |
+| `/ack F1` | Ramp Lead (HOLD) | Confirmation `acknowledged` |
+| `/removed F1 [possible source]` | by severity | Confirmation `removed`. On a HOLD: takes a new photo first; recorded only if clean |
+| `/false-alarm F2 <shadow\|marking\|equipment_in_place\|other>` `/not-found F2` | by severity | Confirmation |
+| `/reported F3` | by severity | records an outside-envelope Finding as reported |
+| `/all-removed T5` | Ramp Agent or Ramp Lead | every open REMOVE and ADVISORY Finding at the Gate; never a HOLD |
+| `/reinspect T5 ENG-R` | Ramp Agent or Ramp Lead | new photo of one Angle; closes nothing |
+| `/eye T5 ENG-R` | Ramp Lead | checked by eye |
+| `/signoff T5` | Ramp Agent or Ramp Lead | sign off the Gate's latest Inspection |
+| `/send <person> F1 [instruction]` `/reassign K-3 <person>` | Ramp Lead, supervisor | create or move a Task |
+| `/handover <person>` `/break` `/back` | Ramp Agent or Ramp Lead | Handover (the other person accepts with `y`), Shift |
+| `/shift <person> on\|break\|off` `/msg <person> <text>` | supervisor | |
+| `y` `n` (optionally `y P-2`) | the person asked | answer a proposal; same as `POST /proposals/{id}/answer` |
+| `/who` `/help` | anyone | Roster; command list for the caller's role |
+
+**Errors.** HTTP 4xx with `{ error, message }`, as in section 2. A refused command also appears in the person's thread and in the activity log. Codes: `bad_credentials` (401), `not_signed_in` (401), `role_not_allowed` (403), `not_your_task` (403), `not_found` (404), `invalid_command` (422), `invalid_request` (422), and 409 for `refused` (a routing check failed; the message says why), `nothing_to_answer`, `proposal_void`, `open_hold`, `task_closed`, `nothing_to_hand_over`, plus the section 2 codes `hold_needs_acknowledge`, `open_findings`, `unusable_angles`, `already_confirmed`, `already_signed_off`, `inspection_in_progress`, `angle_usable`.
+
+**Audit.** A Confirmation made through these endpoints carries, in the `confirmations` table's data, `via` (`command` or `accepted_proposal`), `raw_text`, `person_id` and, for a proposal, `proposal_id`.

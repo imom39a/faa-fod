@@ -50,6 +50,57 @@ The app replays a scripted 6 minutes at five gates. The schedule and the photos 
 
 The demo stages five moments: a small bolt in an engine intake zone (HOLD), equipment parked inside the restraint line before arrival (REMOVE), glare on an engine view (INCOMPLETE), the Ramp Lead-only HOLD clearance, and debris beyond the stand routed to ramp control.
 
+## Always-on agent
+
+The same PoC can run as an **always-on agent**: it manages a roster of people, gives them the work each Inspection produces, takes their reports back and looks again after every change. It is started from a terminal; people use it from the browser. The dashboard above is unchanged and remains the place to inspect photos, Findings and Confirmations.
+
+```bash
+./run-agent.sh              # API, dashboard, agent and a live log in this terminal
+```
+
+Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.sh --play --speed 2`). It plays a short schedule (`app/data/demo/timeline-agent.json`): one clean Turn at T8 and the T5 Turn with a hammer by the right engine (HOLD) and a bag tag by the belt loader (REMOVE).
+
+**The three views**
+
+| View | What it is |
+|---|---|
+| Terminal | The agent's console. Display only: events, the agent's decisions, Tasks, timers and running cost. Lines marked `[code]` are ordinary code, `agent>` is the model, `[timer]` is a code timer, `[cost]` is measured spend. |
+| Dashboard | As before: Gate tiles, photos, Findings, Confirmations. |
+| Chat page | Where each person signs in, gets Tasks, reports back and records Confirmations. **Chat page: to be added.** It is being built against the API in `app/CONTRACT.md` section 5. Until then, `uv run python -m fodgate.rehearse` (from `app/backend`) plays two people over that API and prints both chat threads. |
+
+**The roster** (`app/data/roster/roster.json`; the PINs are demo stand-ins for sign-in, not secrets)
+
+| Person | Role | Gates | PIN |
+|---|---|---|---|
+| Kim | Ramp Agent | T5, T8 | 1111 |
+| Okafor | Ramp Lead | T5, T8 | 2222 |
+| Patel | Ramp Agent | T1, T2, T4 | 3333 |
+| Reyes | Ramp Lead | T1, T2, T4 | 4444 |
+| Dana | Supervisor | all | 9999 |
+
+**Walkthrough** (about 3.5 minutes at 2x; Kim and Okafor signed in)
+
+1. Press Play. The terminal sits at "Waiting for events" and the cost does not move: idle time makes no model calls.
+2. T8's clean pre-arrival Inspection lands. Code asks Okafor to sign off (`/signoff T8`). No model call.
+3. T5's pre-departure Inspection lands: F1 HOLD at ENG-R, F2 REMOVE at CARGO. Code sends the HOLD alert to every Ramp Lead on shift at once. The agent is woken once to choose who removes the bag tag, and gives it to Kim.
+4. Kim sends `/ack F1`. Refused: only a Ramp Lead can touch a HOLD.
+5. Wait 30 seconds of schedule time. A code timer calls Okafor a second time and tells the supervisor.
+6. Okafor sends `/ack F1`, then types "send kim, she's closest". The agent turns that into a Task for Kim.
+7. Kim types "got the hammer, its in the fod bin. bag tag picked up too". The agent logs two Reports, asks Kim to confirm the bag tag (she answers yes), and code tells Okafor that only he can record the HOLD. Both Findings were still open until then.
+8. Okafor sends `/removed F1`. Code takes a new photo of ENG-R; it is clean; the Confirmation is recorded.
+9. Okafor sends `/signoff T5`. Tasks close, timers are cancelled, the dashboard tile turns to "Confirmed clear".
+10. Open the activity log (`GET /api/agent/activity`): every step with who and when, and the session cost (about $0.004).
+
+**What keeps it safe**
+
+- The agent proposes and routes. It has no tool that confirms a Finding, records a check by eye, signs off, or changes a severity or a Verdict.
+- A Confirmation is recorded only from a command a signed-in person sent, or from a question that same person answered yes to.
+- A person's "done" is a Report, not a Confirmation. A HOLD is still re-photographed before it counts.
+- Role comes from the roster on the server, not from what the browser sends.
+- If Claude is unavailable or the spend cap is reached, code still delivers the HOLD and routes the rest by a fixed rule, and every command works. Try it: `FOD_AGENT=code ./run-agent.sh`.
+
+**Limits to state**: the PIN is not real sign-in; the older dashboard endpoints still accept whatever role the browser sends; the terminal is a display, not a control; the linked "always-on agent" repository was a data pack, so the loop is this project's own. Details: `spec/dispatch.md`. A recorded run with costs: `research/always-on-agent-rehearsal.md`.
+
 ## How it works
 
 1. **Local detection.** For each of six camera views (Angles), the current image is compared with a clean reference image of the same view. Anything that changed becomes a Candidate. This runs on the laptop and costs nothing.
@@ -80,9 +131,9 @@ On the 30-Inspection test set (`app/EVAL-RESULTS.md`):
 
 | Path | What it is |
 |---|---|
-| `app/backend/` | FastAPI app: detection pipeline, Confirmation rules, demo player, assistant, scoring |
+| `app/backend/` | FastAPI app: detection pipeline, Confirmation rules, demo player, assistant, always-on agent (`fodgate/dispatch/`), scoring |
 | `app/frontend/` | React dashboard |
-| `app/data/` | Test set (30 Inspections), 5 demo scenes, demo schedule, rule set, photo attribution |
+| `app/data/` | Test set (30 Inspections), 5 demo scenes, demo schedules, roster and Escalation thresholds, rule set, photo attribution |
 | `app/var/cache/` | Saved Claude results, so replays are free |
 | `app/tools/` | Scripts that rebuild `app/data/` from Wikimedia Commons |
 | `app/CONTRACT.md` | Data layout and API shared by backend, dashboard and data |
@@ -98,7 +149,8 @@ On the 30-Inspection test set (`app/EVAL-RESULTS.md`):
 # Backend (API on :8000)
 cd app/backend
 uv run uvicorn fodgate.api:app --port 8000 --reload
-uv run pytest                                  # 142 tests, Claude mocked, no API calls
+uv run pytest                                  # 187 tests, Claude mocked, no API calls
+uv run python -m fodgate.rehearse --keyless    # the agent demo over HTTP with no key and no cost
 
 # Dashboard with live reload (on :5173, proxies /api and /images to :8000)
 cd app/frontend
@@ -125,6 +177,8 @@ Backend settings (environment variables) are listed in `app/backend/README.md`. 
 | An Angle shows unusable, reason `analysis_failed` | No saved result matched and no API key is set (or the spend cap or credit ran out). Add `ANTHROPIC_API_KEY` to `.env` and press Reset |
 | Gates stay on "Pushback due" at the end | Expected. A Turn only departs after a person signs off its last Inspection |
 | The assistant panel returns an error | It needs an API key; its answers are not saved |
+| The agent console says "Agent model not used" | No key, the spend cap was reached, or `FOD_AGENT=code`. Work is still routed by code and commands work |
+| Free text gets "I cannot read free text right now" | Same cause. Use the commands (`/help`) |
 
 ## Image credits
 
