@@ -13,6 +13,7 @@ DEFAULT_GATES = ["T1", "T2", "T4", "T5", "T8"]
 HAIKU = "claude-haiku-5-5"
 SONNET = "claude-sonnet-5-5"
 ALLOWED_MODELS = (HAIKU, SONNET)                           # Opus is never used (PL-7)
+AGENT_MODEL = HAIKU                                        # the dispatch agent runs on Haiku only (spec/dispatch.md)
 
 SCHEMA_VERSION = "0.1"
 
@@ -53,6 +54,31 @@ def rules_path() -> Path:
     return p if p.exists() else REPO_ROOT / "app" / "data" / "rules" / "fod-rules.json"
 
 
+def timeline_path() -> Path:
+    """The demo timeline. FOD_TIMELINE picks another file: a name inside <data>/demo/ or a path."""
+    v = os.environ.get("FOD_TIMELINE")
+    if not v:
+        return data_dir() / "demo" / "timeline.json"
+    p = Path(v)
+    return p if p.is_absolute() or os.sep in v else data_dir() / "demo" / v
+
+
+def roster_path() -> Path:
+    return data_dir() / "roster" / "roster.json"
+
+
+def escalation_path() -> Path:
+    return data_dir() / "roster" / "escalation.json"
+
+
+def agent_mode() -> str:
+    """FOD_AGENT: `off` (default; no dispatcher), `code` (dispatcher, never calls the model) or `on`."""
+    v = (os.environ.get("FOD_AGENT") or "off").lower()
+    if v not in ("off", "code", "on"):
+        raise ValueError("FOD_AGENT must be 'off', 'code' or 'on'")
+    return v
+
+
 def decision_model() -> str:
     m = os.environ.get("FOD_DECISION_MODEL") or HAIKU
     if m not in ALLOWED_MODELS:
@@ -89,7 +115,7 @@ def load_api_key() -> bool:
     """
     if os.environ.get("ANTHROPIC_API_KEY"):
         return True
-    env = REPO_ROOT / ".env"
+    env = Path(os.environ.get("FOD_ENV_FILE") or REPO_ROOT / ".env")   # FOD_ENV_FILE=/dev/null: run keyless
     if not env.exists():
         return False
     for line in env.read_text().splitlines():

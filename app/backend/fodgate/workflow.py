@@ -59,7 +59,7 @@ class Workflow:
     @property
     def timeline(self) -> dict:
         """The demo timeline, re-read when the file changes (the data set may arrive after the server starts)."""
-        f = config.data_dir() / "demo" / "timeline.json"
+        f = config.timeline_path()
         mtime = f.stat().st_mtime if f.is_file() else None
         if self._timeline is None or mtime != self._timeline_mtime:
             try:
