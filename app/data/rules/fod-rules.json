@@ -1,0 +1,44 @@
+{
+  "version": "fod-rules v0.2",
+  "source": "spec/fod-rules.md",
+  "severities": ["HOLD", "REMOVE", "ADVISORY"],
+  "angle_zone_tier": {
+    "NOSE": "critical", "ENG-L": "critical", "ENG-R": "critical",
+    "CARGO": "service", "AFT": "service", "WIDE": "general"
+  },
+  "categories": {
+    "fasteners_hardware": {"label": "Fasteners & hardware", "default_class": "hard"},
+    "aircraft_parts": {"label": "Aircraft parts", "default_class": "hard"},
+    "tools": {"label": "Tools", "default_class": "hard"},
+    "luggage_parts": {"label": "Luggage parts", "default_class": "hard", "note": "bag tags count as light"},
+    "catering_flightline": {"label": "Catering & flight-line items", "default_class": "light", "note": "metal items such as cans or pens count as hard"},
+    "cargo_packaging": {"label": "Cargo & packaging", "default_class": "light"},
+    "pavement_construction": {"label": "Pavement & construction debris", "default_class": "hard"},
+    "natural": {"label": "Natural (dead wildlife, vegetation)", "default_class": "natural"},
+    "unidentified": {"label": "Unidentified object", "default_class": "unidentified"}
+  },
+  "severity_matrix": {
+    "hard":         {"critical": "HOLD", "service": "REMOVE", "general": "REMOVE",   "outside_boundary": "REMOVE"},
+    "light":        {"critical": "HOLD", "service": "REMOVE", "general": "ADVISORY", "outside_boundary": "ADVISORY"},
+    "unidentified": {"critical": "HOLD", "service": "REMOVE", "general": "REMOVE",   "outside_boundary": "REMOVE"},
+    "natural":      {"critical": "HOLD", "service": "REMOVE", "general": "ADVISORY", "outside_boundary": "ADVISORY"}
+  },
+  "rules": [
+    {"id": "FOD-R1", "text": "The engine intake zones (ENG-L, ENG-R) must be free of FOD.", "basis": "FAA AC 150/5210-24A §2.2.1, §4.1.1.1 (advisory)"},
+    {"id": "FOD-R2", "text": "The pushback path and nose-gear area (NOSE) must be free of FOD.", "basis": "FAA AC 150/5210-24A §2.2.1, §4.3.2.3.1 (advisory)"},
+    {"id": "FOD-R3", "text": "The service zones (CARGO, AFT) must be cleared of FOD before departure.", "basis": "FAA AC 150/5210-24A §3.3.1, §4.3.1.1.3 (advisory); 14 CFR §139.305(a)(4) (binding on the airport)"},
+    {"id": "FOD-R4", "text": "FOD on the stand perimeter (WIDE only): hard or unidentified items must be removed; light or natural items are logged.", "basis": "FAA AC 150/5210-24A §4.1.1.1 (advisory)"},
+    {"id": "FOD-R5", "text": "An object that can't be identified is treated as FOD at its zone's severity.", "basis": "FAA AC 150/5210-24A §2.2.3.1 (advisory)"},
+    {"id": "FOD-R6", "text": "Every required Angle must be usable. Otherwise the Verdict is INCOMPLETE.", "basis": "FAA AC 150/5210-24A §4.3.2.3.1 (advisory)"},
+    {"id": "FOD-R7", "text": "Snow, ice, spills and live wildlife are non-FOD hazard observations, kept out of the FOD Verdict.", "basis": "FAA AC 150/5210-24A §2.2.3.2, §4.3.2.2.3 (advisory)"},
+    {"id": "FOD-R8", "text": "GSE, chocks, cones and tow bars in their normal positions are not FOD. Loose or misplaced ones are.", "basis": "FAA AC 150/5210-24A §2.2.2.1 (advisory)"},
+    {"id": "FOD-R9", "text": "At pre-arrival, GSE must be staged behind the equipment restraint line.", "basis": "IATA IGOM 4.1.1(d) (industry standard); ATL staging violation classes (airport rule)", "severity": "REMOVE", "finding_type": "equipment_staging"},
+    {"id": "FOD-R10", "text": "FOD outside the gate safety envelope is reported, not removed by the ramp crew: shared taxilane to Ramp 1 control (for AATC), movement area to Airport Operations.", "basis": "FAA AC 150/5210-24A §3.3.1 (advisory); ATL lease §12.01.B, §12.01.D"}
+  ],
+  "rule_for": {
+    "critical_engine": "FOD-R1", "critical_nose": "FOD-R2", "service": "FOD-R3",
+    "general": "FOD-R4", "outside_boundary": "FOD-R10", "equipment_staging": "FOD-R9",
+    "unidentified_also": "FOD-R5"
+  },
+  "roles": {"ramp_agent": ["REMOVE", "ADVISORY"], "ramp_lead": ["HOLD", "REMOVE", "ADVISORY"]}
+}

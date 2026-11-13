@@ -1,0 +1,570 @@
+<!doctype html>
+<!--
+  PROTOTYPE — throwaway. Ticket: issues/0009-gate-dashboard-ux.md
+  Question: how should the 6-Gate dashboard look and behave?
+  Plan: one clickable mock. The Gate overview comes in 3 structurally different variants
+  (A tiles / B apron map / C triage list), switchable via ?variant= and the floating bar.
+  The Turn drill-in, 6-Angle viewer and Confirmation flow are shared by all variants.
+  All data is mock, in memory; reload resets it. No backend.
+  Angle frames are REAL photos (assets/img/*.jpg, see assets/ATTRIBUTION.md) with real FOD-A debris
+  composited in; Finding boxes come from the ground truth in assets/scenes.js (built by tools/build_assets.py).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gate Dashboard Prototype</title>
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --bg:#0f1318; --panel:#171c23; --panel2:#1e252e; --line:#2a333e; --text:#e6ebf0; --muted:#8d99a6; --faint:#5d6875;
+  --accent:#5aa9ff;
+  --idle:#5d6875; --onstand:#7f9cc4; --inspect:#b18cff; --clear:#3ecf8e; --find:#ff5d5d; --incomplete:#f5a524; --await:#4fd1d9; --confirmed:#22a06b;
+  --hold:#ff4d4d; --remove:#f5a524; --adv:#5aa9ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel2);border-radius:6px;padding:6px 10px}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#06121f;font-weight:600}
+button.danger{border-color:#7a2f2f}
+button:disabled{opacity:.4;cursor:not-allowed;border-color:var(--line)}
+button.sm{padding:3px 8px;font-size:12px}
+.muted{color:var(--muted)} .faint{color:var(--faint)} .mono{font-family:ui-monospace,Menlo,monospace}
+header.top{display:flex;align-items:center;gap:16px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5;flex-wrap:wrap}
+header.top h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+header.top .sp{flex:1}
+select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font:inherit}
+main{padding:16px 16px 110px}
+.banner{font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:6px 10px;margin-bottom:14px}
+
+/* status chips */
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:650;letter-spacing:.3px;white-space:nowrap;border:1.5px solid currentColor}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.st-idle{color:var(--idle)} .st-onstand{color:var(--onstand)} .st-inspecting{color:var(--inspect)}
+.st-allclear{color:var(--clear);border-style:dashed} .st-findings{color:var(--find)} .st-incomplete{color:var(--incomplete)}
+.st-awaiting{color:var(--await)} .st-confirmed{color:#06150e;background:var(--confirmed);border-color:var(--confirmed)}
+.st-findings,.st-incomplete,.st-awaiting{background:color-mix(in srgb,currentColor 14%,transparent)}
+.st-inspecting .dot{animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.2}}
+.adv-tag{font-size:10px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px}
+
+.sev{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;letter-spacing:.3px}
+.sev-HOLD{background:var(--hold);color:#1a0505} .sev-REMOVE{background:var(--remove);color:#1d1200} .sev-ADVISORY{background:color-mix(in srgb,var(--adv) 25%,transparent);color:var(--adv);border:1px solid var(--adv)}
+
+/* Variant A: tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:10px;border-top:4px solid var(--c,var(--line))}
+.tile:hover{border-color:var(--accent)}
+.tile .row{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tile .gname{font-size:22px;font-weight:700}
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.strip div{height:22px;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#0b0f14;font-weight:700}
+.a-ok{background:#2f3a45;color:var(--muted)!important} .a-HOLD{background:var(--hold)} .a-REMOVE{background:var(--remove)} .a-ADVISORY{background:var(--adv)}
+.a-res{background:#2f3a45;color:var(--clear)!important} .a-fail{background:repeating-linear-gradient(45deg,var(--incomplete) 0 4px,#4a3a14 4px 8px)}
+.a-run{background:#3a2f55;animation:pulse 1.2s infinite} .a-none{background:#1d232b}
+
+/* Variant B: apron map */
+.apron{display:grid;grid-template-columns:1fr 320px;gap:14px}
+.apron-map{background:#1a1f26;border:1px solid var(--line);border-radius:10px;padding:0;overflow:hidden}
+.apron-map svg{display:block;width:100%;height:auto}
+.stand{cursor:pointer}
+.stand:hover .standbox{stroke:var(--accent)}
+.queue{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+.queue h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.qitem{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:6px;padding:8px;margin-bottom:8px;cursor:pointer}
+.qitem:hover{border-color:var(--accent)}
+
+/* Variant C: triage */
+table.triage{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.triage th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.triage td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.triage tr{cursor:pointer} .triage tbody tr:hover{background:var(--panel2)}
+.triage .urg{width:6px;padding:0;background:var(--c)}
+.tablewrap{overflow-x:auto}
+
+/* Turn view */
+.turnhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.turnhead .g{font-size:24px;font-weight:700}
+.turn{display:grid;grid-template-columns:250px minmax(0,1fr) 380px;gap:14px;align-items:start}
+@media (max-width:1100px){.turn{grid-template-columns:1fr}.apron{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+.panel h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.tl{position:relative;padding-left:16px}
+.tl:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.tlitem{position:relative;margin-bottom:12px;border:1px solid var(--line);border-radius:8px;padding:8px;cursor:pointer;background:var(--panel2)}
+.tlitem:before{content:"";position:absolute;left:-15px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--c,var(--faint));border:2px solid var(--panel)}
+.tlitem.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tlitem .ev{font-size:12px;color:var(--muted);margin-top:4px}
+.tlitem .ev div{margin-top:2px}
+.tlfuture{opacity:.5;cursor:default;border-style:dashed}
+
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 12px;border-radius:8px;margin-bottom:12px;border:1px solid var(--line);background:var(--panel2)}
+.verdict .big{font-size:20px;font-weight:800;letter-spacing:.5px}
+.viewer{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#000}
+.frame{position:relative;display:block;width:100%;aspect-ratio:16/9;background:#0b0d10;overflow:hidden}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.frame svg.ov{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.frame .msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.5px}
+.frame.dim img{filter:brightness(.35) saturate(.4)}
+.frame .stamp{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);background:#000b;color:var(--incomplete);font-weight:800;font-size:13px;padding:3px 10px;border-radius:4px;letter-spacing:.5px;white-space:nowrap}
+.thumb .frame .stamp{font-size:9px;padding:1px 5px;bottom:24px}
+.viewer .credit{position:absolute;right:8px;bottom:6px;background:#000a;padding:1px 6px;border-radius:3px;font-size:10px;color:#c6d0da}
+.roles{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.roles button{border:0;border-radius:0;background:var(--panel2);padding:5px 10px}
+.roles button.on{background:var(--accent);color:#06121f;font-weight:650}
+.permnote{font-size:11.5px;color:var(--hold);margin-top:6px}
+.viewer .cap{position:absolute;left:8px;top:8px;background:#000a;padding:3px 8px;border-radius:4px;font-size:12px}
+.viewer .cap2{position:absolute;right:8px;top:8px;background:#000a;padding:3px 8px;border-radius:4px;font-size:11px;color:var(--muted)}
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.thumb{position:relative;border:2px solid var(--line);border-radius:6px;overflow:hidden;cursor:pointer;background:#000}
+.thumb.sel{border-color:var(--accent)}
+.thumb .frame{aspect-ratio:16/9}
+.thumb .lab{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:3px 6px;background:linear-gradient(transparent,#000c);font-size:11px;font-weight:700}
+.badge{font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px}
+.b-ok{background:#2f3a45;color:var(--muted)} .b-fail{background:var(--incomplete);color:#1d1200} .b-inh{background:#2f3a45;color:var(--muted);font-weight:500}
+
+.fbox{cursor:pointer}
+.fbox rect.b{fill:transparent;stroke-width:2.5;vector-effect:non-scaling-stroke}
+.fbox rect.halo{fill:transparent;stroke:#000;stroke-opacity:.55;stroke-width:5;vector-effect:non-scaling-stroke}
+.fbox.hl rect.b,.fbox.sel rect.b{stroke-width:4;fill:#ffffff18}
+.fbox.res rect.b{stroke-dasharray:4 3;stroke:#9aa5b1!important}
+.flist{display:flex;flex-direction:column;gap:8px}
+.fitem{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:9px;background:var(--panel2);cursor:pointer}
+.fitem.hl,.fitem.sel{border-color:var(--accent);border-left-color:var(--c);box-shadow:0 0 0 1px var(--accent)}
+.fitem.res{opacity:.65}
+.fitem .t{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.fitem .num{font-weight:800;font-size:13px;min-width:22px}
+.fitem .meta{font-size:12px;color:var(--muted);margin-top:4px}
+.fitem .rule{font-size:11.5px;margin-top:5px;padding:5px 7px;background:#0003;border-radius:5px;color:#c6d0da}
+.conf{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.conf .bar{width:60px;height:5px;background:#2f3a45;border-radius:3px;overflow:hidden}
+.conf .bar i{display:block;height:100%;background:var(--muted)}
+.factions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.done-line{margin-top:7px;font-size:12px;font-weight:600}
+.reasons{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.signoff{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.signoff p{margin:0 0 8px;font-size:12.5px;color:var(--muted)}
+
+/* floating prototype bar */
+.protobar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:6px;background:#fff;color:#111;border-radius:999px;padding:6px 8px;box-shadow:0 6px 24px #0008;font-size:13px;max-width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center}
+.protobar button{background:#eee;border:0;color:#111;border-radius:999px;padding:5px 11px}
+.protobar button.on{background:#111;color:#fff}
+.protobar .lbl{font-weight:700;padding:0 6px;min-width:150px;text-align:center}
+.protobar .sep{width:1px;height:20px;background:#ccc;margin:0 4px}
+.statepanel{position:fixed;right:12px;bottom:70px;z-index:49;width:360px;max-height:60vh;overflow:auto;background:#fff;color:#111;border-radius:10px;padding:10px 12px;box-shadow:0 6px 24px #0008;font-size:12px}
+.statepanel table{width:100%;border-collapse:collapse} .statepanel td{padding:2px 4px;border-bottom:1px solid #eee}
+.statepanel h4{margin:6px 0 4px;font-size:11px;text-transform:uppercase;color:#666}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>FOD Gate Dashboard</h1>
+  <span class="muted" id="clock"></span>
+  <span class="sp"></span>
+  <span class="muted">Confirming as</span>
+  <span class="roles" id="roles"></span>
+</header>
+<main id="app"></main>
+<script src="assets/scenes.js"></script>
+<div class="protobar" id="protobar"></div>
+<div class="statepanel" id="statepanel" hidden></div>
+
+<script>
+/* ===================== constants ===================== */
+const ANGLES=['NOSE','ENG-L','ENG-R','CARGO','AFT','WIDE'];
+const ZONE={'NOSE':'Ahead of the nose, nose gear, pushback path','ENG-L':'Left engine intake area, under the left wing','ENG-R':'Right engine intake area, under the right wing','CARGO':'Right side: cargo doors, belt loader, bag carts','AFT':'Main gear, tail, area behind the aircraft','WIDE':'Raised view of the whole stand'};
+/* Severity and rules: spec/fod-rules.md (PoC v0.1, decided in issue 0006) */
+const SEV={HOLD:{label:'HOLD',rank:0,color:'var(--hold)',hex:'#ff4d4d',tip:'Immediate hazard. No pushback, engine start or aircraft movement until removed. Ramp Lead only.'},
+  REMOVE:{label:'REMOVE',rank:1,color:'var(--remove)',hex:'#f5a524',tip:'Must be removed before departure. Ramp Agent or Ramp Lead.'},
+  ADVISORY:{label:'ADVISORY',rank:2,color:'var(--adv)',hex:'#5aa9ff',tip:'Logged, picked up in normal cleaning. Blocks nothing.'}};
+const RULES={
+  'FOD-R1':{t:'The engine intake zones (ENG-L, ENG-R) must be free of FOD.',faa:'AC 150/5210-24A §2.2.1 (ingestion), §4.1.1.1'},
+  'FOD-R2':{t:'The pushback path and nose-gear area (NOSE) must be free of FOD.',faa:'AC 150/5210-24A §2.2.1 (tyre damage), §4.3.2.3.1'},
+  'FOD-R3':{t:'The service zones (CARGO, AFT) must be cleared of FOD before departure.',faa:'AC 150/5210-24A §3.3.1, §4.3.1.1.3; 14 CFR §139.305(a)(4)'},
+  'FOD-R4':{t:'FOD on the stand perimeter (WIDE only): hard or unidentified items must be removed; light or natural items are logged.',faa:'AC 150/5210-24A §4.1.1.1'},
+  'FOD-R5':{t:'An object that can\'t be identified is treated as FOD at its zone\'s severity.',faa:'AC 150/5210-24A §2.2.3.1'},
+  'FOD-R6':{t:'Every required Angle must be usable. Otherwise the Verdict is INCOMPLETE and the Inspection can\'t be ALL CLEAR.',faa:'AC 150/5210-24A §4.3.2.3.1'},
+  'FOD-R7':{t:'Snow, ice and live wildlife are non-FOD hazard observations, kept out of the FOD Verdict.',faa:'AC 150/5210-24A §2.2.3.2, §4.3.2.2.3'},
+  'FOD-R8':{t:'GSE, chocks, cones and tow bars in their normal positions are not FOD. Loose or misplaced ones are FOD.',faa:'AC 150/5210-24A §2.2.2.1'}
+};
+const TIER={'ENG-L':'Critical','ENG-R':'Critical','NOSE':'Critical','CARGO':'Service','AFT':'Service','WIDE':'General'};
+const ROLES={agent:{name:'R. Ortiz',role:'Ramp Agent'},lead:{name:'K. Bauer',role:'Ramp Lead'}};
+let ROLE='agent';
+const FA_REASONS=['Shadow / stain','Paint or marking','Puddle / reflection','Fixed equipment','Other'];
+const STATUS={
+  idle:{label:'Idle',cls:'st-idle',color:'var(--idle)',rank:8},
+  onstand:{label:'Aircraft on stand',cls:'st-onstand',color:'var(--onstand)',rank:5},
+  inspecting:{label:'Inspecting',cls:'st-inspecting',color:'var(--inspect)',rank:6},
+  allclear:{label:'ALL CLEAR',cls:'st-allclear',color:'var(--clear)',rank:4,advisory:true},
+  findings:{label:'FINDINGS',cls:'st-findings',color:'var(--find)',rank:1,advisory:true},
+  incomplete:{label:'INCOMPLETE',cls:'st-incomplete',color:'var(--incomplete)',rank:2,advisory:true},
+  awaiting:{label:'Awaiting Confirmation',cls:'st-awaiting',color:'var(--await)',rank:3},
+  confirmed:{label:'Confirmed clear',cls:'st-confirmed',color:'var(--confirmed)',rank:7}
+};
+const KIND_LABEL={'arrival':'Arrival','pre-departure':'Pre-departure','on-demand':'On-demand'};
+
+/* ===================== real camera frames (assets/scenes.js) ===================== */
+// Each Gate's cameras = one real stand photo set. See assets/ATTRIBUTION.md.
+const FA=window.FOD_ASSETS||{sets:{},frames:{},image_size:[1600,900]};
+const [IMG_W,IMG_H]=FA.image_size;
+const GATE_SET={G1:'PEL',G2:'GAR',G3:'GAR',G4:'PEL',G5:'THA',G6:'THA'};
+const SET_TYPE={PEL:'A320',THA:'A320',GAR:'737-800'};
+const SET_NAME={PEL:'Pelita Air A320 PK-PWL, CGK T3 stand 64',THA:'Thai A320 HS-TXS, DPS international terminal',GAR:'Garuda 737-800 PK-GFV, CGK T3'};
+// degraded captures that exist as real frames, per set/Angle/state
+const DEGRADED={THA:{'ENG-R':{blocked:'img/tha_eng-r_blocked.jpg'},'CARGO':{glare:'img/tha_cargo_glare.jpg'}}};
+// the generic "found a strap at CARGO" frame per set, used by demo pre-departure Inspections
+const STRAP={PEL:['img/pel_cargo_strap.jpg','p-strap'],THA:['img/tha_cargo_strap.jpg','t-strap'],GAR:['img/gar_cargo_strap.jpg','g-strap']};
+const SRC=p=>'assets/'+p; // frame paths in scenes.js are relative to assets/
+const cleanImg=(gid,a)=>FA.sets[GATE_SET[gid]]&&FA.sets[GATE_SET[gid]][a];
+function gtBox(img,id){const fr=FA.frames[img];const o=fr&&fr.objects.find(x=>x.id===id);if(!o)console.warn('no ground truth for',img,id);return o?o.box:[0,0,10,10]}
+
+/* ===================== state ===================== */
+let S, uid=1;
+const fmt=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const tick=()=>{S.now+=1;return fmt(S.now)};
+const AG='R. Ortiz (Ramp Agent)', LD='K. Bauer (Ramp Lead)';
+const who=()=>ROLES[ROLE].name+' ('+ROLES[ROLE].role+')';
+const isLead=()=>ROLE==='lead';
+function angles(over){const o={};ANGLES.forEach(a=>o[a]={state:'ok'});Object.entries(over||{}).forEach(([k,v])=>o[k]=typeof v==='string'?{state:v}:v);return o}
+// F(angle,label,category,severity,rules[],confidence,frame,groundTruthId,confirmation)
+function F(angle,label,category,sev,rules,confidence,img,gt,conf){return{id:'f'+(uid++),angle,label,category,sev,rules,confidence,img,box:gtBox(img,gt),gt,conf:conf||null}}
+// the frame each Angle shows: a Finding's frame, else the Angle's own (e.g. a second capture), else the Gate's clean frame
+function attachFrames(gid,ins){ins.findings.forEach(f=>{const a=ins.angles[f.angle];if(a&&!a.img)a.img=f.img});
+  ANGLES.forEach(an=>{const a=ins.angles[an];if(!a.img)a.img=(a.state!=='ok'&&DEGRADED[GATE_SET[gid]]&&(DEGRADED[GATE_SET[gid]][an]||{})[a.state])||cleanImg(gid,an)})}
+function verdictOf(ins){if(ANGLES.some(a=>ins.angles[a].state!=='ok'))return'INCOMPLETE';return ins.findings.length?'FINDINGS':'ALL CLEAR'}
+function I(kind,at,o={}){const ins={id:'i'+(uid++),kind,at,status:o.running?'running':'done',angles:o.angles||angles(),findings:o.findings||[],confirmed:o.confirmed||null,cover:o.cover||null,inheritsFrom:o.inheritsFrom||null,result:o.result||null,verdict:null};if(!o.running)ins.verdict=verdictOf(ins);return ins}
+const C=(action,by,at,reason)=>({action,by,at,reason});
+function turn(flight,tail,type,inAt,std,inspections){return{flight,tail,type,inAt,std,inspections}}
+
+function seed(n){
+  uid=1;
+  const s={now:7*60+12,log:[],gates:[]};
+  const G=(id,t)=>s.gates.push({id,turn:t||null});
+  if(n===1){
+    G('G1');
+    G('G2',turn('XA 318','PK-GFV','737-800','07:05',8*60+10,[]));
+    G('G3',turn('XA 455','PK-GFV','737-800','06:15',7*60+40,[
+      I('arrival','06:18',{confirmed:C('confirm',AG,'06:21')}),
+      I('pre-departure','07:11',{running:true,result:{angles:angles(),findings:[F('ENG-R','Loose nut','Fasteners & hardware','HOLD',['FOD-R1'],.91,'img/gar_eng-r_nut.jpg','g-nut')]}})
+    ]));
+    G('G4',turn('XA 102','PK-PWL','A320','06:02',7*60+25,[
+      I('arrival','06:05',{confirmed:C('confirm',LD,'06:09')}),
+      I('pre-departure','07:09')
+    ]));
+    G('G5',turn('XA 761','HS-TXS','A320','06:20',7*60+30,[
+      I('arrival','06:23',{confirmed:C('confirm',AG,'06:26')}),
+      I('pre-departure','07:08',{findings:[
+        F('ENG-L','Loose bolt','Fasteners & hardware','HOLD',['FOD-R1'],.91,'img/tha_eng-l_bolt.jpg','t-bolt'),
+        F('CARGO','Metal strap / band','Cargo & packaging','REMOVE',['FOD-R3'],.84,'img/tha_cargo_strap.jpg','t-strap'),
+        F('NOSE','Box cutter','Tools','HOLD',['FOD-R2'],.66,'img/tha_nose_cutter.jpg','t-cutter'),
+        F('WIDE','Possible debris (light object)','Unidentified object','REMOVE',['FOD-R4','FOD-R5'],.41,'img/tha_wide_clean.jpg','t-reflection')
+      ]})
+    ]));
+    // INCOMPLETE: ENG-R genuinely blocked (belt-loader truck driving through, 2nd capture); CARGO lost to low-sun glare
+    G('G6',turn('XA 233','HS-TXS','A320','07:00',8*60+0,[
+      I('arrival','07:02',{angles:angles({'ENG-R':'blocked','CARGO':'glare','AFT':{state:'ok',img:'img/tha_aft_rocks.jpg'},'WIDE':{state:'ok',img:'img/tha_wide_capture2.jpg'}}),findings:[
+        F('AFT','Pavement fragments','Pavement & construction debris','REMOVE',['FOD-R3'],.72,'img/tha_aft_rocks.jpg','t-rock')
+      ]})
+    ]));
+  } else {
+    const f1=F('CARGO','Luggage tag','Luggage parts','REMOVE',['FOD-R3'],.88,'img/pel_cargo_tag.jpg','p-tag',C('removed',AG,'05:58'));
+    const f2=F('ENG-L','Possible debris (white patch)','Unidentified object','HOLD',['FOD-R1','FOD-R5'],.45,'img/pel_eng-l_clean.jpg','p-patch',C('reinspect',AG,'05:58'));
+    const arr=I('arrival','05:55',{findings:[f1,f2]});
+    const od=I('on-demand','05:59',{cover:['ENG-L'],inheritsFrom:arr.id,angles:angles(),findings:[{...f1,id:'f'+(uid++),inherited:true}],confirmed:C('confirm',AG,'06:01')});
+    Object.values(od.angles).forEach((v,i)=>{if(ANGLES[i]!=='ENG-L')v.inherited=true});
+    G('G1',turn('XA 090','PK-PWL','A320','05:50',7*60+20,[arr,od,
+      I('pre-departure','07:04',{confirmed:C('confirm',LD,'07:07')})]));
+    G('G2',turn('XA 540','PK-GFV','737-800','06:58',8*60+5,[I('arrival','07:01')]));
+    G('G3',turn('XA 377','PK-GFV','737-800','06:10',7*60+35,[
+      I('arrival','06:13',{confirmed:C('confirm',AG,'06:15')}),
+      I('pre-departure','07:05',{findings:[
+        F('CARGO','Metal strap / band','Cargo & packaging','REMOVE',['FOD-R3'],.86,'img/gar_cargo_strap.jpg','g-strap',C('removed',AG,'07:09')),
+        F('ENG-R','Possible debris (dark patch)','Unidentified object','HOLD',['FOD-R1','FOD-R5'],.39,'img/gar_eng-r_clean.jpg','g-stain',C('false_alarm',LD,'07:10','Shadow / stain'))
+      ]})
+    ]));
+    G('G4',turn('XA 615','PK-PWL','A320','06:30',7*60+28,[
+      I('arrival','06:33',{confirmed:C('confirm',AG,'06:36')}),
+      I('pre-departure','07:10',{findings:[
+        F('ENG-R','Pliers left on apron','Tools','HOLD',['FOD-R1'],.93,'img/pel_eng-r_pliers.jpg','p-pliers'),
+        F('AFT','Plastic sheet fragment','Cargo & packaging','REMOVE',['FOD-R3'],.77,'img/pel_aft_plastic.jpg','p-plastic')
+      ]})
+    ]));
+    G('G5');
+    G('G6',turn('XA 801','HS-TXS','A320','07:09',8*60+15,[
+      I('arrival','07:11',{running:true,result:{angles:angles(),findings:[]}})]));
+  }
+  s.gates.forEach(g=>g.turn&&g.turn.inspections.forEach(ins=>{if(ins.status==='done')attachFrames(g.id,ins);if(ins.result)attachFrames(g.id,ins.result)}));
+  return s;
+}
+
+/* ===================== derived ===================== */
+const latest=g=>g.turn&&g.turn.inspections[g.turn.inspections.length-1];
+const isOpen=f=>!f.conf||f.conf.action==='reinspect';
+function gateStatus(g){
+  if(!g.turn)return'idle';const ins=latest(g);if(!ins)return'onstand';
+  if(ins.status==='running')return'inspecting';
+  if(ins.confirmed)return'confirmed';
+  if(ins.verdict==='INCOMPLETE')return'incomplete';
+  if(ins.verdict==='ALL CLEAR')return'allclear';
+  return ins.findings.some(isOpen)?'findings':'awaiting';
+}
+function worstOpen(ins){const o=ins.findings.filter(isOpen).sort((a,b)=>SEV[a.sev].rank-SEV[b.sev].rank);return o[0]&&o[0].sev}
+function sortedFindings(ins){return ins.findings.slice().sort((a,b)=>(isOpen(b)-isOpen(a))||SEV[a.sev].rank-SEV[b.sev].rank||ANGLES.indexOf(a.angle)-ANGLES.indexOf(b.angle))}
+function fnum(ins,f){return sortedFindingsStable(ins).indexOf(f)+1}
+function sortedFindingsStable(ins){return ins.findings.slice().sort((a,b)=>SEV[a.sev].rank-SEV[b.sev].rank||ANGLES.indexOf(a.angle)-ANGLES.indexOf(b.angle))}
+function phaseText(g){const ins=latest(g);if(!ins)return'';return KIND_LABEL[ins.kind]+' Inspection'}
+function confirmedSub(g){const ins=latest(g);return ins&&ins.kind==='pre-departure'?'ready for pushback':'until pre-departure'}
+function minsToStd(g){return g.turn.std-S.now}
+function urgency(g){const st=gateStatus(g),ins=latest(g);let r=STATUS[st].rank*10;if(ins&&ins.status==='done'&&worstOpen(ins)==='HOLD')r-=15;return r+(g.turn?Math.max(0,Math.min(9,Math.floor(minsToStd(g)/10))):0)}
+function chip(st,extra){const s=STATUS[st];return `<span class="chip ${s.cls}"><span class="dot"></span>${s.label}${extra?' · '+extra:''}</span>${s.advisory?'<span class="adv-tag" title="Claude Verdict, not yet confirmed by a human">advisory</span>':''}`}
+// spec: Gate status shows the highest severity among unconfirmed Findings; a HOLD shows even when the Verdict is INCOMPLETE
+function gateChip(g){const st=gateStatus(g),ins=latest(g);const hold=ins&&ins.status==='done'&&!ins.confirmed&&worstOpen(ins)==='HOLD';return chip(st,st==='confirmed'?confirmedSub(g):'')+(hold?' <span class="sev sev-HOLD" title="'+SEV.HOLD.tip+'">HOLD</span>':'')}
+function primaryAction(g){
+  const st=gateStatus(g),ins=latest(g);
+  if(st==='idle')return`<button class="sm" data-act="blockIn" data-g="${g.id}">Block-in (demo)</button>`;
+  if(st==='onstand')return`<button class="sm primary" data-act="startInsp" data-g="${g.id}" data-kind="arrival">Start arrival Inspection</button>`;
+  if(st==='inspecting')return`<button class="sm" data-act="finishNow" data-g="${g.id}">Finish now (demo)</button>`;
+  if(st==='confirmed'&&ins.kind!=='pre-departure')return`<button class="sm primary" data-act="startInsp" data-g="${g.id}" data-kind="pre-departure">Start pre-departure Inspection</button>`;
+  if(st==='confirmed')return`<button class="sm" data-act="pushback" data-g="${g.id}">Record pushback</button>`;
+  return`<button class="sm primary" data-act="open" data-g="${g.id}">Review</button>`;
+}
+function angleStrip(g){
+  const ins=latest(g);
+  return `<div class="strip">${ANGLES.map(a=>{
+    let c='a-none',t='';
+    if(ins&&ins.status==='running')c='a-run';
+    else if(ins){const st=ins.angles[a].state;const fs=ins.findings.filter(f=>f.angle===a);const op=fs.filter(isOpen).sort((x,y)=>SEV[x.sev].rank-SEV[y.sev].rank);
+      if(st!=='ok'){c='a-fail';t=st.toUpperCase()}else if(op.length){c='a-'+op[0].sev;t=op.length}else if(fs.length){c='a-res';t='✓'}else c='a-ok';}
+    return `<div class="${c}" title="${a}${t?': '+t:''}">${a}</div>`}).join('')}</div>`;
+}
+function findingSummary(g){
+  const ins=latest(g);if(!ins||ins.status!=='done')return'';
+  const op=ins.findings.filter(isOpen);const fail=ANGLES.filter(a=>ins.angles[a].state!=='ok');
+  const parts=[];
+  ['HOLD','REMOVE','ADVISORY'].forEach(s=>{const n=op.filter(f=>f.sev===s).length;if(n)parts.push(`<span class="sev sev-${s}">${n} ${SEV[s].label}</span>`)});
+  if(fail.length)parts.push(`<span class="muted">${fail.join(', ')} unusable</span>`);
+  if(!op.length&&ins.findings.length&&!ins.confirmed)parts.push(`<span class="muted">${ins.findings.length} Finding(s) actioned, Inspection sign-off pending</span>`);
+  return parts.join(' ');
+}
+
+/* ===================== camera frames: real JPEG + SVG overlay in image pixels ===================== */
+// The overlay's viewBox is the image's own pixel grid (1600x900) and it is stretched over the <img>,
+// so ground-truth boxes line up at any displayed size. Small boxes are padded to a minimum visible size.
+const STATE_LABEL={blocked:'BLOCKED: vehicle in view',glare:'GLARE: unusable',blur:'BLURRED: unusable'};
+function frameHTML(gid,angle,ins,{boxes=true,big=false,sel=null}={}){
+  if(!ins||ins.status==='running')return`<div class="frame dim">${ins?`<img src="${SRC(cleanImg(gid,angle))}" alt="">`:''}<div class="msg" style="color:var(--inspect);font-size:${big?18:12}px">${ins?'Analysing…':'No Inspection yet'}</div></div>`;
+  const a=ins.angles[angle];
+  if(a.state==='missing')return`<div class="frame"><div class="msg" style="color:var(--incomplete)">NO FRAME</div></div>`;
+  const img=a.img||cleanImg(gid,angle);
+  const synthetic=a.state!=='ok'&&!(FA.frames[img]&&FA.frames[img].kind===a.state); // no real degraded capture: fall back to a CSS blur
+  const fs=ins.findings.filter(f=>f.angle===angle&&f.img===img);
+  const MIN=big?30:44, P=6;
+  const b=boxes?fs.map(f=>{const[x0,y0,x1,y1]=f.box,c=SEV[f.sev].hex,res=!isOpen(f);
+    let w=x1-x0+2*P,h=y1-y0+2*P,x=x0-P,y=y0-P;if(w<MIN){x-=(MIN-w)/2;w=MIN}if(h<MIN){y-=(MIN-h)/2;h=MIN}
+    const n=fnum(ins,f),tw=String(n).length*13+10;
+    return`<g class="fbox${res?' res':''}${sel===f.id?' sel':''}" data-fid="${f.id}" data-act="selFinding" data-id="${f.id}"><rect class="halo" x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/><rect class="b" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" stroke="${c}"/>${big?`<rect x="${x}" y="${y-24}" width="${tw}" height="22" rx="3" fill="${res?'#9aa5b1':c}"/><text x="${x+5}" y="${y-7}" font-size="17" font-weight="800" fill="#111">${n}</text>`:''}</g>`}).join(''):'';
+  return`<div class="frame"><img src="${SRC(img)}" alt="${angle} camera frame" loading="lazy" decoding="async"${synthetic?' style="filter:blur(6px) brightness(1.2)"':''}>`+
+    `<svg class="ov" viewBox="0 0 ${IMG_W} ${IMG_H}" preserveAspectRatio="none">${b}</svg>${a.state!=='ok'?`<div class="stamp">${STATE_LABEL[a.state]||a.state.toUpperCase()}</div>`:''}</div>`;
+}
+function creditOf(gid,ins,angle){const a=ins&&ins.status==='done'&&ins.angles[angle];const img=a&&a.img||cleanImg(gid,angle);const fr=FA.frames[img]||{};
+  return (fr.credit||'')+(fr.kind==='glare'?' · glare overlay synthetic':'')+(fr.kind==='blocked'?' · real 2nd capture, truck in view':'')}
+
+/* ===================== overview variants ===================== */
+const VARIANTS=[['A','Tiles'],['B','Apron map'],['C','Triage list']];
+function legend(){
+  const counts={};S.gates.forEach(g=>{const s=gateStatus(g);(counts[s]=counts[s]||[]).push(g.id)});
+  return`<div class="legend">${Object.keys(STATUS).map(k=>`<span title="${counts[k]?counts[k].join(', '):'none in this seed'}" style="opacity:${counts[k]?1:.35}">${chip(k,counts[k]?counts[k].join(' '):'')}</span>`).join('')}</div>`;
+}
+function stdLine(g){if(!g.turn)return'<span class="faint">No Turn</span>';const m=minsToStd(g);return`<b>${g.turn.flight}</b> <span class="muted">${g.turn.type} · STD ${fmt(g.turn.std)} <span style="color:${m<15?'var(--find)':'inherit'}">(${m>=0?'in '+m+'m':Math.abs(m)+'m late'})</span></span>`}
+function variantA(){
+  return legend()+`<div class="tiles">${S.gates.map(g=>{const st=gateStatus(g);return`
+    <div class="tile" style="--c:${STATUS[st].color}" data-act="open" data-g="${g.id}">
+      <div class="row"><span class="gname">${g.id}</span><span>${gateChip(g)}</span></div>
+      <div>${stdLine(g)}</div>
+      <div class="muted" style="font-size:12px">${g.turn?(latest(g)?phaseText(g)+' · '+latest(g).at:'Block-in '+g.turn.inAt+', no Inspection yet'):'&nbsp;'}</div>
+      ${angleStrip(g)}
+      <div style="min-height:20px;font-size:12px">${findingSummary(g)}</div>
+      <div class="row"><span></span>${primaryAction(g)}</div>
+    </div>`}).join('')}</div>`;
+}
+function variantB(){
+  const W=1000,H=420,sw=150,gap=(W-6*sw)/7;
+  const stands=S.gates.map((g,i)=>{const st=gateStatus(g),x=gap+i*(sw+gap),col=STATUS[st].color,ins=latest(g);
+    const plane=g.turn?`<g transform="translate(${x+sw/2},150)"><rect x="-9" y="0" width="18" height="150" rx="9" fill="#dfe3e8"/><polygon points="0,60 -62,92 -62,100 0,86 62,100 62,92" fill="#cfd5dc"/><polygon points="0,132 -24,146 -24,150 24,150 24,146" fill="#cfd5dc"/></g>`:'';
+    const op=ins&&ins.status==='done'?ins.findings.filter(isOpen).length:0;
+    return`<g class="stand" data-act="open" data-g="${g.id}">
+      <rect class="standbox" x="${x}" y="110" width="${sw}" height="290" rx="8" fill="${st==='confirmed'?'#163527':'#20262e'}" stroke="${col}" stroke-width="${st==='allclear'?2:3}" ${st==='allclear'?'stroke-dasharray="8 5"':''}/>
+      <rect x="${x+sw/2+22}" y="56" width="14" height="110" fill="#4a5462"/>
+      ${plane}
+      <text x="${x+12}" y="134" font-size="20" font-weight="700" fill="#e6ebf0">${g.id}</text>
+      <rect x="${x+8}" y="350" width="${sw-16}" height="40" rx="6" fill="${col}"/>
+      <text x="${x+sw/2}" y="368" text-anchor="middle" font-size="11" font-weight="700" fill="#0b0f14">${STATUS[st].label.toUpperCase()}</text>
+      <text x="${x+sw/2}" y="383" text-anchor="middle" font-size="11" fill="#0b0f14">${g.turn?g.turn.flight+' · STD '+fmt(g.turn.std):'—'}</text>
+      ${op?`<circle cx="${x+sw-18}" cy="178" r="13" fill="${SEV[worstOpen(ins)].hex}"/><text x="${x+sw-18}" y="183" text-anchor="middle" font-size="14" font-weight="800" fill="#111">${op}</text>`:''}
+      ${st==='inspecting'?`<circle cx="${x+sw-18}" cy="178" r="8" fill="var(--inspect)"><animate attributeName="opacity" values="1;.2;1" dur="1s" repeatCount="indefinite"/></circle>`:''}
+    </g>`}).join('');
+  const q=S.gates.filter(g=>['findings','incomplete','awaiting','allclear','onstand'].includes(gateStatus(g))||(gateStatus(g)==='confirmed'&&latest(g).kind!=='pre-departure')).sort((a,b)=>urgency(a)-urgency(b));
+  return legend()+`<div class="apron"><div class="apron-map"><svg viewBox="0 0 ${W} ${H}"><rect width="${W}" height="56" fill="#2b3340"/><text x="16" y="34" font-size="16" fill="#8d99a6" letter-spacing="3">TERMINAL</text>${stands}</svg></div>
+  <div class="queue"><h3>Needs a human (${q.length})</h3>${q.map(g=>{const st=gateStatus(g);return`<div class="qitem" style="--c:${STATUS[st].color}" data-act="open" data-g="${g.id}"><div style="display:flex;justify-content:space-between;align-items:center"><b>${g.id}</b>${gateChip(g)}</div><div style="margin:4px 0;font-size:12px">${stdLine(g)}</div><div style="font-size:12px">${findingSummary(g)}</div><div style="margin-top:6px">${primaryAction(g)}</div></div>`}).join('')||'<p class="muted">Nothing waiting.</p>'}</div></div>`;
+}
+function variantC(){
+  const gs=S.gates.slice().sort((a,b)=>urgency(a)-urgency(b));
+  return`<div class="banner">Sorted by urgency: open HOLD Findings first, then INCOMPLETE, awaiting Confirmation, unconfirmed ALL CLEAR, then by time to STD.</div><div class="tablewrap"><table class="triage"><thead><tr><th></th><th>Gate</th><th>Status</th><th>Flight / STD</th><th>Inspection</th><th>Angles</th><th>Open Findings</th><th>Next action</th></tr></thead><tbody>${gs.map(g=>{const st=gateStatus(g),ins=latest(g);return`
+    <tr data-act="open" data-g="${g.id}"><td class="urg" style="--c:${STATUS[st].color}"></td><td><b style="font-size:16px">${g.id}</b></td><td>${gateChip(g)}</td><td>${stdLine(g)}</td>
+    <td class="muted" style="font-size:12px">${ins?KIND_LABEL[ins.kind]+' · '+ins.at:'—'}</td><td style="min-width:220px">${angleStrip(g)}</td><td style="font-size:12px">${findingSummary(g)||'<span class="faint">—</span>'}</td><td>${primaryAction(g)}</td></tr>`}).join('')}</tbody></table></div>`;
+}
+
+/* ===================== turn view ===================== */
+function turnView(){
+  const g=S.gates.find(x=>x.id===S.view.g);
+  if(!g.turn){S.view={screen:'overview'};return overview()}
+  const t=g.turn;
+  let ins=t.inspections.find(i=>i.id===S.view.ins)||latest(g);
+  if(ins&&S.view.ins!==ins.id){S.view.ins=ins.id}
+  const isLatest=ins===latest(g);
+  const angle=S.view.angle||'NOSE';
+  return`<div class="turnhead"><button data-act="back">← All Gates</button><span class="g">${g.id}</span>${gateChip(g)}
+    <span>${stdLine(g)}</span><span class="muted">Tail ${t.tail} · Block-in ${t.inAt} · Cameras: ${SET_NAME[GATE_SET[g.id]]} (real photos)</span><span style="flex:1"></span>${primaryAction(g).includes('data-act="open"')?'':primaryAction(g)}</div>
+  <div class="turn">
+    <div class="panel"><h3>Turn timeline</h3>${timeline(g)}</div>
+    <div>${ins?inspectionMain(g,ins,angle,isLatest):`<div class="panel"><p>Aircraft on stand. No Inspection yet.</p>${primaryAction(g)}</div>`}</div>
+    <div>${ins?findingsPanel(g,ins,isLatest):''}</div>
+  </div>`;
+}
+function timeline(g){
+  const t=g.turn;const items=[`<div class="tlitem tlfuture" style="--c:var(--onstand)"><b>Block-in</b> <span class="muted">${t.inAt}</span></div>`];
+  t.inspections.forEach((ins,i)=>{
+    const st=ins.status==='running'?'inspecting':ins.confirmed?'confirmed':ins.verdict==='INCOMPLETE'?'incomplete':ins.verdict==='ALL CLEAR'?'allclear':ins.findings.some(isOpen)?'findings':'awaiting';
+    const ev=[];
+    if(ins.cover)ev.push(`Covers ${ins.cover.join(', ')}; inherits ${6-ins.cover.length} Angles from #${t.inspections.findIndex(x=>x.id===ins.inheritsFrom)+1}`);
+    if(ins.status==='done')ev.push(`Verdict <b>${ins.verdict}</b>${ins.findings.length?' · '+ins.findings.length+' Finding(s)':''}`);
+    ins.findings.filter(f=>f.conf&&!f.inherited).forEach(f=>ev.push(`${f.conf.at} #${fnum(ins,f)} ${f.conf.action==='removed'?'confirmed & removed':f.conf.action==='false_alarm'?'false alarm ('+f.conf.reason+')':'sent to re-inspect'} · ${f.conf.by.split(' (')[0]}`));
+    if(ins.confirmed)ev.push(`<span style="color:var(--confirmed)">${ins.confirmed.at} Inspection confirmed · ${ins.confirmed.by.split(' (')[0]}</span>`);
+    items.push(`<div class="tlitem ${S.view.ins===ins.id?'sel':''}" style="--c:${STATUS[st].color}" data-act="selInsp" data-id="${ins.id}"><div style="display:flex;justify-content:space-between"><b>#${i+1} ${KIND_LABEL[ins.kind]}</b><span class="muted">${ins.at}</span></div><div style="margin-top:4px">${(i<t.inspections.length-1&&!ins.confirmed&&ins.status==='done')?'<span class="chip st-idle">Superseded by #'+(i+2)+'</span>':chip(st)}</div><div class="ev">${ev.map(e=>`<div>${e}</div>`).join('')}</div></div>`);
+  });
+  const last=latest(g);
+  if(!t.inspections.some(i=>i.kind==='pre-departure'))items.push(`<div class="tlitem tlfuture"><b>Pre-departure Inspection</b><div class="ev">Not started</div></div>`);
+  items.push(`<div class="tlitem tlfuture"><b>Pushback</b> <span class="muted">STD ${fmt(t.std)}</span></div>`);
+  return`<div class="tl">${items.join('')}</div>`;
+}
+function inspectionMain(g,ins,angle,isLatest){
+  const idx=g.turn.inspections.indexOf(ins)+1;
+  let vb;
+  if(ins.status==='running')vb=`<div class="verdict"><span class="big" style="color:var(--inspect)">Inspecting…</span><span class="muted">Claude is analysing ${ins.cover?ins.cover.length:6} Angle image(s).</span><button class="sm" data-act="finishNow" data-g="${g.id}">Finish now (demo)</button></div>`;
+  else{const col={'ALL CLEAR':'var(--clear)','FINDINGS':'var(--find)','INCOMPLETE':'var(--incomplete)'}[ins.verdict];
+    vb=`<div class="verdict" style="border-color:${col}"><span class="muted">Claude Verdict</span><span class="big" style="color:${col}">${ins.verdict}</span><span class="adv-tag">advisory until confirmed</span><span class="muted">#${idx} ${KIND_LABEL[ins.kind]} · ${ins.at}</span>${ins.confirmed?`<span style="flex:1"></span>${chip('confirmed',ins.confirmed.by.split(' (')[0]+' '+ins.confirmed.at)}`:''}</div>`;}
+  if(!isLatest)vb+=`<div class="banner">Viewing an earlier Inspection (read-only). The Gate status follows the latest Inspection.</div>`;
+  const a=ins.status==='done'?ins.angles[angle]:null;
+  const fsA=ins.findings.filter(f=>f.angle===angle);
+  return vb+`<div class="viewer">${frameHTML(g.id,angle,ins,{big:true,sel:S.view.f})}<div class="cap"><b>${angle}</b> · ${ZONE[angle]} <span class="faint">(${TIER[angle]} zone)</span></div><div class="credit">${creditOf(g.id,ins,angle)}</div><div class="cap2">${a?(a.state!=='ok'?a.state.toUpperCase():fsA.length+' Finding(s)')+(a.inherited?' · inherited':''):''}</div></div>
+  <div class="grid6">${ANGLES.map(an=>{const aa=ins.status==='done'?ins.angles[an]:null;const n=ins.findings.filter(f=>f.angle===an&&isOpen(f)).length;
+    const badge=!aa?'':aa.state!=='ok'?`<span class="badge b-fail">${aa.state.toUpperCase()}</span>`:n?`<span class="badge sev-${worstSevIn(ins,an)}">${n}</span>`:`<span class="badge b-ok">OK</span>`;
+    return`<div class="thumb ${an===angle?'sel':''}" data-act="selAngle" data-a="${an}">${frameHTML(g.id,an,ins,{})}<div class="lab"><span>${an}${aa&&aa.inherited?' <span class="badge b-inh">inherited</span>':''}</span>${badge}</div></div>`}).join('')}</div>`;
+}
+// spec: HOLD is "Ramp Lead only"; REMOVE and ADVISORY can be confirmed by a Ramp Agent or Ramp Lead
+function canClear(f){return f.sev!=='HOLD'||isLead()}
+function worstSevIn(ins,an){return ins.findings.filter(f=>f.angle===an&&isOpen(f)).sort((a,b)=>SEV[a.sev].rank-SEV[b.sev].rank)[0].sev}
+function findingsPanel(g,ins,isLatest){
+  if(ins.status==='running')return`<div class="panel"><h3>Findings</h3><p class="muted">Waiting for the Verdict…</p></div>`;
+  const fs=sortedFindings(ins);const editable=isLatest&&!ins.confirmed;
+  const list=fs.map(f=>{const res=!isOpen(f);const c=SEV[f.sev].color;
+    const can=canClear(f),lock=can?'':` disabled title="Only a Ramp Lead can clear a HOLD"`;
+    let act='';
+    if(f.conf&&f.conf.action!=='reinspect'){act=`<div class="done-line" style="color:${f.conf.action==='removed'?'var(--clear)':'var(--muted)'}">${f.conf.action==='removed'?'✓ Confirmed & removed':'✕ False alarm: '+f.conf.reason} · ${f.conf.by.split(' (')[0]} ${f.conf.at}${f.inherited?' (inherited)':''} ${editable&&!f.inherited?`<button class="sm" data-act="undo" data-id="${f.id}"${lock}>Undo</button>`:''}</div>`}
+    else if(editable){act=S.view.fa===f.id?`<div class="reasons"><span class="muted" style="font-size:12px">Why false alarm?</span>${FA_REASONS.map(r=>`<button class="sm" data-act="falseAlarm" data-id="${f.id}" data-r="${r}">${r}</button>`).join('')}<button class="sm" data-act="faCancel">Cancel</button></div>`
+      :`<div class="factions"><button class="sm primary" data-act="removed" data-id="${f.id}"${lock}>Confirm & removed</button><button class="sm" data-act="faAsk" data-id="${f.id}"${lock}>False alarm</button><button class="sm" data-act="reinspect" data-id="${f.id}">Re-inspect ${f.angle}</button></div>${can?'':`<div class="permnote">HOLD: only a Ramp Lead can confirm removal or a false alarm. Switch to K. Bauer (Ramp Lead) in the header. Re-inspect is open to everyone.</div>`}`}
+    return`<div class="fitem ${res?'res':''} ${S.view.f===f.id?'sel':''}" style="--c:${res?'var(--faint)':c}" data-fid="${f.id}" data-act="selFinding" data-id="${f.id}">
+      <div class="t"><span class="num">#${fnum(ins,f)}</span><span style="flex:1;font-weight:600">${f.label}</span><span class="sev sev-${f.sev}" title="${SEV[f.sev].tip}">${SEV[f.sev].label}</span></div>
+      <div class="meta">${f.angle} (${TIER[f.angle]} zone) · ${f.category}${f.inherited?' · inherited from earlier Inspection':''}</div>
+      <div class="conf" style="margin-top:4px">Confidence <span class="bar"><i style="width:${f.confidence*100}%"></i></span> ${Math.round(f.confidence*100)}%</div>
+      <div class="rule">${f.rules.map(r=>`<div><b>${r}</b> ${RULES[r].t} <span class="faint">FAA basis: ${RULES[r].faa}</span></div>`).join('')}</div>${act}</div>`}).join('');
+  const fail=ANGLES.filter(a=>ins.angles[a].state!=='ok');
+  let sign='';
+  if(isLatest&&!ins.confirmed){
+    if(ins.verdict==='INCOMPLETE'){
+      const open=ins.findings.filter(isOpen).length;
+      sign=`<p><b style="color:var(--incomplete)">INCOMPLETE can't clear the stand.</b> ${fail.join(', ')} ${fail.length>1?'are':'is'} missing or unusable. Fix the view (move the GSE, wait out the glare) and re-inspect only those Angles; the others are inherited.${open?` ${open} open Finding(s) can be actioned now.`:''}</p>
+      <button class="primary" data-act="reinspectFailed" data-g="${g.id}">Re-inspect ${fail.join(' + ')}</button> <button disabled title="FOD-R6: an INCOMPLETE Inspection can't be ALL CLEAR. Open question: may a Ramp Lead override after a visual walk-around?">Clear Gate</button>`;
+    } else {
+      const open=ins.findings.filter(isOpen).length;
+      sign=ins.verdict==='ALL CLEAR'?`<p>Claude found no FOD in all 6 Angles. Check the frames, then confirm to clear the Gate.</p>`:open?`<p>${open} Finding(s) still need a Confirmation before this Inspection can clear the Gate.</p>`:`<p>Every Finding is actioned. Confirm the Inspection to clear the Gate.</p>`;
+      sign+=`<button class="primary" data-act="confirmInsp" data-g="${g.id}" ${open?'disabled':''}>${ins.verdict==='ALL CLEAR'?'Confirm ALL CLEAR':'Confirm Inspection'} & clear ${g.id}</button>`;
+    }
+  } else if(ins.confirmed)sign=`<p style="color:var(--confirmed)">✓ Inspection confirmed by ${ins.confirmed.by} at ${ins.confirmed.at}.</p>${isLatest?primaryAction(g):''}`;
+  return`<div class="panel"><h3>Findings (${fs.length}) <span class="faint" style="text-transform:none;letter-spacing:0">· rules: spec/fod-rules.md v0.1</span></h3><div class="flist">${list||'<p class="muted">No Findings.</p>'}</div><div class="signoff"><h3>Confirmation</h3>${sign}</div></div>`;
+}
+
+/* ===================== actions ===================== */
+function gateOf(id){return S.gates.find(g=>g.id===id)}
+function log(m){S.log.unshift(fmt(S.now)+' '+m)}
+function startInsp(g,kind,cover){
+  const prev=latest(g);
+  const ins=I(kind,tick(),{running:true,cover:cover||null,inheritsFrom:cover?prev.id:null});
+  g.turn.inspections.push(ins);log(`${g.id} ${kind} Inspection started${cover?' ('+cover.join(', ')+')':''}`);
+  if(S.view.screen==='turn'&&S.view.g===g.id){S.view.ins=ins.id;S.view.f=null}
+  setTimeout(()=>{if(ins.status==='running'){finish(g,ins);render()}},3000);
+}
+function finish(g,ins){
+  if(ins.result){ins.angles=ins.result.angles;ins.findings=ins.result.findings}
+  else if(ins.kind==='on-demand'){
+    const prev=g.turn.inspections.find(x=>x.id===ins.inheritsFrom);
+    ins.angles={};ANGLES.forEach(a=>ins.angles[a]=ins.cover.includes(a)?{state:'ok'}:{...prev.angles[a],inherited:true});
+    ins.findings=prev.findings.filter(f=>!ins.cover.includes(f.angle)).map(f=>({...f,id:'f'+(uid++),inherited:true}));
+    // re-inspected Angles: low-confidence, unresolved Findings disappear; confident ones are found again
+    prev.findings.filter(f=>ins.cover.includes(f.angle)&&f.confidence>=.6&&!(f.conf&&f.conf.action==='removed')).forEach(f=>ins.findings.push({...f,id:'f'+(uid++),conf:null,confidence:Math.min(.99,f.confidence+.05)}));
+  } else if(ins.kind==='pre-departure'){const[img,gt]=STRAP[GATE_SET[g.id]];ins.angles=angles();ins.findings=[F('CARGO','Metal strap / band','Cargo & packaging','REMOVE',['FOD-R3'],.84,img,gt)]}
+  else {ins.angles=angles();ins.findings=[]}
+  attachFrames(g.id,ins);
+  ins.status='done';ins.verdict=verdictOf(ins);ins.at=fmt(S.now);log(`${g.id} Verdict ${ins.verdict}`);
+}
+function findF(id){for(const g of S.gates)if(g.turn)for(const ins of g.turn.inspections)for(const f of ins.findings)if(f.id===id)return{g,ins,f};}
+const A={
+  open:d=>{S.view={screen:'turn',g:d.g,ins:null,angle:'NOSE',f:null};const g=gateOf(d.g);if(!g.turn)A.blockIn(d)},
+  back:()=>{S.view={screen:'overview'}},
+  noop:()=>{},
+  selInsp:d=>{S.view.ins=d.id;S.view.f=null},
+  selAngle:d=>{S.view.angle=d.a},
+  selFinding:d=>{const r=findF(d.id);if(S.view.screen!=='turn'){S.view={screen:'turn',g:r.g.id}}S.view.f=d.id;S.view.angle=r.f.angle},
+  role:d=>{ROLE=d.r},
+  removed:d=>{const{g,f}=findF(d.id);if(!canClear(f))return;f.conf=C('removed',who(),tick());log(`${g.id} #${f.label} confirmed & removed`)},
+  faAsk:d=>{S.view.fa=d.id;S.view.f=d.id},
+  faCancel:()=>{S.view.fa=null},
+  falseAlarm:d=>{const{g,f}=findF(d.id);if(!canClear(f))return;f.conf=C('false_alarm',who(),tick(),d.r);S.view.fa=null;log(`${g.id} ${f.label} false alarm`)},
+  undo:d=>{const{f}=findF(d.id);if(!canClear(f))return;f.conf=null},
+  reinspect:d=>{const{g,f}=findF(d.id);f.conf=C('reinspect',who(),tick());startInsp(g,'on-demand',[f.angle])},
+  reinspectFailed:d=>{const g=gateOf(d.g),ins=latest(g);startInsp(g,'on-demand',ANGLES.filter(a=>ins.angles[a].state!=='ok'))},
+  confirmInsp:d=>{const g=gateOf(d.g),ins=latest(g);ins.confirmed=C('confirm',who(),tick());log(`${g.id} Inspection confirmed, Gate clear`)},
+  startInsp:d=>{startInsp(gateOf(d.g),d.kind)},
+  finishNow:d=>{const g=gateOf(d.g);finish(g,latest(g))},
+  pushback:d=>{const g=gateOf(d.g);log(`${g.id} ${g.turn.flight} pushback`);g.turn=null;if(S.view.g===g.id)S.view={screen:'overview'}},
+  blockIn:d=>{const g=gateOf(d.g);const n=100+Math.floor(Math.random()*800);g.turn=turn('XA '+n,'N'+n+'XA',SET_TYPE[GATE_SET[g.id]],tick(),S.now+55,[]);log(`${g.id} block-in XA ${n}`)},
+  variant:d=>{setVariant(d.v)},
+  vstep:d=>{const i=VARIANTS.findIndex(v=>v[0]===variant());setVariant(VARIANTS[(i+ +d.s+VARIANTS.length)%VARIANTS.length][0])},
+  seed:d=>{S=seed(+d.n);S.seedN=+d.n;S.view={screen:'overview'}},
+  stateToggle:()=>{const p=document.getElementById('statepanel');p.hidden=!p.hidden}
+};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el||el.disabled)return;e.stopPropagation();(A[el.dataset.act]||(()=>{}))(el.dataset);render()});
+document.addEventListener('mouseover',e=>{const el=e.target.closest('[data-fid]');document.querySelectorAll('.hl').forEach(x=>x.classList.remove('hl'));if(el)document.querySelectorAll(`[data-fid="${el.dataset.fid}"]`).forEach(x=>x.classList.add('hl'))});
+document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='ArrowLeft')A.vstep({s:-1}),render();if(e.key==='ArrowRight')A.vstep({s:1}),render()});
+
+/* ===================== variant + render ===================== */
+function variant(){const v=new URLSearchParams(location.search).get('variant');return VARIANTS.some(x=>x[0]===v)?v:'A'}
+function setVariant(v){const u=new URL(location.href);u.searchParams.set('variant',v);history.replaceState(null,'',u)}
+function overview(){return{A:variantA,B:variantB,C:variantC}[variant()]()}
+function render(){
+  document.getElementById('roles').innerHTML=Object.entries(ROLES).map(([k,r])=>`<button class="${ROLE===k?'on':''}" data-act="role" data-r="${k}" title="${k==='lead'?'Can clear HOLD Findings':'Can confirm REMOVE and ADVISORY Findings'}">${r.name} · ${r.role}</button>`).join('');
+  document.getElementById('clock').textContent='Mock time '+fmt(S.now)+' · Seed '+S.seedN;
+  document.getElementById('app').innerHTML=S.view.screen==='turn'?turnView():overview();
+  const v=variant(),vn=VARIANTS.find(x=>x[0]===v)[1];
+  document.getElementById('protobar').innerHTML=`<span style="font-size:11px;color:#666;padding-left:6px">PROTOTYPE</span><span class="sep"></span><button data-act="vstep" data-s="-1">←</button><span class="lbl">${v} (${vn})</span><button data-act="vstep" data-s="1">→</button><span class="sep"></span>
+    <button class="${S.seedN===1?'on':''}" data-act="seed" data-n="1">Seed 1</button><button class="${S.seedN===2?'on':''}" data-act="seed" data-n="2">Seed 2</button><span class="sep"></span><button data-act="stateToggle">State</button>`;
+  document.getElementById('statepanel').innerHTML=`<h4>Gate status (derived)</h4><table>${S.gates.map(g=>{const ins=latest(g);return`<tr><td><b>${g.id}</b></td><td>${gateStatus(g)}</td><td>${g.turn?g.turn.flight:''}</td><td>${ins?ins.kind+' / '+(ins.verdict||ins.status)+(ins.confirmed?' / confirmed':''):''}</td></tr>`}).join('')}</table>
+    <h4>View</h4><code>${JSON.stringify(S.view)}</code><h4>Event log</h4>${S.log.slice(0,12).map(l=>`<div>${l}</div>`).join('')||'<div>(none yet)</div>'}`;
+}
+S=seed(1);S.seedN=1;S.view={screen:'overview'};
+render();
+</script>
+</body>
+</html>

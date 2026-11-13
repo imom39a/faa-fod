@@ -1,0 +1,727 @@
+{
+ "summary": {
+  "images": 22,
+  "objects": 28,
+  "recall": 0.8928571428571429,
+  "tp": 25,
+  "seeded_images_any_hit": 12,
+  "seeded_images": 12,
+  "fa_per_image": 0.5454545454545454,
+  "fa_per_control_image": 1.1,
+  "control_images_clean": 4,
+  "control_images": 10,
+  "fa_non_low_conf": 0,
+  "median_iou": 0.779,
+  "iou_ge_0_5": 21,
+  "iou_ge_0_3": 23,
+  "median_centre_err_px": 1.6,
+  "centre_le_50px": 25,
+  "inside_pred_box": 23,
+  "grid4_hit": 25,
+  "n_loc": 25,
+  "median_latency_s": 5.4,
+  "max_latency_s": 7.24,
+  "total_cost": 0.03731,
+  "mean_in_tokens": 13941.0,
+  "mean_out_tokens": 603.9090909090909
+ },
+ "per_image": [
+  {
+   "image": "brussels__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      2867,
+      1958,
+      2917,
+      1983
+     ],
+     "desc": "Small light-coloured speck on dark apron, possibly loose debris, could also be a reflection or paint mark",
+     "conf": "low"
+    },
+    {
+     "box": [
+      3567,
+      1998,
+      3622,
+      2023
+     ],
+     "desc": "Small light-coloured speck on apron surface, possibly a piece of debris",
+     "conf": "low"
+    },
+    {
+     "box": [
+      1316,
+      916,
+      1340,
+      932
+     ],
+     "desc": "Small dark object on the apron, could be a light fitting or small debris",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 7.11,
+   "cost": 0.00182,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 857
+   }
+  },
+  {
+   "image": "pelita_pwf__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      555,
+      960,
+      590,
+      1008
+     ],
+     "desc": "Orange traffic cone, deliberately placed; not FOD. Listed for reference only if needed",
+     "conf": "low"
+    },
+    {
+     "box": [
+      1972,
+      1988,
+      2032,
+      2008
+     ],
+     "desc": "Dark patch on pavement, likely stain or shadow rather than debris",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.37,
+   "cost": 0.00155,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 304
+   }
+  },
+  {
+   "image": "pelita_pwl__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      780,
+      940,
+      830,
+      960
+     ],
+     "desc": "Small light-colored object lying on apron surface, possibly debris or paper fragment",
+     "conf": "low"
+    },
+    {
+     "box": [
+      1020,
+      950,
+      1090,
+      970
+     ],
+     "desc": "Dark small patch or object on pavement, possibly debris, likely a stain",
+     "conf": "low"
+    },
+    {
+     "box": [
+      1055,
+      1728,
+      1075,
+      1743
+     ],
+     "desc": "Small dark speck on apron near the workers, possibly debris",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.56,
+   "cost": 0.00159,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 399
+   }
+  },
+  {
+   "image": "spring__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.76,
+   "cost": 0.0017,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 612
+   }
+  },
+  {
+   "image": "tansonnhat__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      2852,
+      1518,
+      2960,
+      1564
+     ],
+     "desc": "Small whitish blurred object on the grass near the taxiway edge; may be debris or a bag, but it is on grass rather than the paved surface and is hard to identify.",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 5.79,
+   "cost": 0.0018,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 821
+   }
+  },
+  {
+   "image": "wingo__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 7.24,
+   "cost": 0.00161,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 438
+   }
+  },
+  {
+   "image": "pelita_pwf__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.59,
+   "cost": 0.00163,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 466
+   }
+  },
+  {
+   "image": "pelita_pwl__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.61,
+   "cost": 0.00166,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 522
+   }
+  },
+  {
+   "image": "spring__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      2877,
+      2108,
+      2922,
+      2148
+     ],
+     "desc": "Small dark object on apron near ground, possibly debris; low confidence",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.64,
+   "cost": 0.00152,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 255
+   }
+  },
+  {
+   "image": "wingo__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      1790,
+      2068,
+      1830,
+      2108
+     ],
+     "desc": "Small blue object on the apron near the bottom-right of the tile, possibly a piece of plastic or wrapping",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 6.18,
+   "cost": 0.00157,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 356
+   }
+  },
+  {
+   "image": "pelita_pwf__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "bolt_long(22px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "hammer_a",
+     "iou": 0.295,
+     "centre_err_px": 25.3,
+     "pred_box_area_ratio": 0.3,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 4.65,
+   "cost": 0.00167,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 551
+   }
+  },
+  {
+   "image": "pelita_pwf__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "pliers_red",
+     "iou": 0.779,
+     "centre_err_px": 1.4,
+     "pred_box_area_ratio": 1.28,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.689,
+     "centre_err_px": 5.1,
+     "pred_box_area_ratio": 0.8,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "soda_can",
+     "iou": 0.62,
+     "centre_err_px": 5.5,
+     "pred_box_area_ratio": 0.67,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.08,
+   "cost": 0.00176,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 727
+   }
+  },
+  {
+   "image": "pelita_pwl__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "wrench",
+     "iou": 0.932,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.01,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_yellow",
+     "iou": 0.114,
+     "centre_err_px": 17.1,
+     "pred_box_area_ratio": 0.14,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 6.64,
+   "cost": 0.00174,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 693
+   }
+  },
+  {
+   "image": "pelita_pwl__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "rock",
+     "iou": 0.333,
+     "centre_err_px": 1.4,
+     "pred_box_area_ratio": 3.0,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "luggage_tag",
+     "iou": 0.898,
+     "centre_err_px": 1.6,
+     "pred_box_area_ratio": 1.07,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "wire_b",
+     "iou": 0.774,
+     "centre_err_px": 5.2,
+     "pred_box_area_ratio": 0.81,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.35,
+   "cost": 0.00184,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 900
+   }
+  },
+  {
+   "image": "spring__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "soda_can",
+     "iou": 0.887,
+     "centre_err_px": 1.0,
+     "pred_box_area_ratio": 1.13,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_bag",
+     "iou": 0.926,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.04,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 3.37,
+   "cost": 0.00157,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 358
+   }
+  },
+  {
+   "image": "spring__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "pliers_blue",
+     "iou": 0.841,
+     "centre_err_px": 1.8,
+     "pred_box_area_ratio": 1.06,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bolt_long",
+     "iou": 0.606,
+     "centre_err_px": 2.7,
+     "pred_box_area_ratio": 1.48,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "cutter_a",
+     "iou": 0.475,
+     "centre_err_px": 7.6,
+     "pred_box_area_ratio": 0.47,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 4.98,
+   "cost": 0.00175,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 706
+   }
+  },
+  {
+   "image": "brussels__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "plastic_grey(70px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "luggage_tag",
+     "iou": 0.812,
+     "centre_err_px": 2.1,
+     "pred_box_area_ratio": 1.08,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.77,
+   "cost": 0.00179,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 786
+   }
+  },
+  {
+   "image": "brussels__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      2860,
+      1960,
+      2914,
+      1982
+     ],
+     "desc": "Small pale flecks on the dark apron that could be loose debris, possibly paper or plastic; could also be a reflection.",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "hammer_b",
+     "iou": 0.863,
+     "centre_err_px": 0.7,
+     "pred_box_area_ratio": 1.16,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.73,
+     "centre_err_px": 4.5,
+     "pred_box_area_ratio": 0.87,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.77,
+   "cost": 0.00178,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 762
+   }
+  },
+  {
+   "image": "tansonnhat__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 1.0,
+     "centre_err_px": 0.0,
+     "pred_box_area_ratio": 1.0,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "wrench",
+     "iou": 0.777,
+     "centre_err_px": 1.6,
+     "pred_box_area_ratio": 1.18,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.49,
+   "cost": 0.00179,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 798
+   }
+  },
+  {
+   "image": "tansonnhat__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "plastic_orange",
+     "iou": 0.718,
+     "centre_err_px": 1.0,
+     "pred_box_area_ratio": 1.39,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "soda_can",
+     "iou": 0.629,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.59,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "hammer_a",
+     "iou": 0.877,
+     "centre_err_px": 1.4,
+     "pred_box_area_ratio": 1.0,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.68,
+   "cost": 0.00183,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 881
+   }
+  },
+  {
+   "image": "wingo__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "pliers_a",
+     "iou": 0.789,
+     "centre_err_px": 0.7,
+     "pred_box_area_ratio": 1.27,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "luggage_tag",
+     "iou": 0.869,
+     "centre_err_px": 2.1,
+     "pred_box_area_ratio": 0.91,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.4,
+   "cost": 0.00173,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 663
+   }
+  },
+  {
+   "image": "wingo__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "bolt_long(20px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 0.872,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.15,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 3.79,
+   "cost": 0.00161,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 431
+   }
+  }
+ ]
+}

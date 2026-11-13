@@ -1,0 +1,955 @@
+{
+ "_doc": "One entry per scene. scoring=true puts it in testset.json. Placements: sx/sy = pixels in the Angle's source photo (mapped through the crop and mirror), or x/y = fractions of the frame. long_px = long edge in output pixels. control: 'clutter' = clean frame with normal GSE clutter, 'noop' = clean frame passed through the compositing step with nothing added.",
+ "scenes": [
+  {
+   "scene_id": "pa-001",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ISP",
+   "control": "clutter",
+   "description": "Clean pre-arrival, overcast: empty stand with normal clutter (cones on the lead-in line, passenger stairs and a pre-conditioned-air hose at the jet bridge)."
+  },
+  {
+   "scene_id": "pa-002",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ABV",
+   "description": "Clean pre-arrival: empty stand with three jet bridges retracted, hazy afternoon light and long bridge shadows, seen through glass."
+  },
+  {
+   "scene_id": "pa-003",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "RIX",
+   "control": "clutter",
+   "description": "Clean pre-arrival, overcast, through glass: empty stand with a ramp agent walking, cones and chocks pre-positioned by the jet bridge, an aircraft taxiing behind (normal clutter)."
+  },
+  {
+   "scene_id": "pa-004",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "BWN",
+   "description": "Clean pre-arrival, sunny: empty stand with two jet bridges retracted and service trucks parked by the terminal wall, outside the restraint area."
+  },
+  {
+   "scene_id": "pa-005",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ABV12",
+   "control": "noop",
+   "description": "Clean pre-arrival at dusk through glass, dim and low-contrast: no-op compositing control (pavement patches pasted on pavement, nothing added).",
+   "noop": {
+    "NOSE": [
+     [
+      0.1,
+      0.8,
+      0.3,
+      0.85,
+      70
+     ]
+    ],
+    "ENG-L": [
+     [
+      0.2,
+      0.5,
+      0.4,
+      0.6,
+      60
+     ]
+    ],
+    "CARGO": [
+     [
+      0.15,
+      0.8,
+      0.35,
+      0.85,
+      70
+     ]
+    ],
+    "WIDE": [
+     [
+      0.1,
+      0.85,
+      0.25,
+      0.9,
+      60
+     ]
+    ]
+   }
+  },
+  {
+   "scene_id": "pa-006",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ISP",
+   "description": "Pre-arrival, overcast: hose section near the nose-gear stop and a stone in the left engine zone of the empty stand.",
+   "debris": {
+    "NOSE": [
+     {
+      "obj": "hose",
+      "x": 0.55,
+      "y": 0.62,
+      "long_px": 80,
+      "rot": 40
+     }
+    ],
+    "ENG-L": [
+     {
+      "obj": "rock",
+      "x": 0.3,
+      "y": 0.7,
+      "long_px": 20,
+      "rot": 0
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pa-007",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ABV",
+   "ref_mode": "hard",
+   "description": "Pre-arrival, hazy light and long shadows (hard reference drift): bolt in the shadow by the bridge head, dry vegetation in the left engine zone, hammer left behind the stand.",
+   "debris": {
+    "NOSE": [
+     {
+      "obj": "bolt",
+      "x": 0.15,
+      "y": 0.8,
+      "long_px": 20,
+      "rot": 30,
+      "min_gain": 0.7
+     }
+    ],
+    "ENG-L": [
+     {
+      "obj": "dry_debris",
+      "x": 0.3,
+      "y": 0.75,
+      "long_px": 34,
+      "rot": 0
+     }
+    ],
+    "AFT": [
+     {
+      "obj": "hammer_black",
+      "x": 0.25,
+      "y": 0.65,
+      "long_px": 70,
+      "rot": 20
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pa-008",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "RIX",
+   "description": "Pre-arrival, overcast: box cutter on the lead-in line, bag tag on the stand, and a plastic scrap on the taxilane outside the gate safety envelope (WIDE only).",
+   "debris": {
+    "NOSE": [
+     {
+      "obj": "cutter_yellow",
+      "sx": 780,
+      "sy": 1010,
+      "long_px": 28,
+      "rot": 20
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "bag_tag",
+      "sx": 480,
+      "sy": 900,
+      "long_px": 30,
+      "rot": 60
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "plastic_yellow",
+      "sx": 330,
+      "sy": 645,
+      "long_px": 26,
+      "rot": 0
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pa-009",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "DAY",
+   "no_reference": [
+    "WIDE"
+   ],
+   "description": "Pre-arrival: maintenance platform stairs really left inside the equipment restraint area of an empty stand (real photo, no reference frame for WIDE); cones and a chock pre-positioned.",
+   "gse": {
+    "WIDE": {
+     "bbox": [
+      0.57,
+      0.612,
+      0.668,
+      0.815
+     ],
+     "label": "platform stairs"
+    }
+   }
+  },
+  {
+   "scene_id": "pa-010",
+   "scoring": true,
+   "kind": "pre_arrival",
+   "stand": "ISP",
+   "description": "Pre-arrival, overcast: baggage tractor parked inside the equipment restraint line of the empty stand (composited GSE, visible in WIDE; the other Angles are cut to exclude that patch).",
+   "gse": {
+    "WIDE": {
+     "cutout": "tug",
+     "x": 0.46,
+     "y": 0.665,
+     "w": 0.1,
+     "shadow": 0.35
+    }
+   },
+   "angle_override": {
+    "NOSE": {
+     "box": [
+      0,
+      1650,
+      1600,
+      2550
+     ]
+    },
+    "ENG-L": {
+     "box": [
+      2100,
+      1450,
+      3700,
+      2350
+     ]
+    },
+    "ENG-R": {
+     "box": [
+      2100,
+      1900,
+      3700,
+      2800
+     ]
+    },
+    "CARGO": {
+     "box": [
+      2112,
+      1700,
+      4032,
+      2780
+     ]
+    }
+   }
+  },
+  {
+   "scene_id": "pd-001",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "GFV",
+   "control": "clutter",
+   "description": "Clean pre-departure, day: 737-800 at a contact stand with heavy normal clutter (ULDs, bag carts, belt loader, cone, steps)."
+  },
+  {
+   "scene_id": "pd-002",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "GFS",
+   "control": "clutter",
+   "description": "Clean pre-departure, day: 737-800 with bag carts, ramp crew, cone and GPU cable at the nose (normal clutter, nothing loose)."
+  },
+  {
+   "scene_id": "pd-003",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "BLB",
+   "control": "noop",
+   "description": "Clean pre-departure, hard midday shadows: no-op compositing control (pavement patches pasted on pavement, nothing added).",
+   "noop": {
+    "NOSE": [
+     [
+      0.12,
+      0.84,
+      0.3,
+      0.76,
+      70
+     ]
+    ],
+    "ENG-R": [
+     [
+      0.08,
+      0.1,
+      0.2,
+      0.24,
+      60
+     ]
+    ],
+    "CARGO": [
+     [
+      0.3,
+      0.86,
+      0.5,
+      0.8,
+      80
+     ]
+    ],
+    "AFT": [
+     [
+      0.2,
+      0.6,
+      0.35,
+      0.55,
+      60
+     ]
+    ],
+    "WIDE": [
+     [
+      0.2,
+      0.76,
+      0.4,
+      0.82,
+      60
+     ]
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-004",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "TLF",
+   "control": "clutter",
+   "description": "Clean pre-departure, overcast: A320 seen from the front with a belt loader at the forward hold, cones, chocks and ramp crew (normal clutter)."
+  },
+  {
+   "scene_id": "pd-005",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "GMM",
+   "control": "clutter",
+   "description": "Clean pre-departure, overcast, damp apron: 737-800 with a catering hi-loader, fuel truck, cones, a warning flag and many bag carts (heavy normal clutter)."
+  },
+  {
+   "scene_id": "pd-006",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "LUX",
+   "control": "clutter",
+   "description": "Clean pre-departure at night under floodlights: 737-700 with a belt loader at the aft hold, cones, and tugs and stairs staged in the foreground (normal clutter)."
+  },
+  {
+   "scene_id": "pd-007",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "PAL25",
+   "control": "clutter",
+   "description": "Clean pre-departure at night under floodlights: A321 with fuel truck, belt loader, cones and a tow bar on the ground (normal clutter, nothing loose)."
+  },
+  {
+   "scene_id": "pd-008",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "BKP",
+   "control": "noop",
+   "description": "Clean pre-departure at night on a wet, floodlit apron: no-op compositing control (pavement patches pasted on pavement, nothing added).",
+   "noop": {
+    "AFT": [
+     [
+      0.3,
+      0.95,
+      0.45,
+      0.93,
+      60
+     ]
+    ],
+    "CARGO": [
+     [
+      0.3,
+      0.85,
+      0.5,
+      0.9,
+      70
+     ]
+    ],
+    "WIDE": [
+     [
+      0.45,
+      0.88,
+      0.6,
+      0.9,
+      60
+     ]
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-009",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "GFI",
+   "description": "Pre-departure, day: nut in the right engine intake zone, pliers left near the nose gear, plastic sheet by the bag carts.",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "nut",
+      "sx": 2750,
+      "sy": 2650,
+      "long_px": 22,
+      "rot": 15
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "pliers",
+      "sx": 4300,
+      "sy": 2950,
+      "long_px": 56,
+      "rot": 40
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "plastic_grey",
+      "sx": 2000,
+      "sy": 3350,
+      "long_px": 62,
+      "rot": 20
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-010",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "GLV",
+   "description": "Pre-departure, wet apron after rain: bolt in the right engine zone, bag tag in the pushback path, flattened paper cup near the hold, plastic scrap outside the envelope (WIDE only).",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "bolt",
+      "sx": 3600,
+      "sy": 3000,
+      "long_px": 24,
+      "rot": 60
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "bag_tag",
+      "sx": 4500,
+      "sy": 3300,
+      "long_px": 40,
+      "rot": 70
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "cup",
+      "sx": 3100,
+      "sy": 3300,
+      "long_px": 44,
+      "rot": 10
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "plastic_yellow",
+      "sx": 2600,
+      "sy": 3600,
+      "long_px": 32,
+      "rot": 0
+     }
+    ]
+   },
+   "observations": {
+    "ENG-R": [
+     {
+      "bbox": [
+       0.66,
+       0.55,
+       0.83,
+       0.64
+      ],
+      "kind": "spill"
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-011",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "BKV",
+   "description": "Pre-departure, overcast: hose clamp in the left engine zone (mirrored Angle), box cutter by the nose gear, stone behind the wing.",
+   "debris": {
+    "ENG-L": [
+     {
+      "obj": "hose_clamp",
+      "sx": 2600,
+      "sy": 2400,
+      "long_px": 38,
+      "rot": 0
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "cutter",
+      "sx": 3300,
+      "sy": 2880,
+      "long_px": 46,
+      "rot": 25
+     }
+    ],
+    "AFT": [
+     {
+      "obj": "rock",
+      "sx": 900,
+      "sy": 1900,
+      "long_px": 18,
+      "rot": 0
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-012",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "THA",
+   "description": "Pre-departure, overcast: small bolt on the pavement in the left engine intake zone, bag tag below the forward hold, metal panel on the stand (WIDE only).",
+   "debris": {
+    "ENG-L": [
+     {
+      "obj": "bolt",
+      "sx": 5000,
+      "sy": 2750,
+      "long_px": 22,
+      "rot": 35,
+      "min_gain": 0.8
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "bag_tag",
+      "sx": 2700,
+      "sy": 2900,
+      "long_px": 50,
+      "rot": -20
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "metal_panel",
+      "sx": 2500,
+      "sy": 2200,
+      "long_px": 40,
+      "rot": 10
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-013",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "VJP",
+   "description": "Pre-departure, low sun and long shadows: stone in the right engine zone, metal panel in the left engine zone (mirrored Angle), plastic scrap behind the wing, leafy twig on the stand (WIDE only).",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "rock",
+      "sx": 2600,
+      "sy": 3050,
+      "long_px": 20,
+      "rot": 0
+     }
+    ],
+    "ENG-L": [
+     {
+      "obj": "metal_panel",
+      "sx": 2100,
+      "sy": 2950,
+      "long_px": 44,
+      "rot": 20
+     }
+    ],
+    "AFT": [
+     {
+      "obj": "plastic_yellow",
+      "sx": 800,
+      "sy": 1500,
+      "long_px": 28,
+      "rot": 0
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "twig",
+      "sx": 1400,
+      "sy": 1250,
+      "long_px": 44,
+      "rot": 10
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-014",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "PWH",
+   "description": "Pre-departure, hazy: a single nut on the pavement in the right engine intake zone; everything else clean.",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "nut",
+      "sx": 3550,
+      "sy": 2690,
+      "long_px": 22,
+      "rot": 30
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-015",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "SIA",
+   "description": "Pre-departure, sunny: bolt in the right engine zone, stone in the pushback path, dry vegetation near the bag carts, feather on the stand (WIDE only).",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "bolt",
+      "sx": 3000,
+      "sy": 2380,
+      "long_px": 22,
+      "rot": 70
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "rock",
+      "sx": 4200,
+      "sy": 2650,
+      "long_px": 18,
+      "rot": 0
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "dry_debris",
+      "sx": 1500,
+      "sy": 2500,
+      "long_px": 36,
+      "rot": 0
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "feather",
+      "sx": 2100,
+      "sy": 2850,
+      "long_px": 34,
+      "rot": 60
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-016",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "AZV",
+   "description": "Pre-departure, bright overcast: hose clamp in the right engine zone and a nut beside the nose gear.",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "hose_clamp",
+      "sx": 2700,
+      "sy": 2650,
+      "long_px": 34,
+      "rot": 30
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "nut",
+      "sx": 3600,
+      "sy": 2430,
+      "long_px": 20,
+      "rot": 0
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-017",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "VAC",
+   "description": "Pre-departure on a wet apron at night with floodlight reflections: nut in the right engine zone, hammer in the pushback path, plastic bottle by the belt loader, dry leaf on the stand (WIDE only).",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "nut",
+      "sx": 2250,
+      "sy": 2550,
+      "long_px": 22,
+      "rot": 0,
+      "min_gain": 0.6
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "hammer",
+      "sx": 2500,
+      "sy": 2950,
+      "long_px": 70,
+      "rot": 30
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "bottle",
+      "sx": 1300,
+      "sy": 2900,
+      "long_px": 46,
+      "rot": 75
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "dry_leaf",
+      "sx": 2000,
+      "sy": 3200,
+      "long_px": 36,
+      "rot": 50
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-018",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "PAL33",
+   "ref_mode": "hard",
+   "description": "Pre-departure at night, hard floodlight shadows (hard reference drift): bolt in the right engine zone, pliers by the nose gear, plastic sheet behind the wing, flattened cup outside the envelope (WIDE only).",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "bolt",
+      "sx": 2250,
+      "sy": 2200,
+      "long_px": 22,
+      "rot": 50,
+      "min_gain": 0.6
+     }
+    ],
+    "NOSE": [
+     {
+      "obj": "pliers_red",
+      "sx": 3500,
+      "sy": 2350,
+      "long_px": 56,
+      "rot": 0
+     }
+    ],
+    "AFT": [
+     {
+      "obj": "plastic_grey",
+      "sx": 1000,
+      "sy": 1900,
+      "long_px": 50,
+      "rot": 30
+     }
+    ],
+    "WIDE": [
+     {
+      "obj": "cup",
+      "sx": 4800,
+      "sy": 3600,
+      "long_px": 40,
+      "rot": 15
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "pd-019",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "THA",
+   "description": "Pre-departure, overcast: low-sun glare washes out the ENG-R Angle (unusable), all other Angles clean; the Inspection cannot be ALL CLEAR.",
+   "unusable": {
+    "ENG-R": {
+     "reason": "glare",
+     "at": [
+      0.26,
+      0.07
+     ]
+    }
+   }
+  },
+  {
+   "scene_id": "pd-020",
+   "scoring": true,
+   "kind": "pre_departure",
+   "stand": "PAL35",
+   "description": "Pre-departure at night: the AFT Angle is missing (no frame from that camera), all other Angles clean; the Inspection cannot be ALL CLEAR.",
+   "unusable": {
+    "AFT": {
+     "reason": "missing"
+    }
+   }
+  },
+  {
+   "scene_id": "demo-bolt",
+   "scoring": false,
+   "kind": "pre_departure",
+   "stand": "THA",
+   "description": "Demo: a small bolt on the pavement in the left engine intake zone (HOLD, FOD-R1); its after frame is clean, so re-inspection clears it.",
+   "debris": {
+    "ENG-L": [
+     {
+      "obj": "bolt",
+      "sx": 4700,
+      "sy": 2620,
+      "long_px": 24,
+      "rot": 65,
+      "min_gain": 0.8
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "demo-gse",
+   "scoring": false,
+   "kind": "pre_arrival",
+   "stand": "ISP",
+   "description": "Demo: a baggage tractor left inside the equipment restraint line before arrival (REMOVE, FOD-R9); composited GSE, visible in WIDE.",
+   "gse": {
+    "WIDE": {
+     "cutout": "tug",
+     "x": 0.62,
+     "y": 0.6,
+     "w": 0.085,
+     "shadow": 0.35,
+     "mirror": true
+    }
+   },
+   "angle_override": {
+    "NOSE": {
+     "box": [
+      0,
+      1650,
+      1600,
+      2550
+     ]
+    },
+    "ENG-L": {
+     "box": [
+      700,
+      1450,
+      2300,
+      2350
+     ]
+    },
+    "ENG-R": {
+     "box": [
+      700,
+      1950,
+      2300,
+      2850
+     ]
+    },
+    "CARGO": {
+     "box": [
+      2752,
+      1500,
+      4032,
+      2220
+     ]
+    },
+    "AFT": {
+     "box": [
+      2752,
+      1630,
+      4032,
+      2350
+     ]
+    }
+   }
+  },
+  {
+   "scene_id": "demo-glare",
+   "scoring": false,
+   "kind": "pre_departure",
+   "stand": "GFS",
+   "description": "Demo: low-sun glare washes out the ENG-R Angle (INCOMPLETE, FOD-R6); its after frame is usable and clean.",
+   "unusable": {
+    "ENG-R": {
+     "reason": "glare",
+     "at": [
+      0.22,
+      0.06
+     ]
+    }
+   }
+  },
+  {
+   "scene_id": "demo-hold",
+   "scoring": false,
+   "kind": "pre_departure",
+   "stand": "VJP",
+   "description": "Demo: a hammer left in the right engine zone (HOLD) and a bag tag by the belt loader (REMOVE); both after frames are clean.",
+   "debris": {
+    "ENG-R": [
+     {
+      "obj": "hammer",
+      "sx": 1900,
+      "sy": 2950,
+      "long_px": 80,
+      "rot": 25
+     }
+    ],
+    "CARGO": [
+     {
+      "obj": "bag_tag",
+      "sx": 2600,
+      "sy": 3500,
+      "long_px": 56,
+      "rot": 40
+     }
+    ]
+   }
+  },
+  {
+   "scene_id": "demo-outside",
+   "scoring": false,
+   "kind": "pre_departure",
+   "stand": "TLF",
+   "description": "Demo: a plastic sheet on the taxilane outside the gate safety envelope, seen only in WIDE (FOD-R10: report to ramp control or Airport Ops).",
+   "debris": {
+    "WIDE": [
+     {
+      "obj": "plastic_grey",
+      "sx": 2600,
+      "sy": 720,
+      "long_px": 40,
+      "rot": 10
+     }
+    ]
+   }
+  }
+ ]
+}

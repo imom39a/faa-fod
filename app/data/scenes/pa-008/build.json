@@ -1,0 +1,93 @@
+{
+ "scene_id": "pa-008",
+ "stand": "RIX",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    576,
+    560,
+    1600,
+    1136
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: cutter_yellow (box cutter) at [249, 547, 261, 577], long edge 30 px, contrast 47"
+   ],
+   "objects": [
+    "cutter_yellow"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    600,
+    1024,
+    1176
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    300,
+    624,
+    1324,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    480,
+    1280,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bag_tag (bag tag) at [584, 515, 616, 536], long edge 32 px, contrast 66"
+   ],
+   "objects": [
+    "bag_tag"
+   ]
+  },
+  "AFT": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    100,
+    500,
+    1124,
+    1076
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    300,
+    1600,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: plastic_yellow (plastic scrap) at [403, 417, 421, 445], long edge 28 px, contrast 72"
+   ],
+   "objects": [
+    "plastic_yellow"
+   ]
+  }
+ }
+}

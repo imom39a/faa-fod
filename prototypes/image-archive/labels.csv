@@ -1,0 +1,118 @@
+n,id,file,angle,also_covers,narrowbody_at_stand,light,wet,viewpoint,quality,notes
+1,commons:4155047,raw/commons_276e3845b8_Dragonair_Airbus_A320_taxiing_to_gate_4.jpg,NOSE,WIDE,y,day,n,raised,good,ramp crew walking; dark oil/rubber stains on stand; jet-bridge stairs
+2,commons:4155479,raw/commons_b5a19fb9f0_Dragonair_Airbus_A320_taxiing_to_gate_5.jpg,NOSE,WIDE,y,day,n,raised,good,baggage tractor + cart in pushback path; ramp crew; stains
+3,commons:142550769,raw/commons_ea8fc3fd8a_LAN_Colombia_Airbus_A320_at_Bogot_Airpor.jpg,CARGO,ENG-R,y,night,n,raised,good,"belt loader, ULD carts, tug, fuel truck, mobile stairs; floodlight glare"
+4,commons:146416500,raw/commons_8c410ea17d_Pelita_Air_Airbus_A320_PK_PWD_Jakarta_20.jpg,CARGO,"ENG-R,WIDE,NOSE",y,day,n,raised,good,belt loader + 4 baggage carts at aft hold; tug at nose; cones; possible small white loose items near jet-bridge stairs (unverified)
+5,commons:25430410,raw/commons_7f97ceeb6b_Brussels_Airport_Airbus_A320_A330_Boeing.jpg,CARGO,WIDE,y,day,n,raised,ok,fuel bowser/catering at right side; several aircraft; overcast
+6,commons:153694967,raw/commons_c2f1e2293f_United_Boeing_737_at_Gate_B25_at_Boston.jpg,NOSE,WIDE,y,day,y,raised,good,GPU cable on ground; baggage cart; wet pavement; overcast
+7,commons:114504136,raw/commons_706a7973f1_TuiFly_Boeing_737_at_a_gate_in_Frankfurt.jpg,WIDE,"ENG-R,CARGO,NOSE",y,day,y,raised,good,"catering hi-loader, tractor, cart with bags, many cones, ground power cable; wet reflections"
+8,commons:48408299,raw/commons_0de91f411a_Jet_bridge_of_Gate_C8_at_Schiphol.jpg,WIDE,,y,day,n,window,poor,jet bridge dominates; aircraft small; ULD tractors
+9,commons:142550770,raw/commons_5ddff93011_Wingo_Boeing_737_700_sitting_at_the_gate.jpg,CARGO,ENG-R,y,night,n,raised,good,"belt loader, mobile stairs, carts, cones (spike reused this photo: wingo)"
+10,commons:142487811,raw/commons_ac17cb0565_Luxair_Boeing_737_700_at_Vienna_Airport.jpg,WIDE,CARGO,y,night,n,raised,good,"tugs, stairs, cones, carts at night; floodlights"
+11,commons:69445777,raw/commons_2f0b36ed94_JB_Tug_Reflections_FLL_JTPI_6952_2839653.jpg,NOSE,,y,night,y,ground,good,"towbarless tug at A320 nose gear, cones, GPU cables; wet; close crop"
+12,commons:20376368,raw/commons_60d44ad787_Baggage_loading_into_airplane.jpg,CARGO,"ENG-R,NOSE",y,day,n,raised,good,"belt loader, baggage carts, tug, ramp crew; hard shadows"
+13,commons:9728408,raw/commons_5701f52c98_Belt_loader.jpg,CARGO,,y,day,n,ground,good,"belt loader at A321 fwd hold close-up, cone"
+14,commons:193836292,raw/commons_7461d0c0ef_Baggage_vehicles_at_HEL_20250516.jpg,none,,n,day,n,raised,good,"GSE clutter only (bag carts, tractors, belt loader); no aircraft; good NOT-FOD negative"
+15,commons:13273407,raw/commons_5eb279e9c9_Baggage_vehicles_at_Corfu_International.jpg,none,,n,day,n,raised,good,"parked belt loaders, yellow pad; no aircraft; NOT-FOD negative"
+16,commons:84041528,raw/commons_78677f72d0_At_Nnamdi_Azikiwe_International_Airport.jpg,WIDE,CARGO,y,day,n,raised,ok,"737 with stairs, van, belt loader, bag carts, many people; loose bags on ground near belt loader"
+17,commons:26689696,raw/commons_25de125f49_Swiss_Airbus_A320_HB_IJS_TXL_23_12_2007.jpg,none,,n,night,y,ground,ok,Fokker/regional in foreground; fuel truck; wet
+18,commons:75091877,raw/commons_085a96498e_Zurich_International_Airport_2018_11_01.jpg,WIDE,,y,night,n,window,poor,"through window, reflections and flare (good 'unusable' test)"
+19,commons:27272940,raw/commons_32bbcfd8c5_Apron_003.jpg,none,,n,day,y,ground,ok,"CRJ on remote stand, wet; passengers"
+20,commons:192880967,raw/commons_6f8754dbb4_Z_rich_Kloten_KLM_DC_10_WUS_06421.jpg,none,,n,day,n,ground,good,DC-10 nose close-up (widebody)
+21,commons:192880820,raw/commons_daf2992319_Z_rich_Kloten_KLM_DC_10_WUS_06416.jpg,none,,n,day,n,ground,good,DC-10 engine close-up (widebody); wrong type but ENG-style framing
+22,commons:22943695,raw/commons_7844dd9217_Helsinki_Vantaa_intl.jpg,WIDE,CARGO,y,day,y,window,ok,"bag carts, stairs, van; heavy rain; window"
+23,commons:192880823,raw/commons_d611a61d49_Z_rich_Kloten_Vorfeld_MobileGangways_WUS.jpg,none,,n,day,n,raised,ok,historic mobile stairs and carts; aircraft distant
+24,commons:147816850,raw/commons_d234630253_Nursultan_Nazarbayev_International_Airpo.jpg,WIDE,NOSE,y,day,n,raised,ok,"A320 at gate distant; pickups, tug, ULD"
+25,commons:114750104,raw/commons_1fd5052d07_EZE_jetbridge.jpg,NOSE,,y,day,n,window,poor,jet bridge occludes aircraft; window glare
+26,commons:2512658,raw/commons_76d13f549b_Avi_n_de_Cubana.jpg,WIDE,NOSE,n,day,n,raised,good,"non-target type (Cubana Tu-204/Il-96); GSE, hard shadow"
+27,commons:154263045,raw/commons_62f01b051e_Dubai_International_Airport_2024_10_24_A.jpg,none,,n,day,n,window,poor,777 through bus window
+28,commons:84041520,raw/commons_e3d65c4ec7_At_Nnamdi_Azikiwe_International_Airport.jpg,none,,n,day,n,raised,good,"empty jet bridges, no aircraft (empty-stand clean candidate)"
+29,commons:37372753,raw/commons_93e150a318_Greenland_Express_Fokker_F100_at_Lviv_In.jpg,none,,n,night,y,ground,good,"Fokker 100 taxiing, wet"
+30,commons:39748053,raw/commons_4cce38334b_Douglas_DC_3_of_BOAC_at_Gibraltar_silhou.jpg,none,,n,night,n,ground,ok,historic DC-3 B&W
+31,commons:29351227,raw/commons_eaead7dd81_Vaso_Airlines_Il_86_RA_86141_3245057846.jpg,none,,n,dusk,n,ground,good,Il-86 widebody
+32,commons:29348724,raw/commons_f14e4ac5e0_Planes_sleep_3720036469.jpg,none,,n,dusk,n,ground,ok,GA aircraft on grass; tie-down ropes
+33,commons:29350204,raw/commons_13d080d5ed_Aeroflot_Il_86_RA_86096_4711444978.jpg,none,,n,night,n,ground,good,Il-86 widebody; snow edges
+34,openverse:49b8c0f7-63e2-4e22-8226-499664cb27db,raw/openverse_bc60f1446b_Continental_Airlines_Retro_737_900_plane.jpg,WIDE,,y,day,n,window,ok,"737-900 side-on, minimal GSE; person on apron"
+35,openverse:3938621a-9749-427a-b3ed-4be8373e207d,raw/openverse_3d16c22857_Luxair_Boeing_737_700_at_Vienna_Airport.jpg,WIDE,CARGO,y,night,n,raised,good,near-duplicate of #10 (same Flickr/Commons photo)
+36,openverse:5779765a-bac4-40d8-a3ae-fe66e9621211,raw/openverse_6eaebc319e_Gaggle_of_Southwest_737s_at_Santa_Barbar.jpg,none,,y,day,y,ground,ok,"737s across field, too distant; rain"
+37,openverse:3cbd6be8-97bc-4768-ba16-6250e45846e6,raw/openverse_52254959cb_Belfast_ramp_at_Kemble.jpg,none,,n,day,n,ground,ok,stored aircraft tails (Kemble)
+38,openverse:fa420c6c-ce8e-4b38-91fc-e3bae0cc338b,raw/openverse_b8899833b9_SWAL_B737_800_at_KIX.jpg,CARGO,"ENG-R,NOSE",y,day,n,raised,good,"catering truck, GPU, ULD carts, loose ULD in foreground, ground cables"
+39,openverse:0fe51edb-92db-43f4-9fa3-1903eb196f60,raw/openverse_ddcf56ccb6_Boise_Project_Arrowrock_Division.jpg,none,,n,day,n,ground,ok,1944 conveyor (licence filter passed; query false hit)
+40,openverse:c5cc2852-1cb0-4426-8756-5570efb7aefc,raw/openverse_6df007c2a5_Haneda_Airport_by_Night.jpg,WIDE,,n,dusk,n,raised,ok,787 nose-in at Haneda (widebody); railing occludes
+41,commons:88214568,raw/commons_e03ae23ec3_l_a_roport_A320_HB_JXR_2014_aile.jpg,none,,y,day,n,cabin,ok,view over A320 wing from cabin
+42,commons:84404614,raw/commons_6d0f717ee8_Citilink_Airbus_A320_200_20171206_12_44.jpg,NOSE,,y,day,n,window,ok,A320 nose-on with tug; window pillar occludes
+43,commons:139227680,raw/commons_85ad8ad0b5_Edelweiss_A320_HB_JLR_Villars_sur_Ollon.jpg,WIDE,,y,dusk,n,raised,ok,"airshow, crowds and tents (atypical)"
+44,commons:87562961,raw/commons_b459d19776_Two_Ryanair_Boeing_737_800_at_WRO_apron.jpg,NOSE,"ENG-L,WIDE",y,day,y,raised,good,"tug at nose, stairs, passengers on apron, cones; wet"
+45,commons:17848243,raw/commons_de63e7a870_ROCAF_Boeing_737_800_Turn_into_Apron_201.jpg,none,,y,day,n,raised,ok,"737 taxiing, not at stand"
+46,commons:87562962,raw/commons_b91410d631_Two_Ryanair_Boeing_737_800_at_WRO_apron.jpg,WIDE,,y,day,y,raised,good,"two 737 remote stands, wet; tug, barriers, passengers"
+47,commons:154076402,raw/commons_c9c54b2b22_Baggage_loading_on_a_jet_aircraft.jpg,CARGO,,y,day,n,cabin,good,belt loader + bags from cabin window; yellow strap and loose bag items on belt (natural FOD-like)
+48,commons:4308413,raw/commons_2e1aa310fe_Aircraft_ground_handling.jpg,none,,y,day,n,ground,ok,"catering hi-loader close-up, cones; no ground zone"
+49,commons:29611844,raw/commons_b4e7c29589_Airbus_A380_800_of_Lufthansa_in_Frankfur.jpg,WIDE,CARGO,n,day,n,raised,good,"A380 (widebody) with heavy GSE clutter: bag carts, ULDs, cars"
+50,commons:69538278,raw/commons_3fc78ba775_Lektro_pushback_EBACE_2018_Le_Grand_Saco.jpg,none,,n,day,n,ground,good,pushback tug on trade-show floor
+51,commons:185590714,raw/commons_a885b8b965_38_Towbarless_pushback_tractor_for_aircr.jpg,NOSE,,y,day,n,ground,good,towbarless tug + wing walker at 737 nose; on taxiway not stand
+52,commons:63960135,raw/commons_a056134e19_Aircraft_pushback_operation_01.jpg,none,,y,dusk,n,ground,ok,"737 far away, backlit sunset"
+53,commons:150077923,raw/commons_d8c6109e8d_Lockheed_P_38J_Lightning_at_the_Aircraft.jpg,none,,n,day,n,ground,ok,wind-tunnel model (NASA GRC)
+54,commons:198138484,raw/commons_57af9a7321_9A_CQE_Croatia_Airlines_Bombardier_Dash.jpg,none,,n,day,n,ground,good,Q400 turboprop; carts
+55,commons:150078019,raw/commons_81740d36a1_Republic_P_47G_Thunderbolt_Undergoes_Gro.jpg,none,,n,day,n,ground,ok,"P-47 engine test (NASA GRC, 1945)"
+56,openverse:77ff6f0d-a8e3-4332-a7ae-5fbd78432658,raw/openverse_972b1ac530_Tenerife_South_Airport.jpg,none,,n,day,n,ground,ok,"panorama of many tails, too distant"
+57,openverse:0cd8f027-afca-4581-a217-9cd4ed8090b8,raw/openverse_6d305e10d1_N112DN_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,y,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+58,openverse:a7c70c03-ad31-4ec1-ae28-d27b36ba54ba,raw/openverse_ec74df9419_N336DX_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+59,openverse:006db9e2-10af-44ce-8484-b593c752e410,raw/openverse_15e0293d7c_N110DX_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark); ATL concourse gates visible only in far background"
+60,openverse:ed20f626-42e4-4c22-8d60-047a4313736e,raw/openverse_93047c7062_N374DX_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+61,openverse:8aa8def0-ae9e-4e98-81fe-ec6fad42952a,raw/openverse_56fd6c7bf7_N113DX_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,y,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+62,openverse:73312363-a45e-4d2e-a1f0-8e4a6fefa8f8,raw/openverse_790ee014fd_N385DZ_Airbus_A321_211_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark); ATL concourse gates visible only in far background"
+63,openverse:f1c885ed-7d37-4301-b84d-2d79c3a7b3e6,raw/openverse_b148c026bd_Delta_N379DA_Boeing_737_800.jpg,none,,n,day,n,ground,good,"Delta 737-800 taxiing, not ATL-identifiable"
+64,openverse:3be6e158-c8f2-486d-8500-f7e5ccc9409a,raw/openverse_8170016fbf_N3761R_Boeing_737_832_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+65,openverse:2a605c00-85fc-4a72-a521-a9f13c460b3f,raw/openverse_580dd4a5de_N807DN_Boeing_737_932_ER_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+66,openverse:233ff6ce-2134-4340-a6c1-5a576a6fe0f2,raw/openverse_740cf2c86d_N870DN_Boeing_737_932_ER_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+67,openverse:7b56a3eb-53d3-4fb1-8af5-567d23e79f0d,raw/openverse_db3c8a1d10_N893DN_Boeing_737_932_ER_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark); ATL concourse gates visible only in far background"
+68,openverse:d9e3df2f-221f-4aa0-99fb-782aa450bebb,raw/openverse_1cae73c69b_N889DN_Boeing_737_932_ER_Delta_Air_Lines.jpg,none,,n,day,y,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+69,openverse:4a939b14-8101-4014-9499-b4ce4f9a7ec4,raw/openverse_4fcc2a7b73_N671DN_Boeing_757_232_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark); ATL concourse gates visible only in far background"
+70,openverse:41971df8-a467-4fa1-9cce-ed941ecafdd3,raw/openverse_f31f60e909_N659DL_Boeing_757_232_Delta_Air_Lines_Sk.jpg,none,,n,day,n,ground,good,"Delta 757 SkyTeam on taxilane near terminal, not at stand"
+71,openverse:01721690-2552-4ed1-87fb-dd0c810b6d26,raw/openverse_783d53a0a6_N686DA_Boeing_757_232_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+72,openverse:b0263389-7ce0-479b-b3a8-27b91eee3d6f,raw/openverse_fd44f1fb5b_N6707A_Boeing_757_232_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+73,openverse:89f9a953-c2ad-4e84-8f0f-d30985ebdf53,raw/openverse_8084dc714a_N6706Q_Boeing_757_232_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+74,openverse:4d5865ad-b12a-433c-a5a9-e63adf17a15d,raw/openverse_a8e6b2c897_N664DN_Boeing_757_232_Delta_Air_Lines.jpg,none,,n,day,n,ground,good,"Delta at ATL, taxiing on taxiway (spotter shot, watermark)"
+75,commons:88157112,raw/commons_04481984f5_Delta_Thank_You_Plane.jpg,none,,n,day,n,ground,good,A321 special livery close-up in hangar
+76,commons:138166277,raw/commons_bc4a3b2036_Delta_N112DN_Airbus_A321_ATL0523.jpg,none,,n,day,n,ground,good,A321 taxiing
+77,commons:145570269,raw/commons_357a62a6f6_Delta_A321_on_final_for_27L_in_ATL.jpg,none,,n,day,n,ground,good,A321 on final
+78,commons:74640990,raw/commons_a50b476b4c_Delta_N308DN_Airbus_A321_200_28758588573.jpg,none,,n,day,n,ground,good,A321 taxiing at runway hold
+79,commons:88157110,raw/commons_9a24dbdd57_Delta_Thank_You_Plane_49534507017.jpg,none,,n,day,n,ground,good,A321 in paint hangar
+80,commons:49207131,raw/commons_347b3e8ee0_Delta_Air_Lines_and_Porsche.jpg,none,,n,day,n,raised,good,PR shot on remote apron with cars
+81,commons:138166122,raw/commons_d6eb0ded8c_N106DN_Airbus_A321_211_Delta_Air_Lines_5.jpg,none,,n,day,n,ground,good,A321 taxiing; ATL concourse gates in far background (watermark)
+82,commons:178047650,raw/commons_1c40934cf5_N324US_Airbus_A320_211_Delta_Air_Lines_3.jpg,none,,n,day,n,ground,good,A320 on runway (watermark)
+83,commons:24450877,raw/commons_bc48506ae3_N309US_8228865552.jpg,none,,n,day,n,ground,good,A320 airborne
+84,commons:74641678,raw/commons_27086408d5_Delta_N309US_A320_and_other_Planes_42446.jpg,none,,n,day,n,ground,ok,A320 taxiing
+85,commons:38043084,raw/commons_73a191a068_N333NW_14123056708.jpg,none,,n,day,n,cabin,ok,in-flight wing view
+86,commons:177854820,raw/commons_eacfc3469d_N320US_Airbus_A320_211_Delta_Air_Lines_5.jpg,none,,n,day,n,ground,good,A320 on runway (watermark)
+87,commons:68517423,raw/commons_623cba0475_A320_Service_16090539485.jpg,CARGO,NOSE,y,day,n,raised,good,"ATL Delta A320 at gate: belt loader at fwd hold, Delta bag carts, lav/water cart, ramp crew in orange vests; bags on ground beside cart"
+88,commons:178009058,raw/commons_a99cdcc250_N333NW_Airbus_A320_211_Delta_Air_Lines_5.jpg,none,,n,day,n,ground,good,A320 taxiing; ATL concourse gates in background (watermark)
+89,commons:24451377,raw/commons_f0197d8939_N333NB_7841575972.jpg,none,,n,day,n,ground,good,A319 airborne
+90,commons:24451575,raw/commons_b32ec1ec76_N314NB_7505058798.jpg,none,,n,day,n,ground,ok,"A319 taxiing on ramp, GSE behind"
+91,commons:24452574,raw/commons_5bee32210c_N332NB_6507991821.jpg,none,,n,dusk,n,ground,ok,A319 airborne
+92,commons:138154741,raw/commons_4b5c5b3240_N359NB_Airbus_A319_114_Delta_Air_Lines_a.jpg,none,,n,day,n,ground,good,A319 takeoff; concourse gates in background
+93,commons:24451172,raw/commons_350e282a8e_N359NB_7985520967.jpg,CARGO,,y,day,n,window,ok,"ATL A319 at gate: catering hi-loader, bag carts, fuel cart; railing occludes foreground"
+94,commons:46961309,raw/commons_c490fee21a_N316NB_24470021880.jpg,none,,n,day,n,ground,good,A319 airborne
+95,commons:24452578,raw/commons_64f2008b8f_N332NB_6507990345.jpg,none,,n,day,n,ground,ok,A319 airborne
+96,commons:74638760,raw/commons_a8275b095f_Delta_N6713Y_Boeing_757_200_15350973255.jpg,none,,n,day,y,ground,ok,"757 taxiing, wet"
+97,commons:74639543,raw/commons_895d31c8be_Delta_N633DL_Boeing_757_200_28534080874.jpg,none,,n,day,n,ground,ok,757 takeoff
+98,commons:74639347,raw/commons_f8d825a7a9_Delta_N664DN_Boeing_757_200_ATL_Fog_Jan2.jpg,none,,n,day,y,ground,good,757 taxiing in fog
+99,commons:74639154,raw/commons_b8cb51bc83_Delta_N540US_Boeing_757_200_29400820194.jpg,none,,n,day,n,ground,ok,757 taxiing; concourses behind
+100,commons:74639285,raw/commons_13dcf9ebaa_Delta_N534US_Boeing_757_200_34095905472.jpg,none,,n,day,n,ground,good,757 on ramp/taxilane
+101,commons:74642027,raw/commons_7c019e0d5b_Delta_N591NW_Boeing_757_300_Tail_Scratch.jpg,none,,n,day,n,ground,ok,757 tail close-up
+102,commons:74638829,raw/commons_d67584658c_Delta_N551NW_Boeing_757_200_35187286443.jpg,none,,n,day,n,ground,ok,757 taxiing past hangars
+103,commons:64198519,raw/commons_df7d84e8ea_N3760C_Hartsfield_Jackson_Atlanta_Intern.jpg,NOSE,,y,day,n,ground,ok,"737-800 under tow/pushback on ramp, tug at nose; not at gate"
+104,commons:74639344,raw/commons_5ee690b4b0_Delta_N301DQ_Boeing_737_700_ATL_Fog_Jan2.jpg,none,,n,day,y,ground,good,"737-700 taxiing in fog, wet"
+105,commons:74641646,raw/commons_882a5993c4_Delta_N774DE_Boeing_737_800_29362231208.jpg,none,,n,day,y,window,good,737-800 on wet ramp; concourse with jet bridges and ATC tower behind (concourse unverified)
+106,commons:159452684,raw/commons_8801156334_N827DN_ATL_2022_11_28.jpg,CARGO,"ENG-R,AFT",y,day,n,ground,good,"ATL 737-800 at gate (B-gate sign visible), cones, bag cart + tractor, ramp crew; RAMP 2 sign"
+107,commons:32527408,raw/commons_571da245d5_N3743H_Boeing_737WL_Delta_9212090952.jpg,none,,n,day,n,ground,ok,"737 taxiing; parked GSE (hi-loader, carts) in foreground: NOT-FOD clutter"
+108,commons:74640548,raw/commons_75bf9a7886_Delta_N845DN_Boeing_737_900_ATL_January.jpg,none,,n,day,n,ground,good,737-900 taxiing
+109,commons:74641133,raw/commons_2e14571993_Delta_N801DZ_Boeing_737_900ER_3383230894.jpg,none,,n,day,n,raised,good,737-900 taxiing from above
+110,commons:116265094,raw/commons_ef018390f1_JetBlue_A220_300_N3085J.jpg,none,,n,day,n,ground,good,jetBlue A220 airborne (only A220 file at ATL; not Delta)
+111,commons:9781641,raw/commons_9ba278546e_KATLatNight_DSC.jpg,none,,n,night,n,ground,ok,"tower at night, long exposure"
+112,commons:26712168,raw/commons_56700dd4a4_Delta_Air_Lines_Boeing_757_251_N521US_AT.jpg,WIDE,CARGO,y,night,n,cabin,good,"ATL 757 at gate at night from adjacent aircraft: belt loader, bag carts, tug, cones, ramp agent; floodlights"
+113,commons:61521656,raw/commons_db9d5385e2_Delta_s_first_A350_35569463734.jpg,none,,n,night,n,ground,ok,"A350 widebody at night, TechOps worker"
+114,commons:31884564,raw/commons_3d4866b6aa_ATL_12_29_08_3152114444.jpg,none,,n,night,n,ground,ok,tower at night
+115,commons:61521652,raw/commons_bd6ddf44c0_Delta_s_first_A350_35596966243.jpg,none,,n,night,n,ground,ok,A350 water salute
+116,commons:51627373,raw/commons_1b15b0f6da_Delta_ATL_Sky_Club_Concourse_B_Grand_Ope.jpg,WIDE,NOSE,y,dusk,n,window,poor,ATL A321 at gate from Sky Club; heavy window reflections
+117,commons:146782095,raw/commons_da4a86779e_Atlanta_Airport_Hartsfield_Jackson_Atlan.jpg,none,,n,night,n,aerial,ok,aerial night view of concourses (site context only)

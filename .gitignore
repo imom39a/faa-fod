@@ -1,0 +1,39 @@
+.env
+prototypes/spike/data/
+.venv/
+.playwright-mcp/
+app/var/
+node_modules/
+__pycache__/
+*.pyc
+app/frontend/dist/
+
+# OS and editor
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+app/frontend/.vite/
+*.tsbuildinfo
+
+# Local databases and logs
+*.sqlite
+*.sqlite-*
+*.log
+
+# Secrets
+.env.*
+!.env.example
+
+# Prototype leftovers: model weights, downloaded third-party photos, caches
+prototypes/local-detect/models/
+prototypes/local-detect/cache/
+prototypes/image-archive/raw/
+prototypes/image-archive/sheets/
+prototypes/dashboard/assets/raw/

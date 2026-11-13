@@ -1,0 +1,85 @@
+{
+ "scene_id": "demo-bolt",
+ "stand": "THA",
+ "scoring": false,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    2994,
+    1680,
+    5794,
+    3255
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    3994,
+    1950,
+    5794,
+    2962
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [866, 826, 892, 842], long edge 26 px, contrast 17"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    2300,
+    1050,
+    4700,
+    2400
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    900,
+    1400,
+    4100,
+    3200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    0,
+    300,
+    3200,
+    2100
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    0,
+    1,
+    5765,
+    3244
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

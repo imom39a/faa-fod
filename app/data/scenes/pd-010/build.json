@@ -1,0 +1,97 @@
+{
+ "scene_id": "pd-010",
+ "stand": "GLV",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    3616,
+    2300,
+    6016,
+    3650
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bag_tag (bag tag) at [1081, 1236, 1123, 1258], long edge 42 px, contrast 32"
+   ],
+   "objects": [
+    "bag_tag"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    2300,
+    2150,
+    4220,
+    3230
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    2000,
+    2000,
+    4400,
+    3350
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [1982, 1238, 2008, 1256], long edge 26 px, contrast 13"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "CARGO": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    1300,
+    2000,
+    4500,
+    3800
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: cup (flattened paper cup) at [2137, 1544, 2183, 1577], long edge 46 px, contrast 40"
+   ],
+   "objects": [
+    "cup"
+   ]
+  },
+  "AFT": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    0,
+    1200,
+    3200,
+    3000
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "glv2",
+   "crop_box_source_px": [
+    0,
+    632,
+    6016,
+    4016
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: plastic_yellow (plastic scrap) at [1649, 1877, 1671, 1911], long edge 34 px, contrast 53"
+   ],
+   "objects": [
+    "plastic_yellow"
+   ]
+  }
+ }
+}

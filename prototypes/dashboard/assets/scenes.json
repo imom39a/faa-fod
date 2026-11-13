@@ -1,0 +1,589 @@
+{
+ "image_size": [
+  1600,
+  900
+ ],
+ "sets": {
+  "PEL": {
+   "NOSE": "img/pel_nose_clean.jpg",
+   "ENG-L": "img/pel_eng-l_clean.jpg",
+   "ENG-R": "img/pel_eng-r_clean.jpg",
+   "CARGO": "img/pel_cargo_clean.jpg",
+   "AFT": "img/pel_aft_clean.jpg",
+   "WIDE": "img/pel_wide_clean.jpg"
+  },
+  "THA": {
+   "NOSE": "img/tha_nose_clean.jpg",
+   "ENG-L": "img/tha_eng-l_clean.jpg",
+   "ENG-R": "img/tha_eng-r_clean.jpg",
+   "CARGO": "img/tha_cargo_clean.jpg",
+   "AFT": "img/tha_aft_clean.jpg",
+   "WIDE": "img/tha_wide_clean.jpg"
+  },
+  "GAR": {
+   "NOSE": "img/gar_nose_clean.jpg",
+   "ENG-L": "img/gar_eng-l_clean.jpg",
+   "ENG-R": "img/gar_eng-r_clean.jpg",
+   "CARGO": "img/gar_cargo_clean.jpg",
+   "AFT": "img/gar_aft_clean.jpg",
+   "WIDE": "img/gar_wide_clean.jpg"
+  }
+ },
+ "frames": {
+  "img/pel_nose_clean.jpg": {
+   "set": "PEL",
+   "angle": "NOSE",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_03_.jpg",
+   "crop_src_px": [
+    1200,
+    2000,
+    4400,
+    3800
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/pel_eng-l_clean.jpg": {
+   "set": "PEL",
+   "angle": "ENG-L",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_02_.jpg",
+   "crop_src_px": [
+    3200,
+    1750,
+    5600,
+    3100
+   ],
+   "objects": [
+    {
+     "id": "p-patch",
+     "box": [
+      140,
+      522,
+      250,
+      552
+     ],
+     "composited": false,
+     "what": "white wash-water patch on the pavement"
+    }
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/pel_eng-r_clean.jpg": {
+   "set": "PEL",
+   "angle": "ENG-R",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_01_.jpg",
+   "crop_src_px": [
+    1100,
+    1800,
+    3500,
+    3150
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/pel_cargo_clean.jpg": {
+   "set": "PEL",
+   "angle": "CARGO",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_01_.jpg",
+   "crop_src_px": [
+    1000,
+    2170,
+    4200,
+    3970
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/pel_aft_clean.jpg": {
+   "set": "PEL",
+   "angle": "AFT",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_01_.jpg",
+   "crop_src_px": [
+    600,
+    1050,
+    3800,
+    2850
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/pel_wide_clean.jpg": {
+   "set": "PEL",
+   "angle": "WIDE",
+   "kind": "clean",
+   "source": "Pelita_Air_Airbus_A320_PK-PWL_Jakarta_2025_02_.jpg",
+   "crop_src_px": [
+    0,
+    433,
+    5826,
+    3710
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0"
+  },
+  "img/tha_nose_clean.jpg": {
+   "set": "THA",
+   "angle": "NOSE",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_03_.jpg",
+   "crop_src_px": [
+    3000,
+    1680,
+    5800,
+    3255
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_eng-l_clean.jpg": {
+   "set": "THA",
+   "angle": "ENG-L",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_03_.jpg",
+   "crop_src_px": [
+    3994,
+    1950,
+    5794,
+    2962
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_eng-r_clean.jpg": {
+   "set": "THA",
+   "angle": "ENG-R",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_01_.jpg",
+   "crop_src_px": [
+    2300,
+    1050,
+    4700,
+    2400
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_cargo_clean.jpg": {
+   "set": "THA",
+   "angle": "CARGO",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_03_.jpg",
+   "crop_src_px": [
+    900,
+    1400,
+    4100,
+    3200
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_aft_clean.jpg": {
+   "set": "THA",
+   "angle": "AFT",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_01_.jpg",
+   "crop_src_px": [
+    0,
+    300,
+    3200,
+    2100
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_wide_clean.jpg": {
+   "set": "THA",
+   "angle": "WIDE",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_01_.jpg",
+   "crop_src_px": [
+    0,
+    1,
+    5765,
+    3244
+   ],
+   "objects": [
+    {
+     "id": "t-reflection",
+     "box": [
+      400,
+      652,
+      472,
+      682
+     ],
+     "composited": false,
+     "what": "end of a wet-pavement reflection streak"
+    }
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/gar_nose_clean.jpg": {
+   "set": "GAR",
+   "angle": "NOSE",
+   "kind": "clean",
+   "source": "Garuda_Boeing_737_PK-GFV_Jakarta_2023_01_.jpg",
+   "crop_src_px": [
+    3616,
+    2000,
+    6016,
+    3350
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/gar_eng-l_clean.jpg": {
+   "set": "GAR",
+   "angle": "ENG-L",
+   "kind": "clean",
+   "source": "Engine_of_Boeing_737-800_EI-DLY.JPG",
+   "crop_src_px": [
+    0,
+    308,
+    3008,
+    2000
+   ],
+   "objects": [],
+   "credit": "Photo: Andy Mabbett / Wikimedia Commons, CC BY-SA 3.0"
+  },
+  "img/gar_eng-r_clean.jpg": {
+   "set": "GAR",
+   "angle": "ENG-R",
+   "kind": "clean",
+   "source": "Garuda_Boeing_737_PK-GFV_Jakarta_2023_01_.jpg",
+   "crop_src_px": [
+    1900,
+    1750,
+    4300,
+    3100
+   ],
+   "objects": [
+    {
+     "id": "g-stain",
+     "box": [
+      1420,
+      655,
+      1525,
+      688
+     ],
+     "composited": false,
+     "what": "dark oil stain on the pavement"
+    }
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/gar_cargo_clean.jpg": {
+   "set": "GAR",
+   "angle": "CARGO",
+   "kind": "clean",
+   "source": "Garuda_Boeing_737_PK-GFV_Jakarta_2023_01_.jpg",
+   "crop_src_px": [
+    1200,
+    1750,
+    4400,
+    3550
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/gar_aft_clean.jpg": {
+   "set": "GAR",
+   "angle": "AFT",
+   "kind": "clean",
+   "source": "Garuda_Boeing_737_PK-GFV_Jakarta_2023_01_.jpg",
+   "crop_src_px": [
+    0,
+    700,
+    3200,
+    2500
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/gar_wide_clean.jpg": {
+   "set": "GAR",
+   "angle": "WIDE",
+   "kind": "clean",
+   "source": "Garuda_Boeing_737_PK-GFV_Jakarta_2023_01_.jpg",
+   "crop_src_px": [
+    0,
+    632,
+    6016,
+    4016
+   ],
+   "objects": [],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0"
+  },
+  "img/tha_eng-r_blocked.jpg": {
+   "set": "THA",
+   "angle": "ENG-R",
+   "kind": "blocked",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_02_.jpg",
+   "crop_src_px": [
+    2478,
+    1135,
+    4830,
+    2458
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0",
+   "objects": [],
+   "note": "Belt-loader truck (JAS) parked between camera and the ENG-R ground zone in this real capture."
+  },
+  "img/tha_aft_capture2.jpg": {
+   "set": "THA",
+   "angle": "AFT",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_02_.jpg",
+   "crop_src_px": [
+    224,
+    400,
+    3360,
+    2164
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0",
+   "objects": []
+  },
+  "img/tha_wide_capture2.jpg": {
+   "set": "THA",
+   "angle": "WIDE",
+   "kind": "clean",
+   "source": "Thai_Airbus_A320_HS-TXS_Denpasar_2025_02_.jpg",
+   "crop_src_px": [
+    224,
+    107,
+    5863,
+    3285
+   ],
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0",
+   "objects": []
+  },
+  "img/pel_cargo_tag.jpg": {
+   "set": "PEL",
+   "angle": "CARGO",
+   "kind": "seeded",
+   "base": "PEL/CARGO",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "p-tag",
+     "fod_a": "luggage_tag",
+     "box": [
+      977,
+      638,
+      1026,
+      666
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/pel_cargo_strap.jpg": {
+   "set": "PEL",
+   "angle": "CARGO",
+   "kind": "seeded",
+   "base": "PEL/CARGO",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "p-strap",
+     "fod_a": "strap",
+     "box": [
+      867,
+      534,
+      896,
+      590
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/pel_eng-r_pliers.jpg": {
+   "set": "PEL",
+   "angle": "ENG-R",
+   "kind": "seeded",
+   "base": "PEL/ENG-R",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "p-pliers",
+     "fod_a": "pliers_red",
+     "box": [
+      391,
+      539,
+      453,
+      587
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/pel_aft_plastic.jpg": {
+   "set": "PEL",
+   "angle": "AFT",
+   "kind": "seeded",
+   "base": "PEL/AFT",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "p-plastic",
+     "fod_a": "plastic_grey",
+     "box": [
+      1134,
+      668,
+      1167,
+      712
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/tha_eng-l_bolt.jpg": {
+   "set": "THA",
+   "angle": "ENG-L",
+   "kind": "seeded",
+   "base": "THA/ENG-L",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "t-bolt",
+     "fod_a": "bolt_long",
+     "box": [
+      943,
+      546,
+      977,
+      578
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/tha_cargo_strap.jpg": {
+   "set": "THA",
+   "angle": "CARGO",
+   "kind": "seeded",
+   "base": "THA/CARGO",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "t-strap",
+     "fod_a": "strap",
+     "box": [
+      1030,
+      739,
+      1070,
+      805
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/tha_nose_cutter.jpg": {
+   "set": "THA",
+   "angle": "NOSE",
+   "kind": "seeded",
+   "base": "THA/NOSE",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "t-cutter",
+     "fod_a": "cutter_a",
+     "box": [
+      893,
+      694,
+      920,
+      713
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/tha_aft_rocks.jpg": {
+   "set": "THA",
+   "angle": "AFT",
+   "kind": "seeded",
+   "base": "THA2/AFT",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "t-rock",
+     "fod_a": "rock",
+     "box": [
+      969,
+      830,
+      1058,
+      861
+     ],
+     "composited": true,
+     "pieces": 3
+    }
+   ]
+  },
+  "img/tha_cargo_glare.jpg": {
+   "set": "THA",
+   "angle": "CARGO",
+   "kind": "glare",
+   "base": "THA/CARGO",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0",
+   "objects": [],
+   "note": "Synthetic low-sun veiling glare + flare ghosts over the real clean CARGO frame."
+  },
+  "img/gar_eng-r_nut.jpg": {
+   "set": "GAR",
+   "angle": "ENG-R",
+   "kind": "seeded",
+   "base": "GAR/ENG-R",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "g-nut",
+     "fod_a": "nut",
+     "box": [
+      412,
+      425,
+      432,
+      449
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  },
+  "img/gar_cargo_strap.jpg": {
+   "set": "GAR",
+   "angle": "CARGO",
+   "kind": "seeded",
+   "base": "GAR/CARGO",
+   "credit": "Photo: Bahnfrend / Wikimedia Commons, CC BY-SA 4.0 \u00b7 debris: FOD-A (MIT), composited",
+   "objects": [
+    {
+     "id": "g-strap",
+     "fod_a": "strap",
+     "box": [
+      1129,
+      534,
+      1168,
+      592
+     ],
+     "composited": true,
+     "pieces": 1
+    }
+   ]
+  }
+ },
+ "thaCapture2": {
+  "ENG-R": "img/tha_eng-r_blocked.jpg",
+  "AFT": "img/tha_aft_capture2.jpg",
+  "WIDE": "img/tha_wide_capture2.jpg"
+ }
+}

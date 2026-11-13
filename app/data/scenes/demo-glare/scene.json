@@ -1,0 +1,183 @@
+{
+ "scene_id": "demo-glare",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Demo: low-sun glare washes out the ENG-R Angle (INCOMPLETE, FOD-R6); its after frame is usable and clean.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": false,
+   "unusable_reason": "glare",
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFS Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFS_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      1367,
+      576
+     ],
+     [
+      3840,
+      576
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      2136,
+      2160
+     ],
+     [
+      1958,
+      1758
+     ],
+     [
+      1413,
+      1397
+     ],
+     [
+      1400,
+      904
+     ]
+    ],
+    "erl": [
+     [
+      1512,
+      609
+     ],
+     [
+      3680,
+      609
+     ],
+     [
+      3840,
+      1069
+     ],
+     [
+      3840,
+      1745
+     ],
+     [
+      1972,
+      1758
+     ],
+     [
+      1742,
+      1594
+     ],
+     [
+      1446,
+      1266
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

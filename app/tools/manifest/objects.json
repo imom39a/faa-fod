@@ -1,0 +1,517 @@
+{
+ "_doc": "Debris cut-outs. foda_cell = [row, column] in FOD-A Examples/manyEx.png; foda_picture = a FOD-A Examples/Picture*.png (object inside its red annotation box, or 'box'); commons = key in sources.json (single object on a plain background; 'box' in the fetched file's pixels). object_class follows spec/fod-rules.md (bag tags are light; metal catering items are hard).",
+ "debris": {
+  "bolt": {
+   "foda_cell": [
+    2,
+    0
+   ],
+   "category": "fasteners_hardware",
+   "object_class": "hard",
+   "label": "bolt",
+   "sub": [
+    0.3,
+    0.1,
+    0.65,
+    0.95
+   ],
+   "thr": 20,
+   "chroma": 14,
+   "open": 1
+  },
+  "nut": {
+   "foda_picture": "Picture5.png",
+   "category": "fasteners_hardware",
+   "object_class": "hard",
+   "label": "nut"
+  },
+  "hose_clamp": {
+   "foda_picture": "Picture8.png",
+   "category": "aircraft_parts",
+   "object_class": "hard",
+   "label": "hose clamp",
+   "thr": 150
+  },
+  "hose": {
+   "foda_picture": "Picture1.png",
+   "category": "aircraft_parts",
+   "object_class": "hard",
+   "label": "hose section",
+   "thr": 150
+  },
+  "metal_panel": {
+   "foda_picture": "Picture3.png",
+   "category": "aircraft_parts",
+   "object_class": "hard",
+   "label": "metal panel",
+   "thr": 110
+  },
+  "hammer": {
+   "foda_cell": [
+    0,
+    2
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "hammer",
+   "thr": 90
+  },
+  "hammer_black": {
+   "foda_cell": [
+    1,
+    2
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "hammer"
+  },
+  "pliers": {
+   "foda_cell": [
+    0,
+    5
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "pliers"
+  },
+  "pliers_blue": {
+   "foda_cell": [
+    1,
+    5
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "pliers"
+  },
+  "pliers_red": {
+   "foda_cell": [
+    2,
+    5
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "pliers",
+   "thr": 90
+  },
+  "cutter": {
+   "foda_cell": [
+    0,
+    1
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "box cutter",
+   "thr": 90
+  },
+  "cutter_yellow": {
+   "foda_cell": [
+    1,
+    1
+   ],
+   "category": "tools",
+   "object_class": "hard",
+   "label": "box cutter"
+  },
+  "bag_tag": {
+   "foda_cell": [
+    0,
+    7
+   ],
+   "category": "luggage_parts",
+   "object_class": "light",
+   "label": "bag tag"
+  },
+  "rock": {
+   "foda_cell": [
+    1,
+    6
+   ],
+   "category": "pavement_construction",
+   "object_class": "hard",
+   "label": "pavement fragment"
+  },
+  "plastic_grey": {
+   "foda_cell": [
+    0,
+    4
+   ],
+   "category": "cargo_packaging",
+   "object_class": "light",
+   "label": "plastic sheet"
+  },
+  "plastic_yellow": {
+   "foda_cell": [
+    1,
+    4
+   ],
+   "category": "cargo_packaging",
+   "object_class": "light",
+   "label": "plastic scrap"
+  },
+  "dry_debris": {
+   "foda_cell": [
+    2,
+    6
+   ],
+   "category": "natural",
+   "object_class": "natural",
+   "label": "dry vegetation"
+  },
+  "dry_leaf": {
+   "commons": "obj_leaf",
+   "box": [
+    370,
+    10,
+    560,
+    715
+   ],
+   "bg": [
+    200,
+    200,
+    200
+   ],
+   "category": "natural",
+   "object_class": "natural",
+   "label": "dry leaf"
+  },
+  "dry_leaf_b": {
+   "commons": "obj_leaf",
+   "box": [
+    170,
+    30,
+    340,
+    660
+   ],
+   "bg": [
+    200,
+    200,
+    200
+   ],
+   "category": "natural",
+   "object_class": "natural",
+   "label": "dry leaf"
+  },
+  "twig": {
+   "commons": "obj_twig",
+   "bg": [
+    200,
+    200,
+    200
+   ],
+   "category": "natural",
+   "object_class": "natural",
+   "label": "leafy twig"
+  },
+  "feather": {
+   "commons": "obj_feather",
+   "thr": 70,
+   "bg": [
+    120,
+    120,
+    120
+   ],
+   "category": "natural",
+   "object_class": "natural",
+   "label": "feather"
+  },
+  "cup": {
+   "commons": "obj_cup",
+   "polygon": [
+    [
+     318,
+     300
+    ],
+    [
+     795,
+     244
+    ],
+    [
+     828,
+     435
+    ],
+    [
+     798,
+     603
+    ],
+    [
+     540,
+     577
+    ],
+    [
+     322,
+     502
+    ],
+    [
+     300,
+     450
+    ],
+    [
+     304,
+     337
+    ]
+   ],
+   "bg": [
+    120,
+    120,
+    120
+   ],
+   "category": "catering_flightline",
+   "object_class": "light",
+   "label": "flattened paper cup"
+  },
+  "bottle": {
+   "commons": "obj_bottle",
+   "polygon": [
+    [
+     286,
+     119
+    ],
+    [
+     575,
+     119
+    ],
+    [
+     595,
+     298
+    ],
+    [
+     635,
+     437
+    ],
+    [
+     774,
+     635
+    ],
+    [
+     794,
+     1190
+    ],
+    [
+     865,
+     1587
+    ],
+    [
+     833,
+     1865
+    ],
+    [
+     714,
+     2024
+    ],
+    [
+     238,
+     2024
+    ],
+    [
+     111,
+     1825
+    ],
+    [
+     99,
+     1508
+    ],
+    [
+     198,
+     1151
+    ],
+    [
+     179,
+     635
+    ],
+    [
+     298,
+     397
+    ],
+    [
+     286,
+     298
+    ]
+   ],
+   "bg": [
+    175,
+    168,
+    150
+   ],
+   "category": "catering_flightline",
+   "object_class": "light",
+   "label": "plastic bottle"
+  }
+ },
+ "gse": {
+  "tug": {
+   "commons": "bkv1",
+   "label": "baggage tractor",
+   "_doc": "polygon in source pixels of the photo, drawn by eye around the tractor and its driver",
+   "polygon": [
+    [
+     2380,
+     2825
+    ],
+    [
+     2379,
+     2760
+    ],
+    [
+     2388,
+     2705
+    ],
+    [
+     2402,
+     2682
+    ],
+    [
+     2465,
+     2628
+    ],
+    [
+     2610,
+     2611
+    ],
+    [
+     2645,
+     2600
+    ],
+    [
+     2680,
+     2608
+    ],
+    [
+     2752,
+     2630
+    ],
+    [
+     2756,
+     2530
+    ],
+    [
+     2775,
+     2512
+    ],
+    [
+     2796,
+     2525
+    ],
+    [
+     2795,
+     2562
+    ],
+    [
+     2825,
+     2580
+    ],
+    [
+     2830,
+     2608
+    ],
+    [
+     2865,
+     2582
+    ],
+    [
+     2880,
+     2620
+    ],
+    [
+     2908,
+     2625
+    ],
+    [
+     2942,
+     2675
+    ],
+    [
+     2972,
+     2705
+    ],
+    [
+     2970,
+     2750
+    ],
+    [
+     2988,
+     2765
+    ],
+    [
+     2980,
+     2800
+    ],
+    [
+     3022,
+     2830
+    ],
+    [
+     3000,
+     2835
+    ],
+    [
+     2950,
+     2815
+    ],
+    [
+     2945,
+     2830
+    ],
+    [
+     2908,
+     2842
+    ],
+    [
+     2895,
+     2830
+    ],
+    [
+     2865,
+     2875
+    ],
+    [
+     2820,
+     2888
+    ],
+    [
+     2775,
+     2875
+    ],
+    [
+     2760,
+     2830
+    ],
+    [
+     2720,
+     2825
+    ],
+    [
+     2600,
+     2805
+    ],
+    [
+     2550,
+     2800
+    ],
+    [
+     2545,
+     2840
+    ],
+    [
+     2515,
+     2868
+    ],
+    [
+     2470,
+     2868
+    ],
+    [
+     2443,
+     2840
+    ],
+    [
+     2435,
+     2800
+    ],
+    [
+     2423,
+     2825
+    ]
+   ]
+  }
+ }
+}

@@ -1,0 +1,197 @@
+{
+ "scene_id": "demo-hold",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Demo: a hammer left in the right engine zone (HOLD) and a bag tag by the belt loader (REMOVE); both after frames are clean.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      726,
+      1268,
+      770,
+      1350
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "hammer"
+    }
+   ],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1293,
+      1729,
+      1348,
+      1787
+     ],
+     "finding_type": "fod",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "bag tag"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "VietJet Air Airbus A321neo VN-A607 Perth 2025 (06).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:VietJet_Air_Airbus_A321neo_VN-A607_Perth_2025_(06).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      301
+     ],
+     [
+      3840,
+      301
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ],
+    "erl": [
+     [
+      200,
+      468
+     ],
+     [
+      3540,
+      468
+     ],
+     [
+      3840,
+      1135
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      601,
+      2160
+     ],
+     [
+      200,
+      1536
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "scene_id": "pd-008",
+ "stand": "BKP",
+ "scoring": true,
+ "control": "noop",
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    2900,
+    1900,
+    5300,
+    3250
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    1800,
+    1650,
+    3720,
+    2730
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    1500,
+    1500,
+    3900,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    1300,
+    1900,
+    4500,
+    3700
+   ],
+   "mirrored": false,
+   "edits": [
+    "no-op compositing control (tone jitter + pavement patch pasted on pavement)"
+   ],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    0,
+    900,
+    3200,
+    2700
+   ],
+   "mirrored": false,
+   "edits": [
+    "no-op compositing control (tone jitter + pavement patch pasted on pavement)"
+   ],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "bkp1",
+   "crop_box_source_px": [
+    0,
+    632,
+    6016,
+    4016
+   ],
+   "mirrored": false,
+   "edits": [
+    "no-op compositing control (tone jitter + pavement patch pasted on pavement)"
+   ],
+   "objects": []
+  }
+ }
+}

@@ -1,0 +1,203 @@
+{
+ "gates": [
+  "T1",
+  "T2",
+  "T4",
+  "T5",
+  "T8"
+ ],
+ "turns": [
+  {
+   "turn_id": "T1-DL1432",
+   "gate": "T1",
+   "flight": "DL1432",
+   "aircraft_type": "A321",
+   "events": [
+    {
+     "t": 0,
+     "type": "stand_prep"
+    },
+    {
+     "t": 15,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "pa-001"
+    },
+    {
+     "t": 50,
+     "type": "block_in"
+    },
+    {
+     "t": 150,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "demo-bolt"
+    },
+    {
+     "t": 300,
+     "type": "scheduled_pushback"
+    }
+   ]
+  },
+  {
+   "turn_id": "T2-DL2087",
+   "gate": "T2",
+   "flight": "DL2087",
+   "aircraft_type": "737-900ER",
+   "events": [
+    {
+     "t": 5,
+     "type": "stand_prep"
+    },
+    {
+     "t": 30,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "demo-gse"
+    },
+    {
+     "t": 90,
+     "type": "block_in"
+    },
+    {
+     "t": 200,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "pd-001"
+    },
+    {
+     "t": 330,
+     "type": "scheduled_pushback"
+    }
+   ]
+  },
+  {
+   "turn_id": "T4-DL0915",
+   "gate": "T4",
+   "flight": "DL0915",
+   "aircraft_type": "A320",
+   "events": [
+    {
+     "t": 10,
+     "type": "stand_prep"
+    },
+    {
+     "t": 45,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "pa-002"
+    },
+    {
+     "t": 100,
+     "type": "block_in"
+    },
+    {
+     "t": 220,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "demo-glare"
+    },
+    {
+     "t": 345,
+     "type": "scheduled_pushback"
+    }
+   ]
+  },
+  {
+   "turn_id": "T5-DL1776",
+   "gate": "T5",
+   "flight": "DL1776",
+   "aircraft_type": "757-200",
+   "events": [
+    {
+     "t": 0,
+     "type": "stand_prep"
+    },
+    {
+     "t": 60,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "pa-003"
+    },
+    {
+     "t": 115,
+     "type": "block_in"
+    },
+    {
+     "t": 245,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "demo-hold"
+    },
+    {
+     "t": 355,
+     "type": "scheduled_pushback"
+    }
+   ]
+  },
+  {
+   "turn_id": "T8-DL0458",
+   "gate": "T8",
+   "flight": "DL0458",
+   "aircraft_type": "A220-300",
+   "events": [
+    {
+     "t": 0,
+     "type": "stand_prep"
+    },
+    {
+     "t": 20,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "pa-004"
+    },
+    {
+     "t": 45,
+     "type": "block_in"
+    },
+    {
+     "t": 120,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "pd-002"
+    },
+    {
+     "t": 170,
+     "type": "scheduled_pushback"
+    }
+   ]
+  },
+  {
+   "turn_id": "T8-DL2231",
+   "gate": "T8",
+   "flight": "DL2231",
+   "aircraft_type": "A321",
+   "events": [
+    {
+     "t": 185,
+     "type": "stand_prep"
+    },
+    {
+     "t": 200,
+     "type": "inspection",
+     "kind": "pre_arrival",
+     "scene_id": "pa-005"
+    },
+    {
+     "t": 250,
+     "type": "block_in"
+    },
+    {
+     "t": 310,
+     "type": "inspection",
+     "kind": "pre_departure",
+     "scene_id": "demo-outside"
+    },
+    {
+     "t": 360,
+     "type": "scheduled_pushback"
+    }
+   ]
+  }
+ ]
+}

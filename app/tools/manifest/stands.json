@@ -1,0 +1,2834 @@
+{
+ "GFV": {
+  "light": "day",
+  "note": "Garuda 737-800 at a contact stand, Jakarta CGK; heavy GSE clutter",
+  "angles": {
+   "NOSE": {
+    "src": "gfv1",
+    "box": [
+     3616,
+     2000,
+     6016,
+     3350
+    ]
+   },
+   "ENG-L": {
+    "src": "gfv1",
+    "box": [
+     2200,
+     1900,
+     4120,
+     2980
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "gfv1",
+    "box": [
+     1900,
+     1750,
+     4300,
+     3100
+    ]
+   },
+   "CARGO": {
+    "src": "gfv1",
+    "box": [
+     1200,
+     1750,
+     4400,
+     3550
+    ]
+   },
+   "AFT": {
+    "src": "gfv1",
+    "box": [
+     0,
+     700,
+     3200,
+     2500
+    ]
+   },
+   "WIDE": {
+    "src": "gfv1",
+    "box": [
+     0,
+     632,
+     6016,
+     4016
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     1750,
+     1330
+    ],
+    [
+     5300,
+     1330
+    ],
+    [
+     6016,
+     1600
+    ],
+    [
+     6016,
+     3650
+    ],
+    [
+     3300,
+     3650
+    ],
+    [
+     3000,
+     3050
+    ],
+    [
+     2000,
+     2620
+    ],
+    [
+     1900,
+     1900
+    ]
+   ],
+   "erl": [
+    [
+     2300,
+     1500
+    ],
+    [
+     5000,
+     1450
+    ],
+    [
+     5900,
+     2000
+    ],
+    [
+     5900,
+     2950
+    ],
+    [
+     3050,
+     3020
+    ],
+    [
+     2050,
+     2600
+    ]
+   ]
+  }
+ },
+ "GFS": {
+  "light": "day",
+  "note": "Garuda 737-800 at a contact stand, Jakarta CGK; baggage carts and ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "gfs1",
+    "box": [
+     3443,
+     2000,
+     5843,
+     3350
+    ]
+   },
+   "ENG-L": {
+    "src": "gfs1",
+    "box": [
+     2200,
+     1900,
+     4120,
+     2980
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "gfs1",
+    "box": [
+     1800,
+     1700,
+     4200,
+     3050
+    ]
+   },
+   "CARGO": {
+    "src": "gfs1",
+    "box": [
+     2400,
+     1900,
+     5600,
+     3700
+    ]
+   },
+   "AFT": {
+    "src": "gfs1",
+    "box": [
+     0,
+     1100,
+     3200,
+     2900
+    ]
+   },
+   "WIDE": {
+    "src": "gfs1",
+    "box": [
+     0,
+     574,
+     5843,
+     3861
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     2080,
+     1450
+    ],
+    [
+     5843,
+     1450
+    ],
+    [
+     5843,
+     3861
+    ],
+    [
+     3250,
+     3861
+    ],
+    [
+     2980,
+     3250
+    ],
+    [
+     2150,
+     2700
+    ],
+    [
+     2130,
+     1950
+    ]
+   ],
+   "erl": [
+    [
+     2300,
+     1500
+    ],
+    [
+     5600,
+     1500
+    ],
+    [
+     5843,
+     2200
+    ],
+    [
+     5843,
+     3230
+    ],
+    [
+     3000,
+     3250
+    ],
+    [
+     2650,
+     3000
+    ],
+    [
+     2200,
+     2500
+    ]
+   ]
+  }
+ },
+ "GFI": {
+  "light": "day",
+  "note": "Garuda 737-800 (special livery) at a contact stand, Jakarta CGK; catering truck, bag carts, ramp crew at nose gear",
+  "angles": {
+   "NOSE": {
+    "src": "gfi1",
+    "box": [
+     3022,
+     1800,
+     5422,
+     3150
+    ]
+   },
+   "ENG-L": {
+    "src": "gfi1",
+    "box": [
+     1700,
+     1850,
+     3620,
+     2930
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "gfi1",
+    "box": [
+     1300,
+     1700,
+     3700,
+     3050
+    ]
+   },
+   "CARGO": {
+    "src": "gfi1",
+    "box": [
+     1000,
+     1820,
+     4200,
+     3620
+    ]
+   },
+   "AFT": {
+    "src": "gfi1",
+    "box": [
+     0,
+     1150,
+     3200,
+     2950
+    ]
+   },
+   "WIDE": {
+    "src": "gfi1",
+    "box": [
+     0,
+     570,
+     5422,
+     3620
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1420
+    ],
+    [
+     4500,
+     1420
+    ],
+    [
+     5422,
+     1700
+    ],
+    [
+     5422,
+     3620
+    ],
+    [
+     2400,
+     3620
+    ],
+    [
+     0,
+     2800
+    ]
+   ],
+   "erl": [
+    [
+     600,
+     1500
+    ],
+    [
+     4300,
+     1500
+    ],
+    [
+     5000,
+     2000
+    ],
+    [
+     5000,
+     2800
+    ],
+    [
+     4500,
+     3250
+    ],
+    [
+     1200,
+     3000
+    ],
+    [
+     300,
+     2200
+    ]
+   ]
+  }
+ },
+ "GLV": {
+  "light": "wet",
+  "note": "Citilink A320 at a contact stand, Jakarta CGK, damp apron with puddles after rain; photographed through glass",
+  "angles": {
+   "NOSE": {
+    "src": "glv2",
+    "box": [
+     3616,
+     2300,
+     6016,
+     3650
+    ]
+   },
+   "ENG-L": {
+    "src": "glv2",
+    "box": [
+     2300,
+     2150,
+     4220,
+     3230
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "glv2",
+    "box": [
+     2000,
+     2000,
+     4400,
+     3350
+    ]
+   },
+   "CARGO": {
+    "src": "glv2",
+    "box": [
+     1300,
+     2000,
+     4500,
+     3800
+    ]
+   },
+   "AFT": {
+    "src": "glv2",
+    "box": [
+     0,
+     1200,
+     3200,
+     3000
+    ]
+   },
+   "WIDE": {
+    "src": "glv2",
+    "box": [
+     0,
+     632,
+     6016,
+     4016
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     2050
+    ],
+    [
+     1300,
+     1650
+    ],
+    [
+     2600,
+     1480
+    ],
+    [
+     5000,
+     1450
+    ],
+    [
+     6016,
+     1600
+    ],
+    [
+     6016,
+     3420
+    ],
+    [
+     3420,
+     3790
+    ],
+    [
+     2300,
+     3060
+    ],
+    [
+     0,
+     3040
+    ]
+   ],
+   "erl": [
+    [
+     1300,
+     1700
+    ],
+    [
+     4900,
+     1500
+    ],
+    [
+     6016,
+     2000
+    ],
+    [
+     6016,
+     3350
+    ],
+    [
+     3450,
+     3700
+    ],
+    [
+     2400,
+     3000
+    ],
+    [
+     1500,
+     2500
+    ]
+   ]
+  }
+ },
+ "BLB": {
+  "light": "day",
+  "note": "Batik Air A320 at a contact stand, Perth, hard midday shadows; fuel truck, bag carts, belt loader, pushback tug",
+  "angles": {
+   "NOSE": {
+    "src": "blb2",
+    "box": [
+     2700,
+     1700,
+     5100,
+     3050
+    ]
+   },
+   "ENG-L": {
+    "src": "blb1",
+    "box": [
+     1300,
+     1350,
+     3700,
+     2700
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "blb2",
+    "box": [
+     1300,
+     1300,
+     3700,
+     2650
+    ]
+   },
+   "CARGO": {
+    "src": "blb2",
+    "box": [
+     800,
+     1500,
+     4000,
+     3300
+    ]
+   },
+   "AFT": {
+    "src": "blb2",
+    "box": [
+     0,
+     500,
+     3200,
+     2300
+    ]
+   },
+   "WIDE": {
+    "src": "blb2",
+    "box": [
+     0,
+     509,
+     5894,
+     3824
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1050
+    ],
+    [
+     2400,
+     870
+    ],
+    [
+     5894,
+     900
+    ],
+    [
+     5894,
+     3824
+    ],
+    [
+     1300,
+     3824
+    ],
+    [
+     0,
+     2950
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1100
+    ],
+    [
+     2600,
+     950
+    ],
+    [
+     5300,
+     1000
+    ],
+    [
+     5600,
+     2000
+    ],
+    [
+     4800,
+     2600
+    ],
+    [
+     3900,
+     3600
+    ],
+    [
+     2200,
+     3000
+    ],
+    [
+     900,
+     2500
+    ]
+   ]
+  }
+ },
+ "BKV": {
+  "light": "day",
+  "note": "Batik Air A320 at a contact stand, Perth, overcast; fuel truck, tug, ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "bkv1",
+    "box": [
+     2700,
+     1600,
+     5100,
+     2950
+    ]
+   },
+   "ENG-L": {
+    "src": "bkv1",
+    "box": [
+     1300,
+     1500,
+     3220,
+     2580
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "bkv1",
+    "box": [
+     1000,
+     1400,
+     3400,
+     2750
+    ]
+   },
+   "CARGO": {
+    "src": "bkv1",
+    "box": [
+     1200,
+     1290,
+     4400,
+     3090
+    ]
+   },
+   "AFT": {
+    "src": "bkv1",
+    "box": [
+     0,
+     700,
+     3200,
+     2500
+    ]
+   },
+   "WIDE": {
+    "src": "bkv1",
+    "box": [
+     0,
+     0,
+     5493,
+     3090
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     250,
+     1150
+    ],
+    [
+     2000,
+     1000
+    ],
+    [
+     5493,
+     1000
+    ],
+    [
+     5493,
+     3090
+    ],
+    [
+     600,
+     3090
+    ],
+    [
+     250,
+     2400
+    ]
+   ],
+   "erl": [
+    [
+     600,
+     1250
+    ],
+    [
+     2300,
+     1100
+    ],
+    [
+     4700,
+     1150
+    ],
+    [
+     5300,
+     1900
+    ],
+    [
+     5300,
+     2600
+    ],
+    [
+     4300,
+     3090
+    ],
+    [
+     1800,
+     3090
+    ],
+    [
+     900,
+     2300
+    ]
+   ]
+  }
+ },
+ "THA": {
+  "light": "day",
+  "note": "Thai A320 at a contact stand, Denpasar, overcast, damp patches; belt loader, bag carts, fuel cart; tow bars parked in the foreground",
+  "angles": {
+   "NOSE": {
+    "src": "tha3",
+    "box": [
+     2994,
+     1680,
+     5794,
+     3255
+    ]
+   },
+   "ENG-L": {
+    "src": "tha3",
+    "box": [
+     3994,
+     1950,
+     5794,
+     2962
+    ]
+   },
+   "ENG-R": {
+    "src": "tha1",
+    "box": [
+     2300,
+     1050,
+     4700,
+     2400
+    ]
+   },
+   "CARGO": {
+    "src": "tha3",
+    "box": [
+     900,
+     1400,
+     4100,
+     3200
+    ]
+   },
+   "AFT": {
+    "src": "tha1",
+    "box": [
+     0,
+     300,
+     3200,
+     2100
+    ]
+   },
+   "WIDE": {
+    "src": "tha1",
+    "box": [
+     0,
+     1,
+     5765,
+     3244
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1480
+    ],
+    [
+     5765,
+     1480
+    ],
+    [
+     5765,
+     2650
+    ],
+    [
+     3000,
+     2450
+    ],
+    [
+     0,
+     2650
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1500
+    ],
+    [
+     5500,
+     1500
+    ],
+    [
+     5500,
+     2000
+    ],
+    [
+     4400,
+     2050
+    ],
+    [
+     300,
+     2000
+    ]
+   ]
+  }
+ },
+ "BKP": {
+  "light": "night",
+  "note": "Batik Air A320 at stand 154, Perth, at night on a wet apron under floodlights; tugs, bag carts, fuel truck, pushback tug",
+  "angles": {
+   "NOSE": {
+    "src": "bkp1",
+    "box": [
+     2900,
+     1900,
+     5300,
+     3250
+    ]
+   },
+   "ENG-L": {
+    "src": "bkp1",
+    "box": [
+     1800,
+     1650,
+     3720,
+     2730
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "bkp1",
+    "box": [
+     1500,
+     1500,
+     3900,
+     2850
+    ]
+   },
+   "CARGO": {
+    "src": "bkp1",
+    "box": [
+     1300,
+     1900,
+     4500,
+     3700
+    ]
+   },
+   "AFT": {
+    "src": "bkp1",
+    "box": [
+     0,
+     900,
+     3200,
+     2700
+    ]
+   },
+   "WIDE": {
+    "src": "bkp1",
+    "box": [
+     0,
+     632,
+     6016,
+     4016
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1250
+    ],
+    [
+     2500,
+     1050
+    ],
+    [
+     6016,
+     1100
+    ],
+    [
+     6016,
+     4016
+    ],
+    [
+     1700,
+     4016
+    ],
+    [
+     900,
+     3000
+    ],
+    [
+     0,
+     2950
+    ]
+   ],
+   "erl": [
+    [
+     500,
+     1350
+    ],
+    [
+     2700,
+     1150
+    ],
+    [
+     5500,
+     1250
+    ],
+    [
+     6016,
+     2200
+    ],
+    [
+     6016,
+     3300
+    ],
+    [
+     4400,
+     3500
+    ],
+    [
+     2300,
+     3200
+    ],
+    [
+     900,
+     2700
+    ]
+   ]
+  }
+ },
+ "VAC": {
+  "light": "wet",
+  "note": "AirAsia A321neo at stand 154, Perth, wet apron at night with strong floodlight reflections; belt loader, bag carts, ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "vac1",
+    "box": [
+     2100,
+     1900,
+     4500,
+     3250
+    ]
+   },
+   "ENG-L": {
+    "src": "vac1",
+    "box": [
+     1200,
+     1650,
+     3120,
+     2730
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "vac1",
+    "box": [
+     900,
+     1500,
+     3300,
+     2850
+    ]
+   },
+   "CARGO": {
+    "src": "vac1",
+    "box": [
+     400,
+     1800,
+     3600,
+     3600
+    ]
+   },
+   "AFT": {
+    "src": "vac1",
+    "box": [
+     0,
+     900,
+     3200,
+     2700
+    ]
+   },
+   "WIDE": {
+    "src": "vac1",
+    "box": [
+     0,
+     400,
+     5505,
+     3497
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1300
+    ],
+    [
+     2300,
+     1050
+    ],
+    [
+     5505,
+     1100
+    ],
+    [
+     5505,
+     3497
+    ],
+    [
+     900,
+     3497
+    ],
+    [
+     0,
+     2900
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1400
+    ],
+    [
+     2400,
+     1150
+    ],
+    [
+     5000,
+     1250
+    ],
+    [
+     5505,
+     2100
+    ],
+    [
+     5505,
+     3000
+    ],
+    [
+     3800,
+     3300
+    ],
+    [
+     1500,
+     3000
+    ],
+    [
+     300,
+     2400
+    ]
+   ]
+  }
+ },
+ "ISP": {
+  "light": "day",
+  "note": "Empty stand at gate A7, Long Island MacArthur, overcast: jet bridge and passenger stairs at the left, cones on the lead-in line; photographed through glass",
+  "angles": {
+   "NOSE": {
+    "src": "isp1",
+    "box": [
+     300,
+     1500,
+     2220,
+     2580
+    ]
+   },
+   "ENG-L": {
+    "src": "isp1",
+    "box": [
+     1500,
+     1450,
+     3100,
+     2350
+    ]
+   },
+   "ENG-R": {
+    "src": "isp1",
+    "box": [
+     1300,
+     1850,
+     2900,
+     2750
+    ]
+   },
+   "CARGO": {
+    "src": "isp1",
+    "box": [
+     2000,
+     1700,
+     3920,
+     2780
+    ]
+   },
+   "AFT": {
+    "src": "isp1",
+    "box": [
+     2432,
+     1450,
+     4032,
+     2350
+    ]
+   },
+   "WIDE": {
+    "src": "isp1",
+    "box": [
+     0,
+     540,
+     4032,
+     2808
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1500
+    ],
+    [
+     4032,
+     1520
+    ],
+    [
+     4032,
+     2560
+    ],
+    [
+     0,
+     2470
+    ]
+   ],
+   "erl": [
+    [
+     450,
+     1620
+    ],
+    [
+     2600,
+     1600
+    ],
+    [
+     4032,
+     1900
+    ],
+    [
+     4032,
+     2450
+    ],
+    [
+     2400,
+     2250
+    ],
+    [
+     450,
+     2150
+    ]
+   ]
+  }
+ },
+ "ABV": {
+  "light": "day",
+  "note": "Empty stand with three jet bridges, Abuja, hazy afternoon light with long shadows; photographed through glass",
+  "angles": {
+   "NOSE": {
+    "src": "abv1",
+    "box": [
+     300,
+     1900,
+     2700,
+     3250
+    ]
+   },
+   "ENG-L": {
+    "src": "abv1",
+    "box": [
+     0,
+     2000,
+     1920,
+     3080
+    ]
+   },
+   "ENG-R": {
+    "src": "abv1",
+    "box": [
+     700,
+     2568,
+     2620,
+     3648
+    ]
+   },
+   "CARGO": {
+    "src": "abv1",
+    "box": [
+     0,
+     1848,
+     3200,
+     3648
+    ]
+   },
+   "AFT": {
+    "src": "abv1",
+    "box": [
+     0,
+     1650,
+     1920,
+     2730
+    ]
+   },
+   "WIDE": {
+    "src": "abv1",
+    "box": [
+     0,
+     570,
+     5472,
+     3648
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1830
+    ],
+    [
+     1400,
+     1800
+    ],
+    [
+     5472,
+     2450
+    ],
+    [
+     5472,
+     3648
+    ],
+    [
+     0,
+     3648
+    ]
+   ],
+   "erl": [
+    [
+     0,
+     2000
+    ],
+    [
+     1300,
+     1950
+    ],
+    [
+     2000,
+     2700
+    ],
+    [
+     3200,
+     3200
+    ],
+    [
+     3200,
+     3648
+    ],
+    [
+     0,
+     3648
+    ]
+   ]
+  }
+ },
+ "DAY": {
+  "light": "day",
+  "note": "Empty stand in hazy sun: maintenance platform stairs, two cones and a chock left on the stand; low-contrast phone photo",
+  "angles": {
+   "NOSE": {
+    "src": "day1",
+    "box": [
+     2060,
+     1840,
+     3072,
+     2409
+    ]
+   },
+   "ENG-L": {
+    "src": "day1",
+    "box": [
+     0,
+     1700,
+     1280,
+     2420
+    ]
+   },
+   "ENG-R": {
+    "src": "day1",
+    "box": [
+     400,
+     1811,
+     1680,
+     2531
+    ]
+   },
+   "CARGO": {
+    "src": "day1",
+    "box": [
+     120,
+     1631,
+     1720,
+     2531
+    ]
+   },
+   "AFT": {
+    "src": "day1",
+    "box": [
+     0,
+     1740,
+     1024,
+     2316
+    ]
+   },
+   "WIDE": {
+    "src": "day1",
+    "box": [
+     0,
+     803,
+     3072,
+     2531
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1730
+    ],
+    [
+     3072,
+     1800
+    ],
+    [
+     3072,
+     2531
+    ],
+    [
+     0,
+     2531
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1800
+    ],
+    [
+     2900,
+     1850
+    ],
+    [
+     3072,
+     2350
+    ],
+    [
+     0,
+     2300
+    ]
+   ]
+  }
+ },
+ "PAL25": {
+  "light": "night",
+  "note": "Philippine Airlines A321 at a contact stand, Manila, at night under floodlights; fuel truck, belt loader, cones, ULD dollies in the foreground",
+  "angles": {
+   "NOSE": {
+    "src": "pal25a",
+    "box": [
+     3300,
+     900,
+     5220,
+     1980
+    ]
+   },
+   "ENG-L": {
+    "src": "pal25a",
+    "box": [
+     2000,
+     900,
+     3600,
+     1800
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "pal25a",
+    "box": [
+     1800,
+     800,
+     3720,
+     1880
+    ]
+   },
+   "CARGO": {
+    "src": "pal25a",
+    "box": [
+     2400,
+     950,
+     4320,
+     2030
+    ]
+   },
+   "AFT": {
+    "src": "pal25a",
+    "box": [
+     900,
+     600,
+     2820,
+     1680
+    ]
+   },
+   "WIDE": {
+    "src": "pal25a",
+    "box": [
+     900,
+     0,
+     5078,
+     2350
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     900,
+     1150
+    ],
+    [
+     5078,
+     1100
+    ],
+    [
+     5078,
+     2350
+    ],
+    [
+     900,
+     2350
+    ]
+   ],
+   "erl": [
+    [
+     1300,
+     1200
+    ],
+    [
+     4800,
+     1150
+    ],
+    [
+     5078,
+     1700
+    ],
+    [
+     4500,
+     1950
+    ],
+    [
+     1500,
+     1900
+    ]
+   ]
+  }
+ },
+ "PAL33": {
+  "light": "night",
+  "note": "Philippine Airlines A321neo at a contact stand, Manila, at night with hard floodlight shadows; tug with tow bar, crew van, ULDs and dollies",
+  "angles": {
+   "NOSE": {
+    "src": "pal33m",
+    "box": [
+     3300,
+     1500,
+     5700,
+     2850
+    ]
+   },
+   "ENG-L": {
+    "src": "pal33m",
+    "box": [
+     1600,
+     1350,
+     3520,
+     2430
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "pal33m",
+    "box": [
+     1300,
+     1200,
+     3700,
+     2550
+    ]
+   },
+   "CARGO": {
+    "src": "pal33m",
+    "box": [
+     1700,
+     1400,
+     4900,
+     3200
+    ]
+   },
+   "AFT": {
+    "src": "pal33m",
+    "box": [
+     0,
+     800,
+     3200,
+     2600
+    ]
+   },
+   "WIDE": {
+    "src": "pal33m",
+    "box": [
+     0,
+     607,
+     5754,
+     3844
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1350
+    ],
+    [
+     5754,
+     1300
+    ],
+    [
+     5754,
+     3750
+    ],
+    [
+     3700,
+     2980
+    ],
+    [
+     2700,
+     2750
+    ],
+    [
+     900,
+     2200
+    ],
+    [
+     0,
+     2200
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1400
+    ],
+    [
+     4600,
+     1350
+    ],
+    [
+     5000,
+     2000
+    ],
+    [
+     4700,
+     2500
+    ],
+    [
+     2600,
+     2400
+    ],
+    [
+     600,
+     1900
+    ]
+   ]
+  }
+ },
+ "PAL35": {
+  "light": "night",
+  "note": "Philippine Airlines A321neo at a contact stand, Manila, at night under floodlights; belt loader at the forward hold, ULDs, cones, ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "pal35m",
+    "box": [
+     3000,
+     1550,
+     5400,
+     2900
+    ]
+   },
+   "ENG-L": {
+    "src": "pal35m",
+    "box": [
+     1700,
+     1250,
+     3300,
+     2150
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "pal35m",
+    "box": [
+     1300,
+     1100,
+     3700,
+     2450
+    ]
+   },
+   "CARGO": {
+    "src": "pal35m",
+    "box": [
+     1500,
+     1341,
+     4700,
+     3141
+    ]
+   },
+   "AFT": {
+    "src": "pal35m",
+    "box": [
+     0,
+     700,
+     3200,
+     2500
+    ]
+   },
+   "WIDE": {
+    "src": "pal35m",
+    "box": [
+     0,
+     0,
+     5584,
+     3141
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1200
+    ],
+    [
+     5584,
+     1150
+    ],
+    [
+     5584,
+     3141
+    ],
+    [
+     1500,
+     3141
+    ],
+    [
+     0,
+     2800
+    ]
+   ],
+   "erl": [
+    [
+     500,
+     1300
+    ],
+    [
+     4500,
+     1250
+    ],
+    [
+     5300,
+     2000
+    ],
+    [
+     5300,
+     3000
+    ],
+    [
+     3000,
+     3000
+    ],
+    [
+     900,
+     2300
+    ]
+   ]
+  }
+ },
+ "TLF": {
+  "light": "day",
+  "note": "TransNusa A320 at a contact stand, Perth, overcast, seen from the front; belt loader at the forward hold, cones, ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "tlf1",
+    "box": [
+     1500,
+     2243,
+     3900,
+     3593
+    ]
+   },
+   "ENG-L": {
+    "src": "tlf1",
+    "box": [
+     500,
+     1900,
+     2420,
+     2980
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "tlf1",
+    "box": [
+     700,
+     1700,
+     3100,
+     3050
+    ]
+   },
+   "CARGO": {
+    "src": "tlf1",
+    "box": [
+     0,
+     1793,
+     3200,
+     3593
+    ]
+   },
+   "AFT": {
+    "src": "tlf1",
+    "box": [
+     1500,
+     300,
+     4700,
+     2100
+    ]
+   },
+   "WIDE": {
+    "src": "tlf1",
+    "box": [
+     0,
+     400,
+     5388,
+     3431
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1000
+    ],
+    [
+     5388,
+     1000
+    ],
+    [
+     5388,
+     3431
+    ],
+    [
+     0,
+     3431
+    ]
+   ],
+   "erl": [
+    [
+     400,
+     1150
+    ],
+    [
+     5000,
+     1150
+    ],
+    [
+     5388,
+     2000
+    ],
+    [
+     5388,
+     3431
+    ],
+    [
+     300,
+     3431
+    ]
+   ]
+  }
+ },
+ "RIX": {
+  "light": "day",
+  "note": "Empty stand at Riga, overcast, seen through glass (reflections at the lower right): painted red restraint lines, lead-in line, ramp agent walking, cones and chocks by the jet bridge; low-resolution photo",
+  "angles": {
+   "NOSE": {
+    "src": "rix1",
+    "box": [
+     576,
+     560,
+     1600,
+     1136
+    ]
+   },
+   "ENG-L": {
+    "src": "rix1",
+    "box": [
+     0,
+     600,
+     1024,
+     1176
+    ]
+   },
+   "ENG-R": {
+    "src": "rix1",
+    "box": [
+     300,
+     624,
+     1324,
+     1200
+    ]
+   },
+   "CARGO": {
+    "src": "rix1",
+    "box": [
+     0,
+     480,
+     1280,
+     1200
+    ]
+   },
+   "AFT": {
+    "src": "rix1",
+    "box": [
+     100,
+     500,
+     1124,
+     1076
+    ]
+   },
+   "WIDE": {
+    "src": "rix1",
+    "box": [
+     0,
+     300,
+     1600,
+     1200
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     680
+    ],
+    [
+     1600,
+     680
+    ],
+    [
+     1600,
+     1110
+    ],
+    [
+     0,
+     1110
+    ]
+   ],
+   "erl": [
+    [
+     380,
+     800
+    ],
+    [
+     215,
+     958
+    ],
+    [
+     1010,
+     965
+    ],
+    [
+     925,
+     838
+    ],
+    [
+     1180,
+     780
+    ],
+    [
+     1180,
+     690
+    ],
+    [
+     420,
+     690
+    ]
+   ]
+  }
+ },
+ "BWN": {
+  "light": "day",
+  "note": "Empty stand with two jet bridges at Brunei, sunny; service trucks parked by the terminal wall (outside the restraint area); low-resolution photo",
+  "angles": {
+   "NOSE": {
+    "src": "bwn1",
+    "box": [
+     100,
+     510,
+     1380,
+     1230
+    ]
+   },
+   "ENG-L": {
+    "src": "bwn1",
+    "box": [
+     0,
+     654,
+     1024,
+     1230
+    ]
+   },
+   "ENG-R": {
+    "src": "bwn1",
+    "box": [
+     300,
+     654,
+     1324,
+     1230
+    ]
+   },
+   "CARGO": {
+    "src": "bwn1",
+    "box": [
+     0,
+     600,
+     1120,
+     1230
+    ]
+   },
+   "AFT": {
+    "src": "bwn1",
+    "box": [
+     0,
+     620,
+     1024,
+     1196
+    ]
+   },
+   "WIDE": {
+    "src": "bwn1",
+    "box": [
+     0,
+     78,
+     2048,
+     1230
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     680
+    ],
+    [
+     1300,
+     650
+    ],
+    [
+     1300,
+     1230
+    ],
+    [
+     0,
+     1230
+    ]
+   ],
+   "erl": [
+    [
+     0,
+     720
+    ],
+    [
+     600,
+     700
+    ],
+    [
+     1100,
+     1000
+    ],
+    [
+     1000,
+     1230
+    ],
+    [
+     0,
+     1230
+    ]
+   ]
+  }
+ },
+ "VJP": {
+  "light": "day",
+  "note": "VietJet A321neo at a contact stand, Perth, low sun with long hard shadows; belt loaders, bag carts, tractor, cones",
+  "angles": {
+   "NOSE": {
+    "src": "vjp6",
+    "box": [
+     3000,
+     2300,
+     5400,
+     3650
+    ]
+   },
+   "ENG-L": {
+    "src": "vjp6",
+    "box": [
+     1600,
+     2100,
+     3520,
+     3180
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "vjp6",
+    "box": [
+     1300,
+     1900,
+     3700,
+     3250
+    ]
+   },
+   "CARGO": {
+    "src": "vjp6",
+    "box": [
+     1500,
+     2035,
+     4700,
+     3835
+    ]
+   },
+   "AFT": {
+    "src": "vjp6",
+    "box": [
+     0,
+     900,
+     3200,
+     2700
+    ]
+   },
+   "WIDE": {
+    "src": "vjp6",
+    "box": [
+     0,
+     300,
+     5749,
+     3534
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     750
+    ],
+    [
+     5749,
+     750
+    ],
+    [
+     5749,
+     3534
+    ],
+    [
+     0,
+     3534
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1000
+    ],
+    [
+     5300,
+     1000
+    ],
+    [
+     5749,
+     2000
+    ],
+    [
+     5749,
+     3534
+    ],
+    [
+     900,
+     3534
+    ],
+    [
+     300,
+     2600
+    ]
+   ]
+  }
+ },
+ "PWH": {
+  "light": "day",
+  "note": "Pelita Air A320 at a contact stand, Jakarta CGK, hazy; belt loader at the forward hold, bag carts, cones, ramp crew",
+  "angles": {
+   "NOSE": {
+    "src": "pwh1",
+    "box": [
+     3415,
+     1700,
+     5815,
+     3050
+    ]
+   },
+   "ENG-L": {
+    "src": "pwh1",
+    "box": [
+     1900,
+     1650,
+     3820,
+     2730
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "pwh1",
+    "box": [
+     1700,
+     1500,
+     4100,
+     2850
+    ]
+   },
+   "CARGO": {
+    "src": "pwh1",
+    "box": [
+     1700,
+     1470,
+     4900,
+     3270
+    ]
+   },
+   "AFT": {
+    "src": "pwh1",
+    "box": [
+     0,
+     900,
+     3200,
+     2700
+    ]
+   },
+   "WIDE": {
+    "src": "pwh1",
+    "box": [
+     0,
+     0,
+     5815,
+     3270
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1150
+    ],
+    [
+     5815,
+     1100
+    ],
+    [
+     5815,
+     3270
+    ],
+    [
+     0,
+     3270
+    ]
+   ],
+   "erl": [
+    [
+     400,
+     1300
+    ],
+    [
+     4600,
+     1250
+    ],
+    [
+     5400,
+     1900
+    ],
+    [
+     5400,
+     2700
+    ],
+    [
+     2850,
+     2830
+    ],
+    [
+     1650,
+     2380
+    ],
+    [
+     400,
+     2000
+    ]
+   ]
+  }
+ },
+ "GMM": {
+  "light": "day",
+  "note": "Garuda 737-800 at a contact stand, Jakarta CGK, overcast with a damp apron; catering hi-loader at the forward door, fuel truck, many bag carts",
+  "angles": {
+   "NOSE": {
+    "src": "gmm1",
+    "box": [
+     3596,
+     1500,
+     5996,
+     2850
+    ]
+   },
+   "ENG-L": {
+    "src": "gmm1",
+    "box": [
+     1700,
+     1250,
+     3620,
+     2330
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "gmm1",
+    "box": [
+     1500,
+     1100,
+     3900,
+     2450
+    ]
+   },
+   "CARGO": {
+    "src": "gmm1",
+    "box": [
+     300,
+     1200,
+     3500,
+     3000
+    ]
+   },
+   "AFT": {
+    "src": "gmm1",
+    "box": [
+     0,
+     600,
+     3200,
+     2400
+    ]
+   },
+   "WIDE": {
+    "src": "gmm1",
+    "box": [
+     0,
+     0,
+     5984,
+     3366
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     800
+    ],
+    [
+     5984,
+     800
+    ],
+    [
+     5984,
+     3366
+    ],
+    [
+     0,
+     3366
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     950
+    ],
+    [
+     5000,
+     900
+    ],
+    [
+     5600,
+     1900
+    ],
+    [
+     5600,
+     2500
+    ],
+    [
+     3500,
+     2620
+    ],
+    [
+     1900,
+     2130
+    ],
+    [
+     300,
+     2130
+    ]
+   ]
+  }
+ },
+ "SIA": {
+  "light": "day",
+  "note": "Singapore Airlines 737-8 at a contact stand, Denpasar, sunny; belt loaders, bag carts, tractors, pushback tugs parked in the foreground",
+  "angles": {
+   "NOSE": {
+    "src": "sia4",
+    "box": [
+     3002,
+     1500,
+     5402,
+     2850
+    ]
+   },
+   "ENG-L": {
+    "src": "sia4",
+    "box": [
+     1700,
+     1400,
+     3620,
+     2480
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "sia4",
+    "box": [
+     1500,
+     1250,
+     3900,
+     2600
+    ]
+   },
+   "CARGO": {
+    "src": "sia4",
+    "box": [
+     500,
+     1300,
+     3700,
+     3100
+    ]
+   },
+   "AFT": {
+    "src": "sia4",
+    "box": [
+     0,
+     700,
+     3200,
+     2500
+    ]
+   },
+   "WIDE": {
+    "src": "sia4",
+    "box": [
+     0,
+     285,
+     5402,
+     3324
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     950
+    ],
+    [
+     5402,
+     950
+    ],
+    [
+     5402,
+     3324
+    ],
+    [
+     0,
+     3324
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1100
+    ],
+    [
+     4500,
+     1100
+    ],
+    [
+     5200,
+     1900
+    ],
+    [
+     5200,
+     2450
+    ],
+    [
+     3800,
+     2500
+    ],
+    [
+     2000,
+     2550
+    ],
+    [
+     300,
+     2400
+    ]
+   ]
+  }
+ },
+ "AZV": {
+  "light": "day",
+  "note": "Indonesia AirAsia A320 at a contact stand, Perth, bright overcast; fuel truck, belt loader, carts of cardboard boxes, maintenance steps",
+  "angles": {
+   "NOSE": {
+    "src": "azv1",
+    "box": [
+     2986,
+     1700,
+     5386,
+     3050
+    ]
+   },
+   "ENG-L": {
+    "src": "azv1",
+    "box": [
+     2000,
+     1650,
+     3920,
+     2730
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "azv1",
+    "box": [
+     1700,
+     1500,
+     4100,
+     2850
+    ]
+   },
+   "CARGO": {
+    "src": "azv1",
+    "box": [
+     1400,
+     1800,
+     4600,
+     3600
+    ]
+   },
+   "AFT": {
+    "src": "azv1",
+    "box": [
+     0,
+     1000,
+     3200,
+     2800
+    ]
+   },
+   "WIDE": {
+    "src": "azv1",
+    "box": [
+     0,
+     400,
+     5786,
+     3655
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1150
+    ],
+    [
+     5786,
+     1150
+    ],
+    [
+     5786,
+     3655
+    ],
+    [
+     1150,
+     3655
+    ],
+    [
+     1100,
+     2950
+    ],
+    [
+     0,
+     2600
+    ]
+   ],
+   "erl": [
+    [
+     500,
+     1300
+    ],
+    [
+     5200,
+     1300
+    ],
+    [
+     5786,
+     2200
+    ],
+    [
+     5786,
+     3400
+    ],
+    [
+     1500,
+     3400
+    ],
+    [
+     500,
+     2400
+    ]
+   ]
+  }
+ },
+ "LUX": {
+  "light": "night",
+  "note": "Luxair 737-700 on a stand at Vienna at night under floodlights; belt loader at the aft hold, cones; tugs and stairs staged in the foreground",
+  "angles": {
+   "NOSE": {
+    "src": "lux1",
+    "box": [
+     2800,
+     1500,
+     4400,
+     2400
+    ]
+   },
+   "ENG-L": {
+    "src": "lux1",
+    "box": [
+     2200,
+     1550,
+     3640,
+     2360
+    ],
+    "mirror": true
+   },
+   "ENG-R": {
+    "src": "lux1",
+    "box": [
+     2100,
+     1500,
+     3700,
+     2400
+    ]
+   },
+   "CARGO": {
+    "src": "lux1",
+    "box": [
+     900,
+     1300,
+     3300,
+     2650
+    ]
+   },
+   "AFT": {
+    "src": "lux1",
+    "box": [
+     0,
+     1100,
+     2400,
+     2450
+    ]
+   },
+   "WIDE": {
+    "src": "lux1",
+    "box": [
+     0,
+     485,
+     4656,
+     3104
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     1650
+    ],
+    [
+     4656,
+     1600
+    ],
+    [
+     4656,
+     2750
+    ],
+    [
+     0,
+     2750
+    ]
+   ],
+   "erl": [
+    [
+     300,
+     1700
+    ],
+    [
+     4200,
+     1650
+    ],
+    [
+     4500,
+     2100
+    ],
+    [
+     3900,
+     2500
+    ],
+    [
+     600,
+     2500
+    ]
+   ]
+  }
+ },
+ "ABV12": {
+  "light": "day",
+  "note": "Empty stand with jet bridges at Abuja at dusk, dim and low-contrast, with interior reflections in the glass",
+  "angles": {
+   "NOSE": {
+    "src": "abv12",
+    "box": [
+     200,
+     2200,
+     2600,
+     3550
+    ]
+   },
+   "ENG-L": {
+    "src": "abv12",
+    "box": [
+     0,
+     2568,
+     1920,
+     3648
+    ]
+   },
+   "ENG-R": {
+    "src": "abv12",
+    "box": [
+     1500,
+     2568,
+     3420,
+     3648
+    ]
+   },
+   "CARGO": {
+    "src": "abv12",
+    "box": [
+     0,
+     1848,
+     3200,
+     3648
+    ]
+   },
+   "AFT": {
+    "src": "abv12",
+    "box": [
+     0,
+     2000,
+     1920,
+     3080
+    ]
+   },
+   "WIDE": {
+    "src": "abv12",
+    "box": [
+     0,
+     570,
+     5472,
+     3648
+    ]
+   }
+  },
+  "regions_src": {
+   "envelope": [
+    [
+     0,
+     2230
+    ],
+    [
+     3600,
+     2500
+    ],
+    [
+     5000,
+     2700
+    ],
+    [
+     5472,
+     3000
+    ],
+    [
+     5472,
+     3648
+    ],
+    [
+     0,
+     3648
+    ]
+   ],
+   "erl": [
+    [
+     0,
+     2450
+    ],
+    [
+     1200,
+     2500
+    ],
+    [
+     2600,
+     2950
+    ],
+    [
+     3200,
+     3200
+    ],
+    [
+     3000,
+     3648
+    ],
+    [
+     0,
+     3648
+    ]
+   ]
+  }
+ }
+}

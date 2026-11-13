@@ -1,0 +1,93 @@
+{
+ "scene_id": "pd-012",
+ "stand": "THA",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    2994,
+    1680,
+    5794,
+    3255
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    3994,
+    1950,
+    5794,
+    2962
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [1243, 984, 1261, 1008], long edge 24 px, contrast 15"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    2300,
+    1050,
+    4700,
+    2400
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "tha3",
+   "crop_box_source_px": [
+    900,
+    1400,
+    4100,
+    3200
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bag_tag (bag tag) at [2146, 1774, 2174, 1826], long edge 52 px, contrast 41"
+   ],
+   "objects": [
+    "bag_tag"
+   ]
+  },
+  "AFT": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    0,
+    300,
+    3200,
+    2100
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "tha1",
+   "crop_box_source_px": [
+    0,
+    1,
+    5765,
+    3244
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: metal_panel (metal panel) at [1654, 1444, 1677, 1486], long edge 42 px, contrast 64"
+   ],
+   "objects": [
+    "metal_panel"
+   ]
+  }
+ }
+}

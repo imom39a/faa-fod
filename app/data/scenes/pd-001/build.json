@@ -1,0 +1,81 @@
+{
+ "scene_id": "pd-001",
+ "stand": "GFV",
+ "scoring": true,
+ "control": "clutter",
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    3616,
+    2000,
+    6016,
+    3350
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    2200,
+    1900,
+    4120,
+    2980
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    1900,
+    1750,
+    4300,
+    3100
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    1200,
+    1750,
+    4400,
+    3550
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    0,
+    700,
+    3200,
+    2500
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "gfv1",
+   "crop_box_source_px": [
+    0,
+    632,
+    6016,
+    4016
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

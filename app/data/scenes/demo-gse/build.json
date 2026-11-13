@@ -1,0 +1,85 @@
+{
+ "scene_id": "demo-gse",
+ "stand": "ISP",
+ "scoring": false,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    0,
+    1650,
+    1600,
+    2550
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    700,
+    1450,
+    2300,
+    2350
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    700,
+    1950,
+    2300,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    2752,
+    1500,
+    4032,
+    2220
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    2752,
+    1630,
+    4032,
+    2350
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    0,
+    540,
+    4032,
+    2808
+   ],
+   "mirrored": false,
+   "edits": [
+    "GSE composited: tug at [2218, 1105, 2544, 1296]"
+   ],
+   "objects": [
+    "tug"
+   ]
+  }
+ }
+}

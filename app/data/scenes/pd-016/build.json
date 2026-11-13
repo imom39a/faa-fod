@@ -1,0 +1,89 @@
+{
+ "scene_id": "pd-016",
+ "stand": "AZV",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    2986,
+    1700,
+    5386,
+    3050
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: nut (nut) at [759, 899, 771, 921], long edge 22 px, contrast 17"
+   ],
+   "objects": [
+    "nut"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    2000,
+    1650,
+    3920,
+    2730
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    1700,
+    1500,
+    4100,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: hose_clamp (hose clamp) at [1229, 1423, 1265, 1446], long edge 36 px, contrast 52"
+   ],
+   "objects": [
+    "hose_clamp"
+   ]
+  },
+  "CARGO": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    1400,
+    1800,
+    4600,
+    3600
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    0,
+    1000,
+    3200,
+    2800
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "azv1",
+   "crop_box_source_px": [
+    0,
+    400,
+    5786,
+    3655
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

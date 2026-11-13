@@ -1,0 +1,4 @@
+tests/fixtures/data/
+.venv/
+__pycache__/
+.pytest_cache/

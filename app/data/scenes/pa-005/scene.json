@@ -1,0 +1,175 @@
+{
+ "scene_id": "pa-005",
+ "kind": "pre_arrival",
+ "light": "day",
+ "description": "Clean pre-arrival at dusk through glass, dim and low-contrast: no-op compositing control (pavement patches pasted on pavement, nothing added).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "crop",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "crop",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "crop",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "At Nnamdi Azikiwe International Airport 12.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:At_Nnamdi_Azikiwe_International_Airport_12.jpg",
+    "author": "Kritzolina",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      1165
+     ],
+     [
+      2526,
+      1354
+     ],
+     [
+      3509,
+      1495
+     ],
+     [
+      3840,
+      1705
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ],
+    "erl": [
+     [
+      0,
+      1319
+     ],
+     [
+      842,
+      1354
+     ],
+     [
+      1825,
+      1670
+     ],
+     [
+      2246,
+      1846
+     ],
+     [
+      2105,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

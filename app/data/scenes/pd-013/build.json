@@ -1,0 +1,97 @@
+{
+ "scene_id": "pd-013",
+ "stand": "VJP",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    3000,
+    2300,
+    5400,
+    3650
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1600,
+    2100,
+    3520,
+    3180
+   ],
+   "mirrored": true,
+   "edits": [
+    "debris composited: metal_panel (metal panel) at [1762, 1039, 1789, 1085], long edge 46 px, contrast 42"
+   ],
+   "objects": [
+    "metal_panel"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1300,
+    1900,
+    3700,
+    3250
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: rock (pavement fragment) at [1610, 1428, 1632, 1441], long edge 22 px, contrast 32"
+   ],
+   "objects": [
+    "rock"
+   ]
+  },
+  "CARGO": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1500,
+    2035,
+    4700,
+    3835
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    0,
+    900,
+    3200,
+    2700
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: plastic_yellow (plastic scrap) at [951, 705, 970, 735], long edge 30 px, contrast 55"
+   ],
+   "objects": [
+    "plastic_yellow"
+   ]
+  },
+  "WIDE": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    0,
+    300,
+    5749,
+    3534
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: twig (leafy twig) at [912, 622, 958, 648], long edge 46 px, contrast 46"
+   ],
+   "objects": [
+    "twig"
+   ]
+  }
+ }
+}

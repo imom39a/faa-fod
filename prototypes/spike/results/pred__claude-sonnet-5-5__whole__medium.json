@@ -1,0 +1,1183 @@
+{
+ "model": "claude-sonnet-5-5",
+ "mode": "whole",
+ "effort": "medium",
+ "results": {
+  "brussels__fod1.jpg": {
+   "image": "brussels__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.3,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 248
+   },
+   "est_cost_usd": 0.01478,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1322,
+      "y1": 826,
+      "x2": 1346,
+      "y2": 838,
+      "category": "other_unknown",
+      "description": "Small light-colored elongated object on the apron surface, possibly a piece of paper, plastic or metal strip",
+      "location": "on apron ahead of the left wing, between the wing and the taxiway",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Gate scene at dawn with a narrowbody aircraft on the jet bridge and a fuel truck near the left engine. The apron is dark and partly frosty with limited detail. Only one small suspicious object was found, and the lighting makes small debris hard to distinguish. The truck, the person, the tyre beside the truck and the markings were not reported."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1322,
+     "y1": 826,
+     "x2": 1346,
+     "y2": 838,
+     "category": "other_unknown",
+     "description": "Small light-colored elongated object on the apron surface, possibly a piece of paper, plastic or metal strip",
+     "location": "on apron ahead of the left wing, between the wing and the taxiway",
+     "confidence": "low",
+     "box": [
+      1983,
+      1239,
+      2019,
+      1257
+     ]
+    }
+   ]
+  },
+  "brussels__clean.jpg": {
+   "image": "brussels__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 5.0,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 167
+   },
+   "est_cost_usd": 0.01397,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Dim, backlit gate scene with a narrowbody aircraft at a jet bridge and a fuel truck near the left engine. No loose objects on the apron could be clearly identified. The dark foreground is low contrast. The tyre by the fuel truck's left side (around x 400-450, y 1145-1195) looks like part of the service equipment or a wheel, so I did not report it. The orange cable near the nose gear is connected ground equipment, not FOD."
+   },
+   "findings": []
+  },
+  "pelita_pwf__clean.jpg": {
+   "image": "pelita_pwf__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 6.64,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 112
+   },
+   "est_cost_usd": 0.01342,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Apron at stand with narrowbody aircraft, jet bridge, pushback tug, baggage cart train, belt loader, cones and ground crew. No clearly identifiable loose debris on the ground; visible items are cones, equipment, markings, stains and puddles, which are not FOD."
+   },
+   "findings": []
+  },
+  "pelita_pwf__fod2.jpg": {
+   "image": "pelita_pwf__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 6.9,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 303
+   },
+   "est_cost_usd": 0.01533,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1555,
+      "y1": 775,
+      "x2": 1577,
+      "y2": 797,
+      "category": "can_or_bottle",
+      "description": "Small red object, possibly a can or cup, lying on the apron near the nose gear to the right of the belt loader",
+      "location": "right of the nose gear, below the aircraft nose",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 1884,
+      "y1": 926,
+      "x2": 1908,
+      "y2": 941,
+      "category": "paper_or_tag",
+      "description": "Small white rectangular item, possibly a bag tag or paper label, on the apron",
+      "location": "right of the nose gear, left of the jet bridge support",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Gate 69 apron with a tug, belt loader, baggage carts and ground crew. Cones are placed deliberately and are not FOD. Only two small suspicious items were found, both near the nose gear."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1555,
+     "y1": 775,
+     "x2": 1577,
+     "y2": 797,
+     "category": "can_or_bottle",
+     "description": "Small red object, possibly a can or cup, lying on the apron near the nose gear to the right of the belt loader",
+     "location": "right of the nose gear, below the aircraft nose",
+     "confidence": "medium",
+     "box": [
+      2332,
+      1162,
+      2366,
+      1196
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1884,
+     "y1": 926,
+     "x2": 1908,
+     "y2": 941,
+     "category": "paper_or_tag",
+     "description": "Small white rectangular item, possibly a bag tag or paper label, on the apron",
+     "location": "right of the nose gear, left of the jet bridge support",
+     "confidence": "low",
+     "box": [
+      2826,
+      1389,
+      2862,
+      1412
+     ]
+    }
+   ]
+  },
+  "pelita_pwf__fod1.jpg": {
+   "image": "pelita_pwf__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 7.93,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 255
+   },
+   "est_cost_usd": 0.01485,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 826,
+      "y1": 1052,
+      "x2": 854,
+      "y2": 1106,
+      "category": "other_unknown",
+      "description": "Thin orange and white upright object on the ground, probably a small marker or cone fragment. It might be a deliberately placed item, so it is only a low-confidence suspect.",
+      "location": "left of the tug, near the red stand boundary line",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Busy gate with an aircraft on stand, a jet bridge, a tug, a belt loader and baggage carts. Two safety cones are visible, one left of the nose and one near the nose gear, and both are deliberate so they are not reported. No clear loose FOD was seen on the apron. Stains, puddles and markings were ignored."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 826,
+     "y1": 1052,
+     "x2": 854,
+     "y2": 1106,
+     "category": "other_unknown",
+     "description": "Thin orange and white upright object on the ground, probably a small marker or cone fragment. It might be a deliberately placed item, so it is only a low-confidence suspect.",
+     "location": "left of the tug, near the red stand boundary line",
+     "confidence": "low",
+     "box": [
+      1239,
+      1578,
+      1281,
+      1659
+     ]
+    }
+   ]
+  },
+  "brussels__fod2.jpg": {
+   "image": "brussels__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 8.91,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 341
+   },
+   "est_cost_usd": 0.01571,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 384,
+      "y1": 961,
+      "x2": 418,
+      "y2": 987,
+      "category": "other_unknown",
+      "description": "Small reddish-orange elongated object lying on the apron, possibly a dropped tool, tag or piece of plastic or rubber",
+      "location": "left apron area, left of the fuel truck and below the wing",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1120,
+      "y1": 1328,
+      "x2": 1141,
+      "y2": 1340,
+      "category": "paper_or_tag",
+      "description": "Small light-coloured rectangular item on the apron, possibly a label, tag or scrap of paper",
+      "location": "ahead of the fuel truck, in the foreground apron near the nose gear",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Gate scene with a narrowbody aircraft at the jet bridge and a fuel truck under the left wing. The apron is dark and low-contrast. Two small suspicious items were found, both low confidence. The rest of the visible ground is equipment, markings or background."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 384,
+     "y1": 961,
+     "x2": 418,
+     "y2": 987,
+     "category": "other_unknown",
+     "description": "Small reddish-orange elongated object lying on the apron, possibly a dropped tool, tag or piece of plastic or rubber",
+     "location": "left apron area, left of the fuel truck and below the wing",
+     "confidence": "low",
+     "box": [
+      576,
+      1442,
+      627,
+      1480
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1120,
+     "y1": 1328,
+     "x2": 1141,
+     "y2": 1340,
+     "category": "paper_or_tag",
+     "description": "Small light-coloured rectangular item on the apron, possibly a label, tag or scrap of paper",
+     "location": "ahead of the fuel truck, in the foreground apron near the nose gear",
+     "confidence": "low",
+     "box": [
+      1680,
+      1992,
+      1712,
+      2010
+     ]
+    }
+   ]
+  },
+  "pelita_pwf__noop.jpg": {
+   "image": "pelita_pwf__noop.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.18,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 156
+   },
+   "est_cost_usd": 0.01386,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Gate G69 with a narrowbody aircraft, jet bridge, pushback tug, belt loader, baggage carts and ground crew. Orange cones at roughly (368,648) and (1900,873) are deliberately placed safety cones, so I did not report them. I could not identify any clear loose debris on the apron surface. Dark patches, stains and puddles are not FOD, and the red and yellow markings are painted lines."
+   },
+   "findings": []
+  },
+  "pelita_pwl__clean.jpg": {
+   "image": "pelita_pwl__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.59,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 163
+   },
+   "est_cost_usd": 0.01393,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Busy gate with a Pelita Air narrowbody on stand, a baggage conveyor, carts, ground crew and cones. The image is taken through glass with a pole and signs partly blocking the view. I found no clearly identifiable loose FOD on the apron. The wet patch near the nose gear looks like a spill or puddle, and the stains and markings are not FOD. The cones, tow bar, carts and conveyor are equipment, not debris."
+   },
+   "findings": []
+  },
+  "pelita_pwl__fod1.jpg": {
+   "image": "pelita_pwl__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.06,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 227
+   },
+   "est_cost_usd": 0.01457,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 716,
+      "y1": 855,
+      "x2": 754,
+      "y2": 880,
+      "category": "tool_or_hardware",
+      "description": "Small wrench-like metal tool lying on the apron surface, light-colored with an open-end head",
+      "location": "left of the engine, in front of the terminal wall, on the apron",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Pelita Air A320 at a gate with a jet bridge, baggage belt loader, carts and ground crew. Cones, chocks and markings were excluded. The wet patch near the nose gear looks like a spill or puddle, not FOD. One small wrench-shaped object was found on the left apron."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 716,
+     "y1": 855,
+     "x2": 754,
+     "y2": 880,
+     "category": "tool_or_hardware",
+     "description": "Small wrench-like metal tool lying on the apron surface, light-colored with an open-end head",
+     "location": "left of the engine, in front of the terminal wall, on the apron",
+     "confidence": "medium",
+     "box": [
+      1074,
+      1282,
+      1131,
+      1320
+     ]
+    }
+   ]
+  },
+  "pelita_pwl__noop.jpg": {
+   "image": "pelita_pwl__noop.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.08,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 149
+   },
+   "est_cost_usd": 0.01379,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Narrowbody (Pelita Air) at a gate with jet bridge, belt loader, baggage carts and ground crew. The ground near the nose gear, belt loader and carts shows only wet patches, stains, painted markings and deliberately placed cones. I found no clearly identifiable loose debris on the apron. The image is viewed through glass with a pole and reflections, which limits detection of very small objects."
+   },
+   "findings": []
+  },
+  "pelita_pwl__fod2.jpg": {
+   "image": "pelita_pwl__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.91,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 401
+   },
+   "est_cost_usd": 0.01631,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 2194,
+      "y1": 893,
+      "x2": 2216,
+      "y2": 907,
+      "category": "plastic_or_wrapping",
+      "description": "Small light-colored elongated object lying on the apron near the jet bridge, possibly a bottle, packaging or a small piece of litter",
+      "location": "right of the nose gear, below the jet bridge hose, near the cone",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1283,
+      "y1": 1318,
+      "x2": 1318,
+      "y2": 1338,
+      "category": "other_unknown",
+      "description": "Dark small debris or scrap on the apron beside the baggage cart",
+      "location": "bottom center, right of the baggage cart near the lower edge",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 588,
+      "y1": 592,
+      "x2": 608,
+      "y2": 606,
+      "category": "other_unknown",
+      "description": "Small dark spot that may be a loose object under the left wing",
+      "location": "under the left wing, left of the engine, on the apron",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Busy gate with ground crew and GSE. Most of the surface shows stains, markings and wet patches, which are not FOD. Only a few small low-confidence candidates were noted."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 2194,
+     "y1": 893,
+     "x2": 2216,
+     "y2": 907,
+     "category": "plastic_or_wrapping",
+     "description": "Small light-colored elongated object lying on the apron near the jet bridge, possibly a bottle, packaging or a small piece of litter",
+     "location": "right of the nose gear, below the jet bridge hose, near the cone",
+     "confidence": "low",
+     "box": [
+      3291,
+      1340,
+      3324,
+      1360
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1283,
+     "y1": 1318,
+     "x2": 1318,
+     "y2": 1338,
+     "category": "other_unknown",
+     "description": "Dark small debris or scrap on the apron beside the baggage cart",
+     "location": "bottom center, right of the baggage cart near the lower edge",
+     "confidence": "low",
+     "box": [
+      1924,
+      1977,
+      1977,
+      2007
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 588,
+     "y1": 592,
+     "x2": 608,
+     "y2": 606,
+     "category": "other_unknown",
+     "description": "Small dark spot that may be a loose object under the left wing",
+     "location": "under the left wing, left of the engine, on the apron",
+     "confidence": "low",
+     "box": [
+      882,
+      888,
+      912,
+      909
+     ]
+    }
+   ]
+  },
+  "spring__clean.jpg": {
+   "image": "spring__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.03,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 263
+   },
+   "est_cost_usd": 0.01493,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 2335,
+      "y1": 895,
+      "x2": 2415,
+      "y2": 920,
+      "category": "plastic_or_wrapping",
+      "description": "Whitish flat patch on the apron near the jet bridge, possibly a piece of plastic or wrapping, or a stain/reflection",
+      "location": "right of the nose gear, beneath the jet bridge",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Busy gate with an A320 on stand, baggage carts, a tug and ground crew. The ground is mostly clean with no obvious tools, bolts or rocks. The only suspicious item is a faint whitish patch near the jet bridge, and it may be a stain. Plastic and netting on the carts and in the foreground bins belong to the equipment and are not FOD."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 2335,
+     "y1": 895,
+     "x2": 2415,
+     "y2": 920,
+     "category": "plastic_or_wrapping",
+     "description": "Whitish flat patch on the apron near the jet bridge, possibly a piece of plastic or wrapping, or a stain/reflection",
+     "location": "right of the nose gear, beneath the jet bridge",
+     "confidence": "low",
+     "box": [
+      3502,
+      1342,
+      3622,
+      1380
+     ]
+    }
+   ]
+  },
+  "spring__fod1.jpg": {
+   "image": "spring__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.99,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 311
+   },
+   "est_cost_usd": 0.01541,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 378,
+      "y1": 947,
+      "x2": 422,
+      "y2": 987,
+      "category": "plastic_or_wrapping",
+      "description": "White octagonal flat object lying on the apron, possibly a sign, board or plastic sheet",
+      "location": "left of the baggage carts, mid-left apron",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 1586,
+      "y1": 1191,
+      "x2": 1618,
+      "y2": 1208,
+      "category": "can_or_bottle",
+      "description": "Small red and white cylindrical object, possibly a can, cup or cap on the ground",
+      "location": "right of the tug, in the open apron area in front of the gate",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Spring Airlines narrowbody at a gate with a jet bridge, baggage loading in progress. Cones, GSE, people and ground markings were excluded. Two isolated objects on open apron were flagged as possible FOD."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 378,
+     "y1": 947,
+     "x2": 422,
+     "y2": 987,
+     "category": "plastic_or_wrapping",
+     "description": "White octagonal flat object lying on the apron, possibly a sign, board or plastic sheet",
+     "location": "left of the baggage carts, mid-left apron",
+     "confidence": "medium",
+     "box": [
+      567,
+      1420,
+      633,
+      1480
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1586,
+     "y1": 1191,
+     "x2": 1618,
+     "y2": 1208,
+     "category": "can_or_bottle",
+     "description": "Small red and white cylindrical object, possibly a can, cup or cap on the ground",
+     "location": "right of the tug, in the open apron area in front of the gate",
+     "confidence": "medium",
+     "box": [
+      2379,
+      1786,
+      2427,
+      1812
+     ]
+    }
+   ]
+  },
+  "spring__fod2.jpg": {
+   "image": "spring__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.1,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 397
+   },
+   "est_cost_usd": 0.01627,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1297,
+      "y1": 1136,
+      "x2": 1315,
+      "y2": 1156,
+      "category": "can_or_bottle",
+      "description": "Small dark golden-brown cylindrical object on the apron, possibly a can or bottle cap",
+      "location": "right of the nose gear area, near the yellow stand marking cross",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 627,
+      "y1": 1060,
+      "x2": 643,
+      "y2": 1074,
+      "category": "other_unknown",
+      "description": "Small light round object on the ground near the nose gear, possibly a stone or bolt",
+      "location": "in front of nose gear, below the aircraft's nose",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1787,
+      "y1": 925,
+      "x2": 1810,
+      "y2": 941,
+      "category": "tool_or_hardware",
+      "description": "Small dark bluish metallic item on the ground near the nose gear yellow hose",
+      "location": "near the nose gear, left of yellow air hose",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Busy gate with GSE, baggage carts and ground crew. Most items are equipment, cones or markings. Only a few tiny suspicious objects were found, all low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1297,
+     "y1": 1136,
+     "x2": 1315,
+     "y2": 1156,
+     "category": "can_or_bottle",
+     "description": "Small dark golden-brown cylindrical object on the apron, possibly a can or bottle cap",
+     "location": "right of the nose gear area, near the yellow stand marking cross",
+     "confidence": "low",
+     "box": [
+      1946,
+      1704,
+      1972,
+      1734
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 627,
+     "y1": 1060,
+     "x2": 643,
+     "y2": 1074,
+     "category": "other_unknown",
+     "description": "Small light round object on the ground near the nose gear, possibly a stone or bolt",
+     "location": "in front of nose gear, below the aircraft's nose",
+     "confidence": "low",
+     "box": [
+      940,
+      1590,
+      964,
+      1611
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1787,
+     "y1": 925,
+     "x2": 1810,
+     "y2": 941,
+     "category": "tool_or_hardware",
+     "description": "Small dark bluish metallic item on the ground near the nose gear yellow hose",
+     "location": "near the nose gear, left of yellow air hose",
+     "confidence": "low",
+     "box": [
+      2680,
+      1388,
+      2715,
+      1412
+     ]
+    }
+   ]
+  },
+  "spring__noop.jpg": {
+   "image": "spring__noop.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.64,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 237
+   },
+   "est_cost_usd": 0.01467,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 2290,
+      "y1": 894,
+      "x2": 2410,
+      "y2": 930,
+      "category": "plastic_or_wrapping",
+      "description": "Whitish patch near the jet bridge that could be loose plastic or wrapping on the apron; it may also be a stain or reflection",
+      "location": "on the apron right of the nose gear, below the jet bridge",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Busy gate with an aircraft being loaded. Baggage carts, a tug, a belt loader, people, cones and a yellow hose are all normal equipment. No clear FOD found on the visible apron. The one low-confidence item is a whitish patch on the ground near the jet bridge."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 2290,
+     "y1": 894,
+     "x2": 2410,
+     "y2": 930,
+     "category": "plastic_or_wrapping",
+     "description": "Whitish patch near the jet bridge that could be loose plastic or wrapping on the apron; it may also be a stain or reflection",
+     "location": "on the apron right of the nose gear, below the jet bridge",
+     "confidence": "low",
+     "box": [
+      3435,
+      1341,
+      3615,
+      1395
+     ]
+    }
+   ]
+  },
+  "tansonnhat__fod1.jpg": {
+   "image": "tansonnhat__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.03,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 389
+   },
+   "est_cost_usd": 0.01619,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1119,
+      "y1": 1055,
+      "x2": 1148,
+      "y2": 1080,
+      "category": "other_unknown",
+      "description": "Small whitish/grey octagonal object lying on the apron, possibly a plastic or paper item or a marker; it looks like a rendered or overlaid artifact.",
+      "location": "centre-lower apron, inside the orange curved line",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1724,
+      "y1": 659,
+      "x2": 1742,
+      "y2": 673,
+      "category": "tool_or_hardware",
+      "description": "Small thin elongated light-coloured object on the pavement, possibly a tool or metal strip.",
+      "location": "right-centre apron, near the orange curved line",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Wide aerial view of an apron with a B747 at the gate, other aircraft in the distance, and a large open pavement area in the foreground. Most of the pavement is clean apart from the few small suspicious items listed. The blurry whitish blobs at the lower left (around 385,1248) and on the grass at the right (around 1940,1027) look like out-of-focus vehicles or artifacts and are not reported."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1119,
+     "y1": 1055,
+     "x2": 1148,
+     "y2": 1080,
+     "category": "other_unknown",
+     "description": "Small whitish/grey octagonal object lying on the apron, possibly a plastic or paper item or a marker; it looks like a rendered or overlaid artifact.",
+     "location": "centre-lower apron, inside the orange curved line",
+     "confidence": "low",
+     "box": [
+      1678,
+      1582,
+      1722,
+      1620
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1724,
+     "y1": 659,
+     "x2": 1742,
+     "y2": 673,
+     "category": "tool_or_hardware",
+     "description": "Small thin elongated light-coloured object on the pavement, possibly a tool or metal strip.",
+     "location": "right-centre apron, near the orange curved line",
+     "confidence": "low",
+     "box": [
+      2586,
+      988,
+      2613,
+      1010
+     ]
+    }
+   ]
+  },
+  "tansonnhat__clean.jpg": {
+   "image": "tansonnhat__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 5.29,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 209
+   },
+   "est_cost_usd": 0.01439,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Oblique, high-angle view of an apron with an EVA Air 747 at a jet bridge, other aircraft in the distance, and a person and a small vehicle on the taxi lines. Two blurry light patches on the ground are visible at roughly (350-425, 1235-1265) and (1905-1970, 1015-1040). They are too indistinct to identify and look like image blur, reflections or markings rather than debris. I saw no clear FOD, so nothing is reported. The dark shadow patches, tyre marks and joints are not FOD, and neither are the construction area at left or the grass."
+   },
+   "findings": []
+  },
+  "wingo__clean.jpg": {
+   "image": "wingo__clean.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.29,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 250
+   },
+   "est_cost_usd": 0.0148,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 404,
+      "y1": 1326,
+      "x2": 466,
+      "y2": 1346,
+      "category": "other_unknown",
+      "description": "Small dark elongated object on the apron near the foreground ground equipment, possibly a strap, hose piece or debris. Could also be part of the equipment or a shadow.",
+      "location": "left foreground, near the base of the belt loader",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Night scene with an aircraft at a gate with a jet bridge, baggage loading in progress, stairs, tugs and carts in the foreground. The apron surface is mostly dark and uniform. Cones are deliberately placed. Nothing clearly identifiable as FOD was seen, only one low-confidence candidate."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 404,
+     "y1": 1326,
+     "x2": 466,
+     "y2": 1346,
+     "category": "other_unknown",
+     "description": "Small dark elongated object on the apron near the foreground ground equipment, possibly a strap, hose piece or debris. Could also be part of the equipment or a shadow.",
+     "location": "left foreground, near the base of the belt loader",
+     "confidence": "low",
+     "box": [
+      606,
+      1989,
+      699,
+      2019
+     ]
+    }
+   ]
+  },
+  "tansonnhat__fod2.jpg": {
+   "image": "tansonnhat__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.97,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 457
+   },
+   "est_cost_usd": 0.01687,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1455,
+      "y1": 823,
+      "x2": 1478,
+      "y2": 846,
+      "category": "tool_or_hardware",
+      "description": "Small elongated object with red and metallic coloring, looks like a tool such as a screwdriver or pliers lying on the apron",
+      "location": "center-right of the apron, right of the shadowed area",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 592,
+      "y1": 1126,
+      "x2": 608,
+      "y2": 1138,
+      "category": "other_unknown",
+      "description": "Small red object lying on the apron surface, possibly a plastic or metal piece",
+      "location": "lower left of the apron, left of center",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 2018,
+      "y1": 1256,
+      "x2": 2032,
+      "y2": 1280,
+      "category": "other_unknown",
+      "description": "Small dark object with orange tip on the pavement, possibly a piece of rubber or a tool",
+      "location": "lower right near the taxi line, bottom right of center",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Wide oblique view of a large apron with an EVA Air 747 at a gate and other aircraft in the background. Most of the ground is clean concrete. Three small colored objects stand out on the foreground apron and are reported. Blurry whitish smudges at about (1940,1027) and (383,1247) look like image blur or vehicles and are not reported."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1455,
+     "y1": 823,
+     "x2": 1478,
+     "y2": 846,
+     "category": "tool_or_hardware",
+     "description": "Small elongated object with red and metallic coloring, looks like a tool such as a screwdriver or pliers lying on the apron",
+     "location": "center-right of the apron, right of the shadowed area",
+     "confidence": "medium",
+     "box": [
+      2182,
+      1234,
+      2217,
+      1269
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 592,
+     "y1": 1126,
+     "x2": 608,
+     "y2": 1138,
+     "category": "other_unknown",
+     "description": "Small red object lying on the apron surface, possibly a plastic or metal piece",
+     "location": "lower left of the apron, left of center",
+     "confidence": "medium",
+     "box": [
+      888,
+      1689,
+      912,
+      1707
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 2018,
+     "y1": 1256,
+     "x2": 2032,
+     "y2": 1280,
+     "category": "other_unknown",
+     "description": "Small dark object with orange tip on the pavement, possibly a piece of rubber or a tool",
+     "location": "lower right near the taxi line, bottom right of center",
+     "confidence": "medium",
+     "box": [
+      3027,
+      1884,
+      3048,
+      1920
+     ]
+    }
+   ]
+  },
+  "wingo__fod2.jpg": {
+   "image": "wingo__fod2.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.2,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 253
+   },
+   "est_cost_usd": 0.01483,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 982,
+      "y1": 1084,
+      "x2": 1019,
+      "y2": 1114,
+      "category": "other_unknown",
+      "description": "Small light grey octagonal/polygonal object lying flat on the apron, possibly a plastic or paper item or a lid; stands out against the dark pavement",
+      "location": "center-left apron, in front of the aircraft, between the cones and the ground equipment",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Night image of a Wingo 737 at the gate with a jet bridge, baggage loading equipment, stairs, tugs and carts. Cones are deliberately placed and are not reported. Only one pale object is visibly suspicious on the ground. The dark pavement hides small items, so detection is limited."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 982,
+     "y1": 1084,
+     "x2": 1019,
+     "y2": 1114,
+     "category": "other_unknown",
+     "description": "Small light grey octagonal/polygonal object lying flat on the apron, possibly a plastic or paper item or a lid; stands out against the dark pavement",
+     "location": "center-left apron, in front of the aircraft, between the cones and the ground equipment",
+     "confidence": "medium",
+     "box": [
+      1473,
+      1626,
+      1528,
+      1671
+     ]
+    }
+   ]
+  },
+  "wingo__fod1.jpg": {
+   "image": "wingo__fod1.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.27,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 312
+   },
+   "est_cost_usd": 0.01542,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 386,
+      "y1": 1056,
+      "x2": 416,
+      "y2": 1076,
+      "category": "other_unknown",
+      "description": "Small dark angular object lying on the apron, possibly a luggage part or plastic piece",
+      "location": "left foreground of apron, just above the orange cone near the aircraft shadow",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1460,
+      "y1": 1042,
+      "x2": 1476,
+      "y2": 1066,
+      "category": "plastic_or_wrapping",
+      "description": "Small blue thin item on the ground, possibly a scrap of plastic or wrapping",
+      "location": "center right of apron, ahead of the engine and left of the stairs",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Night scene with limited visibility on the dark apron. Traffic cones, ground support equipment, stairs and staff were excluded as non-FOD. Only two small suspicious items were noted, both low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 386,
+     "y1": 1056,
+     "x2": 416,
+     "y2": 1076,
+     "category": "other_unknown",
+     "description": "Small dark angular object lying on the apron, possibly a luggage part or plastic piece",
+     "location": "left foreground of apron, just above the orange cone near the aircraft shadow",
+     "confidence": "low",
+     "box": [
+      579,
+      1584,
+      624,
+      1614
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1460,
+     "y1": 1042,
+     "x2": 1476,
+     "y2": 1066,
+     "category": "plastic_or_wrapping",
+     "description": "Small blue thin item on the ground, possibly a scrap of plastic or wrapping",
+     "location": "center right of apron, ahead of the engine and left of the stairs",
+     "confidence": "low",
+     "box": [
+      2190,
+      1563,
+      2214,
+      1599
+     ]
+    }
+   ]
+  },
+  "wingo__noop.jpg": {
+   "image": "wingo__noop.jpg",
+   "model": "claude-sonnet-5-5",
+   "served_model": "claude-sonnet-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.31,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 138
+   },
+   "est_cost_usd": 0.01368,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Night scene of a Wingo 737 at a gate with a baggage loader, stairs, tugs, carts and ground crew. Cones are deliberately placed and are not FOD. The apron is dark and low-detail, and I could not clearly identify any loose debris on the ground. Small items near the loader and the crew at the rear of the engine are obscured by equipment and low light."
+   },
+   "findings": []
+  }
+ }
+}

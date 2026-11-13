@@ -1,0 +1,633 @@
+{
+ "summary": {
+  "images": 22,
+  "objects": 28,
+  "recall": 0.8928571428571429,
+  "tp": 25,
+  "seeded_images_any_hit": 12,
+  "seeded_images": 12,
+  "fa_per_image": 0.13636363636363635,
+  "fa_per_control_image": 0.2,
+  "control_images_clean": 8,
+  "control_images": 10,
+  "fa_non_low_conf": 0,
+  "median_iou": 0.802,
+  "iou_ge_0_5": 22,
+  "iou_ge_0_3": 24,
+  "median_centre_err_px": 1.4,
+  "centre_le_50px": 25,
+  "inside_pred_box": 23,
+  "grid4_hit": 24,
+  "n_loc": 25,
+  "median_latency_s": 5.33,
+  "max_latency_s": 8.42,
+  "total_cost": 1.35438,
+  "mean_in_tokens": 13941.0,
+  "mean_out_tokens": 290.1363636363636
+ },
+ "per_image": [
+  {
+   "image": "brussels__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.72,
+   "cost": 0.0586,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 142
+   }
+  },
+  {
+   "image": "pelita_pwf__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.69,
+   "cost": 0.05848,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 136
+   }
+  },
+  {
+   "image": "pelita_pwl__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.11,
+   "cost": 0.05808,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 116
+   }
+  },
+  {
+   "image": "spring__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      3437,
+      1340,
+      3592,
+      1393
+     ],
+     "desc": "white sheet/plastic-like material lying on apron under jet bridge",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 4.59,
+   "cost": 0.0618,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 302
+   }
+  },
+  {
+   "image": "tansonnhat__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      1150,
+      1408,
+      1180,
+      1424
+     ],
+     "desc": "Small dark object on apron surface (possibly a drain/manhole lid or debris)",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 4.01,
+   "cost": 0.06024,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 224
+   }
+  },
+  {
+   "image": "wingo__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 2,
+   "loc": [],
+   "latency_s": 4.2,
+   "cost": 0.06164,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 294
+   }
+  },
+  {
+   "image": "pelita_pwf__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 5.51,
+   "cost": 0.05778,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 101
+   }
+  },
+  {
+   "image": "pelita_pwl__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.28,
+   "cost": 0.05818,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 121
+   }
+  },
+  {
+   "image": "spring__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 4.52,
+   "cost": 0.05978,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 201
+   }
+  },
+  {
+   "image": "wingo__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 5.59,
+   "cost": 0.06292,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 358
+   }
+  },
+  {
+   "image": "pelita_pwf__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "bolt_long(22px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "hammer_a",
+     "iou": 0.666,
+     "centre_err_px": 9.2,
+     "pred_box_area_ratio": 0.72,
+     "grid4_hit": false,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.89,
+   "cost": 0.06444,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 434
+   }
+  },
+  {
+   "image": "pelita_pwf__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "soda_can",
+     "iou": 0.788,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.27,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "pliers_red",
+     "iou": 0.802,
+     "centre_err_px": 1.5,
+     "pred_box_area_ratio": 1.25,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.756,
+     "centre_err_px": 5.0,
+     "pred_box_area_ratio": 0.8,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.49,
+   "cost": 0.06368,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 396
+   }
+  },
+  {
+   "image": "pelita_pwl__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "wrench",
+     "iou": 0.814,
+     "centre_err_px": 1.5,
+     "pred_box_area_ratio": 1.16,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_yellow",
+     "iou": 0.164,
+     "centre_err_px": 14.5,
+     "pred_box_area_ratio": 0.16,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 4.26,
+   "cost": 0.06138,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 281
+   }
+  },
+  {
+   "image": "pelita_pwl__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "rock",
+     "iou": 0.75,
+     "centre_err_px": 1.4,
+     "pred_box_area_ratio": 1.33,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "luggage_tag",
+     "iou": 0.822,
+     "centre_err_px": 1.6,
+     "pred_box_area_ratio": 0.93,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "wire_b",
+     "iou": 0.452,
+     "centre_err_px": 10.7,
+     "pred_box_area_ratio": 0.51,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 8.42,
+   "cost": 0.06296,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 360
+   }
+  },
+  {
+   "image": "spring__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "soda_can",
+     "iou": 0.868,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.15,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_bag",
+     "iou": 0.965,
+     "centre_err_px": 1.0,
+     "pred_box_area_ratio": 1.0,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 4.55,
+   "cost": 0.06252,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 338
+   }
+  },
+  {
+   "image": "spring__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "bolt_long",
+     "iou": 0.753,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.33,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "pliers_blue",
+     "iou": 0.757,
+     "centre_err_px": 2.9,
+     "pred_box_area_ratio": 0.98,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "cutter_a",
+     "iou": 0.495,
+     "centre_err_px": 9.1,
+     "pred_box_area_ratio": 0.57,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.22,
+   "cost": 0.06674,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 549
+   }
+  },
+  {
+   "image": "brussels__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "plastic_grey(70px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "luggage_tag",
+     "iou": 0.938,
+     "centre_err_px": 0.0,
+     "pred_box_area_ratio": 1.07,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.77,
+   "cost": 0.06054,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 239
+   }
+  },
+  {
+   "image": "brussels__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "hammer_b",
+     "iou": 0.905,
+     "centre_err_px": 1.0,
+     "pred_box_area_ratio": 1.04,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.737,
+     "centre_err_px": 3.6,
+     "pred_box_area_ratio": 0.83,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.39,
+   "cost": 0.06164,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 294
+   }
+  },
+  {
+   "image": "tansonnhat__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [
+    {
+     "box": [
+      1150,
+      1410,
+      1182,
+      1424
+     ],
+     "desc": "Small dark object on pavement near light patch",
+     "conf": "low"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 0.831,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.2,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "wrench",
+     "iou": 0.818,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.22,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.33,
+   "cost": 0.0636,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 392
+   }
+  },
+  {
+   "image": "tansonnhat__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "soda_can",
+     "iou": 0.524,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.91,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "hammer_a",
+     "iou": 0.88,
+     "centre_err_px": 0.7,
+     "pred_box_area_ratio": 1.14,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_orange",
+     "iou": 0.584,
+     "centre_err_px": 5.0,
+     "pred_box_area_ratio": 0.95,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.66,
+   "cost": 0.06382,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 403
+   }
+  },
+  {
+   "image": "wingo__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "luggage_tag",
+     "iou": 1.0,
+     "centre_err_px": 0.0,
+     "pred_box_area_ratio": 1.0,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "pliers_a",
+     "iou": 0.822,
+     "centre_err_px": 1.8,
+     "pred_box_area_ratio": 0.91,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.37,
+   "cost": 0.06376,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 400
+   }
+  },
+  {
+   "image": "wingo__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "bolt_long(20px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 0.979,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.02,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 4.48,
+   "cost": 0.0618,
+   "usage": {
+    "input_tokens": 13941,
+    "output_tokens": 302
+   }
+  }
+ ]
+}

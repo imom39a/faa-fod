@@ -1,0 +1,239 @@
+{
+ "scene_id": "pd-018",
+ "kind": "pre_departure",
+ "light": "night",
+ "description": "Pre-departure at night, hard floodlight shadows (hard reference drift): bolt in the right engine zone, pliers by the nose gear, plastic sheet behind the wing, flattened cup outside the envelope (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      235,
+      1031,
+      263,
+      1089
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "pliers"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1172,
+      1236,
+      1196,
+      1258
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "bolt"
+    }
+   ],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": "after/AFT.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1180,
+      1294,
+      1220,
+      1346
+     ],
+     "finding_type": "fod",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "plastic sheet"
+    }
+   ],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9933 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9933_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      496
+     ],
+     [
+      3840,
+      462
+     ],
+     [
+      3840,
+      2097
+     ],
+     [
+      2469,
+      1583
+     ],
+     [
+      1802,
+      1430
+     ],
+     [
+      601,
+      1063
+     ],
+     [
+      0,
+      1063
+     ]
+    ],
+    "erl": [
+     [
+      200,
+      529
+     ],
+     [
+      3070,
+      496
+     ],
+     [
+      3337,
+      930
+     ],
+     [
+      3137,
+      1263
+     ],
+     [
+      1735,
+      1196
+     ],
+     [
+      400,
+      863
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      3182,
+      1982,
+      3224,
+      2012
+     ],
+     "finding_type": "fod",
+     "category": "catering_flightline",
+     "object_class": "light",
+     "zone_tier": "outside_boundary",
+     "expected_severity": "ADVISORY",
+     "label": "flattened paper cup"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

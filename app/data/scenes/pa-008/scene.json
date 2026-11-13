@@ -1,0 +1,216 @@
+{
+ "scene_id": "pa-008",
+ "kind": "pre_arrival",
+ "light": "day",
+ "description": "Pre-arrival, overcast: box cutter on the lead-in line, bag tag on the stand, and a plastic scrap on the taxilane outside the gate safety envelope (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      249,
+      547,
+      261,
+      577
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "box cutter"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 1600,
+   "height": 900,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      584,
+      515,
+      616,
+      536
+     ],
+     "finding_type": "fod",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "bag tag"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "AirBaltic plane at Riga airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirBaltic_plane_at_Riga_airport.jpg",
+    "author": "Otto Magnus",
+    "licence": "CC BY-SA 3.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      475
+     ],
+     [
+      2000,
+      475
+     ],
+     [
+      2000,
+      1012
+     ],
+     [
+      0,
+      1012
+     ]
+    ],
+    "erl": [
+     [
+      475,
+      625
+     ],
+     [
+      269,
+      822
+     ],
+     [
+      1262,
+      831
+     ],
+     [
+      1156,
+      672
+     ],
+     [
+      1475,
+      600
+     ],
+     [
+      1475,
+      488
+     ],
+     [
+      525,
+      488
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      403,
+      417,
+      421,
+      445
+     ],
+     "finding_type": "fod",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "zone_tier": "outside_boundary",
+     "expected_severity": "ADVISORY",
+     "label": "plastic scrap"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

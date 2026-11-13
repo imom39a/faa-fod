@@ -1,0 +1,81 @@
+{
+ "scene_id": "pa-004",
+ "stand": "BWN",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    100,
+    510,
+    1380,
+    1230
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    0,
+    654,
+    1024,
+    1230
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    300,
+    654,
+    1324,
+    1230
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    0,
+    600,
+    1120,
+    1230
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    0,
+    620,
+    1024,
+    1196
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "bwn1",
+   "crop_box_source_px": [
+    0,
+    78,
+    2048,
+    1230
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

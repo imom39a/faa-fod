@@ -1,0 +1,89 @@
+{
+ "scene_id": "pa-006",
+ "stand": "ISP",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    300,
+    1500,
+    2220,
+    2580
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: hose (hose section) at [1312, 796, 1328, 878], long edge 82 px, contrast 57"
+   ],
+   "objects": [
+    "hose"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    1500,
+    1450,
+    3100,
+    2350
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: rock (pavement fragment) at [589, 782, 611, 795], long edge 22 px, contrast 61"
+   ],
+   "objects": [
+    "rock"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    1300,
+    1850,
+    2900,
+    2750
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    2000,
+    1700,
+    3920,
+    2780
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    2432,
+    1450,
+    4032,
+    2350
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "isp1",
+   "crop_box_source_px": [
+    0,
+    540,
+    4032,
+    2808
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

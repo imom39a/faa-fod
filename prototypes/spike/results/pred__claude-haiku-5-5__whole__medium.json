@@ -1,0 +1,1215 @@
+{
+ "model": "claude-haiku-5-5",
+ "mode": "whole",
+ "effort": "medium",
+ "results": {
+  "brussels__clean.jpg": {
+   "image": "brussels__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.79,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 124
+   },
+   "est_cost_usd": 0.00068,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Apron view with aircraft nose and wing, jet bridge, fuel/hydrant truck with a worker in hi-vis, distant airside buildings and runway. No obvious FOD visible on the apron surface in this frame; the ground near the nose gear and the wing area appear clear, with only normal ground support equipment and markings."
+   },
+   "findings": []
+  },
+  "pelita_pwf__clean.jpg": {
+   "image": "pelita_pwf__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.09,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 182
+   },
+   "est_cost_usd": 0.00071,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1010,
+      "y1": 830,
+      "x2": 1040,
+      "y2": 850,
+      "category": "other_unknown",
+      "description": "Small dark object on apron near belt loader area, possibly debris; low confidence",
+      "location": "below nose gear area, left of tow tractor, near belt loader",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Apron at gate with aircraft, tug, belt loader, carts, jet bridge and personnel. No clear FOD confidently identified; one small possible object flagged at low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1010,
+     "y1": 830,
+     "x2": 1040,
+     "y2": 850,
+     "category": "other_unknown",
+     "description": "Small dark object on apron near belt loader area, possibly debris; low confidence",
+     "location": "below nose gear area, left of tow tractor, near belt loader",
+     "confidence": "low",
+     "box": [
+      1515,
+      1245,
+      1560,
+      1275
+     ]
+    }
+   ]
+  },
+  "brussels__fod2.jpg": {
+   "image": "brussels__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.11,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 472
+   },
+   "est_cost_usd": 0.00085,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 384,
+      "y1": 961,
+      "x2": 414,
+      "y2": 986,
+      "category": "tool_or_hardware",
+      "description": "Small dark elongated object on the apron, possibly a tool or metal piece",
+      "location": "left of the wing root, on the apron ahead of the belt loader",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1121,
+      "y1": 1326,
+      "x2": 1141,
+      "y2": 1341,
+      "category": "paper_or_tag",
+      "description": "Small light-colored rectangular piece on the apron, possibly paper, tag or plastic debris",
+      "location": "on the apron below the aircraft nose, near the nose gear",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Apron is mostly clear around the aircraft and fuel/service truck. Two small suspicious objects were noted on the apron at low confidence; the distant background (terminal buildings, runway, chimneys) is not on the apron and was ignored."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 384,
+     "y1": 961,
+     "x2": 414,
+     "y2": 986,
+     "category": "tool_or_hardware",
+     "description": "Small dark elongated object on the apron, possibly a tool or metal piece",
+     "location": "left of the wing root, on the apron ahead of the belt loader",
+     "confidence": "low",
+     "box": [
+      576,
+      1442,
+      621,
+      1479
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1121,
+     "y1": 1326,
+     "x2": 1141,
+     "y2": 1341,
+     "category": "paper_or_tag",
+     "description": "Small light-colored rectangular piece on the apron, possibly paper, tag or plastic debris",
+     "location": "on the apron below the aircraft nose, near the nose gear",
+     "confidence": "low",
+     "box": [
+      1682,
+      1989,
+      1712,
+      2012
+     ]
+    }
+   ]
+  },
+  "brussels__fod1.jpg": {
+   "image": "brussels__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.88,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 500
+   },
+   "est_cost_usd": 0.00086,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1322,
+      "y1": 824,
+      "x2": 1342,
+      "y2": 840,
+      "category": "other_unknown",
+      "description": "Small dark speck lying on the apron/taxiway surface, possibly a piece of debris; too small to identify with certainty.",
+      "location": "on the apron ahead of the aircraft nose-left wing area, centre-right of frame, well forward of the wing tip",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Wide view of an aircraft parked at a gate with a jet bridge attached, a fuel truck and a ground worker near the left engine, and a wide taxiway/apron in the foreground. The apron looks mostly clear. The only suspicious item is a tiny dark speck on the paved surface, reported with low confidence. The white placard on the fuel truck and the cones and markings are not FOD."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1322,
+     "y1": 824,
+     "x2": 1342,
+     "y2": 840,
+     "category": "other_unknown",
+     "description": "Small dark speck lying on the apron/taxiway surface, possibly a piece of debris; too small to identify with certainty.",
+     "location": "on the apron ahead of the aircraft nose-left wing area, centre-right of frame, well forward of the wing tip",
+     "confidence": "low",
+     "box": [
+      1983,
+      1236,
+      2013,
+      1260
+     ]
+    }
+   ]
+  },
+  "pelita_pwf__fod1.jpg": {
+   "image": "pelita_pwf__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.9,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 310
+   },
+   "est_cost_usd": 0.00077,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 824,
+      "y1": 1050,
+      "x2": 852,
+      "y2": 1105,
+      "category": "other_unknown",
+      "description": "Small orange/red cone-like object lying on apron near the tug path; likely a small traffic cone fragment or marker, possibly loose.",
+      "location": "center-left apron, in front of the red stand line, left of the tug",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1880,
+      "y1": 1222,
+      "x2": 1900,
+      "y2": 1250,
+      "category": "other_unknown",
+      "description": "Small dark object near the walking worker's feet on the apron; unclear if debris.",
+      "location": "right side of apron, near the worker in green",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Apron at a gate with aircraft, pushback tug, GSE, carts, and personnel. Orange cones are deliberate and not reported. Most of the surface appears clear; only low-confidence small items noted."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 824,
+     "y1": 1050,
+     "x2": 852,
+     "y2": 1105,
+     "category": "other_unknown",
+     "description": "Small orange/red cone-like object lying on apron near the tug path; likely a small traffic cone fragment or marker, possibly loose.",
+     "location": "center-left apron, in front of the red stand line, left of the tug",
+     "confidence": "low",
+     "box": [
+      1236,
+      1575,
+      1278,
+      1658
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1880,
+     "y1": 1222,
+     "x2": 1900,
+     "y2": 1250,
+     "category": "other_unknown",
+     "description": "Small dark object near the walking worker's feet on the apron; unclear if debris.",
+     "location": "right side of apron, near the worker in green",
+     "confidence": "low",
+     "box": [
+      2820,
+      1833,
+      2850,
+      1875
+     ]
+    }
+   ]
+  },
+  "pelita_pwf__noop.jpg": {
+   "image": "pelita_pwf__noop.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.64,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 201
+   },
+   "est_cost_usd": 0.00072,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1855,
+      "y1": 1085,
+      "x2": 1875,
+      "y2": 1100,
+      "category": "other_unknown",
+      "description": "small dark object on apron near gate markings, possibly debris",
+      "location": "center-right ground, near stand 137 markings, left of jet bridge base",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Narrowbody aircraft at gate with pushback tug, jet bridge, GPU/loaders, baggage carts and ground crew. Apron appears mostly clear; one small uncertain dark spot noted near the stand markings, low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1855,
+     "y1": 1085,
+     "x2": 1875,
+     "y2": 1100,
+     "category": "other_unknown",
+     "description": "small dark object on apron near gate markings, possibly debris",
+     "location": "center-right ground, near stand 137 markings, left of jet bridge base",
+     "confidence": "low",
+     "box": [
+      2782,
+      1628,
+      2812,
+      1650
+     ]
+    }
+   ]
+  },
+  "pelita_pwf__fod2.jpg": {
+   "image": "pelita_pwf__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.71,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 519
+   },
+   "est_cost_usd": 0.00087,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1555,
+      "y1": 778,
+      "x2": 1577,
+      "y2": 797,
+      "category": "plastic_or_wrapping",
+      "description": "Small loose red object lying on the apron, possibly a piece of plastic or wrapping.",
+      "location": "on the apron between the nose landing gear and the jet bridge, right of the aircraft nose",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1884,
+      "y1": 924,
+      "x2": 1902,
+      "y2": 940,
+      "category": "paper_or_tag",
+      "description": "Small white flat object on the apron, possibly a paper scrap or bag tag.",
+      "location": "on the apron right of the nose gear, near the yellow stand markings",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Narrowbody aircraft parked at a gate with a jet bridge, tug, baggage carts and ground crew. Apron is mostly clear. Two small possible debris items were noted near the nose gear area; both are low confidence given their small size."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1555,
+     "y1": 778,
+     "x2": 1577,
+     "y2": 797,
+     "category": "plastic_or_wrapping",
+     "description": "Small loose red object lying on the apron, possibly a piece of plastic or wrapping.",
+     "location": "on the apron between the nose landing gear and the jet bridge, right of the aircraft nose",
+     "confidence": "low",
+     "box": [
+      2332,
+      1167,
+      2366,
+      1196
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1884,
+     "y1": 924,
+     "x2": 1902,
+     "y2": 940,
+     "category": "paper_or_tag",
+     "description": "Small white flat object on the apron, possibly a paper scrap or bag tag.",
+     "location": "on the apron right of the nose gear, near the yellow stand markings",
+     "confidence": "low",
+     "box": [
+      2826,
+      1386,
+      2853,
+      1410
+     ]
+    }
+   ]
+  },
+  "pelita_pwl__fod1.jpg": {
+   "image": "pelita_pwl__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.73,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 358
+   },
+   "est_cost_usd": 0.00079,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 716,
+      "y1": 855,
+      "x2": 752,
+      "y2": 878,
+      "category": "tool_or_hardware",
+      "description": "Small dark metal tool (possibly a wrench or pliers) lying on the apron surface",
+      "location": "on the apron left of the left engine intake, ahead of the nose-side ground area near the engine",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Apron at the gate is mostly clear. One small suspected tool is lying on the concrete near the left engine intake. The cones, chocks, ground crew, carts and GSE are normal equipment and were not reported."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 716,
+     "y1": 855,
+     "x2": 752,
+     "y2": 878,
+     "category": "tool_or_hardware",
+     "description": "Small dark metal tool (possibly a wrench or pliers) lying on the apron surface",
+     "location": "on the apron left of the left engine intake, ahead of the nose-side ground area near the engine",
+     "confidence": "medium",
+     "box": [
+      1074,
+      1282,
+      1128,
+      1317
+     ]
+    }
+   ]
+  },
+  "pelita_pwl__clean.jpg": {
+   "image": "pelita_pwl__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.31,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 428
+   },
+   "est_cost_usd": 0.00083,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Reviewed the full apron in the frame: the Pelita Air aircraft at the gate, its ground crew, the belt loader, baggage carts, safety cones and the tow bar near the nose gear. No loose debris clearly visible on the apron surface. Small dark items were not distinguishable enough to report with confidence."
+   },
+   "findings": []
+  },
+  "pelita_pwl__noop.jpg": {
+   "image": "pelita_pwl__noop.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.69,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 117
+   },
+   "est_cost_usd": 0.00067,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Reviewed the apron in the frame: aircraft (Pelita Air in stand, Citilink taxiing in background), jet bridge, GPU, baggage carts, ground crew, safety cones, and stand markings. No loose debris, tools, bags or fasteners clearly visible on the apron surface."
+   },
+   "findings": []
+  },
+  "pelita_pwl__fod2.jpg": {
+   "image": "pelita_pwl__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.61,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 456
+   },
+   "est_cost_usd": 0.00084,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 2183,
+      "y1": 1196,
+      "x2": 2207,
+      "y2": 1216,
+      "category": "other_unknown",
+      "description": "Small dark object lying on the apron near the jet bridge base; possibly a piece of debris, though it is too small to identify with confidence.",
+      "location": "right side of apron, near the base of the jet bridge and below it, right of the nose gear area",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Apron at the gate is mostly clear. Visible items are aircraft, jet bridge, ground support equipment, baggage carts, cones, a tow bar and ground crew. One small, uncertain dark object is flagged at low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 2183,
+     "y1": 1196,
+     "x2": 2207,
+     "y2": 1216,
+     "category": "other_unknown",
+     "description": "Small dark object lying on the apron near the jet bridge base; possibly a piece of debris, though it is too small to identify with confidence.",
+     "location": "right side of apron, near the base of the jet bridge and below it, right of the nose gear area",
+     "confidence": "low",
+     "box": [
+      3274,
+      1794,
+      3310,
+      1824
+     ]
+    }
+   ]
+  },
+  "spring__clean.jpg": {
+   "image": "spring__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.87,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 512
+   },
+   "est_cost_usd": 0.00087,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1818,
+      "y1": 1028,
+      "x2": 1922,
+      "y2": 1092,
+      "category": "tool_or_hardware",
+      "description": "Blue rectangular case or box lying on the apron near the nose gear; may be ground equipment, but could be a tool case left on the surface.",
+      "location": "on the apron, forward of the left main gear, near the yellow guide line and the nose-gear area",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Apron is mostly clear of loose debris. Visible items are aircraft, jet bridge, baggage carts, tugs, cones and workers, which are not FOD. The only possible concern is the blue case near the nose gear, reported at low confidence."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1818,
+     "y1": 1028,
+     "x2": 1922,
+     "y2": 1092,
+     "category": "tool_or_hardware",
+     "description": "Blue rectangular case or box lying on the apron near the nose gear; may be ground equipment, but could be a tool case left on the surface.",
+     "location": "on the apron, forward of the left main gear, near the yellow guide line and the nose-gear area",
+     "confidence": "low",
+     "box": [
+      2727,
+      1542,
+      2883,
+      1638
+     ]
+    }
+   ]
+  },
+  "spring__fod1.jpg": {
+   "image": "spring__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.95,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 555
+   },
+   "est_cost_usd": 0.00089,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 374,
+      "y1": 948,
+      "x2": 426,
+      "y2": 986,
+      "category": "plastic_or_wrapping",
+      "description": "Small white plastic piece or fragment lying on the apron, possibly packaging or debris.",
+      "location": "apron left of the aircraft nose gear, near the pushback tractor and baggage carts",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 1583,
+      "y1": 1189,
+      "x2": 1617,
+      "y2": 1211,
+      "category": "plastic_or_wrapping",
+      "description": "Small red cylindrical object on the pavement, possibly a cap or plastic debris.",
+      "location": "apron below the aircraft belly, right of the centre, near the yellow guideline",
+      "confidence": "medium"
+     }
+    ],
+    "scene_notes": "Apron at a gate with a Spring Airlines narrowbody parked at the jet bridge. Ground support equipment, baggage carts, cones and markings are normal and not reported. Two small suspicious objects on the apron were flagged; the rest of the surface appears clear at this resolution."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 374,
+     "y1": 948,
+     "x2": 426,
+     "y2": 986,
+     "category": "plastic_or_wrapping",
+     "description": "Small white plastic piece or fragment lying on the apron, possibly packaging or debris.",
+     "location": "apron left of the aircraft nose gear, near the pushback tractor and baggage carts",
+     "confidence": "medium",
+     "box": [
+      561,
+      1422,
+      639,
+      1479
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1583,
+     "y1": 1189,
+     "x2": 1617,
+     "y2": 1211,
+     "category": "plastic_or_wrapping",
+     "description": "Small red cylindrical object on the pavement, possibly a cap or plastic debris.",
+     "location": "apron below the aircraft belly, right of the centre, near the yellow guideline",
+     "confidence": "medium",
+     "box": [
+      2374,
+      1784,
+      2426,
+      1816
+     ]
+    }
+   ]
+  },
+  "spring__fod2.jpg": {
+   "image": "spring__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.54,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 474
+   },
+   "est_cost_usd": 0.00085,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1818,
+      "y1": 1040,
+      "x2": 1922,
+      "y2": 1092,
+      "category": "other_unknown",
+      "description": "Blue rectangular object lying on the apron near the nose gear, possibly a loose case or tool; may be ground equipment.",
+      "location": "right of centre, near the nose landing gear and the yellow hose",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Gate with a Spring Airlines narrowbody at the jet bridge. Ground equipment includes baggage carts, a tug, belt loader, GPU hose and cones, which are not FOD. The apron looks mostly clear; the only suspicious item is a small blue object near the nose gear."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1818,
+     "y1": 1040,
+     "x2": 1922,
+     "y2": 1092,
+     "category": "other_unknown",
+     "description": "Blue rectangular object lying on the apron near the nose gear, possibly a loose case or tool; may be ground equipment.",
+     "location": "right of centre, near the nose landing gear and the yellow hose",
+     "confidence": "low",
+     "box": [
+      2727,
+      1560,
+      2883,
+      1638
+     ]
+    }
+   ]
+  },
+  "spring__noop.jpg": {
+   "image": "spring__noop.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.8,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 456
+   },
+   "est_cost_usd": 0.00084,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1818,
+      "y1": 1028,
+      "x2": 1922,
+      "y2": 1092,
+      "category": "other_unknown",
+      "description": "Blue and white rectangular object lying on the apron near the nose gear, possibly a tool case or loose container. It may be ground support equipment, so it needs verification.",
+      "location": "on apron just left of the nose gear wheels, near the yellow ground line",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Gate is busy with baggage carts, a tug, a belt loader and ground crew, all of which are normal equipment. The apron looks mostly clear. The one possible debris item is the blue object near the nose gear."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1818,
+     "y1": 1028,
+     "x2": 1922,
+     "y2": 1092,
+     "category": "other_unknown",
+     "description": "Blue and white rectangular object lying on the apron near the nose gear, possibly a tool case or loose container. It may be ground support equipment, so it needs verification.",
+     "location": "on apron just left of the nose gear wheels, near the yellow ground line",
+     "confidence": "low",
+     "box": [
+      2727,
+      1542,
+      2883,
+      1638
+     ]
+    }
+   ]
+  },
+  "tansonnhat__clean.jpg": {
+   "image": "tansonnhat__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.62,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 500
+   },
+   "est_cost_usd": 0.00086,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 340,
+      "y1": 1226,
+      "x2": 428,
+      "y2": 1266,
+      "category": "other_unknown",
+      "description": "Small whitish object lying on the apron surface, possibly a piece of debris or packaging; shape unclear due to blur.",
+      "location": "lower-left apron area, left of the taxi centreline, near the foreground",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Wide view of an apron with an EVA Air 747 parked at a stand, a Vietnam Airlines jet and a Travel Service jet in the background, and jet bridges. Most of the apron looks clear. One small suspicious white object sits on the lower-left apron. A second small white object on the grass at the right is off the apron and was not reported. A person and a small GSE vehicle near the EVA aircraft are normal activity."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 340,
+     "y1": 1226,
+     "x2": 428,
+     "y2": 1266,
+     "category": "other_unknown",
+     "description": "Small whitish object lying on the apron surface, possibly a piece of debris or packaging; shape unclear due to blur.",
+     "location": "lower-left apron area, left of the taxi centreline, near the foreground",
+     "confidence": "low",
+     "box": [
+      510,
+      1839,
+      642,
+      1899
+     ]
+    }
+   ]
+  },
+  "wingo__clean.jpg": {
+   "image": "wingo__clean.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 1.86,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 101
+   },
+   "est_cost_usd": 0.00067,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Night view of a Wingo narrowbody at a gate with GSE (baggage carts, belt loader, stairs, tugs), cones and people. No obvious loose FOD visible on the apron surface in this frame; the small cones are deliberate and excluded."
+   },
+   "findings": []
+  },
+  "tansonnhat__fod1.jpg": {
+   "image": "tansonnhat__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 5.41,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 779
+   },
+   "est_cost_usd": 0.001,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1118,
+      "y1": 1055,
+      "x2": 1149,
+      "y2": 1080,
+      "category": "other_unknown",
+      "description": "Small whitish octagonal object lying on the apron surface, possibly a piece of debris or a marker cap.",
+      "location": "center-left of apron, in front of the EVA aircraft's nose gear area, on the orange-lined taxi area",
+      "confidence": "medium"
+     },
+     {
+      "image_index": 0,
+      "x1": 1717,
+      "y1": 657,
+      "x2": 1740,
+      "y2": 676,
+      "category": "tool_or_hardware",
+      "description": "Small dark elongated object that could be a tool, metal piece or wire fragment on the apron.",
+      "location": "right of centre on the apron, near the orange taxiway curve, below the EVA aircraft's tail line",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 340,
+      "y1": 1228,
+      "x2": 428,
+      "y2": 1266,
+      "category": "plastic_or_wrapping",
+      "description": "Whitish blob on the apron that could be a plastic bag, wrapping or a piece of debris, though it may be a ground object.",
+      "location": "lower-left of apron, left of the orange taxi lines",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Wide aerial view of an apron with an EVA Air 747 at the gate, a Vietnam Airlines jet and a Travel Service jet in the background. Most of the apron looks clear. Three small suspicious items were flagged; the two whitish objects are the most visible and the dark item is faint. A white object on the grass to the right was ignored because it is off the apron."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1118,
+     "y1": 1055,
+     "x2": 1149,
+     "y2": 1080,
+     "category": "other_unknown",
+     "description": "Small whitish octagonal object lying on the apron surface, possibly a piece of debris or a marker cap.",
+     "location": "center-left of apron, in front of the EVA aircraft's nose gear area, on the orange-lined taxi area",
+     "confidence": "medium",
+     "box": [
+      1677,
+      1582,
+      1724,
+      1620
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1717,
+     "y1": 657,
+     "x2": 1740,
+     "y2": 676,
+     "category": "tool_or_hardware",
+     "description": "Small dark elongated object that could be a tool, metal piece or wire fragment on the apron.",
+     "location": "right of centre on the apron, near the orange taxiway curve, below the EVA aircraft's tail line",
+     "confidence": "low",
+     "box": [
+      2576,
+      986,
+      2610,
+      1014
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 340,
+     "y1": 1228,
+     "x2": 428,
+     "y2": 1266,
+     "category": "plastic_or_wrapping",
+     "description": "Whitish blob on the apron that could be a plastic bag, wrapping or a piece of debris, though it may be a ground object.",
+     "location": "lower-left of apron, left of the orange taxi lines",
+     "confidence": "low",
+     "box": [
+      510,
+      1842,
+      642,
+      1899
+     ]
+    }
+   ]
+  },
+  "tansonnhat__fod2.jpg": {
+   "image": "tansonnhat__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 5.38,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 838
+   },
+   "est_cost_usd": 0.00103,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 591,
+      "y1": 1126,
+      "x2": 608,
+      "y2": 1139,
+      "category": "other_unknown",
+      "description": "Small red object lying on the apron surface, possibly a piece of debris or a small marker.",
+      "location": "lower-left of the aircraft stand, left of the centre taxi curve",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1457,
+      "y1": 822,
+      "x2": 1477,
+      "y2": 844,
+      "category": "other_unknown",
+      "description": "Small red and white object on the pavement, could be loose debris or a small marker.",
+      "location": "centre of the apron, right of the taxilane curve, below the EVA aircraft's nose line",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 1997,
+      "y1": 1256,
+      "x2": 2012,
+      "y2": 1278,
+      "category": "other_unknown",
+      "description": "Small dark object with red tint on the apron, possibly debris.",
+      "location": "lower right, near the taxiway edge line",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 340,
+      "y1": 1226,
+      "x2": 426,
+      "y2": 1266,
+      "category": "other_unknown",
+      "description": "Blurred whitish object on the pavement, unclear whether it is a container, bag or debris.",
+      "location": "lower left of the apron, below the white curved taxiway line",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Wide view of an apron with an EVA Air 747 at a gate, a Vietnam Airlines jet and a Travel Service 737 in the background. Most of the surface looks clear. Several small, low-confidence candidate objects are visible on the pavement, but none can be confirmed as FOD at this resolution."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 591,
+     "y1": 1126,
+     "x2": 608,
+     "y2": 1139,
+     "category": "other_unknown",
+     "description": "Small red object lying on the apron surface, possibly a piece of debris or a small marker.",
+     "location": "lower-left of the aircraft stand, left of the centre taxi curve",
+     "confidence": "low",
+     "box": [
+      886,
+      1689,
+      912,
+      1708
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1457,
+     "y1": 822,
+     "x2": 1477,
+     "y2": 844,
+     "category": "other_unknown",
+     "description": "Small red and white object on the pavement, could be loose debris or a small marker.",
+     "location": "centre of the apron, right of the taxilane curve, below the EVA aircraft's nose line",
+     "confidence": "low",
+     "box": [
+      2186,
+      1233,
+      2216,
+      1266
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 1997,
+     "y1": 1256,
+     "x2": 2012,
+     "y2": 1278,
+     "category": "other_unknown",
+     "description": "Small dark object with red tint on the apron, possibly debris.",
+     "location": "lower right, near the taxiway edge line",
+     "confidence": "low",
+     "box": [
+      2996,
+      1884,
+      3018,
+      1917
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 340,
+     "y1": 1226,
+     "x2": 426,
+     "y2": 1266,
+     "category": "other_unknown",
+     "description": "Blurred whitish object on the pavement, unclear whether it is a container, bag or debris.",
+     "location": "lower left of the apron, below the white curved taxiway line",
+     "confidence": "low",
+     "box": [
+      510,
+      1839,
+      639,
+      1899
+     ]
+    }
+   ]
+  },
+  "wingo__noop.jpg": {
+   "image": "wingo__noop.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 2.99,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 118
+   },
+   "est_cost_usd": 0.00067,
+   "raw": {
+    "findings": [],
+    "scene_notes": "Night view of a Wingo narrowbody at gate with ground support equipment (baggage carts, conveyor, stairs, cones, Menzies tugs) and personnel. No obvious loose FOD lying on the apron surface is visible at this resolution; cones and GSE are normal equipment and were not reported."
+   },
+   "findings": []
+  },
+  "wingo__fod1.jpg": {
+   "image": "wingo__fod1.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 4.59,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 494
+   },
+   "est_cost_usd": 0.00086,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 1458,
+      "y1": 1040,
+      "x2": 1472,
+      "y2": 1066,
+      "category": "other_unknown",
+      "description": "Small dark elongated object lying on the apron, possibly debris or a piece of material.",
+      "location": "on apron near centre-right, between the aircraft nose gear area and the stairs",
+      "confidence": "low"
+     },
+     {
+      "image_index": 0,
+      "x1": 386,
+      "y1": 1057,
+      "x2": 412,
+      "y2": 1078,
+      "category": "other_unknown",
+      "description": "Small dark object on the apron near the orange cone at left, possibly a fragment of debris.",
+      "location": "left side of apron, beside the orange traffic cone in front of the aircraft",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Night apron view of a Wingo narrowbody at a stand with jet bridge, GSE (Menzies baggage carts, conveyor, stairs, tugs) and cones. Two small dark possible debris items noted with low confidence; the rest of the apron appears clear."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 1458,
+     "y1": 1040,
+     "x2": 1472,
+     "y2": 1066,
+     "category": "other_unknown",
+     "description": "Small dark elongated object lying on the apron, possibly debris or a piece of material.",
+     "location": "on apron near centre-right, between the aircraft nose gear area and the stairs",
+     "confidence": "low",
+     "box": [
+      2187,
+      1560,
+      2208,
+      1599
+     ]
+    },
+    {
+     "image_index": 0,
+     "x1": 386,
+     "y1": 1057,
+     "x2": 412,
+     "y2": 1078,
+     "category": "other_unknown",
+     "description": "Small dark object on the apron near the orange cone at left, possibly a fragment of debris.",
+     "location": "left side of apron, beside the orange traffic cone in front of the aircraft",
+     "confidence": "low",
+     "box": [
+      579,
+      1586,
+      618,
+      1617
+     ]
+    }
+   ]
+  },
+  "wingo__fod2.jpg": {
+   "image": "wingo__fod2.jpg",
+   "model": "claude-haiku-5-5",
+   "served_model": "claude-haiku-5-5",
+   "mode": "whole",
+   "effort": "medium",
+   "stop_reason": "end_turn",
+   "latency_s": 3.62,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 241
+   },
+   "est_cost_usd": 0.00074,
+   "raw": {
+    "findings": [
+     {
+      "image_index": 0,
+      "x1": 982,
+      "y1": 1082,
+      "x2": 1020,
+      "y2": 1116,
+      "category": "rock_or_pavement_debris",
+      "description": "Small grey octagonal object lying on the apron surface, possibly a piece of debris or a small plate.",
+      "location": "center-left of apron, between aircraft nose-gear area and the foreground cones",
+      "confidence": "low"
+     }
+    ],
+    "scene_notes": "Night apron view of a Wingo narrowbody at a jet-bridge stand with ground support equipment (baggage carts, loader, stairs, tugs) and safety cones. One small grey object on the pavement in the mid-ground is the only suspicious item; the rest are equipment, cones, or markings."
+   },
+   "findings": [
+    {
+     "image_index": 0,
+     "x1": 982,
+     "y1": 1082,
+     "x2": 1020,
+     "y2": 1116,
+     "category": "rock_or_pavement_debris",
+     "description": "Small grey octagonal object lying on the apron surface, possibly a piece of debris or a small plate.",
+     "location": "center-left of apron, between aircraft nose-gear area and the foreground cones",
+     "confidence": "low",
+     "box": [
+      1473,
+      1623,
+      1530,
+      1674
+     ]
+    }
+   ]
+  }
+ }
+}

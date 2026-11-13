@@ -1,0 +1,597 @@
+{
+ "summary": {
+  "images": 22,
+  "objects": 28,
+  "recall": 0.8214285714285714,
+  "tp": 23,
+  "seeded_images_any_hit": 11,
+  "seeded_images": 12,
+  "fa_per_image": 0.045454545454545456,
+  "fa_per_control_image": 0.0,
+  "control_images_clean": 10,
+  "control_images": 10,
+  "fa_non_low_conf": 1,
+  "median_iou": 0.693,
+  "iou_ge_0_5": 16,
+  "iou_ge_0_3": 20,
+  "median_centre_err_px": 2.7,
+  "centre_le_50px": 22,
+  "inside_pred_box": 20,
+  "grid4_hit": 23,
+  "n_loc": 23,
+  "median_latency_s": 5.77,
+  "max_latency_s": 8.4,
+  "total_cost": 0.67794,
+  "mean_in_tokens": 6148.0,
+  "mean_out_tokens": 311.27272727272725
+ },
+ "per_image": [
+  {
+   "image": "brussels__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 5.76,
+   "cost": 0.03013,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 277
+   }
+  },
+  {
+   "image": "pelita_pwf__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.13,
+   "cost": 0.02653,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 97
+   }
+  },
+  {
+   "image": "pelita_pwl__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.99,
+   "cost": 0.02731,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 136
+   }
+  },
+  {
+   "image": "spring__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.18,
+   "cost": 0.02685,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 113
+   }
+  },
+  {
+   "image": "tansonnhat__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 7.24,
+   "cost": 0.03453,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 497
+   }
+  },
+  {
+   "image": "wingo__clean.jpg",
+   "kind": "clean",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 2.88,
+   "cost": 0.02673,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 107
+   }
+  },
+  {
+   "image": "pelita_pwf__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.54,
+   "cost": 0.02729,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 135
+   }
+  },
+  {
+   "image": "pelita_pwl__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.14,
+   "cost": 0.02701,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 121
+   }
+  },
+  {
+   "image": "spring__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 3.25,
+   "cost": 0.02675,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 108
+   }
+  },
+  {
+   "image": "wingo__noop.jpg",
+   "kind": "noop",
+   "n_gt": 0,
+   "tp": 0,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [],
+   "latency_s": 5.86,
+   "cost": 0.03255,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 398
+   }
+  },
+  {
+   "image": "pelita_pwf__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 0,
+   "missed": [
+    "hammer_a(80px)",
+    "bolt_long(22px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [],
+   "latency_s": 2.4,
+   "cost": 0.02683,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 112
+   }
+  },
+  {
+   "image": "pelita_pwf__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "pliers_red",
+     "iou": 0.763,
+     "centre_err_px": 1.5,
+     "pred_box_area_ratio": 1.08,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "soda_can",
+     "iou": 0.694,
+     "centre_err_px": 1.8,
+     "pred_box_area_ratio": 1.44,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.76,
+     "centre_err_px": 4.5,
+     "pred_box_area_ratio": 1.03,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.97,
+   "cost": 0.03221,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 381
+   }
+  },
+  {
+   "image": "pelita_pwl__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "wrench",
+     "iou": 0.755,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.32,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_yellow",
+     "iou": 0.0,
+     "centre_err_px": 86.3,
+     "pred_box_area_ratio": 0.42,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 4.88,
+   "cost": 0.03041,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 291
+   }
+  },
+  {
+   "image": "pelita_pwl__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "rock",
+     "iou": 0.317,
+     "centre_err_px": 4.7,
+     "pred_box_area_ratio": 3.15,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "wire_b",
+     "iou": 0.547,
+     "centre_err_px": 9.3,
+     "pred_box_area_ratio": 0.58,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "luggage_tag",
+     "iou": 0.464,
+     "centre_err_px": 14.0,
+     "pred_box_area_ratio": 1.17,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.4,
+   "cost": 0.03421,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 481
+   }
+  },
+  {
+   "image": "spring__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 0.893,
+     "centre_err_px": 0.5,
+     "pred_box_area_ratio": 1.12,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "soda_can",
+     "iou": 0.805,
+     "centre_err_px": 2.5,
+     "pred_box_area_ratio": 1.15,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.77,
+   "cost": 0.03353,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 447
+   }
+  },
+  {
+   "image": "spring__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 2,
+   "missed": [
+    "cutter_a(40px)"
+   ],
+   "false_alarms": [
+    {
+     "box": [
+      2397,
+      1701,
+      2430,
+      1728
+     ],
+     "desc": "Small cylindrical object lying on apron, possibly a can or bottle",
+     "conf": "medium"
+    }
+   ],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "pliers_blue",
+     "iou": 0.721,
+     "centre_err_px": 2.7,
+     "pred_box_area_ratio": 1.27,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bolt_long",
+     "iou": 0.305,
+     "centre_err_px": 4.5,
+     "pred_box_area_ratio": 3.28,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 7.18,
+   "cost": 0.03569,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 555
+   }
+  },
+  {
+   "image": "brussels__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "plastic_grey(70px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "luggage_tag",
+     "iou": 0.0,
+     "centre_err_px": 45.5,
+     "pred_box_area_ratio": 1.25,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 6.44,
+   "cost": 0.03199,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 370
+   }
+  },
+  {
+   "image": "brussels__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "hammer_b",
+     "iou": 0.951,
+     "centre_err_px": 0.7,
+     "pred_box_area_ratio": 1.05,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "bag_tag",
+     "iou": 0.693,
+     "centre_err_px": 3.8,
+     "pred_box_area_ratio": 0.73,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.69,
+   "cost": 0.03059,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 300
+   }
+  },
+  {
+   "image": "tansonnhat__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "wrench",
+     "iou": 0.576,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.74,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_bag",
+     "iou": 0.808,
+     "centre_err_px": 2.0,
+     "pred_box_area_ratio": 1.24,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 7.55,
+   "cost": 0.03585,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 563
+   }
+  },
+  {
+   "image": "tansonnhat__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 3,
+   "tp": 3,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "soda_can",
+     "iou": 0.393,
+     "centre_err_px": 0.0,
+     "pred_box_area_ratio": 2.55,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "hammer_a",
+     "iou": 0.756,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.32,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "plastic_orange",
+     "iou": 0.0,
+     "centre_err_px": 38.0,
+     "pred_box_area_ratio": 1.33,
+     "grid4_hit": true,
+     "inside_pred_box": false
+    }
+   ],
+   "latency_s": 8.4,
+   "cost": 0.03243,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 392
+   }
+  },
+  {
+   "image": "wingo__fod1.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 2,
+   "missed": [],
+   "false_alarms": [],
+   "pre_existing_found": 0,
+   "loc": [
+    {
+     "label": "luggage_tag",
+     "iou": 0.656,
+     "centre_err_px": 4.7,
+     "pred_box_area_ratio": 0.94,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    },
+    {
+     "label": "pliers_a",
+     "iou": 0.509,
+     "centre_err_px": 5.5,
+     "pred_box_area_ratio": 1.29,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 5.97,
+   "cost": 0.03369,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 455
+   }
+  },
+  {
+   "image": "wingo__fod2.jpg",
+   "kind": "seeded",
+   "n_gt": 2,
+   "tp": 1,
+   "missed": [
+    "bolt_long(20px)"
+   ],
+   "false_alarms": [],
+   "pre_existing_found": 1,
+   "loc": [
+    {
+     "label": "plastic_bag",
+     "iou": 0.872,
+     "centre_err_px": 1.1,
+     "pred_box_area_ratio": 1.15,
+     "grid4_hit": true,
+     "inside_pred_box": true
+    }
+   ],
+   "latency_s": 6.56,
+   "cost": 0.03483,
+   "usage": {
+    "input_tokens": 6148,
+    "output_tokens": 512
+   }
+  }
+ ]
+}

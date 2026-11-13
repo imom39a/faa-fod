@@ -1,0 +1,163 @@
+{
+ "scene_id": "pd-006",
+ "kind": "pre_departure",
+ "light": "night",
+ "description": "Clean pre-departure at night under floodlights: 737-700 with a belt loader at the aft hold, cones, and tugs and stairs staged in the foreground (normal clutter).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 1792,
+   "height": 1008,
+   "derived": "mirror",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Luxair Boeing 737-700 at Vienna Airport.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Luxair_Boeing_737-700_at_Vienna_Airport.jpg",
+    "author": "Simply Aviation",
+    "licence": "CC BY 2.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      961
+     ],
+     [
+      3840,
+      920
+     ],
+     [
+      3840,
+      1868
+     ],
+     [
+      0,
+      1868
+     ]
+    ],
+    "erl": [
+     [
+      247,
+      1002
+     ],
+     [
+      3464,
+      961
+     ],
+     [
+      3711,
+      1332
+     ],
+     [
+      3216,
+      1662
+     ],
+     [
+      495,
+      1662
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

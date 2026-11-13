@@ -1,0 +1,197 @@
+{
+ "scene_id": "pa-006",
+ "kind": "pre_arrival",
+ "light": "day",
+ "description": "Pre-arrival, overcast: hose section near the nose-gear stop and a stone in the left engine zone of the empty stand.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2400,
+   "height": 1350,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1312,
+      796,
+      1328,
+      878
+     ],
+     "finding_type": "fod",
+     "category": "aircraft_parts",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "hose section"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": "after/ENG-L.jpg",
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      589,
+      782,
+      611,
+      795
+     ],
+     "finding_type": "fod",
+     "category": "pavement_construction",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "pavement fragment"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      914
+     ],
+     [
+      3840,
+      933
+     ],
+     [
+      3840,
+      1924
+     ],
+     [
+      0,
+      1838
+     ]
+    ],
+    "erl": [
+     [
+      429,
+      1029
+     ],
+     [
+      2476,
+      1010
+     ],
+     [
+      3840,
+      1295
+     ],
+     [
+      3840,
+      1819
+     ],
+     [
+      2286,
+      1629
+     ],
+     [
+      429,
+      1533
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

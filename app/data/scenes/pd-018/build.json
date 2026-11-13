@@ -1,0 +1,97 @@
+{
+ "scene_id": "pd-018",
+ "stand": "PAL33",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "hard",
+ "angles": {
+  "NOSE": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    3300,
+    1500,
+    5700,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: pliers_red (pliers) at [235, 1031, 263, 1089], long edge 58 px, contrast 19"
+   ],
+   "objects": [
+    "pliers_red"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    1600,
+    1350,
+    3520,
+    2430
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    1300,
+    1200,
+    3700,
+    2550
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [1172, 1236, 1196, 1258], long edge 24 px, contrast 15"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "CARGO": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    1700,
+    1400,
+    4900,
+    3200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    0,
+    800,
+    3200,
+    2600
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: plastic_grey (plastic sheet) at [1180, 1294, 1220, 1346], long edge 52 px, contrast 37"
+   ],
+   "objects": [
+    "plastic_grey"
+   ]
+  },
+  "WIDE": {
+   "source_key": "pal33m",
+   "crop_box_source_px": [
+    0,
+    607,
+    5754,
+    3844
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: cup (flattened paper cup) at [3182, 1982, 3224, 2012], long edge 42 px, contrast 37"
+   ],
+   "objects": [
+    "cup"
+   ]
+  }
+ }
+}

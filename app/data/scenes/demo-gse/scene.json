@@ -1,0 +1,182 @@
+{
+ "scene_id": "demo-gse",
+ "kind": "pre_arrival",
+ "light": "day",
+ "description": "Demo: a baggage tractor left inside the equipment restraint line before arrival (REMOVE, FOD-R9); composited GSE, visible in WIDE.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 1600,
+   "height": 900,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 1600,
+   "height": 900,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Gate A7, Long Island MacArthur Airport, February 20, 2023 A.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Gate_A7,_Long_Island_MacArthur_Airport,_February_20,_2023_A.jpg",
+    "author": "AITFFan1",
+    "licence": "CC0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      914
+     ],
+     [
+      3840,
+      933
+     ],
+     [
+      3840,
+      1924
+     ],
+     [
+      0,
+      1838
+     ]
+    ],
+    "erl": [
+     [
+      429,
+      1029
+     ],
+     [
+      2476,
+      1010
+     ],
+     [
+      3840,
+      1295
+     ],
+     [
+      3840,
+      1819
+     ],
+     [
+      2286,
+      1629
+     ],
+     [
+      429,
+      1533
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      2218,
+      1105,
+      2544,
+      1296
+     ],
+     "finding_type": "equipment_staging",
+     "category": null,
+     "object_class": null,
+     "zone_tier": "general",
+     "expected_severity": "REMOVE",
+     "label": "baggage tractor"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

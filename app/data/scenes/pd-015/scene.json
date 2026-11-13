@@ -1,0 +1,231 @@
+{
+ "scene_id": "pd-015",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Pre-departure, sunny: bolt in the right engine zone, stone in the pushback path, dry vegetation near the bag carts, feather on the stand (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1484,
+      1428,
+      1504,
+      1440
+     ],
+     "finding_type": "fod",
+     "category": "pavement_construction",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "pavement fragment"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1858,
+      1403,
+      1882,
+      1415
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "bolt"
+    }
+   ],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1185,
+      1421,
+      1216,
+      1459
+     ],
+     "finding_type": "fod",
+     "category": "natural",
+     "object_class": "natural",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "dry vegetation"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Singapore Airlines Boeing 737 9V-MBO Denpasar 2023 (04).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Singapore_Airlines_Boeing_737_9V-MBO_Denpasar_2023_(04).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      473
+     ],
+     [
+      3840,
+      473
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ],
+    "erl": [
+     [
+      213,
+      579
+     ],
+     [
+      3199,
+      579
+     ],
+     [
+      3696,
+      1148
+     ],
+     [
+      3696,
+      1539
+     ],
+     [
+      2701,
+      1574
+     ],
+     [
+      1422,
+      1610
+     ],
+     [
+      213,
+      1503
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      1475,
+      1811,
+      1511,
+      1835
+     ],
+     "finding_type": "fod",
+     "category": "natural",
+     "object_class": "natural",
+     "zone_tier": "general",
+     "expected_severity": "ADVISORY",
+     "label": "feather"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

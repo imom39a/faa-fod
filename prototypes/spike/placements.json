@@ -1,0 +1,22 @@
+{
+ "noop": {
+  "pelita_pwf": [[1250,1700,2500,1900,80],[3300,1450,3200,1300,60]],
+  "pelita_pwl": [[1150,1350,2700,1900,70]],
+  "spring": [[2300,1850,3200,1750,80],[1600,950,1800,1000,50]],
+  "wingo": [[600,1650,1600,1650,60]]
+ },
+ "seeded": [
+  {"frame":"pelita_pwf","variant":1,"objects":[["hammer_a",1250,1620,80,20],["bolt_long",2650,1850,22,60]]},
+  {"frame":"pelita_pwf","variant":2,"objects":[["bag_tag",2850,1400,40,-15],["pliers_red",1050,780,30,0],["soda_can",2350,1180,30,35]]},
+  {"frame":"pelita_pwl","variant":1,"objects":[["wrench",1100,1300,50,-25],["plastic_yellow",2700,1950,40,10]]},
+  {"frame":"pelita_pwl","variant":2,"objects":[["rock",900,900,18,0],["luggage_tag",3300,1350,45,70],["wire_b",1950,2000,60,0]]},
+  {"frame":"spring","variant":1,"objects":[["soda_can",2400,1800,45,-10],["plastic_bag",600,1450,70,0]]},
+  {"frame":"spring","variant":2,"objects":[["cutter_a",3300,1720,40,30],["bolt_long",2000,1600,16,80],["pliers_blue",2700,1400,35,0]]},
+  {"frame":"brussels","variant":1,"objects":[["plastic_grey",1200,1950,70,5],["luggage_tag",2000,1250,30,80]]},
+  {"frame":"brussels","variant":2,"objects":[["hammer_b",600,1460,45,0],["bag_tag",1700,2000,35,20]]},
+  {"frame":"tansonnhat","variant":1,"objects":[["plastic_bag",1700,1600,40,0],["wrench",2600,1000,24,40]]},
+  {"frame":"tansonnhat","variant":2,"objects":[["soda_can",900,1700,22,0],["plastic_orange",3000,1900,30,0],["hammer_a",2200,1250,30,-30]]},
+  {"frame":"wingo","variant":1,"objects":[["luggage_tag",600,1600,40,60],["pliers_a",2200,1580,35,0]]},
+  {"frame":"wingo","variant":2,"objects":[["plastic_bag",1500,1650,55,15],["bolt_long",300,1450,20,30]]}
+ ]
+}

@@ -1,0 +1,85 @@
+{
+ "scene_id": "pd-014",
+ "stand": "PWH",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    3415,
+    1700,
+    5815,
+    3050
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    1900,
+    1650,
+    3820,
+    2730
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    1700,
+    1500,
+    4100,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: nut (nut) at [2295, 1472, 2317, 1496], long edge 24 px, contrast 24"
+   ],
+   "objects": [
+    "nut"
+   ]
+  },
+  "CARGO": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    1700,
+    1470,
+    4900,
+    3270
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    0,
+    900,
+    3200,
+    2700
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "pwh1",
+   "crop_box_source_px": [
+    0,
+    0,
+    5815,
+    3270
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

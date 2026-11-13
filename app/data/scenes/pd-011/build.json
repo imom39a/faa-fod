@@ -1,0 +1,93 @@
+{
+ "scene_id": "pd-011",
+ "stand": "BKV",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    2700,
+    1600,
+    5100,
+    2950
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: cutter (box cutter) at [724, 1575, 772, 1617], long edge 48 px, contrast 48"
+   ],
+   "objects": [
+    "cutter"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    1300,
+    1500,
+    3220,
+    2580
+   ],
+   "mirrored": true,
+   "edits": [
+    "debris composited: hose_clamp (hose clamp) at [757, 1105, 793, 1145], long edge 40 px, contrast 53"
+   ],
+   "objects": [
+    "hose_clamp"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    1000,
+    1400,
+    3400,
+    2750
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    1200,
+    1290,
+    4400,
+    3090
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    0,
+    700,
+    3200,
+    2500
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: rock (pavement fragment) at [1070, 1434, 1090, 1446], long edge 20 px, contrast 56"
+   ],
+   "objects": [
+    "rock"
+   ]
+  },
+  "WIDE": {
+   "source_key": "bkv1",
+   "crop_box_source_px": [
+    0,
+    0,
+    5493,
+    3090
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

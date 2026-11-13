@@ -1,0 +1,163 @@
+{
+ "scene_id": "pa-004",
+ "kind": "pre_arrival",
+ "light": "day",
+ "description": "Clean pre-arrival, sunny: empty stand with two jet bridges retracted and service trucks parked by the terminal wall, outside the restraint area.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 1600,
+   "height": 900,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 1392,
+   "height": 783,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 1280,
+   "height": 720,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 2560,
+   "height": 1440,
+   "derived": "crop",
+   "source": {
+    "title": "Brunei International Airport air bridges.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Brunei_International_Airport_air_bridges.jpg",
+    "author": "Novelty",
+    "licence": "Public domain"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      752
+     ],
+     [
+      1625,
+      715
+     ],
+     [
+      1625,
+      1440
+     ],
+     [
+      0,
+      1440
+     ]
+    ],
+    "erl": [
+     [
+      0,
+      802
+     ],
+     [
+      750,
+      778
+     ],
+     [
+      1375,
+      1152
+     ],
+     [
+      1250,
+      1440
+     ],
+     [
+      0,
+      1440
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

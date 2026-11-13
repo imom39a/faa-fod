@@ -1,0 +1,228 @@
+{
+ "scene_id": "pd-011",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Pre-departure, overcast: hose clamp in the left engine zone (mirrored Angle), box cutter by the nose gear, stone behind the wing.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      724,
+      1575,
+      772,
+      1617
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "box cutter"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": "after/ENG-L.jpg",
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      757,
+      1105,
+      793,
+      1145
+     ],
+     "finding_type": "fod",
+     "category": "aircraft_parts",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "hose clamp"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": "after/AFT.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1070,
+      1434,
+      1090,
+      1446
+     ],
+     "finding_type": "fod",
+     "category": "pavement_construction",
+     "object_class": "hard",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "pavement fragment"
+    }
+   ],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Batik Air Airbus A320 PK-BKV Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Batik_Air_Airbus_A320_PK-BKV_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      175,
+      804
+     ],
+     [
+      1398,
+      699
+     ],
+     [
+      3840,
+      699
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      419,
+      2160
+     ],
+     [
+      175,
+      1678
+     ]
+    ],
+    "erl": [
+     [
+      419,
+      874
+     ],
+     [
+      1608,
+      769
+     ],
+     [
+      3286,
+      804
+     ],
+     [
+      3705,
+      1328
+     ],
+     [
+      3705,
+      1817
+     ],
+     [
+      3006,
+      2160
+     ],
+     [
+      1258,
+      2160
+     ],
+     [
+      629,
+      1608
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

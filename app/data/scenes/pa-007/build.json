@@ -1,0 +1,93 @@
+{
+ "scene_id": "pa-007",
+ "stand": "ABV",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "hard",
+ "angles": {
+  "NOSE": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    300,
+    1900,
+    2700,
+    3250
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [442, 1335, 456, 1357], long edge 22 px, contrast 14"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    0,
+    2000,
+    1920,
+    3080
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: dry_debris (dry vegetation) at [706, 994, 735, 1030], long edge 36 px, contrast 25"
+   ],
+   "objects": [
+    "dry_debris"
+   ]
+  },
+  "ENG-R": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    700,
+    2568,
+    2620,
+    3648
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    0,
+    1848,
+    3200,
+    3648
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    0,
+    1650,
+    1920,
+    2730
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: hammer_black (hammer) at [564, 861, 636, 896], long edge 72 px, contrast 64"
+   ],
+   "objects": [
+    "hammer_black"
+   ]
+  },
+  "WIDE": {
+   "source_key": "abv1",
+   "crop_box_source_px": [
+    0,
+    570,
+    5472,
+    3648
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

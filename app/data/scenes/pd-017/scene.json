@@ -1,0 +1,243 @@
+{
+ "scene_id": "pd-017",
+ "kind": "pre_departure",
+ "light": "wet",
+ "description": "Pre-departure on a wet apron at night with floodlight reflections: nut in the right engine zone, hammer in the pushback path, plastic bottle by the belt loader, dry leaf on the stand (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      480,
+      1273,
+      519,
+      1345
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "hammer"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1677,
+      1297,
+      1690,
+      1321
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "nut"
+    }
+   ],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1056,
+      1308,
+      1104,
+      1333
+     ],
+     "finding_type": "fod",
+     "category": "catering_flightline",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "plastic bottle"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "AirAsia Airbus A321neo 9M-VAC Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AirAsia_Airbus_A321neo_9M-VAC_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      628
+     ],
+     [
+      1604,
+      453
+     ],
+     [
+      3840,
+      488
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      628,
+      2160
+     ],
+     [
+      0,
+      1744
+     ]
+    ],
+    "erl": [
+     [
+      209,
+      697
+     ],
+     [
+      1674,
+      523
+     ],
+     [
+      3488,
+      593
+     ],
+     [
+      3840,
+      1186
+     ],
+     [
+      3840,
+      1813
+     ],
+     [
+      2651,
+      2023
+     ],
+     [
+      1046,
+      1813
+     ],
+     [
+      209,
+      1395
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      1376,
+      1935,
+      1414,
+      1971
+     ],
+     "finding_type": "fod",
+     "category": "natural",
+     "object_class": "natural",
+     "zone_tier": "general",
+     "expected_severity": "ADVISORY",
+     "label": "dry leaf"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

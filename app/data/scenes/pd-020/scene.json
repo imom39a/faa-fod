@@ -1,0 +1,171 @@
+{
+ "scene_id": "pd-020",
+ "kind": "pre_departure",
+ "light": "night",
+ "description": "Pre-departure at night: the AFT Angle is missing (no frame from that camera), all other Angles clean; the Inspection cannot be ALL CLEAR.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2000,
+   "height": 1125,
+   "derived": "mirror",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": null,
+   "reference": "ref/AFT.jpg",
+   "after": "after/AFT.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": false,
+   "unusable_reason": "missing",
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Philippine Airlines Airbus A321neo RP-C9935 Manila 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Philippine_Airlines_Airbus_A321neo_RP-C9935_Manila_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      825
+     ],
+     [
+      3840,
+      791
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      1032,
+      2160
+     ],
+     [
+      0,
+      1926
+     ]
+    ],
+    "erl": [
+     [
+      344,
+      894
+     ],
+     [
+      3095,
+      860
+     ],
+     [
+      3645,
+      1375
+     ],
+     [
+      3645,
+      2063
+     ],
+     [
+      2063,
+      2063
+     ],
+     [
+      619,
+      1582
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

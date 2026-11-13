@@ -1,0 +1,97 @@
+{
+ "scene_id": "pd-017",
+ "stand": "VAC",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    2100,
+    1900,
+    4500,
+    3250
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: hammer (hammer) at [480, 1273, 519, 1345], long edge 72 px, contrast 30"
+   ],
+   "objects": [
+    "hammer"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    1200,
+    1650,
+    3120,
+    2730
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    900,
+    1500,
+    3300,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: nut (nut) at [1677, 1297, 1690, 1321], long edge 24 px, contrast 22"
+   ],
+   "objects": [
+    "nut"
+   ]
+  },
+  "CARGO": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    400,
+    1800,
+    3600,
+    3600
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bottle (plastic bottle) at [1056, 1308, 1104, 1333], long edge 48 px, contrast 16"
+   ],
+   "objects": [
+    "bottle"
+   ]
+  },
+  "AFT": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    0,
+    900,
+    3200,
+    2700
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "vac1",
+   "crop_box_source_px": [
+    0,
+    400,
+    5505,
+    3497
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: dry_leaf (dry leaf) at [1376, 1935, 1414, 1971], long edge 38 px, contrast 27"
+   ],
+   "objects": [
+    "dry_leaf"
+   ]
+  }
+ }
+}

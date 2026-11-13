@@ -1,0 +1,89 @@
+{
+ "scene_id": "demo-hold",
+ "stand": "VJP",
+ "scoring": false,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    3000,
+    2300,
+    5400,
+    3650
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1600,
+    2100,
+    3520,
+    3180
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1300,
+    1900,
+    3700,
+    3250
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: hammer (hammer) at [726, 1268, 770, 1350], long edge 82 px, contrast 28"
+   ],
+   "objects": [
+    "hammer"
+   ]
+  },
+  "CARGO": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    1500,
+    2035,
+    4700,
+    3835
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bag_tag (bag tag) at [1293, 1729, 1348, 1787], long edge 58 px, contrast 36"
+   ],
+   "objects": [
+    "bag_tag"
+   ]
+  },
+  "AFT": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    0,
+    900,
+    3200,
+    2700
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "vjp6",
+   "crop_box_source_px": [
+    0,
+    300,
+    5749,
+    3534
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

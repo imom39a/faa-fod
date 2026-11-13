@@ -1,0 +1,81 @@
+{
+ "scene_id": "pa-009",
+ "stand": "DAY",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    2060,
+    1840,
+    3072,
+    2409
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    0,
+    1700,
+    1280,
+    2420
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    400,
+    1811,
+    1680,
+    2531
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    120,
+    1631,
+    1720,
+    2531
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    0,
+    1740,
+    1024,
+    2316
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "day1",
+   "crop_box_source_px": [
+    0,
+    803,
+    3072,
+    2531
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

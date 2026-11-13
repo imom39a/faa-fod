@@ -1,0 +1,97 @@
+{
+ "scene_id": "pd-015",
+ "stand": "SIA",
+ "scoring": true,
+ "control": null,
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    3002,
+    1500,
+    5402,
+    2850
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: rock (pavement fragment) at [1484, 1428, 1504, 1440], long edge 20 px, contrast 55"
+   ],
+   "objects": [
+    "rock"
+   ]
+  },
+  "ENG-L": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    1700,
+    1400,
+    3620,
+    2480
+   ],
+   "mirrored": true,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    1500,
+    1250,
+    3900,
+    2600
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: bolt (bolt) at [1858, 1403, 1882, 1415], long edge 24 px, contrast 23"
+   ],
+   "objects": [
+    "bolt"
+   ]
+  },
+  "CARGO": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    500,
+    1300,
+    3700,
+    3100
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: dry_debris (dry vegetation) at [1185, 1421, 1216, 1459], long edge 38 px, contrast 29"
+   ],
+   "objects": [
+    "dry_debris"
+   ]
+  },
+  "AFT": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    0,
+    700,
+    3200,
+    2500
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "sia4",
+   "crop_box_source_px": [
+    0,
+    285,
+    5402,
+    3324
+   ],
+   "mirrored": false,
+   "edits": [
+    "debris composited: feather (feather) at [1475, 1811, 1511, 1835], long edge 36 px, contrast 49"
+   ],
+   "objects": [
+    "feather"
+   ]
+  }
+ }
+}

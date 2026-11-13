@@ -1,0 +1,81 @@
+{
+ "scene_id": "pa-003",
+ "stand": "RIX",
+ "scoring": true,
+ "control": "clutter",
+ "reference_mode": "mild",
+ "angles": {
+  "NOSE": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    576,
+    560,
+    1600,
+    1136
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-L": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    600,
+    1024,
+    1176
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "ENG-R": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    300,
+    624,
+    1324,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "CARGO": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    480,
+    1280,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "AFT": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    100,
+    500,
+    1124,
+    1076
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  },
+  "WIDE": {
+   "source_key": "rix1",
+   "crop_box_source_px": [
+    0,
+    300,
+    1600,
+    1200
+   ],
+   "mirrored": false,
+   "edits": [],
+   "objects": []
+  }
+ }
+}

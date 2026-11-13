@@ -1,0 +1,171 @@
+{
+ "scene_id": "pd-005",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Clean pre-departure, overcast, damp apron: 737-800 with a catering hi-loader, fuel truck, cones, a warning flag and many bag carts (heavy normal clutter).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GMM Jakarta 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GMM_Jakarta_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      513
+     ],
+     [
+      3840,
+      513
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ],
+    "erl": [
+     [
+      193,
+      610
+     ],
+     [
+      3209,
+      578
+     ],
+     [
+      3594,
+      1219
+     ],
+     [
+      3594,
+      1604
+     ],
+     [
+      2246,
+      1681
+     ],
+     [
+      1219,
+      1367
+     ],
+     [
+      193,
+      1367
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

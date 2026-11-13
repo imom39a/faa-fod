@@ -1,0 +1,261 @@
+{
+ "scene_id": "pd-010",
+ "kind": "pre_departure",
+ "light": "wet",
+ "description": "Pre-departure, wet apron after rain: bolt in the right engine zone, bag tag in the pushback path, flattened paper cup near the hold, plastic scrap outside the envelope (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1081,
+      1236,
+      1123,
+      1258
+     ],
+     "finding_type": "fod",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "bag tag"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1982,
+      1238,
+      2008,
+      1256
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "bolt"
+    }
+   ],
+   "observations_truth": [
+    {
+     "bbox": [
+      1975,
+      926,
+      2483,
+      1077
+     ],
+     "kind": "spill"
+    }
+   ]
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      2137,
+      1544,
+      2183,
+      1577
+     ],
+     "finding_type": "fod",
+     "category": "catering_flightline",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "flattened paper cup"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Citilink Airbus A320 PK-GLV Jakarta 2025 (02).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Citilink_Airbus_A320_PK-GLV_Jakarta_2025_(02).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      905
+     ],
+     [
+      830,
+      650
+     ],
+     [
+      1660,
+      541
+     ],
+     [
+      3191,
+      522
+     ],
+     [
+      3840,
+      618
+     ],
+     [
+      3840,
+      1780
+     ],
+     [
+      2183,
+      2016
+     ],
+     [
+      1468,
+      1550
+     ],
+     [
+      0,
+      1537
+     ]
+    ],
+    "erl": [
+     [
+      830,
+      682
+     ],
+     [
+      3128,
+      554
+     ],
+     [
+      3840,
+      873
+     ],
+     [
+      3840,
+      1735
+     ],
+     [
+      2202,
+      1958
+     ],
+     [
+      1532,
+      1511
+     ],
+     [
+      957,
+      1192
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      1649,
+      1877,
+      1671,
+      1911
+     ],
+     "finding_type": "fod",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "zone_tier": "outside_boundary",
+     "expected_severity": "ADVISORY",
+     "label": "plastic scrap"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

@@ -1,0 +1,24 @@
+{
+ "_doc": "Debris placements in 1600x900 output px (cx, cy, long edge). 'fod' = FOD-A object. 'real' = a mark already in the photo (nothing pasted), used for low-confidence Findings that are false alarms. Objects sharing an id form one Finding box (union).",
+ "composites": [
+  {"name": "pel_cargo_tag",    "set": "PEL", "angle": "CARGO", "objects": [{"id": "p-tag", "fod": "luggage_tag", "cx": 1000, "cy": 650, "long_px": 42, "rot": 70}]},
+  {"name": "pel_cargo_strap",  "set": "PEL", "angle": "CARGO", "objects": [{"id": "p-strap", "fod": "strap", "cx": 880, "cy": 560, "long_px": 46, "rot": 15}]},
+  {"name": "pel_eng-r_pliers", "set": "PEL", "angle": "ENG-R", "objects": [{"id": "p-pliers", "fod": "pliers_red", "cx": 420, "cy": 560, "long_px": 54, "rot": -30}]},
+  {"name": "pel_aft_plastic",  "set": "PEL", "angle": "AFT",   "objects": [{"id": "p-plastic", "fod": "plastic_grey", "cx": 1150, "cy": 690, "long_px": 34, "rot": 20}]},
+  {"name": "pel_eng-l_clean",  "set": "PEL", "angle": "ENG-L", "annotate_only": true, "real": [{"id": "p-patch", "box": [140, 522, 250, 552], "what": "white wash-water patch on the pavement"}]},
+
+  {"name": "tha_eng-l_bolt",   "set": "THA", "angle": "ENG-L", "objects": [{"id": "t-bolt", "fod": "bolt_long", "cx": 960, "cy": 560, "long_px": 38, "rot": 25}]},
+  {"name": "tha_cargo_strap",  "set": "THA", "angle": "CARGO", "objects": [{"id": "t-strap", "fod": "strap", "cx": 1050, "cy": 770, "long_px": 54, "rot": -10}]},
+  {"name": "tha_nose_cutter", "set": "THA", "angle": "NOSE",  "objects": [{"id": "t-cutter", "fod": "cutter_a", "cx": 900, "cy": 700, "long_px": 46, "rot": 25}]},
+  {"name": "tha_aft_rocks",    "set": "THA", "angle": "AFT", "base": ["THA2", "AFT"], "objects": [
+      {"id": "t-rock", "fod": "rock", "cx": 980, "cy": 840, "long_px": 16, "rot": 0},
+      {"id": "t-rock", "fod": "rock", "cx": 1012, "cy": 852, "long_px": 13, "rot": 90},
+      {"id": "t-rock", "fod": "rock", "cx": 1046, "cy": 838, "long_px": 15, "rot": 200}]},
+  {"name": "tha_cargo_glare",  "set": "THA", "angle": "CARGO", "kind": "glare", "glare": [420, 60], "note": "Synthetic low-sun veiling glare + flare ghosts over the real clean CARGO frame."},
+  {"name": "tha_wide_clean",   "set": "THA", "angle": "WIDE", "annotate_only": true, "real": [{"id": "t-reflection", "box": [400, 652, 472, 682], "what": "end of a wet-pavement reflection streak"}]},
+
+  {"name": "gar_eng-r_nut",    "set": "GAR", "angle": "ENG-R", "objects": [{"id": "g-nut", "fod": "nut", "cx": 420, "cy": 430, "long_px": 26, "rot": 0}]},
+  {"name": "gar_cargo_strap",  "set": "GAR", "angle": "CARGO", "objects": [{"id": "g-strap", "fod": "strap", "cx": 1150, "cy": 560, "long_px": 48, "rot": 30}]},
+  {"name": "gar_eng-r_clean",  "set": "GAR", "angle": "ENG-R", "annotate_only": true, "real": [{"id": "g-stain", "box": [1420, 655, 1525, 688], "what": "dark oil stain on the pavement"}]}
+ ]
+}

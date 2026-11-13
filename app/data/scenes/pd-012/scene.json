@@ -1,0 +1,212 @@
+{
+ "scene_id": "pd-012",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Pre-departure, overcast: small bolt on the pavement in the left engine intake zone, bag tag below the forward hold, metal panel on the stand (WIDE only).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 3488,
+   "height": 1962,
+   "derived": "crop",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (03).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(03).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": "after/ENG-L.jpg",
+   "width": 2240,
+   "height": 1260,
+   "derived": "crop",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (03).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(03).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1243,
+      984,
+      1261,
+      1008
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "bolt"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (03).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(03).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      2146,
+      1774,
+      2174,
+      1826
+     ],
+     "finding_type": "fod",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "bag tag"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": "after/WIDE.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Thai Airbus A320 HS-TXS Denpasar 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Thai_Airbus_A320_HS-TXS_Denpasar_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      985
+     ],
+     [
+      3840,
+      985
+     ],
+     [
+      3840,
+      1764
+     ],
+     [
+      1998,
+      1631
+     ],
+     [
+      0,
+      1764
+     ]
+    ],
+    "erl": [
+     [
+      200,
+      998
+     ],
+     [
+      3663,
+      998
+     ],
+     [
+      3663,
+      1331
+     ],
+     [
+      2931,
+      1365
+     ],
+     [
+      200,
+      1331
+     ]
+    ]
+   },
+   "ground_truth": [
+    {
+     "bbox": [
+      1654,
+      1444,
+      1677,
+      1486
+     ],
+     "finding_type": "fod",
+     "category": "aircraft_parts",
+     "object_class": "hard",
+     "zone_tier": "general",
+     "expected_severity": "REMOVE",
+     "label": "metal panel"
+    }
+   ],
+   "observations_truth": []
+  }
+ }
+}

@@ -1,0 +1,224 @@
+{
+ "scene_id": "pd-009",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Pre-departure, day: nut in the right engine intake zone, pliers left near the nose gear, plastic sheet by the bag carts.",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": "after/NOSE.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1578,
+      1405,
+      1608,
+      1463
+     ],
+     "finding_type": "fod",
+     "category": "tools",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "pliers"
+    }
+   ],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": "after/ENG-R.jpg",
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1800,
+      1172,
+      1817,
+      1196
+     ],
+     "finding_type": "fod",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "zone_tier": "critical",
+     "expected_severity": "HOLD",
+     "label": "nut"
+    }
+   ],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": "after/CARGO.jpg",
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [
+    {
+     "bbox": [
+      1179,
+      1805,
+      1222,
+      1868
+     ],
+     "finding_type": "fod",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "zone_tier": "service",
+     "expected_severity": "REMOVE",
+     "label": "plastic sheet"
+    }
+   ],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "Garuda Boeing 737 PK-GFI Jakarta 2023 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Garuda_Boeing_737_PK-GFI_Jakarta_2023_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      602
+     ],
+     [
+      3187,
+      602
+     ],
+     [
+      3840,
+      800
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      1700,
+      2160
+     ],
+     [
+      0,
+      1579
+     ]
+    ],
+    "erl": [
+     [
+      425,
+      659
+     ],
+     [
+      3045,
+      659
+     ],
+     [
+      3541,
+      1013
+     ],
+     [
+      3541,
+      1579
+     ],
+     [
+      3187,
+      1898
+     ],
+     [
+      850,
+      1721
+     ],
+     [
+      212,
+      1154
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

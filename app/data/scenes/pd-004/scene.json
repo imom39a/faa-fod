@@ -1,0 +1,163 @@
+{
+ "scene_id": "pd-004",
+ "kind": "pre_departure",
+ "light": "day",
+ "description": "Clean pre-departure, overcast: A320 seen from the front with a belt loader at the forward hold, cones, chocks and ramp crew (normal clutter).",
+ "angles": {
+  "NOSE": {
+   "image": "NOSE.jpg",
+   "reference": "ref/NOSE.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-L": {
+   "image": "ENG-L.jpg",
+   "reference": "ref/ENG-L.jpg",
+   "after": null,
+   "width": 2400,
+   "height": 1350,
+   "derived": "mirror",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "ENG-R": {
+   "image": "ENG-R.jpg",
+   "reference": "ref/ENG-R.jpg",
+   "after": null,
+   "width": 2992,
+   "height": 1683,
+   "derived": "crop",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "CARGO": {
+   "image": "CARGO.jpg",
+   "reference": "ref/CARGO.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "AFT": {
+   "image": "AFT.jpg",
+   "reference": "ref/AFT.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "crop",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": null,
+   "ground_truth": [],
+   "observations_truth": []
+  },
+  "WIDE": {
+   "image": "WIDE.jpg",
+   "reference": "ref/WIDE.jpg",
+   "after": null,
+   "width": 3840,
+   "height": 2160,
+   "derived": "native",
+   "source": {
+    "title": "TransNusa Airbus A320 PK-TLF Perth 2025 (01).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:TransNusa_Airbus_A320_PK-TLF_Perth_2025_(01).jpg",
+    "author": "Bahnfrend",
+    "licence": "CC BY-SA 4.0"
+   },
+   "usable": true,
+   "unusable_reason": null,
+   "regions": {
+    "envelope": [
+     [
+      0,
+      428
+     ],
+     [
+      3840,
+      428
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      0,
+      2160
+     ]
+    ],
+    "erl": [
+     [
+      285,
+      534
+     ],
+     [
+      3563,
+      534
+     ],
+     [
+      3840,
+      1140
+     ],
+     [
+      3840,
+      2160
+     ],
+     [
+      214,
+      2160
+     ]
+    ]
+   },
+   "ground_truth": [],
+   "observations_truth": []
+  }
+ }
+}

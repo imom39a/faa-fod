@@ -1,0 +1,9 @@
+{
+ "_note": "Post-hoc: loose objects already present in the source photos (not seeded), found by the models and confirmed by eye at full res. Findings centred inside these boxes are excluded from 'adjudicated' false alarms. Stains, drains, equipment are NOT listed (they stay false alarms).",
+ "pre_existing": {
+  "wingo": [[580, 1975, 705, 2035, "dark flat loose object (mat/bag?) on apron"], [1880, 1470, 1935, 1510, "small yellow object on ground near gear (chock?)"]],
+  "tansonnhat": [[500, 1830, 650, 1910, "blurred white object on apron"]],
+  "spring": [[330, 1370, 362, 1402, "small orange/red item beside light pole"]],
+  "pelita_pwl": [[640, 1435, 680, 1465, "small white scrap below manhole cover"]]
+ }
+}

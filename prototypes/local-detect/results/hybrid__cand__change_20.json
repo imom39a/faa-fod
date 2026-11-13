@@ -1,0 +1,3231 @@
+{
+ "source": "results/cand__change_20.json",
+ "vlm": false,
+ "net": true,
+ "results": {
+  "brussels__clean.jpg": {
+   "angle": "ENG-R",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      3798.0,
+      752.0,
+      3834.0,
+      770.0
+     ],
+     "area": 106,
+     "mean_diff": 20.094959259033203,
+     "peak": 22.858715057373047,
+     "score": 21.6,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Brightened window/wall section of a building in the background beyond the apron fence; same structure present in reference, change is lighting only.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3541.0,
+      713.0,
+      3563.0,
+      729.0
+     ],
+     "area": 40,
+     "mean_diff": 21.25726890563965,
+     "peak": 32.65903854370117,
+     "score": 20.6,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Facade section of a background building (window/wall area) in the distance; same structure in reference, no distinct object lying on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 6.28,
+     "cost": 0.0006051,
+     "in": 4936,
+     "out": 223,
+     "stop": "end_turn",
+     "n": 2
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 6.7,
+     "cost": 0.00069,
+     "kind": "net",
+     "n": 0
+    }
+   ],
+   "api_wall_s": 6.9,
+   "api_first_stage_s": 6.9,
+   "cost": 0.0012951,
+   "undecided": 0,
+   "local_s": 0.895
+  },
+  "pelita_pwf__clean.jpg": {
+   "angle": "NOSE",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      2032,
+      1500,
+      2070,
+      1530
+     ],
+     "score": 0,
+     "src": "net",
+     "cid": 1,
+     "origin": "net",
+     "net_desc": "Small dark object on apron near tug, possibly debris",
+     "net_conf": "low",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Inside the rectangle is the tow tractor's cab window showing a person seated in the driver's seat and interior features; the same view appears in the reference. No distinct physical object lying on the ground is present.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 6.09,
+     "cost": 0.00071,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.13,
+     "cost": 0.0005294000000000001,
+     "in": 4589,
+     "out": 141,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "net-verify"
+    }
+   ],
+   "api_wall_s": 8.5,
+   "api_first_stage_s": 6.34,
+   "cost": 0.0012394,
+   "undecided": 0,
+   "local_s": 0.897
+  },
+  "pelita_pwf__fod1.jpg": {
+   "angle": "NOSE",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      1234.0,
+      1575.0,
+      1286.0,
+      1671.0
+     ],
+     "area": 1568,
+     "mean_diff": 38.76289367675781,
+     "peak": 88.96994018554688,
+     "score": 415.3,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A hand tool with a red handle and metal head lying on the pavement inside the rectangle; the reference crop shows clean pavement.",
+      "is_fod": true,
+      "category": "tools",
+      "object_class": "hard",
+      "severity": "HOLD",
+      "rule": "FOD-R2",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2637.0,
+      1837.0,
+      2667.0,
+      1867.0
+     ],
+     "area": 149,
+     "mean_diff": 21.513986587524414,
+     "peak": 47.576168060302734,
+     "score": 42.9,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A small, compact dark and light object lying on the pavement near a seam in the NOSE zone. It is not present in the reference crop, which shows only bare pavement at that spot.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 2,
+       "what_is_visible": "A small dark compact object sitting on the pavement at the centre of the rectangle, not present in the reference crop; too small to identify with certainty.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R5",
+       "confidence": "low",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      1234.0,
+      1575.0,
+      1286.0,
+      1671.0
+     ],
+     "description": "A hand tool with a red handle and metal head lying on the pavement inside the rectangle; the reference crop shows clean pavement.",
+     "confidence": "high",
+     "severity": "HOLD",
+     "rule": "FOD-R2",
+     "category": "tools",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      2637.0,
+      1837.0,
+      2667.0,
+      1867.0
+     ],
+     "description": "A small, compact dark and light object lying on the pavement near a seam in the NOSE zone. It is not present in the reference crop, which shows only bare pavement at that spot.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 7.24,
+     "cost": 0.0008065,
+     "in": 4935,
+     "out": 626,
+     "stop": "end_turn",
+     "n": 2
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 5.57,
+     "cost": 0.00073,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 1.61,
+     "cost": 0.010588,
+     "in": 4589,
+     "out": 141,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 8.9,
+   "api_first_stage_s": 7.29,
+   "cost": 0.0121245,
+   "undecided": 0,
+   "local_s": 0.884
+  },
+  "brussels__fod2.jpg": {
+   "angle": "ENG-R",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      573.0,
+      1439.0,
+      629.0,
+      1486.0
+     ],
+     "area": 431,
+     "mean_diff": 40.82906723022461,
+     "peak": 77.41870880126953,
+     "score": 456.6,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small dark hook-shaped metal object (wrench- or bolt-like) lying on the pavement, present in the current crop and absent from the reference.",
+      "is_fod": true,
+      "category": "tools",
+      "object_class": "hard",
+      "severity": "HOLD",
+      "rule": "FOD-R1",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      1677.0,
+      1986.0,
+      1717.0,
+      2016.0
+     ],
+     "area": 306,
+     "mean_diff": 39.35248947143555,
+     "peak": 67.58893585205078,
+     "score": 373.5,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A small gray rectangular object with a barcode-like striped pattern (looks like a bag tag or label) lying on the dark pavement near the engine; absent in the reference crop.",
+      "is_fod": true,
+      "category": "luggage_parts",
+      "object_class": "light",
+      "severity": "HOLD",
+      "rule": "FOD-R1",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 2,
+       "what_is_visible": "Small grey metallic ribbed piece lying on dark pavement, present in the current crop and absent from the reference.",
+       "is_fod": true,
+       "category": "fasteners_hardware",
+       "object_class": "hard",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      3798.0,
+      752.0,
+      3834.0,
+      770.0
+     ],
+     "area": 106,
+     "mean_diff": 20.096027374267578,
+     "peak": 22.859691619873047,
+     "score": 21.6,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Bright patch on a building facade in the background; same structure in both crops, change is a lighting or reflection effect.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3541.0,
+      713.0,
+      3563.0,
+      729.0
+     ],
+     "area": 40,
+     "mean_diff": 21.244369506835938,
+     "peak": 32.6051025390625,
+     "score": 20.5,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Window or panel on a distant building in the background; same in both crops, no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      573.0,
+      1439.0,
+      629.0,
+      1486.0
+     ],
+     "description": "Small dark hook-shaped metal object (wrench- or bolt-like) lying on the pavement, present in the current crop and absent from the reference.",
+     "confidence": "high",
+     "severity": "HOLD",
+     "rule": "FOD-R1",
+     "category": "tools",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      1677.0,
+      1986.0,
+      1717.0,
+      2016.0
+     ],
+     "description": "A small gray rectangular object with a barcode-like striped pattern (looks like a bag tag or label) lying on the dark pavement near the engine; absent in the reference crop.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R1",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 7.88,
+     "cost": 0.0009718000000000001,
+     "in": 5628,
+     "out": 818,
+     "stop": "end_turn",
+     "n": 4
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 8.28,
+     "cost": 0.00087,
+     "kind": "net",
+     "n": 2
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.06,
+     "cost": 0.01059,
+     "in": 4590,
+     "out": 141,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 10.55,
+   "api_first_stage_s": 8.48,
+   "cost": 0.0124318,
+   "undecided": 0,
+   "local_s": 0.903
+  },
+  "brussels__fod1.jpg": {
+   "angle": "ENG-R",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      1177.0,
+      1910.0,
+      1223.0,
+      1991.0
+     ],
+     "area": 1471,
+     "mean_diff": 39.12729263305664,
+     "peak": 53.16564178466797,
+     "score": 422.5,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A light-colored flat object, possibly paper, cardboard or a panel, lying on the ground by the fuel truck's front wheel. It is absent from the reference.",
+      "is_fod": true,
+      "category": "cargo_packaging",
+      "object_class": "light",
+      "severity": "HOLD",
+      "rule": "FOD-R1",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "A pale grey flat object lying on the ground beside the GSE truck wheel area, absent from the clean reference; material unclear (possibly packaging or plastic sheet).",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      1980.0,
+      1239.0,
+      2022.0,
+      1262.0
+     ],
+     "area": 228,
+     "mean_diff": 45.143741607666016,
+     "peak": 82.83819580078125,
+     "score": 409.9,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A small, compact dark object with a lighter top lying on the pavement. It is absent from the reference and cannot be identified.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 2,
+       "what_is_visible": "A small grey compact object with a dark part lying on the pavement, not present in the clean reference crop.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      3798.0,
+      752.0,
+      3834.0,
+      770.0
+     ],
+     "area": 106,
+     "mean_diff": 20.119192123413086,
+     "peak": 22.880725860595703,
+     "score": 21.8,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Brightness change on a distant building facade/window area; same structure in reference, no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3541.0,
+      713.0,
+      3563.0,
+      729.0
+     ],
+     "area": 40,
+     "mean_diff": 21.24806785583496,
+     "peak": 32.66035461425781,
+     "score": 20.5,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Distant building window/facade detail with lighting difference; same structure in reference, no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      1177.0,
+      1910.0,
+      1223.0,
+      1991.0
+     ],
+     "description": "A light-colored flat object, possibly paper, cardboard or a panel, lying on the ground by the fuel truck's front wheel. It is absent from the reference.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R1",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      1980.0,
+      1239.0,
+      2022.0,
+      1262.0
+     ],
+     "description": "A small, compact dark object with a lighter top lying on the pavement. It is absent from the reference and cannot be identified.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 8.88,
+     "cost": 0.0010383000000000002,
+     "in": 5628,
+     "out": 951,
+     "stop": "end_turn",
+     "n": 4
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 7.5,
+     "cost": 0.00074,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.45,
+     "cost": 0.012382,
+     "in": 4936,
+     "out": 251,
+     "stop": "end_turn",
+     "n": 2,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 11.44,
+   "api_first_stage_s": 8.98,
+   "cost": 0.0141603,
+   "undecided": 0,
+   "local_s": 0.905
+  },
+  "pelita_pwf__fod2.jpg": {
+   "angle": "NOSE",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      2824.0,
+      1385.0,
+      2874.0,
+      1417.0
+     ],
+     "area": 466,
+     "mean_diff": 85.10399627685547,
+     "peak": 201.72415161132812,
+     "score": 1342.1,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small white rectangular object with dark barcode-like stripes (likely a bag tag or label) lying on the pavement near the cone; absent in the reference.",
+      "is_fod": true,
+      "category": "luggage_parts",
+      "object_class": "light",
+      "severity": "HOLD",
+      "rule": "FOD-R2",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "Small white ribbed or comb-like object lying on the stand pavement near the cone; not present in the reference crop.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R2",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      2329.0,
+      1161.0,
+      2372.0,
+      1201.0
+     ],
+     "area": 504,
+     "mean_diff": 55.48088073730469,
+     "peak": 91.97142028808594,
+     "score": 749.6,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Small dark red capsule-shaped object on the pavement beside the aircraft nose; absent from the reference crop.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "light",
+      "severity": "HOLD",
+      "rule": "FOD-R2",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      1029.0,
+      759.0,
+      1073.0,
+      803.0
+     ],
+     "area": 620,
+     "mean_diff": 42.33983612060547,
+     "peak": 121.54539489746094,
+     "score": 486.8,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Small flat white/grey piece with a red mark lying on the pavement under the wing; absent in the reference. Possibly a paper or plastic scrap, or a fragment of debris.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 3,
+       "what_is_visible": "Small white and red fragment with a flat edge lying on the pavement near the wing edge; not in the reference crop.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R2",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      2824.0,
+      1385.0,
+      2874.0,
+      1417.0
+     ],
+     "description": "Small white rectangular object with dark barcode-like stripes (likely a bag tag or label) lying on the pavement near the cone; absent in the reference.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R2",
+     "category": "luggage_parts",
+     "object_class": "light",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      2329.0,
+      1161.0,
+      2372.0,
+      1201.0
+     ],
+     "description": "Small dark red capsule-shaped object on the pavement beside the aircraft nose; absent from the reference crop.",
+     "confidence": "high",
+     "severity": "HOLD",
+     "rule": "FOD-R2",
+     "category": "unidentified",
+     "object_class": "light",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      1029.0,
+      759.0,
+      1073.0,
+      803.0
+     ],
+     "description": "Small flat white/grey piece with a red mark lying on the pavement under the wing; absent in the reference. Possibly a paper or plastic scrap, or a fragment of debris.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 9.44,
+     "cost": 0.0009446,
+     "in": 5281,
+     "out": 833,
+     "stop": "end_turn",
+     "n": 3
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 6.65,
+     "cost": 0.00077,
+     "kind": "net",
+     "n": 2
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.61,
+     "cost": 0.01254,
+     "in": 4935,
+     "out": 267,
+     "stop": "end_turn",
+     "n": 2,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 12.13,
+   "api_first_stage_s": 9.51,
+   "cost": 0.014254600000000001,
+   "undecided": 0,
+   "local_s": 0.885
+  },
+  "pelita_pwl__clean.jpg": {
+   "angle": "ENG-L",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      3321.0,
+      50.0,
+      3339.0,
+      67.0
+     ],
+     "area": 26,
+     "mean_diff": 22.501176834106445,
+     "peak": 28.01845359802246,
+     "score": 23.0,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A small white spot on a distant building roof in the background, present at the same position in the reference crop. It is not on the apron.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2618,
+      1792,
+      2685,
+      1822
+     ],
+     "score": 0,
+     "src": "net",
+     "cid": 2,
+     "origin": "net",
+     "net_desc": "Small dark object on apron near the nose gear area, possibly debris; low confidence.",
+     "net_conf": "low",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Ground crew worker's trouser leg and shoe with a yellow marking line and tow bar/tyre in the background; the rectangle shows the same person and pavement as the reference, with no distinct loose object lying on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.12,
+     "cost": 0.000578,
+     "in": 4590,
+     "out": 238,
+     "stop": "end_turn",
+     "n": 1
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.91,
+     "cost": 0.00073,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 1.74,
+     "cost": 0.000534,
+     "in": 4590,
+     "out": 150,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "net-verify"
+    }
+   ],
+   "api_wall_s": 4.79,
+   "api_first_stage_s": 3.05,
+   "cost": 0.0018419999999999999,
+   "undecided": 0,
+   "local_s": 0.872
+  },
+  "spring__clean.jpg": {
+   "angle": "CARGO",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      3621.0,
+      613.0,
+      3637.0,
+      645.0
+     ],
+     "area": 64,
+     "mean_diff": 24.081260681152344,
+     "peak": 47.90864181518555,
+     "score": 48.7,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Crop shows the white railing/gate structure and fence in the same position in both current and reference; a light reflection on the railing edge only, no distinct object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2906.0,
+      895.0,
+      2978.0,
+      935.0
+     ],
+     "area": 803,
+     "mean_diff": 19.22271728515625,
+     "peak": 22.072315216064453,
+     "score": 24.5,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Crop shows the aircraft fuselage/nose area with a brightness change on the white fuselage surface; no separate physical object lying on the ground, same as reference.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.27,
+     "cost": 0.0006174,
+     "in": 4934,
+     "out": 248,
+     "stop": "end_turn",
+     "n": 2
+    }
+   ],
+   "api_wall_s": 2.28,
+   "api_first_stage_s": 2.28,
+   "cost": 0.0006174,
+   "undecided": 0,
+   "local_s": 0.913
+  },
+  "pelita_pwf__noop.jpg": {
+   "angle": "NOSE",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      3200.0,
+      1302.0,
+      3261.0,
+      1353.0
+     ],
+     "area": 1380,
+     "mean_diff": 72.6379623413086,
+     "peak": 238.682373046875,
+     "score": 1092.8,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A small compact dark and grey object on the ground near the red-bordered stand marking by the bridge wheel; absent in the reference, so it is new.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "A small dark compact object lying on the stand pavement beside the red and white markings at the jet bridge base; absent from the reference crop.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R5",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      2505.0,
+      1908.0,
+      2575.0,
+      1971.0
+     ],
+     "area": 2134,
+     "mean_diff": 42.82231903076172,
+     "peak": 82.64249420166016,
+     "score": 496.4,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A faint blurry light patch on wet pavement over the red markings. It looks like a reflection or brightness change, not a distinct physical object.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 2,
+       "what_is_visible": "A diffuse pale grey patch with no distinct edges over pavement with red guide-line stripes; the reference shows similar pavement with a darker shadow, so this looks like a lighting or brightness change rather than a physical object.",
+       "is_fod": false,
+       "category": "not_fod",
+       "object_class": "none",
+       "severity": "NONE",
+       "rule": "NONE",
+       "confidence": "low",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      2820,
+      1260,
+      2880,
+      1342
+     ],
+     "score": 0,
+     "src": "net",
+     "cid": 3,
+     "origin": "net",
+     "net_desc": "Orange traffic cone near the nose gear area; deliberately placed safety cone, not FOD. Included only as low-confidence check on surrounding debris.",
+     "net_conf": "low",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "A red and white traffic cone standing on the pavement near the nose gear area, present in both the current and reference crops at the same position.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      3200.0,
+      1302.0,
+      3261.0,
+      1353.0
+     ],
+     "description": "A small compact dark and grey object on the ground near the red-bordered stand marking by the bridge wheel; absent in the reference, so it is new.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 4.39,
+     "cost": 0.0008105,
+     "in": 4935,
+     "out": 634,
+     "stop": "end_turn",
+     "n": 2
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.63,
+     "cost": 0.00074,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 1.45,
+     "cost": 0.0005174000000000001,
+     "in": 4589,
+     "out": 117,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "net-verify"
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.78,
+     "cost": 0.01231,
+     "in": 4935,
+     "out": 244,
+     "stop": "end_turn",
+     "n": 2,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 8.65,
+   "api_first_stage_s": 4.4,
+   "cost": 0.014377899999999999,
+   "undecided": 0,
+   "local_s": 0.871
+  },
+  "pelita_pwl__fod1.jpg": {
+   "angle": "ENG-L",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      2675.0,
+      1925.0,
+      2727.0,
+      1979.0
+     ],
+     "area": 106,
+     "mean_diff": 80.65225219726562,
+     "peak": 173.2583465576172,
+     "score": 645.0,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A small yellow fragment, possibly a piece of tape, plastic or paper, lying on the pavement inside the rectangle. It is not in the reference crop. A few dark marks sit next to it, probably stains.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "Small new yellow fragment lying on the pavement inside the yellow marking area; not present in the reference crop. Object is compact and unidentified.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      1070.0,
+      1280.0,
+      1133.0,
+      1324.0
+     ],
+     "area": 606,
+     "mean_diff": 49.04204559326172,
+     "peak": 133.7425994873047,
+     "score": 620.8,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Metal wrench or spanner lying on the apron surface; absent in the reference crop.",
+      "is_fod": true,
+      "category": "tools",
+      "object_class": "hard",
+      "severity": "HOLD",
+      "rule": "FOD-R1",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3321.0,
+      50.0,
+      3339.0,
+      67.0
+     ],
+     "area": 26,
+     "mean_diff": 22.502931594848633,
+     "peak": 28.020402908325195,
+     "score": 23.0,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Small white object on a distant building rooftop in the background, not on the ground in the stand area; same appearance in reference.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      2675.0,
+      1925.0,
+      2727.0,
+      1979.0
+     ],
+     "description": "A small yellow fragment, possibly a piece of tape, plastic or paper, lying on the pavement inside the rectangle. It is not in the reference crop. A few dark marks sit next to it, probably stains.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      1070.0,
+      1280.0,
+      1133.0,
+      1324.0
+     ],
+     "description": "Metal wrench or spanner lying on the apron surface; absent in the reference crop.",
+     "confidence": "high",
+     "severity": "HOLD",
+     "rule": "FOD-R1",
+     "category": "tools",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 4.92,
+     "cost": 0.0009312000000000001,
+     "in": 5282,
+     "out": 806,
+     "stop": "end_turn",
+     "n": 3
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 3.72,
+     "cost": 0.00083,
+     "kind": "net",
+     "n": 1
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.33,
+     "cost": 0.01072,
+     "in": 4590,
+     "out": 154,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 7.26,
+   "api_first_stage_s": 4.93,
+   "cost": 0.012481200000000001,
+   "undecided": 0,
+   "local_s": 0.891
+  },
+  "tansonnhat__clean.jpg": {
+   "angle": "WIDE",
+   "tier": "General",
+   "candidates": [],
+   "findings": [],
+   "calls": [],
+   "api_wall_s": 0.0,
+   "api_first_stage_s": 0.0,
+   "cost": 0,
+   "undecided": 0,
+   "local_s": 0.899
+  },
+  "spring__noop.jpg": {
+   "angle": "CARGO",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      1801.0,
+      998.0,
+      1854.0,
+      1052.0
+     ],
+     "area": 1250,
+     "mean_diff": 62.22713851928711,
+     "peak": 224.44383239746094,
+     "score": 884.5,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Gap between wing fairing and fuselage/engine area on the aircraft itself; same structure in current and reference crops, no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3208.0,
+      1755.0,
+      3272.0,
+      1792.0
+     ],
+     "area": 976,
+     "mean_diff": 39.02496337890625,
+     "peak": 84.5885009765625,
+     "score": 420.5,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Pavement stencil marking area with a soft grey blurred patch over the painted text; reference shows the same stencil without the blur, consistent with a shadow or lighting change, not a physical object.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3621.0,
+      613.0,
+      3637.0,
+      645.0
+     ],
+     "area": 63,
+     "mean_diff": 23.5956974029541,
+     "peak": 46.77411651611328,
+     "score": 44.4,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "White metal railing/gate frame structure and fence posts in the same position in current and reference crops; equipment in normal position, no loose object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.3,
+     "cost": 0.0007105,
+     "in": 5280,
+     "out": 365,
+     "stop": "end_turn",
+     "n": 3
+    }
+   ],
+   "api_wall_s": 2.31,
+   "api_first_stage_s": 2.31,
+   "cost": 0.0007105,
+   "undecided": 0,
+   "local_s": 0.912
+  },
+  "pelita_pwl__noop.jpg": {
+   "angle": "ENG-L",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      2702.0,
+      1902.0,
+      2769.0,
+      1968.0
+     ],
+     "area": 2259,
+     "mean_diff": 49.543907165527344,
+     "peak": 94.10006713867188,
+     "score": 630.9,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A blurry, whitish-grey smudge on the pavement beside the yellow line, near the tow bar. It looks like a puff of vapor or smoke, a light patch or a stain. It has no defined edges or solid form, so it is not a distinct physical object. The reference crop shows plain pavement at the same spot.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "A pale grey, soft-edged compact patch on the pavement beside the yellow lane line, absent in the reference crop. It is indistinct and could be debris or a reflection on wet pavement.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R5",
+       "confidence": "low",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      3321.0,
+      50.0,
+      3339.0,
+      67.0
+     ],
+     "area": 26,
+     "mean_diff": 23.038230895996094,
+     "peak": 28.588842391967773,
+     "score": 25.7,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A small white shape on a distant building roof in the background, identical in the reference crop. It is not on the ground in the engine zone.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 4.77,
+     "cost": 0.0009006,
+     "in": 4936,
+     "out": 814,
+     "stop": "end_turn",
+     "n": 2
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.32,
+     "cost": 0.00068,
+     "kind": "net",
+     "n": 0
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.79,
+     "cost": 0.01098,
+     "in": 4590,
+     "out": 180,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 7.58,
+   "api_first_stage_s": 4.78,
+   "cost": 0.0125606,
+   "undecided": 0,
+   "local_s": 0.89
+  },
+  "spring__fod1.jpg": {
+   "angle": "CARGO",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      2372.0,
+      1782.0,
+      2430.0,
+      1821.0
+     ],
+     "area": 945,
+     "mean_diff": 62.84077835083008,
+     "peak": 90.89695739746094,
+     "score": 896.8,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small red plastic-like object lying on the apron pavement, absent from the reference crop.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      560.0,
+      1416.0,
+      643.0,
+      1489.0
+     ],
+     "area": 3299,
+     "mean_diff": 59.7469482421875,
+     "peak": 95.93365478515625,
+     "score": 834.9,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "White folded or hexagonal light object (likely packaging or cup lid) lying on the pavement, not present in the reference crop.",
+      "is_fod": true,
+      "category": "cargo_packaging",
+      "object_class": "light",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3621.0,
+      613.0,
+      3637.0,
+      645.0
+     ],
+     "area": 64,
+     "mean_diff": 24.095977783203125,
+     "peak": 47.77606201171875,
+     "score": 48.8,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Stand railing and fence structure with the same layout in both crops; only a slight lighting difference.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2906.0,
+      895.0,
+      2978.0,
+      935.0
+     ],
+     "area": 804,
+     "mean_diff": 19.223968505859375,
+     "peak": 22.074295043945312,
+     "score": 24.5,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Reflection and shading on the aircraft fuselage near the nose; no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      2372.0,
+      1782.0,
+      2430.0,
+      1821.0
+     ],
+     "description": "Small red plastic-like object lying on the apron pavement, absent from the reference crop.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      560.0,
+      1416.0,
+      643.0,
+      1489.0
+     ],
+     "description": "White folded or hexagonal light object (likely packaging or cup lid) lying on the pavement, not present in the reference crop.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "cargo_packaging",
+     "object_class": "light",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 5.76,
+     "cost": 0.0010706,
+     "in": 5626,
+     "out": 1016,
+     "stop": "end_turn",
+     "n": 4
+    }
+   ],
+   "api_wall_s": 5.77,
+   "api_first_stage_s": 5.77,
+   "cost": 0.0010706,
+   "undecided": 0,
+   "local_s": 0.904
+  },
+  "spring__fod2.jpg": {
+   "angle": "CARGO",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      3292.0,
+      1704.0,
+      3327.0,
+      1738.0
+     ],
+     "area": 314,
+     "mean_diff": 62.08076095581055,
+     "peak": 167.716552734375,
+     "score": 781.1,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small dark metallic item with gold/yellow tint lying on pavement near the yellow marking line; absent in the reference.",
+      "is_fod": true,
+      "category": "fasteners_hardware",
+      "object_class": "hard",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2678.0,
+      1385.0,
+      2725.0,
+      1418.0
+     ],
+     "area": 569,
+     "mean_diff": 45.049217224121094,
+     "peak": 94.14905548095703,
+     "score": 541.0,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Small blue-grey object on pavement beneath the aircraft near the yellow fuel/ground pipe; not present in the reference.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      1987.0,
+      1587.0,
+      2015.0,
+      1615.0
+     ],
+     "area": 197,
+     "mean_diff": 47.13627624511719,
+     "peak": 118.72026824951172,
+     "score": 408.9,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Small whitish, translucent or grey compact object on the concrete near the orange cone; not present in the reference.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3621.0,
+      613.0,
+      3637.0,
+      645.0
+     ],
+     "area": 64,
+     "mean_diff": 24.117870330810547,
+     "peak": 47.91771697998047,
+     "score": 48.9,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Edge of the white metal railing structure and fence behind it; same structure in both crops with only lighting differences.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2906.0,
+      895.0,
+      2978.0,
+      935.0
+     ],
+     "area": 809,
+     "mean_diff": 19.216854095458984,
+     "peak": 22.073863983154297,
+     "score": 24.3,
+     "src": "change",
+     "cid": 5,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 5,
+      "what_is_visible": "Fuselage nose surface with a reflection/brightness change on the white paint; no object on the ground.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      3292.0,
+      1704.0,
+      3327.0,
+      1738.0
+     ],
+     "description": "Small dark metallic item with gold/yellow tint lying on pavement near the yellow marking line; absent in the reference.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      2678.0,
+      1385.0,
+      2725.0,
+      1418.0
+     ],
+     "description": "Small blue-grey object on pavement beneath the aircraft near the yellow fuel/ground pipe; not present in the reference.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      1987.0,
+      1587.0,
+      2015.0,
+      1615.0
+     ],
+     "description": "Small whitish, translucent or grey compact object on the concrete near the orange cone; not present in the reference.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 5.63,
+     "cost": 0.0011552,
+     "in": 5972,
+     "out": 1116,
+     "stop": "end_turn",
+     "n": 5
+    }
+   ],
+   "api_wall_s": 5.64,
+   "api_first_stage_s": 5.64,
+   "cost": 0.0011552,
+   "undecided": 0,
+   "local_s": 0.904
+  },
+  "tansonnhat__fod1.jpg": {
+   "angle": "WIDE",
+   "tier": "General",
+   "candidates": [
+    {
+     "box": [
+      2582.0,
+      984.0,
+      2619.0,
+      1018.0
+     ],
+     "area": 242,
+     "mean_diff": 42.837711334228516,
+     "peak": 92.57064819335938,
+     "score": 386.4,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A small metallic wrench-like hard object lying on the pavement inside the rectangle, absent from the reference crop.",
+      "is_fod": true,
+      "category": "tools",
+      "object_class": "hard",
+      "severity": "REMOVE",
+      "rule": "FOD-R4",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      1675.0,
+      1580.0,
+      1726.0,
+      1624.0
+     ],
+     "area": 1012,
+     "mean_diff": 35.30964279174805,
+     "peak": 50.463077545166016,
+     "score": 346.2,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "A compact white-grey faceted object lying on the pavement inside the rectangle, absent from the reference crop; material and identity cannot be determined at this resolution.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      2582.0,
+      984.0,
+      2619.0,
+      1018.0
+     ],
+     "description": "A small metallic wrench-like hard object lying on the pavement inside the rectangle, absent from the reference crop.",
+     "confidence": "high",
+     "severity": "REMOVE",
+     "rule": "FOD-R4",
+     "category": "tools",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      1675.0,
+      1580.0,
+      1726.0,
+      1624.0
+     ],
+     "description": "A compact white-grey faceted object lying on the pavement inside the rectangle, absent from the reference crop; material and identity cannot be determined at this resolution.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 3.35,
+     "cost": 0.0007543,
+     "in": 4933,
+     "out": 522,
+     "stop": "end_turn",
+     "n": 2
+    }
+   ],
+   "api_wall_s": 3.36,
+   "api_first_stage_s": 3.36,
+   "cost": 0.0007543,
+   "undecided": 0,
+   "local_s": 0.91
+  },
+  "tansonnhat__fod2.jpg": {
+   "angle": "WIDE",
+   "tier": "General",
+   "candidates": [
+    {
+     "box": [
+      2994.0,
+      1879.0,
+      3020.0,
+      1923.0
+     ],
+     "area": 324,
+     "mean_diff": 88.32431030273438,
+     "peak": 227.25572204589844,
+     "score": 1265.8,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small dark and orange-tipped compact object lying on pavement, absent in reference crop; looks like a small stick or cap fragment.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "ADVISORY",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      882.0,
+      1687.0,
+      918.0,
+      1713.0
+     ],
+     "area": 290,
+     "mean_diff": 77.35128021240234,
+     "peak": 134.97882080078125,
+     "score": 1010.7,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Small red and white object lying on pavement, absent in reference; possibly a bag tag, plastic piece or small cylindrical item.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R4",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2180.0,
+      1231.0,
+      2222.0,
+      1273.0
+     ],
+     "area": 393,
+     "mean_diff": 44.35295867919922,
+     "peak": 101.0706558227539,
+     "score": 522.4,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Small wrench-like metal tool with red handle lying on pavement, absent in reference crop.",
+      "is_fod": true,
+      "category": "tools",
+      "object_class": "hard",
+      "severity": "REMOVE",
+      "rule": "FOD-R4",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      2994.0,
+      1879.0,
+      3020.0,
+      1923.0
+     ],
+     "description": "Small dark and orange-tipped compact object lying on pavement, absent in reference crop; looks like a small stick or cap fragment.",
+     "confidence": "medium",
+     "severity": "ADVISORY",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      882.0,
+      1687.0,
+      918.0,
+      1713.0
+     ],
+     "description": "Small red and white object lying on pavement, absent in reference; possibly a bag tag, plastic piece or small cylindrical item.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R4",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      2180.0,
+      1231.0,
+      2222.0,
+      1273.0
+     ],
+     "description": "Small wrench-like metal tool with red handle lying on pavement, absent in reference crop.",
+     "confidence": "high",
+     "severity": "REMOVE",
+     "rule": "FOD-R4",
+     "category": "tools",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.85,
+     "cost": 0.0007029,
+     "in": 5279,
+     "out": 350,
+     "stop": "end_turn",
+     "n": 3
+    }
+   ],
+   "api_wall_s": 2.86,
+   "api_first_stage_s": 2.86,
+   "cost": 0.0007029,
+   "undecided": 0,
+   "local_s": 0.896
+  },
+  "wingo__clean.jpg": {
+   "angle": "AFT",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      3338.0,
+      1170.0,
+      3382.0,
+      1195.0
+     ],
+     "area": 162,
+     "mean_diff": 24.90924835205078,
+     "peak": 29.09368324279785,
+     "score": 87.9,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Aircraft nose fuselage surface with light panel seam; reference shows same area with no new object",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3341.0,
+      966.0,
+      3363.0,
+      984.0
+     ],
+     "area": 53,
+     "mean_diff": 22.422672271728516,
+     "peak": 30.04266929626465,
+     "score": 32.2,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Distant red/pink aviation light and blue runway/taxiway lights above the building roofline; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3554.0,
+      1380.0,
+      3573.0,
+      1396.0
+     ],
+     "area": 26,
+     "mean_diff": 22.42030906677246,
+     "peak": 26.294069290161133,
+     "score": 22.5,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Light reflection/headlamp glow on blue LPU-172 tug and vehicle area; same position in reference, no new object on ground",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3412.0,
+      964.0,
+      3432.0,
+      982.0
+     ],
+     "area": 37,
+     "mean_diff": 21.464462280273438,
+     "peak": 39.437435150146484,
+     "score": 21.1,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Distant blue aviation lights on horizon above roofline; identical in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.61,
+     "cost": 0.000767,
+     "in": 5625,
+     "out": 409,
+     "stop": "end_turn",
+     "n": 4
+    }
+   ],
+   "api_wall_s": 2.61,
+   "api_first_stage_s": 2.61,
+   "cost": 0.000767,
+   "undecided": 0,
+   "local_s": 0.88
+  },
+  "pelita_pwl__fod2.jpg": {
+   "angle": "ENG-L",
+   "tier": "Critical",
+   "candidates": [
+    {
+     "box": [
+      886.0,
+      889.0,
+      916.0,
+      912.0
+     ],
+     "area": 171,
+     "mean_diff": 80.81379699707031,
+     "peak": 180.482421875,
+     "score": 821.4,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A small dark compact object lying on the pavement under the wing that is absent in the reference crop.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 1,
+       "what_is_visible": "Small dark compact object lying on the pavement beside the wing, absent from the clean reference at the same pixels.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      3272.0,
+      1334.0,
+      3330.0,
+      1369.0
+     ],
+     "area": 609,
+     "mean_diff": 59.05574035644531,
+     "peak": 123.71759033203125,
+     "score": 821.1,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Small grey-white cylindrical item (possibly a battery or small flight-line item) on the pavement under the engine area, not present in the reference.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R1",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      1916.0,
+      1975.0,
+      1988.0,
+      2029.0
+     ],
+     "area": 236,
+     "mean_diff": 61.63310241699219,
+     "peak": 151.04150390625,
+     "score": 670.3,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Small dark and light irregular pieces lying on the pavement near a crack that are absent in the reference crop, which shows only a stain and the crack.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "HOLD",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-sonnet-5-5",
+      "haiku": {
+       "candidate_id": 3,
+       "what_is_visible": "Small crumpled dark debris piece lying on the pavement near the red marking line, not present in the reference.",
+       "is_fod": true,
+       "category": "unidentified",
+       "object_class": "unidentified",
+       "severity": "HOLD",
+       "rule": "FOD-R1",
+       "confidence": "medium",
+       "model": "claude-haiku-5-5"
+      }
+     }
+    },
+    {
+     "box": [
+      3321.0,
+      50.0,
+      3339.0,
+      67.0
+     ],
+     "area": 26,
+     "mean_diff": 22.50336456298828,
+     "peak": 28.020902633666992,
+     "score": 23.0,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Small white spot on a distant building roof in the background, the same in the reference; not on the ground in the engine zone.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2730,
+      1500,
+      2775,
+      1530
+     ],
+     "score": 0,
+     "src": "net",
+     "cid": 5,
+     "origin": "net",
+     "net_desc": "Small dark object on apron near the jet bridge base, possibly debris",
+     "net_conf": "low",
+     "decision": {
+      "candidate_id": 5,
+      "what_is_visible": "Plain pavement and faint shading inside the red rectangle near the fuselage underside; the reference crop shows the same texture with no distinct new object.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      886.0,
+      889.0,
+      916.0,
+      912.0
+     ],
+     "description": "A small dark compact object lying on the pavement under the wing that is absent in the reference crop.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      3272.0,
+      1334.0,
+      3330.0,
+      1369.0
+     ],
+     "description": "Small grey-white cylindrical item (possibly a battery or small flight-line item) on the pavement under the engine area, not present in the reference.",
+     "confidence": "high",
+     "severity": "HOLD",
+     "rule": "FOD-R1",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    },
+    {
+     "box": [
+      1916.0,
+      1975.0,
+      1988.0,
+      2029.0
+     ],
+     "description": "Small dark and light irregular pieces lying on the pavement near a crack that are absent in the reference crop, which shows only a stain and the crack.",
+     "confidence": "medium",
+     "severity": "HOLD",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-sonnet-5-5",
+     "origin": "local",
+     "matrix_severity": "HOLD"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 6.86,
+     "cost": 0.0011353000000000001,
+     "in": 5628,
+     "out": 1145,
+     "stop": "end_turn",
+     "n": 4
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 3.5,
+     "cost": 0.00077,
+     "kind": "net",
+     "n": 2
+    },
+    {
+     "model": "claude-haiku-5-5",
+     "s": 2.25,
+     "cost": 0.000573,
+     "in": 4590,
+     "out": 228,
+     "stop": "end_turn",
+     "n": 1,
+     "kind": "net-verify"
+    },
+    {
+     "model": "claude-sonnet-5-5",
+     "s": 2.45,
+     "cost": 0.012232,
+     "in": 4936,
+     "out": 236,
+     "stop": "end_turn",
+     "n": 2,
+     "kind": "escalate"
+    }
+   ],
+   "api_wall_s": 11.58,
+   "api_first_stage_s": 6.87,
+   "cost": 0.014710299999999999,
+   "undecided": 0,
+   "local_s": 0.891
+  },
+  "wingo__fod2.jpg": {
+   "angle": "AFT",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      1468.0,
+      1621.0,
+      1533.0,
+      1678.0
+     ],
+     "area": 1859,
+     "mean_diff": 43.125091552734375,
+     "peak": 65.32112884521484,
+     "score": 502.5,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "A compact grey octagonal object lying on the pavement inside the rectangle, absent in the reference crop; looks like a small hard metal item such as a nut or washer.",
+      "is_fod": true,
+      "category": "fasteners_hardware",
+      "object_class": "hard",
+      "severity": "REMOVE",
+      "rule": "FOD-R3",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3338.0,
+      1170.0,
+      3382.0,
+      1195.0
+     ],
+     "area": 162,
+     "mean_diff": 24.913724899291992,
+     "peak": 29.09819793701172,
+     "score": 88.0,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Nose area of the aircraft fuselage with the same radome and windshield shape in both crops; only lighting differs.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3341.0,
+      966.0,
+      3363.0,
+      984.0
+     ],
+     "area": 53,
+     "mean_diff": 22.418813705444336,
+     "peak": 30.039621353149414,
+     "score": 32.2,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Pink/red beacon light on the distant building roofline and blue runway lights in the background, same in both crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3554.0,
+      1380.0,
+      3573.0,
+      1396.0
+     ],
+     "area": 26,
+     "mean_diff": 22.431358337402344,
+     "peak": 26.30428695678711,
+     "score": 22.6,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Small white light on the GSE tug and background lights, same position in reference and current crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3412.0,
+      964.0,
+      3432.0,
+      982.0
+     ],
+     "area": 37,
+     "mean_diff": 21.461652755737305,
+     "peak": 39.438045501708984,
+     "score": 21.1,
+     "src": "change",
+     "cid": 5,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 5,
+      "what_is_visible": "Blue background runway/approach light on the distant horizon, same in both crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      1468.0,
+      1621.0,
+      1533.0,
+      1678.0
+     ],
+     "description": "A compact grey octagonal object lying on the pavement inside the rectangle, absent in the reference crop; looks like a small hard metal item such as a nut or washer.",
+     "confidence": "high",
+     "severity": "REMOVE",
+     "rule": "FOD-R3",
+     "category": "fasteners_hardware",
+     "object_class": "hard",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 3.55,
+     "cost": 0.0008621,
+     "in": 5971,
+     "out": 530,
+     "stop": "end_turn",
+     "n": 5
+    }
+   ],
+   "api_wall_s": 3.56,
+   "api_first_stage_s": 3.56,
+   "cost": 0.0008621,
+   "undecided": 0,
+   "local_s": 0.896
+  },
+  "wingo__noop.jpg": {
+   "angle": "AFT",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      3338.0,
+      1170.0,
+      3382.0,
+      1194.0
+     ],
+     "area": 158,
+     "mean_diff": 25.765798568725586,
+     "peak": 31.14327049255371,
+     "score": 97.6,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Aircraft nose/fuselage surface with bright reflection; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3341.0,
+      964.0,
+      3462.0,
+      987.0
+     ],
+     "area": 64,
+     "mean_diff": 25.345382690429688,
+     "peak": 36.34856414794922,
+     "score": 58.8,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Row of blue and white runway/apron lights above the hangar edge; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3512.0,
+      1373.0,
+      3574.0,
+      1397.0
+     ],
+     "area": 48,
+     "mean_diff": 23.954879760742188,
+     "peak": 30.281824111938477,
+     "score": 41.3,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Lights on the blue baggage loader vehicle and people; same position in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2516.0,
+      970.0,
+      2536.0,
+      986.0
+     ],
+     "area": 31,
+     "mean_diff": 24.718835830688477,
+     "peak": 44.83778762817383,
+     "score": 37.4,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Distant blue lights in the night background above the aircraft; unchanged from reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3332.0,
+      1384.0,
+      3352.0,
+      1401.0
+     ],
+     "area": 34,
+     "mean_diff": 23.770851135253906,
+     "peak": 27.79060173034668,
+     "score": 33.6,
+     "src": "change",
+     "cid": 5,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 5,
+      "what_is_visible": "Small bright point on the white stair/ladder structure; present in reference at same spot",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3247.0,
+      971.0,
+      3267.0,
+      989.0
+     ],
+     "area": 33,
+     "mean_diff": 22.98779296875,
+     "peak": 44.338008880615234,
+     "score": 28.7,
+     "src": "change",
+     "cid": 6,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 6,
+      "what_is_visible": "Blue light in the night sky beyond the jetway edge; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2106.0,
+      967.0,
+      2126.0,
+      988.0
+     ],
+     "area": 58,
+     "mean_diff": 21.738048553466797,
+     "peak": 39.48286437988281,
+     "score": 28.5,
+     "src": "change",
+     "cid": 7,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 7,
+      "what_is_visible": "Distant blue lights and aircraft edge against night background; unchanged from reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2816.0,
+      971.0,
+      2833.0,
+      996.0
+     ],
+     "area": 58,
+     "mean_diff": 21.702640533447266,
+     "peak": 49.609710693359375,
+     "score": 28.2,
+     "src": "change",
+     "cid": 8,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 8,
+      "what_is_visible": "Distant blue lights on the horizon above the fuselage; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2724.0,
+      989.0,
+      2742.0,
+      1008.0
+     ],
+     "area": 39,
+     "mean_diff": 22.065340042114258,
+     "peak": 41.89131164550781,
+     "score": 25.4,
+     "src": "change",
+     "cid": 9,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 9,
+      "what_is_visible": "Distant lights and fuselage edge near the horizon; same in reference",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 3.88,
+     "cost": 0.001152,
+     "in": 7355,
+     "out": 833,
+     "stop": "end_turn",
+     "n": 9
+    }
+   ],
+   "api_wall_s": 3.89,
+   "api_first_stage_s": 3.89,
+   "cost": 0.001152,
+   "undecided": 0,
+   "local_s": 0.904
+  },
+  "wingo__fod1.jpg": {
+   "angle": "AFT",
+   "tier": "Service",
+   "candidates": [
+    {
+     "box": [
+      575.0,
+      1582.0,
+      620.0,
+      1617.0
+     ],
+     "area": 392,
+     "mean_diff": 51.59019088745117,
+     "peak": 105.3482894897461,
+     "score": 665.1,
+     "src": "change",
+     "cid": 1,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 1,
+      "what_is_visible": "Small dark elongated object lying on pavement beside an orange cone and in the cone's shadow, absent from the reference crop.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      2185.0,
+      1558.0,
+      2216.0,
+      1606.0
+     ],
+     "area": 352,
+     "mean_diff": 43.90812683105469,
+     "peak": 89.18170166015625,
+     "score": 486.1,
+     "src": "change",
+     "cid": 2,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 2,
+      "what_is_visible": "Small dark bluish elongated object on the pavement near a painted line, not present in the reference crop.",
+      "is_fod": true,
+      "category": "unidentified",
+      "object_class": "unidentified",
+      "severity": "REMOVE",
+      "rule": "FOD-R5",
+      "confidence": "medium",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3338.0,
+      1170.0,
+      3382.0,
+      1195.0
+     ],
+     "area": 162,
+     "mean_diff": 24.908203125,
+     "peak": 29.092775344848633,
+     "score": 87.9,
+     "src": "change",
+     "cid": 3,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 3,
+      "what_is_visible": "Aircraft nose and windscreen area with a lit window reflection; same in current and reference crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3341.0,
+      966.0,
+      3363.0,
+      984.0
+     ],
+     "area": 53,
+     "mean_diff": 22.429840087890625,
+     "peak": 30.046958923339844,
+     "score": 32.2,
+     "src": "change",
+     "cid": 4,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 4,
+      "what_is_visible": "Pink light and blue lights on the far building roofline or distant equipment; same in both crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3554.0,
+      1380.0,
+      3573.0,
+      1396.0
+     ],
+     "area": 26,
+     "mean_diff": 22.417448043823242,
+     "peak": 26.28493309020996,
+     "score": 22.5,
+     "src": "change",
+     "cid": 5,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 5,
+      "what_is_visible": "Small white light on the blue tug/vehicle LPU-172; same position in both crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    },
+    {
+     "box": [
+      3412.0,
+      964.0,
+      3432.0,
+      982.0
+     ],
+     "area": 37,
+     "mean_diff": 21.45403289794922,
+     "peak": 39.44730758666992,
+     "score": 21.0,
+     "src": "change",
+     "cid": 6,
+     "origin": "local",
+     "decision": {
+      "candidate_id": 6,
+      "what_is_visible": "Blue distant lights on the horizon beyond the building edge; same in both crops.",
+      "is_fod": false,
+      "category": "not_fod",
+      "object_class": "none",
+      "severity": "NONE",
+      "rule": "NONE",
+      "confidence": "high",
+      "model": "claude-haiku-5-5"
+     }
+    }
+   ],
+   "findings": [
+    {
+     "box": [
+      575.0,
+      1582.0,
+      620.0,
+      1617.0
+     ],
+     "description": "Small dark elongated object lying on pavement beside an orange cone and in the cone's shadow, absent from the reference crop.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    },
+    {
+     "box": [
+      2185.0,
+      1558.0,
+      2216.0,
+      1606.0
+     ],
+     "description": "Small dark bluish elongated object on the pavement near a painted line, not present in the reference crop.",
+     "confidence": "medium",
+     "severity": "REMOVE",
+     "rule": "FOD-R5",
+     "category": "unidentified",
+     "object_class": "unidentified",
+     "decided_by": "claude-haiku-5-5",
+     "origin": "local",
+     "matrix_severity": "REMOVE"
+    }
+   ],
+   "calls": [
+    {
+     "model": "claude-haiku-5-5",
+     "s": 5.59,
+     "cost": 0.0011237,
+     "in": 6317,
+     "out": 984,
+     "stop": "end_turn",
+     "n": 6
+    }
+   ],
+   "api_wall_s": 5.6,
+   "api_first_stage_s": 5.6,
+   "cost": 0.0011237,
+   "undecided": 0,
+   "local_s": 0.892
+  }
+ }
+}
