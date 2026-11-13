@@ -12,6 +12,7 @@ Decided in issue 0018. Requirements: `spec/requirements-baseline.md`.
   5. Code computes zone tier, severity, rule ID and the Verdict.
   - With no reference frame, steps 2 and 3 are replaced by a tiled Claude pass on every Angle, and the report says so.
 - **Assistant agent (Haiku with tools):** explains why something was flagged, proposes which Angles to re-inspect, and drafts the report to ramp control or Airport Operations for debris outside the stand. It cannot change a Verdict, a severity or a Confirmation.
+- **Always-on agent (added in v1.1, `spec/dispatch.md`):** an event-driven dispatcher in the same process gives the work from each Inspection to a roster of people and takes their reports back. Code sends HOLD alerts, runs timers and records every Confirmation; Haiku is woken only for free text and routing choices and has no tool that clears anything.
 - **Models:** Haiku 5.5 by default. Sonnet 5.5 is a setting, off by default. Opus is not used.
 - **Rules:** `spec/fod-rules.md` is the single source. A machine-readable copy of it is loaded into the prompt, and the same copy drives the severity table in code.
 - **Demo:** a scripted timeline plays Turns across the 5 Gates (aircraft due, pre-arrival, on stand, pre-departure, pushback) with a speed control and a reset. Any Inspection can also be triggered by hand.

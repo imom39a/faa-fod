@@ -95,7 +95,7 @@ def load_testset() -> list[str]:
 
 
 def load_timeline() -> dict:
-    f = config.data_dir() / "demo" / "timeline.json"
+    f = config.timeline_path()
     if not f.is_file():
         return {"gates": list(config.DEFAULT_GATES), "turns": []}
     t = json.loads(f.read_text())

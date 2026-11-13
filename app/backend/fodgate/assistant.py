@@ -10,7 +10,7 @@ import json
 from typing import Callable
 
 from . import config, report as R
-from .llm import LLM, LLMUnavailable, add_spend
+from .llm import LLM, LLMUnavailable, add_spend, spend_allowed
 from .rules import load_rules
 from .workflow import WorkflowError
 
@@ -177,6 +177,11 @@ def answer(*, report: dict, message: str, llm: LLM | None, turn: dict | None = N
     tokens_in = tokens_out = 0
     final_text = ""
     for _ in range(MAX_TURNS):
+        ok, why = spend_allowed()                 # the cap applies to every request, not only pipeline calls
+        if not ok:
+            if tokens_in or tokens_out:
+                add_spend(config.HAIKU, tokens_in, tokens_out)
+            raise WorkflowError(503, "assistant_unavailable", f"The assistant is unavailable: {why}")
         resp = create(model=config.HAIKU, max_tokens=4000, system=SYSTEM, tools=TOOLS,
                       output_config={"effort": "medium", "format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}},
                       messages=messages)

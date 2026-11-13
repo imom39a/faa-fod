@@ -1,3 +1,4 @@
+import type { PersonRole, ShiftStatus } from '../api/agentTypes';
 import type {
   ConfirmedOutcome,
   FalseAlarmReason,
@@ -13,6 +14,10 @@ import type {
 } from '../api/types';
 
 export const ROLE_LABEL: Record<Role, string> = { ramp_agent: 'Ramp Agent', ramp_lead: 'Ramp Lead' };
+
+/** Roster roles of the always-on agent. A supervisor routes work and records no Confirmations. */
+export const PERSON_ROLE_LABEL: Record<PersonRole, string> = { ramp_agent: 'Ramp Agent', ramp_lead: 'Ramp Lead', supervisor: 'Supervisor' };
+export const SHIFT_LABEL: Record<ShiftStatus, string> = { on: 'On shift', break: 'On a break', off: 'Off shift' };
 
 export const GATE_STATUS_LABEL: Record<GateStatus, string> = {
   idle: 'Idle',

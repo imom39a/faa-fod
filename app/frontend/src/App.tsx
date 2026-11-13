@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Api } from './api/client';
 import { describeError } from './api/errors';
 import { MOCK_MODE } from './api';
 import type { RuleSet } from './api/types';
+import { ActivityPage } from './components/ActivityPage';
+import { ChatPage } from './components/chat/ChatPage';
 import { DemoControls, RoleSwitch } from './components/Header';
+import { Nav } from './components/Nav';
 import { SpinnerIcon } from './components/icons';
 import { Overview } from './components/Overview';
 import { TurnView } from './components/TurnView';
 import { OVERVIEW_HREF, useRoute } from './route';
 import { useIdentity } from './store/identity';
+import { createInboxStore, useInboxStore } from './store/inboxStore';
+import { createSessionStore, useSession } from './store/session';
 import { useStateStore, type StateStore } from './store/stateStore';
 
 export function App({ api, store }: { api: Api; store: StateStore }) {
@@ -18,6 +23,16 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
   const [rules, setRules] = useState<RuleSet | null>(null);
   const [demoError, setDemoError] = useState<string | null>(null);
   const connected = state !== null;
+  // Chat sign-in for this tab, and that person's inbox (polled on every page).
+  const sessionStore = useMemo(() => createSessionStore(), []);
+  const inboxStore = useMemo(() => createInboxStore(api.agent, sessionStore), [api, sessionStore]);
+  const session = useSession(sessionStore);
+  const inbox = useInboxStore(inboxStore);
+
+  useEffect(() => {
+    inboxStore.start();
+    return () => inboxStore.stop();
+  }, [inboxStore]);
 
   useEffect(() => {
     store.start();
@@ -52,6 +67,7 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
             </span>
           )}
         </div>
+        <Nav route={route} person={session?.person ?? null} tasks={inbox.tasks} />
         <DemoControls
           api={api}
           demo={state?.demo ?? null}
@@ -84,7 +100,11 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
             </button>
           </div>
         ) : null}
-        {route.name === 'turn' ? (
+        {route.name === 'chat' ? (
+          <ChatPage agent={api.agent} sessionStore={sessionStore} inboxStore={inboxStore} />
+        ) : route.name === 'activity' ? (
+          <ActivityPage agent={api.agent} filter={route.filter} />
+        ) : route.name === 'turn' ? (
           <TurnView
             api={api}
             turnId={route.turnId}

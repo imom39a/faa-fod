@@ -232,12 +232,24 @@ def reset_process_state() -> None:
 
 
 def add_spend(model: str, tokens_in: int, tokens_out: int) -> float:
-    """Account a call made outside `LLM.call_json` (the assistant). Returns its cost."""
+    """Account a call made outside `LLM.call_json` (the assistant, the dispatch agent). Returns its cost."""
     cost = estimate_cost(model, tokens_in, tokens_out)
     with _spend_lock:
         _spend["usd"] += cost
         _spend["calls"] += 1
     return cost
+
+
+def spend_allowed() -> tuple[bool, str]:
+    """Whether another real API call may be made: no earlier stop, and FOD_MAX_SPEND_USD not reached.
+    Every caller outside `LLM._guarded` (the assistant, the dispatch agent) checks this before each request."""
+    cap = config.max_spend_usd()
+    with _spend_lock:
+        if not _spend["stopped"] and cap is not None and _spend["usd"] >= cap:
+            _spend["stopped"] = f"spend cap ${cap:.2f} reached"
+        if _spend["stopped"]:
+            return False, _spend["stopped"]
+    return True, "ok"
 
 
 Transport = Callable[..., dict]
@@ -260,9 +272,9 @@ class LLM:
 
     # ------------------------------------------------------------------ availability
     def available(self) -> tuple[bool, str]:
-        with _spend_lock:
-            if _spend["stopped"]:
-                return False, _spend["stopped"]
+        ok, why = spend_allowed()
+        if not ok:
+            return False, why
         if self._transport is not None:
             return True, "ok"
         if not config.load_api_key():
