@@ -1,0 +1,1 @@
+{"text": "{\"equipment\":[{\"x1\":1218,\"y1\":738,\"x2\":1460,\"y2\":810,\"label\":\"white truck near jet bridge\",\"confidence\":\"medium\"}]}", "stop_reason": "end_turn", "tokens_in": 3886, "tokens_out": 395, "ms": 3221, "model": "claude-haiku-5-5", "purpose": "equipment_scan"}

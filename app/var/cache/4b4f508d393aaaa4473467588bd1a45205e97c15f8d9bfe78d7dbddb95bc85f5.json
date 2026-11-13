@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":1270,\"y1\":890,\"x2\":1300,\"y2\":915,\"description\":\"Small dark object on apron near belt loader/tug area, possibly debris; low confidence.\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 13731, "tokens_out": 86, "ms": 2291, "model": "claude-haiku-5-5", "purpose": "safety_net"}

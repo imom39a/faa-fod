@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":1,\"y1\":600,\"x2\":25,\"y2\":630,\"description\":\"Small dark speck on the apron surface near left edge, possibly a small debris particle; low confidence.\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 4173, "tokens_out": 87, "ms": 4171, "model": "claude-haiku-5-5", "purpose": "safety_net"}

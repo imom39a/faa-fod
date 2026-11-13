@@ -1,0 +1,1 @@
+{"text": "{\"equipment\":[{\"x1\":1795,\"y1\":805,\"x2\":1811,\"y2\":838,\"label\":\"safety cone\",\"confidence\":\"medium\"}]}", "stop_reason": "end_turn", "tokens_in": 3886, "tokens_out": 350, "ms": 3447, "model": "claude-haiku-5-5", "purpose": "equipment_scan"}

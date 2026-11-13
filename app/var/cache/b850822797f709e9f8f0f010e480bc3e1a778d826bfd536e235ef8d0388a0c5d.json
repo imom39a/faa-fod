@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":1240,\"y1\":1040,\"x2\":1290,\"y2\":1075,\"description\":\"Small dark object on apron near baggage cart base, possibly debris; low confidence\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 13731, "tokens_out": 85, "ms": 1954, "model": "claude-haiku-5-5", "purpose": "safety_net"}

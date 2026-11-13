@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":598,\"y1\":987,\"x2\":643,\"y2\":1005,\"description\":\"Small blue plastic bag or wrapping piece lying on the apron near the baggage loader, a typical FOD item.\",\"confidence\":\"medium\"}]}", "stop_reason": "end_turn", "tokens_in": 13731, "tokens_out": 375, "ms": 3394, "model": "claude-haiku-5-5", "purpose": "safety_net"}

@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":2,\"x1\":440,\"y1\":802,\"x2\":456,\"y2\":824,\"description\":\"Small dark speck on the apron, possibly a pebble or small debris; low confidence.\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 13730, "tokens_out": 328, "ms": 3428, "model": "claude-haiku-5-5", "purpose": "safety_net"}

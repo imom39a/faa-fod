@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":646,\"y1\":842,\"x2\":664,\"y2\":858,\"description\":\"Small white speck on the apron left of the nose gear, possibly a pebble or small debris; low confidence.\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 13730, "tokens_out": 385, "ms": 5168, "model": "claude-haiku-5-5", "purpose": "safety_net"}

@@ -2,7 +2,10 @@
 prototypes/spike/data/
 .venv/
 .playwright-mcp/
-app/var/
+# Runtime data. The saved Claude results (cache) ARE tracked so the demo replays without an API key.
+app/var/*
+!app/var/cache/
+app/var/cache/*.tmp
 node_modules/
 __pycache__/
 *.pyc

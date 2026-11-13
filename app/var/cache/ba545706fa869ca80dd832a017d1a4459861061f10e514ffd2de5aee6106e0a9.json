@@ -1,0 +1,1 @@
+{"text": "{\"findings\":[{\"image_index\":0,\"x1\":249,\"y1\":547,\"x2\":262,\"y2\":577,\"description\":\"Small dark object with orange tint lying on the apron, possibly a piece of wire, cable or stick; could be FOD.\",\"confidence\":\"low\"}]}", "stop_reason": "end_turn", "tokens_in": 2415, "tokens_out": 262, "ms": 2373, "model": "claude-haiku-5-5", "purpose": "safety_net"}
