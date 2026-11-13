@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Attribution, ConfirmBody, Finding, Person, RuleSet } from '../api/types';
+import type { Attribution, ConfirmBody, Finding, Person, Proposal, RuleSet } from '../api/types';
 import { severityTone } from '../lib/gates';
 import {
   AIRPORT_ROUTE,
@@ -32,10 +32,22 @@ type Props = {
   onSelect: () => void;
   onHover: (hot: boolean) => void;
   onConfirm: (request: ConfirmRequest) => void;
+  /** Proposals made about this Finding (any status). Optional: older Reports have none. */
+  proposals?: Proposal[];
+  /** "I can't find it": records nothing, creates a Proposal (issue #4). */
+  onNotFound?: () => void;
+  onAnswer?: (proposal: Proposal, accept: boolean) => void;
 };
+
+/** Whether a Proposal is addressed to this person. `to.name` null means any person with that role. */
+export function isAddressedTo(p: Proposal, person: Person): boolean {
+  return p.to.role === person.role && (p.to.name === null || p.to.name === person.name);
+}
 
 export function FindingCard(props: Props) {
   const { finding: f, number, rules, person, actionable, busy, selected, hot, attribution, onSelect, onHover, onConfirm } = props;
+  const { proposals = [], onNotFound, onAnswer } = props;
+  const pendingProposals = proposals.filter((p) => p.status === 'pending');
   const [pickingReason, setPickingReason] = useState(false);
   const [source, setSource] = useState('');
   const open = isFindingOpen(f);
@@ -156,6 +168,35 @@ export function FindingCard(props: Props) {
         </div>
       ) : null}
 
+      {(f.still_there_count ?? 0) > 0 && open && (
+        <p className="lead-note" role="status">
+          Still there: recorded as removed {f.still_there_count} time{f.still_there_count === 1 ? '' : 's'}, but the re-inspection still
+          shows it. The HOLD stays open.
+        </p>
+      )}
+
+      {open && actionable && pendingProposals.map((p) =>
+        isAddressedTo(p, person) ? (
+          <div className="route-note" key={p.proposal_id} role="group" aria-label="Proposal">
+            <p>{p.text}</p>
+            <div className="factions">
+              <button type="button" className="primary" disabled={busy} onClick={() => onAnswer?.(p, true)}>
+                {p.kind === 'reinspect_angle' ? `Yes, re-inspect ${p.angle}` : 'Yes, record not found'}
+              </button>
+              <button type="button" disabled={busy} onClick={() => onAnswer?.(p, false)}>
+                {p.kind === 'reinspect_angle' ? 'Not now' : 'No, keep it open'}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p className="lead-note" key={p.proposal_id} role="status">
+            {p.kind === 'reinspect_angle'
+              ? `Reported to the Ramp Lead: ${p.reported_by.name} could not find it. Nothing is recorded; the HOLD stays open.`
+              : `Waiting for ${p.to.name ?? 'the addressed person'} to answer.`}
+          </p>
+        ),
+      )}
+
       {open && actionable && outside && (
         <>
           <div className="route-note">
@@ -211,6 +252,11 @@ export function FindingCard(props: Props) {
             <button type="button" disabled={busy} onClick={() => setPickingReason(true)}>
               False alarm
             </button>
+            {onNotFound && !pendingProposals.some((p) => p.kind === 'reinspect_angle') && (
+              <button type="button" disabled={busy} title="Records nothing: the Ramp Lead is told and decides" onClick={onNotFound}>
+                Can't find it
+              </button>
+            )}
           </div>
         </>
       )}
@@ -223,9 +269,11 @@ export function FindingCard(props: Props) {
           <button type="button" disabled={busy} onClick={() => setPickingReason(true)}>
             False alarm
           </button>
-          <button type="button" disabled={busy} onClick={() => onConfirm({ outcome: 'not_found_on_walk' })}>
-            Not found on walk
-          </button>
+          {onNotFound && !pendingProposals.some((p) => p.kind === 'record_not_found_on_walk') && (
+            <button type="button" disabled={busy} title="Records nothing until you accept the proposal" onClick={onNotFound}>
+              Can't find it
+            </button>
+          )}
         </div>
       )}
 

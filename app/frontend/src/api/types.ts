@@ -90,6 +90,31 @@ export type Finding = {
   rule: RuleRef;
   crop_url: string | null;
   reference_crop_url: string | null;
+  /** How many times a HOLD recorded as removed was still visible on re-inspection (issue #4). */
+  still_there_count?: number;
+};
+
+export type ProposalKind = 'record_not_found_on_walk' | 'reinspect_angle';
+export type ProposalStatus = 'pending' | 'accepted' | 'declined';
+
+/**
+ * Something the system offers a person after a "not found" report. Nothing is recorded until the addressed
+ * person accepts. `to.name` is null when any Ramp Lead may answer.
+ */
+export type Proposal = {
+  proposal_id: string;
+  kind: ProposalKind;
+  finding_id: string;
+  angle: AngleName;
+  severity: Severity;
+  to: { role: Role; name: string | null };
+  reported_by: Person;
+  text: string;
+  status: ProposalStatus;
+  created_at: string;
+  answered_by: Person | null;
+  answered_at: string | null;
+  result_inspection_id: string | null;
 };
 
 export type DismissedCandidate = { angle: AngleName; bbox: BBox | []; reason: string };
@@ -132,6 +157,8 @@ export type Report = {
   inspection_signoff: { by: Person; at: string } | null;
   run_metadata: RunMetadata;
   status: InspectionStatus;
+  /** Proposals made after "not found" reports. Absent on older reports. */
+  proposals?: Proposal[];
 };
 
 export type GateStatus =
@@ -240,6 +267,9 @@ export type ApiErrorCode =
   | 'hold_needs_acknowledge'
   | 'open_findings'
   | 'unusable_angles'
+  | 'use_proposal'
+  | 'not_addressed_to_you'
+  | 'proposal_answered'
   | 'not_found'
   | 'network'
   | (string & {});

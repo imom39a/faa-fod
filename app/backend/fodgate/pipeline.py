@@ -370,6 +370,9 @@ def run_inspection(scene: Scene, *, gate: str, turn_id: str | None, kind: str | 
                 if match is not None:
                     if pf.get("status") == "acknowledged":
                         match["status"], match["acknowledged"] = "acknowledged", pf.get("acknowledged")
+                    match["seen_again_from_finding_id"] = pf["finding_id"]
+                    if pf.get("still_there_count"):
+                        match["still_there_count"] = pf["still_there_count"]
                     continue
                 findings.append(_carry(pf, parent))
                 if R.is_open(pf):
@@ -474,3 +477,9 @@ def carried_copy(report: dict, finding: dict) -> dict | None:
     """The copy of `finding` (from the parent Inspection) that `report` carried forward, if any. After a
     re-inspection of the Finding's Angle, a carried copy means the new frame did not show the object again."""
     return next((f for f in report["findings"] if f.get("carried_from_finding_id") == finding["finding_id"]), None)
+
+
+def seen_again(report: dict, finding: dict) -> dict | None:
+    """The fresh Finding in `report` that replaced `finding` because the re-inspection frame showed the same
+    object again ("still there"), if any."""
+    return next((f for f in report["findings"] if f.get("seen_again_from_finding_id") == finding["finding_id"]), None)

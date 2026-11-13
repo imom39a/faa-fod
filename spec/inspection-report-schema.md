@@ -61,7 +61,7 @@ Decided in issue 0010 ("What does an Inspection report contain (Finding and Verd
 
 **Finding Confirmation**
 ```jsonc
-{ "outcome": "removed | false_alarm | not_found_on_walk",
+{ "outcome": "removed | false_alarm | not_found_on_walk",   // not_found_on_walk only after the reporting person accepts a Proposal
   "false_alarm_reason": "shadow | marking | equipment_in_place | other | null",
   "confirmed_by": { "role": "ramp_agent | ramp_lead", "name": "…" },  // only ramp_lead may confirm a HOLD
   "confirmed_at": "…", "after_photo_ref": null, "possible_source": null }

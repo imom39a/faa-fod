@@ -4,6 +4,11 @@ Rules (spec/fod-rules.md, spec/dashboard-ux.md, app/CONTRACT.md section 2):
 - A Ramp Agent confirms REMOVE and ADVISORY Findings; only a Ramp Lead confirms a HOLD.
 - A HOLD is acknowledged first. "removed" on a HOLD runs a re-inspection of that Angle (the scene's `after`
   frame when there is one); the Confirmation is recorded only if the new frame no longer shows the object.
+- "Not found" is a report, not a Confirmation (issue #4). On a REMOVE or ADVISORY Finding it creates a Proposal
+  to the reporting person; "not found on walk" is recorded only when that person accepts it. On a HOLD it records
+  nothing: the Ramp Lead is told and offered a re-inspection of that Angle, which runs only if they accept.
+- "Still there": a HOLD recorded as removed whose re-inspection frame still shows the object stays open, and its
+  `still_there_count` goes up by one.
 - Sign-off needs no open Findings and every unusable Angle re-inspected usable or checked by eye (Ramp Lead).
 - Nothing here lets the system, or the assistant, clear a Gate: only a person's Confirmation does (SC-5).
 """
@@ -27,6 +32,7 @@ ROLES = ("ramp_agent", "ramp_lead")
 OUTCOMES = ("acknowledged", "removed", "false_alarm", "not_found_on_walk")
 FALSE_ALARM_REASONS = ("shadow", "marking", "equipment_in_place", "other")
 KINDS = ("pre_arrival", "pre_departure", "on_demand")
+PROPOSAL_KINDS = ("record_not_found_on_walk", "reinspect_angle")
 
 
 class WorkflowError(Exception):
@@ -133,6 +139,10 @@ class Workflow:
                 raise WorkflowError(409, "already_confirmed", "This Finding already has a Confirmation")
             if not rules.role_may_confirm(role, f["severity"]):
                 raise WorkflowError(403, "role_not_allowed", f"Only a Ramp Lead can confirm a {f['severity']} Finding")
+            if outcome == "not_found_on_walk":
+                raise WorkflowError(409, "use_proposal",
+                                    "Report the item as not found first; 'not found on walk' is recorded only when "
+                                    "the reporting person accepts the proposal")
             if outcome == "acknowledged":
                 f["status"] = "acknowledged"
                 f["acknowledged"] = {"by": by, "at": R.now_iso()}
@@ -157,7 +167,19 @@ class Workflow:
             pf = self._finding(parent, finding_id)
             copy = pipeline.carried_copy(new, pf)
             entry = next(a for a in new["angles"] if a["angle"] == pf["angle"])
-            if copy is not None and entry["status"] == "usable" and entry["source_inspection_id"] == new["inspection_id"]:
+            again = pipeline.seen_again(new, pf)
+            if again is not None:
+                # Still there: the HOLD stays open (unchanged behaviour). Count it and say so plainly.
+                count = int(pf.get("still_there_count") or 0) + 1
+                pf["still_there_count"] = again["still_there_count"] = count
+                self._event(new, "hold_still_there", finding_id=pf["finding_id"],
+                            new_finding_id=again["finding_id"], angle=pf["angle"], count=count, by=by)
+                new["run_metadata"].setdefault("notes", []).append(
+                    f"{pf['angle']}: the re-inspection still shows Finding {pf['finding_id']} after "
+                    f"{by['name']} recorded it as removed ({count} time{'s' if count != 1 else ''}). "
+                    "The HOLD stays open.")
+                self._save(parent)
+            elif copy is not None and entry["status"] == "usable" and entry["source_inspection_id"] == new["inspection_id"]:
                 at = R.now_iso()
                 for rpt, finding in ((parent, pf), (new, copy)):
                     self._record(rpt, finding, outcome="removed", by=by, possible_source=possible_source,
@@ -184,6 +206,94 @@ class Workflow:
             self.store.add_confirmation(inspection_id=rep["inspection_id"], finding_id=f["finding_id"], action=outcome,
                                         role=by["role"], name=by["name"], data=f["confirmation"])
             self._event(rep, "finding_confirmed", finding_id=f["finding_id"], outcome=outcome, by=by)
+
+    # ------------------------------------------------------------------ "Not found" reports and Proposals
+    def report_not_found(self, inspection_id: str, finding_id: str, *, role: str, name: str) -> dict:
+        """A person sent to remove an item reports they cannot find it. Never records a Confirmation.
+
+        REMOVE / ADVISORY: a Proposal to that same person to record "not found on walk" (they must be allowed to
+        confirm it). HOLD: the Ramp Lead is told and offered a re-inspection of the Angle; the reporter (any role)
+        gets no Proposal.
+        """
+        by = _actor(role, name)
+        rules = load_rules()
+        with self._lock:
+            rep = self._settled(inspection_id)
+            f = self._finding(rep, finding_id)
+            if f["status"] == "confirmed":
+                raise WorkflowError(409, "already_confirmed", "This Finding already has a Confirmation")
+            proposals = rep.setdefault("proposals", [])
+            if f["severity"] == "HOLD":
+                self._event(rep, "hold_not_found_reported", finding_id=finding_id, angle=f["angle"], by=by)
+                if not any(p["kind"] == "reinspect_angle" and p["finding_id"] == finding_id
+                           and p["status"] == "pending" for p in proposals):
+                    self._propose(rep, kind="reinspect_angle", finding=f, to={"role": "ramp_lead", "name": None},
+                                  reported_by=by,
+                                  text=f"{by['name']} could not find the HOLD item on {f['angle']} "
+                                       f"(Finding {finding_id}). Re-inspect {f['angle']}? Nothing has been recorded; "
+                                       "the HOLD stays open until you decide.")
+                return self._save(rep)
+            if not rules.role_may_confirm(role, f["severity"]):
+                raise WorkflowError(403, "role_not_allowed", f"Only a Ramp Lead can confirm a {f['severity']} Finding")
+            pending = next((p for p in proposals if p["kind"] == "record_not_found_on_walk"
+                            and p["finding_id"] == finding_id and p["status"] == "pending"), None)
+            if pending is None:
+                self._event(rep, "not_found_reported", finding_id=finding_id, angle=f["angle"], by=by)
+                self._propose(rep, kind="record_not_found_on_walk", finding=f, to=by, reported_by=by,
+                              text=f"Record Finding {finding_id} on {f['angle']} as 'not found on walk' in your "
+                                   "name? If you decline, the Finding stays open and stays with you.")
+            return self._save(rep)
+
+    def _propose(self, rep: dict, *, kind: str, finding: dict, to: dict, reported_by: dict, text: str) -> dict:
+        p = {"proposal_id": f"P-{uuid.uuid4().hex[:8]}", "kind": kind, "finding_id": finding["finding_id"],
+             "angle": finding["angle"], "severity": finding["severity"], "to": to, "reported_by": reported_by,
+             "text": text, "status": "pending", "created_at": R.now_iso(), "answered_by": None, "answered_at": None,
+             "result_inspection_id": None}
+        rep.setdefault("proposals", []).append(p)
+        self._event(rep, "proposal_made", proposal_id=p["proposal_id"], kind=kind, finding_id=finding["finding_id"],
+                    to=to)
+        return p
+
+    @staticmethod
+    def _addressed_to(p: dict, by: dict) -> bool:
+        to = p["to"]
+        return by["role"] == to["role"] and (to.get("name") is None or to["name"] == by["name"])
+
+    def answer_proposal(self, inspection_id: str, proposal_id: str, *, accept: bool, role: str, name: str) -> dict:
+        """A person accepts or declines a Proposal addressed to them. Accepting is the person's own action: it is
+        the only way "not found on walk" is recorded, and the only way a proposed re-inspection runs."""
+        by = _actor(role, name)
+        if not isinstance(accept, bool):
+            raise WorkflowError(422, "invalid_request", "accept must be true or false")
+        with self._lock:
+            rep = self._settled(inspection_id)
+            p = next((x for x in rep.get("proposals", []) if x["proposal_id"] == proposal_id), None)
+            if p is None:
+                raise WorkflowError(404, "not_found", f"Proposal {proposal_id} not found in this Inspection")
+            if p["status"] != "pending":
+                raise WorkflowError(409, "proposal_answered", "This Proposal has already been answered")
+            if not self._addressed_to(p, by):
+                who = p["to"]["name"] or ("a Ramp Lead" if p["to"]["role"] == "ramp_lead" else "a Ramp Agent")
+                raise WorkflowError(403, "not_addressed_to_you", f"This Proposal is for {who}")
+            f = self._finding(rep, p["finding_id"])
+            p.update(status="accepted" if accept else "declined", answered_by=by, answered_at=R.now_iso())
+            self._event(rep, "proposal_answered", proposal_id=proposal_id, kind=p["kind"],
+                        finding_id=p["finding_id"], accepted=accept, by=by)
+            if not accept:
+                return self._save(rep)
+            if p["kind"] == "record_not_found_on_walk":
+                if f["status"] == "confirmed":
+                    raise WorkflowError(409, "already_confirmed", "This Finding already has a Confirmation")
+                self._record(rep, f, outcome="not_found_on_walk", by=by)
+                return self._save(rep)
+            self._save(rep)                       # reinspect_angle: record the answer, then look again
+        new = self._reinspect(rep, [p["angle"]], by, reason="proposal_accepted")
+        with self._lock:
+            rep = self.report(inspection_id)
+            stored = next(x for x in rep["proposals"] if x["proposal_id"] == proposal_id)
+            stored["result_inspection_id"] = new["inspection_id"]
+            self._save(rep)
+        return self.report(new["inspection_id"])
 
     def confirm_all(self, inspection_id: str, *, role: str, name: str) -> dict:
         """Mark every open REMOVE / ADVISORY Finding as removed. HOLDs are never part of this."""

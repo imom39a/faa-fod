@@ -48,6 +48,12 @@ export function createMockApi(backend = new MockBackend({ startAt: startAtFromUr
       return call(() => backend.confirmFinding(id, findingId, body), reinspects ? REINSPECT_MS : LATENCY_MS);
     },
     confirmAll: (id, who) => call(() => backend.confirmAll(id, who)),
+    reportNotFound: (id, findingId, who) => call(() => backend.reportNotFound(id, findingId, who)),
+    answerProposal: (id, proposalId, accept, who) => {
+      // Accepting a re-inspection Proposal runs a re-inspection, which takes a moment.
+      const reinspects = accept && backend.getInspection(id).proposals?.find((p) => p.proposal_id === proposalId)?.kind === 'reinspect_angle';
+      return call(() => backend.answerProposal(id, proposalId, accept, who), reinspects ? REINSPECT_MS : LATENCY_MS);
+    },
     reinspectAngle: (id, angle, who) => call(() => backend.reinspectAngle(id, angle, who), REINSPECT_MS),
     checkedByEye: (id, angle, who) => call(() => backend.checkedByEye(id, angle, who)),
     signoff: (id, who) => call(() => backend.signoff(id, who)),

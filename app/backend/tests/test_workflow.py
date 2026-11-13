@@ -364,7 +364,8 @@ def test_manual_trigger_errors_and_ad_hoc_turn(wf):
 def test_store_keeps_findings_and_confirmations(wf, mixed):
     iid = mixed["inspection_id"]
     assert len(wf.store.list_findings(iid)) == 4
-    wf.confirm_finding(iid, by_sev(mixed, "REMOVE")["finding_id"], outcome="not_found_on_walk", **AGENT)
+    rep = wf.report_not_found(iid, by_sev(mixed, "REMOVE")["finding_id"], **AGENT)
+    wf.answer_proposal(iid, rep["proposals"][0]["proposal_id"], accept=True, **AGENT)
     log = wf.store.list_confirmations(iid)
     assert [(c["action"], c["role"], c["name"]) for c in log] == [("not_found_on_walk", "ramp_agent", "Avi Agent")]
     assert {f["status"] for f in wf.store.list_findings(iid)} == {"open", "confirmed"}

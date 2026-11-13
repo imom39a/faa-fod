@@ -37,6 +37,10 @@ class ConfirmBody(Actor):
     possible_source: str | None = None
 
 
+class AnswerBody(Actor):
+    accept: bool
+
+
 class InspectBody(BaseModel):
     kind: str
     scene_id: str | None = None
@@ -137,6 +141,14 @@ def create_app(*, store: Store | None = None, llm: LLM | None = None, start_play
     def confirm(inspection_id: str, finding_id: str, body: ConfirmBody):
         return wf.confirm_finding(inspection_id, finding_id, outcome=body.outcome, role=body.role, name=body.name,
                                   false_alarm_reason=body.false_alarm_reason, possible_source=body.possible_source)
+
+    @app.post("/api/inspections/{inspection_id}/findings/{finding_id}/not-found")
+    def not_found(inspection_id: str, finding_id: str, body: Actor):
+        return wf.report_not_found(inspection_id, finding_id, role=body.role, name=body.name)
+
+    @app.post("/api/inspections/{inspection_id}/proposals/{proposal_id}/answer")
+    def answer_proposal(inspection_id: str, proposal_id: str, body: AnswerBody):
+        return wf.answer_proposal(inspection_id, proposal_id, accept=body.accept, role=body.role, name=body.name)
 
     @app.post("/api/inspections/{inspection_id}/angles/{angle}/reinspect")
     def reinspect(inspection_id: str, angle: str, body: Actor):

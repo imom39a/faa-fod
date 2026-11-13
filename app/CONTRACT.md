@@ -97,6 +97,8 @@ Pipeline per Inspection (requirements PL-1..PL-8, RU-3): usability check per Ang
 | GET `/inspections/{id}/export` | | the `Report` as a JSON download |
 | POST `/inspections/{id}/findings/{finding_id}/confirm` | `{ outcome, false_alarm_reason?, possible_source?, role, name }` | `Report` |
 | POST `/inspections/{id}/findings/confirm-all` | `{ role, name }` marks every open REMOVE/ADVISORY Finding `removed` | `Report` |
+| POST `/inspections/{id}/findings/{finding_id}/not-found` | `{ role, name }` "I can't find it". Records nothing; adds a Proposal to `Report.proposals` | `Report` |
+| POST `/inspections/{id}/proposals/{proposal_id}/answer` | `{ accept, role, name }`. Only the addressed person can answer. Accepting a `reinspect_angle` Proposal runs the re-inspection | `Report` (the new on-demand `Report` for a re-inspection) |
 | POST `/inspections/{id}/angles/{angle}/reinspect` | `{ role, name }` | the new on-demand `Report` |
 | POST `/inspections/{id}/angles/{angle}/checked-by-eye` | `{ role, name }` (ramp_lead only) | `Report` |
 | POST `/inspections/{id}/signoff` | `{ role, name }` | `Report` |
@@ -106,9 +108,14 @@ Pipeline per Inspection (requirements PL-1..PL-8, RU-3): usability check per Ang
 | POST `/assistant` | `{ inspection_id, message }` | `{ reply, suggested_reinspect_angles: string[], draft_report: string \| null }` |
 | GET `/rules` | | contents of `fod-rules.json` |
 
-Errors: HTTP 4xx with `{ "error": "<code>", "message": "..." }`. Codes used by the UI: `role_not_allowed` (403), `hold_needs_acknowledge` (409), `open_findings` (409, on signoff), `unusable_angles` (409, on signoff).
+Errors: HTTP 4xx with `{ "error": "<code>", "message": "..." }`. Codes used by the UI: `role_not_allowed` (403), `hold_needs_acknowledge` (409), `open_findings` (409, on signoff), `unusable_angles` (409, on signoff), `use_proposal` (409, `not_found_on_walk` sent to `/confirm`), `not_addressed_to_you` (403), `proposal_answered` (409).
 
-`outcome`: `acknowledged | removed | false_alarm | not_found_on_walk`.
+`outcome`: `acknowledged | removed | false_alarm`. `not_found_on_walk` is a recorded outcome, but `/confirm` refuses it (`use_proposal`): it is recorded only when the reporting person accepts a Proposal.
+
+Proposal (`Report.proposals[]`): `{ proposal_id, kind: record_not_found_on_walk | reinspect_angle, finding_id, angle, severity, to: { role, name | null }, reported_by, text, status: pending | accepted | declined, created_at, answered_by, answered_at, result_inspection_id }`.
+- REMOVE / ADVISORY not found: a `record_not_found_on_walk` Proposal to the reporter. Declining leaves the Finding open.
+- HOLD not found: never a Confirmation and no Proposal to the Ramp Agent. A `reinspect_angle` Proposal goes to a Ramp Lead; nothing is re-inspected until a Ramp Lead accepts.
+- "Still there": a HOLD recorded as removed whose re-inspection still shows the item stays open. `Finding.still_there_count` counts it, the turn events get `hold_still_there`, and `run_metadata.notes` says so.
 - HOLD Findings: ramp_lead only. Must be `acknowledged` before `removed`. `removed` on a HOLD runs a re-inspection of that Angle (using the scene's `after` frame if present); the Finding's Confirmation is recorded only if the new frame has no matching Finding, otherwise the response is the new Report with the Finding still open. `false_alarm` on a HOLD does not need a re-inspection.
 - Sign-off requires: no open Findings (airport-routed `outside_boundary` Findings count as closed once `reported` — use outcome `removed` with `possible_source` free text, or `acknowledged`), and every unusable Angle either re-inspected usable or `checked_by_eye`.
 

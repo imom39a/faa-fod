@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiError, type Api } from '../api/client';
 import { describeError, type ActionContext } from '../api/errors';
-import type { AngleName, Finding, Person, Report, RuleSet, State, Turn } from '../api/types';
+import type { AngleName, Finding, Person, Proposal, Report, RuleSet, State, Turn } from '../api/types';
 import { formatTime, plural } from '../lib/format';
 import { tileModel } from '../lib/gates';
 import { ANALYSIS_LABEL, KIND_LABEL, unusableReasonLabel } from '../lib/labels';
@@ -224,6 +224,30 @@ export function TurnView({ api, turnId, pinnedInspectionId, state, person, rules
       holdRemoval ? f.angle : undefined,
     );
   };
+
+  const notFound = (f: Finding) =>
+    void act(
+      'Reporting that it cannot be found…',
+      f.severity === 'HOLD' ? 'hold' : 'finding',
+      () => api.reportNotFound(report.inspection_id, f.finding_id, person),
+      () =>
+        f.severity === 'HOLD'
+          ? { tone: 'info', title: 'Reported to the Ramp Lead.', text: 'Nothing is recorded and the HOLD stays open. The Ramp Lead decides whether to re-inspect.' }
+          : { tone: 'info', title: 'Nothing is recorded yet.', text: 'Accept the proposal on the Finding to record "not found on walk", or decline to keep it open.' },
+    );
+
+  const answer = (p: Proposal, accept: boolean) =>
+    void act(
+      accept && p.kind === 'reinspect_angle' ? `Re-inspecting ${p.angle}: capturing a new frame and analysing it…` : 'Recording your answer…',
+      p.severity === 'HOLD' ? 'hold' : 'finding',
+      () => api.answerProposal(report.inspection_id, p.proposal_id, accept, person),
+      (result) =>
+        accept && p.kind === 'record_not_found_on_walk'
+          ? { tone: 'ok', title: 'Recorded as not found on walk.', text: `Confirmation recorded in the name of ${personLabel(person)}.` }
+          : accept
+            ? { tone: 'info', title: `${p.angle} re-inspected.`, text: `The new on-demand Inspection ${result.inspection_id} is shown. The HOLD is not cleared by a re-inspection alone.` }
+            : { tone: 'info', title: 'Declined: the Finding stays open.', text: 'Nothing was recorded.' },
+    );
 
   const reinspect = (a: AngleName) =>
     void act(
@@ -569,6 +593,9 @@ export function TurnView({ api, turnId, pinnedInspectionId, state, person, rules
                   onSelect={() => selectFinding(finding, false)}
                   onHover={(hot) => setHotFindingId(hot ? finding.finding_id : null)}
                   onConfirm={(request) => confirm(finding, request)}
+                  proposals={(report.proposals ?? []).filter((p) => p.finding_id === finding.finding_id)}
+                  onNotFound={() => notFound(finding)}
+                  onAnswer={answer}
                 />
               ))}
             </ol>

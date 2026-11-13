@@ -165,6 +165,35 @@ def test_full_confirmation_flow_with_error_codes(client):
     assert [i["kind"] for i in turn["inspections"]] == ["pre_departure", "on_demand"]
 
 
+def test_not_found_endpoints(client):
+    rep = inspect(client, "T1", "pre_departure", "pd-hold")
+    iid = rep["inspection_id"]
+    base = f"/api/inspections/{iid}"
+    remove = next(f for f in rep["findings"] if f["severity"] == "REMOVE")
+    hold = next(f for f in rep["findings"] if f["severity"] == "HOLD")
+
+    confirm = f"{base}/findings/{remove['finding_id']}/confirm"
+    assert err(client.post(confirm, json={"outcome": "not_found_on_walk", **AGENT})) == (409, "use_proposal")
+
+    r = client.post(f"{base}/findings/{remove['finding_id']}/not-found", json=AGENT)
+    assert r.status_code == 200
+    [p] = [p for p in r.json()["proposals"] if p["status"] == "pending"]
+    answer = f"{base}/proposals/{p['proposal_id']}/answer"
+    assert err(client.post(answer, json={"accept": True, **LEAD})) == (403, "not_addressed_to_you")
+    assert err(client.post(answer, json=AGENT)) == (422, "invalid_request")                  # accept is required
+    r = client.post(answer, json={"accept": True, **AGENT})
+    got = next(f for f in r.json()["findings"] if f["finding_id"] == remove["finding_id"])
+    assert got["confirmation"]["outcome"] == "not_found_on_walk"
+    assert err(client.post(answer, json={"accept": True, **AGENT})) == (409, "proposal_answered")
+
+    r = client.post(f"{base}/findings/{hold['finding_id']}/not-found", json=AGENT)
+    h = next(f for f in r.json()["findings"] if f["finding_id"] == hold["finding_id"])
+    assert h["status"] == "open" and h["confirmation"] is None
+    [p] = [p for p in r.json()["proposals"] if p["status"] == "pending"]
+    assert p["kind"] == "reinspect_angle" and p["to"]["role"] == "ramp_lead"
+    assert err(client.post(f"{base}/proposals/nope/answer", json={"accept": True, **LEAD})) == (404, "not_found")
+
+
 def test_unusable_angle_flow(client):
     rep = inspect(client, "T4", "pre_departure", "pd-glare")
     base = f"/api/inspections/{rep['inspection_id']}"

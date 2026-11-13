@@ -147,6 +147,68 @@ describe('mock backend: HOLD Confirmation', () => {
   });
 });
 
+describe('mock backend: "not found" and "still there" (issue #4)', () => {
+  const setup = () => {
+    const b = new MockBackend({ startAt: 60 });
+    const report = latest(b, 'T1');
+    const hold = (angle: string) => report.findings.find((f) => f.severity === 'HOLD' && f.angle === angle)!;
+    const remove = report.findings.find((f) => f.severity === 'REMOVE' && f.zone_tier !== 'outside_boundary')!;
+    return { b, report, bolt: hold('ENG-L'), cutter: hold('NOSE'), remove };
+  };
+  const pending = (r: Report) => (r.proposals ?? []).filter((p) => p.status === 'pending');
+
+  it('refuses to record "not found on walk" directly', () => {
+    const { b, report, remove } = setup();
+    expect(codeOf(() => b.confirmFinding(report.inspection_id, remove.finding_id, { ...AGENT, outcome: 'not_found_on_walk' }))).toBe('use_proposal');
+  });
+
+  it('makes a Proposal for the reporter and records only when they accept', () => {
+    const { b, report, remove } = setup();
+    const rep = b.reportNotFound(report.inspection_id, remove.finding_id, AGENT);
+    const [p] = pending(rep);
+    expect(p).toMatchObject({ kind: 'record_not_found_on_walk', to: AGENT });
+    expect(rep.findings.find((f) => f.finding_id === remove.finding_id)?.status).toBe('open');
+    expect(pending(b.reportNotFound(report.inspection_id, remove.finding_id, AGENT))).toHaveLength(1);
+    expect(codeOf(() => b.answerProposal(report.inspection_id, p!.proposal_id, true, { role: 'ramp_agent', name: 'Someone Else' }))).toBe('not_addressed_to_you');
+    const done = b.answerProposal(report.inspection_id, p!.proposal_id, true, AGENT);
+    expect(done.findings.find((f) => f.finding_id === remove.finding_id)?.confirmation).toMatchObject({ outcome: 'not_found_on_walk', confirmed_by: AGENT });
+    expect(codeOf(() => b.answerProposal(report.inspection_id, p!.proposal_id, true, AGENT))).toBe('proposal_answered');
+  });
+
+  it('keeps the Finding open when the Proposal is declined', () => {
+    const { b, report, remove } = setup();
+    const [p] = pending(b.reportNotFound(report.inspection_id, remove.finding_id, AGENT));
+    const rep = b.answerProposal(report.inspection_id, p!.proposal_id, false, AGENT);
+    expect(rep.findings.find((f) => f.finding_id === remove.finding_id)?.status).toBe('open');
+    expect(rep.proposals?.[0]?.status).toBe('declined');
+  });
+
+  it('records nothing for a HOLD, gives the Ramp Agent no Proposal, and re-inspects only when the Ramp Lead accepts', () => {
+    const { b, report, bolt } = setup();
+    const before = b.getTurn(report.turn_id).inspections.length;
+    const rep = b.reportNotFound(report.inspection_id, bolt.finding_id, AGENT);
+    const [p] = pending(rep);
+    expect(p).toMatchObject({ kind: 'reinspect_angle', to: { role: 'ramp_lead' } });
+    expect(rep.findings.find((f) => f.finding_id === bolt.finding_id)?.status).toBe('open');
+    expect(b.getTurn(report.turn_id).inspections).toHaveLength(before); // nothing started on its own
+    expect(codeOf(() => b.answerProposal(report.inspection_id, p!.proposal_id, true, AGENT))).toBe('not_addressed_to_you');
+    const next = b.answerProposal(report.inspection_id, p!.proposal_id, true, LEAD);
+    expect(next).toMatchObject({ kind: 'on_demand', parent_inspection_id: report.inspection_id });
+    expect(next.findings.find((f) => f.angle === 'ENG-L' && f.severity === 'HOLD')?.status).not.toBe('confirmed');
+  });
+
+  it('counts "still there" and keeps the HOLD open', () => {
+    const { b, report, cutter } = setup();
+    b.confirmFinding(report.inspection_id, cutter.finding_id, { ...LEAD, outcome: 'acknowledged' });
+    const first = b.confirmFinding(report.inspection_id, cutter.finding_id, { ...LEAD, outcome: 'removed' });
+    const again = first.findings.find((f) => f.angle === 'NOSE' && f.confirmation === null)!;
+    expect(again.still_there_count).toBe(1);
+    expect(again.status).toBe('acknowledged');
+    expect(first.run_metadata.notes).toEqual(expect.arrayContaining([expect.stringContaining('still shows')]));
+    expect(first.highest_open_severity).toBe('HOLD');
+  });
+});
+
 describe('mock backend: confirm-all, checked by eye, sign-off', () => {
   it('confirm-all marks every open REMOVE/ADVISORY Finding removed and leaves HOLDs', () => {
     const b = new MockBackend({ startAt: 60 });

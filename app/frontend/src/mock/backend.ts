@@ -20,6 +20,8 @@ import {
   type InspectBody,
   type InspectionKind,
   type Person,
+  type Proposal,
+  type ProposalKind,
   type QueueItem,
   type Report,
   type ReportAngle,
@@ -105,6 +107,7 @@ export class MockBackend {
   private playing = false;
   private speed: DemoSpeed = 1;
   private seq = 0;
+  private proposalSeq = 0;
   /** Time used for timestamps while a scripted event is being applied. */
   private stamp = 0;
   private turns: TurnRuntime[] = [];
@@ -125,6 +128,7 @@ export class MockBackend {
   reset(): State {
     this.playing = false;
     this.seq = 0;
+    this.proposalSeq = 0;
     this.pending = [];
     this.frames.clear();
     this.seedKeys.clear();
@@ -380,6 +384,9 @@ export class MockBackend {
     if (finding.severity === 'HOLD' && who.role !== 'ramp_lead') {
       fail(403, 'role_not_allowed', 'Only a Ramp Lead can confirm a HOLD Finding.');
     }
+    if (body.outcome === 'not_found_on_walk') {
+      fail(409, 'use_proposal', "Report the item as not found first; 'not found on walk' is recorded only when you accept the proposal.");
+    }
 
     if (body.outcome === 'acknowledged') {
       finding.status = 'acknowledged';
@@ -405,8 +412,19 @@ export class MockBackend {
       // only if the item is gone from the new frame.
       const next = this.reinspect(turn, report, finding.angle);
       const key = this.seedKeys.get(finding.finding_id);
-      const stillThere = next.findings.some((f) => f.angle === finding.angle && this.seedKeys.get(f.finding_id) === key);
-      if (!stillThere) {
+      const again = next.findings.find((f) => f.angle === finding.angle && this.seedKeys.get(f.finding_id) === key);
+      if (again) {
+        // Still there: the HOLD stays open (still acknowledged). Count it and say so plainly.
+        const count = (finding.still_there_count ?? 0) + 1;
+        finding.still_there_count = count;
+        again.still_there_count = count;
+        again.status = 'acknowledged';
+        const notes = Array.isArray(next.run_metadata.notes) ? next.run_metadata.notes : next.run_metadata.notes ? [next.run_metadata.notes] : [];
+        next.run_metadata.notes = [
+          ...notes,
+          `${finding.angle}: the re-inspection still shows Finding ${finding.finding_id} after ${who.name} recorded it as removed (${count} time${count === 1 ? '' : 's'}). The HOLD stays open.`,
+        ];
+      } else {
         const angle = next.angles.find((a) => a.angle === finding.angle);
         next.findings.push({
           ...structuredClone(finding),
@@ -440,6 +458,84 @@ export class MockBackend {
       };
     }
     return this.touch(report);
+  }
+
+  /** "I can't find it" (issue #4). Records nothing; adds a Proposal. */
+  reportNotFound(inspectionId: string, findingId: string, body: Person): Report {
+    const { report } = this.findActionable(inspectionId);
+    const finding = report.findings.find((f) => f.finding_id === findingId);
+    if (!finding) fail(404, 'not_found', `Finding ${findingId} not found.`);
+    if (finding.status === 'confirmed') fail(409, 'already_confirmed', 'This Finding already has a Confirmation.');
+    const who = this.person(body);
+    const proposals = (report.proposals ??= []);
+    const pendingFor = (kind: ProposalKind) =>
+      proposals.some((p) => p.kind === kind && p.finding_id === findingId && p.status === 'pending');
+    if (finding.severity === 'HOLD') {
+      // Never a not-found Proposal for a HOLD: the Ramp Lead decides whether to re-inspect.
+      if (!pendingFor('reinspect_angle')) {
+        proposals.push(
+          this.proposal('reinspect_angle', finding, { role: 'ramp_lead', name: null }, who,
+            `${who.name} could not find the HOLD item on ${finding.angle} (Finding ${findingId}). Re-inspect ${finding.angle}? Nothing has been recorded; the HOLD stays open until you decide.`),
+        );
+      }
+      return this.touch(report);
+    }
+    if (!pendingFor('record_not_found_on_walk')) {
+      proposals.push(
+        this.proposal('record_not_found_on_walk', finding, who, who,
+          `Record Finding ${findingId} on ${finding.angle} as 'not found on walk' in your name? If you decline, the Finding stays open and stays with you.`),
+      );
+    }
+    return this.touch(report);
+  }
+
+  answerProposal(inspectionId: string, proposalId: string, accept: boolean, body: Person): Report {
+    const { turn, report } = this.findActionable(inspectionId);
+    const who = this.person(body);
+    const p = report.proposals?.find((x) => x.proposal_id === proposalId);
+    if (!p) fail(404, 'not_found', `Proposal ${proposalId} not found in this Inspection.`);
+    if (p.status !== 'pending') fail(409, 'proposal_answered', 'This Proposal has already been answered.');
+    if (who.role !== p.to.role || (p.to.name !== null && p.to.name !== who.name)) {
+      fail(403, 'not_addressed_to_you', `This Proposal is for ${p.to.name ?? (p.to.role === 'ramp_lead' ? 'a Ramp Lead' : 'a Ramp Agent')}.`);
+    }
+    const finding = report.findings.find((f) => f.finding_id === p.finding_id)!;
+    Object.assign(p, { status: accept ? 'accepted' : 'declined', answered_by: who, answered_at: this.iso() });
+    if (!accept) return this.touch(report);
+    if (p.kind === 'record_not_found_on_walk') {
+      if (finding.status === 'confirmed') fail(409, 'already_confirmed', 'This Finding already has a Confirmation.');
+      finding.status = 'confirmed';
+      finding.confirmation = {
+        outcome: 'not_found_on_walk',
+        false_alarm_reason: null,
+        confirmed_by: who,
+        confirmed_at: this.iso(),
+        after_photo_ref: null,
+        possible_source: null,
+      };
+      return this.touch(report);
+    }
+    const next = this.reinspect(turn, report, p.angle);
+    p.result_inspection_id = next.inspection_id;
+    return this.touch(next);
+  }
+
+  private proposal(kind: ProposalKind, f: Finding, to: Proposal['to'], by: Person, text: string): Proposal {
+    return {
+      // Its own counter, so Proposals never shift Inspection IDs.
+      proposal_id: `P-${String(++this.proposalSeq).padStart(4, '0')}`,
+      kind,
+      finding_id: f.finding_id,
+      angle: f.angle,
+      severity: f.severity,
+      to,
+      reported_by: by,
+      text,
+      status: 'pending',
+      created_at: this.iso(),
+      answered_by: null,
+      answered_at: null,
+      result_inspection_id: null,
+    };
   }
 
   reinspectAngle(inspectionId: string, angle: AngleName, body: Person): Report {

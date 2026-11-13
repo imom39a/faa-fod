@@ -35,6 +35,10 @@ export interface Api {
   exportHref(report: Report): string;
   confirmFinding(inspectionId: string, findingId: string, body: ConfirmBody): Promise<Report>;
   confirmAll(inspectionId: string, who: Person): Promise<Report>;
+  /** "I can't find it": records nothing; returns the Report with a new Proposal. */
+  reportNotFound(inspectionId: string, findingId: string, who: Person): Promise<Report>;
+  /** Accept or decline a Proposal addressed to `who`. A re-inspection Proposal returns the new Report. */
+  answerProposal(inspectionId: string, proposalId: string, accept: boolean, who: Person): Promise<Report>;
   reinspectAngle(inspectionId: string, angle: AngleName, who: Person): Promise<Report>;
   checkedByEye(inspectionId: string, angle: AngleName, who: Person): Promise<Report>;
   signoff(inspectionId: string, who: Person): Promise<Report>;
@@ -60,6 +64,7 @@ export function normaliseReport(r: Report): Report {
     findings: r.findings ?? [],
     dismissed_candidates: r.dismissed_candidates ?? [],
     observations: r.observations ?? [],
+    proposals: r.proposals ?? [],
     inspection_signoff: r.inspection_signoff ?? null,
     run_metadata: {
       local_models: r.run_metadata?.local_models ?? [],
@@ -117,6 +122,10 @@ export function createHttpApi(base = '/api', fetchImpl: FetchLike = (i, init) =>
     confirmFinding: (id, findingId, body) =>
       report(post<Report>(`/inspections/${enc(id)}/findings/${enc(findingId)}/confirm`, body)),
     confirmAll: (id, who) => report(post<Report>(`/inspections/${enc(id)}/findings/confirm-all`, who)),
+    reportNotFound: (id, findingId, who) =>
+      report(post<Report>(`/inspections/${enc(id)}/findings/${enc(findingId)}/not-found`, who)),
+    answerProposal: (id, proposalId, accept, who) =>
+      report(post<Report>(`/inspections/${enc(id)}/proposals/${enc(proposalId)}/answer`, { ...who, accept })),
     reinspectAngle: (id, angle, who) =>
       report(post<Report>(`/inspections/${enc(id)}/angles/${enc(angle)}/reinspect`, who)),
     checkedByEye: (id, angle, who) =>
