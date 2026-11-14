@@ -13,6 +13,7 @@ import {
 } from '../lib/labels';
 import { formatTime } from '../lib/format';
 import { isFindingOpen, isOutsideBoundary, personLabel } from '../lib/report';
+import { useDeveloperMode } from '../store/settings';
 import { SeverityBadge } from './bits';
 import { CheckCircleIcon } from './icons';
 
@@ -36,6 +37,7 @@ type Props = {
 
 export function FindingCard(props: Props) {
   const { finding: f, number, rules, person, actionable, busy, selected, hot, attribution, onSelect, onHover, onConfirm } = props;
+  const developer = useDeveloperMode();
   const [pickingReason, setPickingReason] = useState(false);
   const [source, setSource] = useState('');
   const open = isFindingOpen(f);
@@ -44,12 +46,7 @@ export function FindingCard(props: Props) {
   const cls = ['fcard', `tone-${severityTone(f.severity)}`, open ? '' : 'closed', selected ? 'selected' : '', hot ? 'hot' : ''].join(' ');
 
   return (
-    <li
-      className={cls}
-      data-finding={f.finding_id}
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
-    >
+    <li className={cls} data-finding={f.finding_id} onMouseEnter={() => onHover(true)} onMouseLeave={() => onHover(false)}>
       <div
         className="fcard-head"
         role="button"
@@ -99,12 +96,19 @@ export function FindingCard(props: Props) {
               {f.confidence !== 'high' ? ` · ${humanise(f.confidence)} confidence never lowers severity` : ''}
             </span>
             <span>
-              <b>Detected by:</b> {DETECTED_BY_LABEL[f.detected_by] ?? humanise(f.detected_by)} · <b>Decided by:</b>{' '}
-              {f.decided_by.model}
-              {f.decided_by.escalated ? ' (escalated)' : ''} · <b>Size:</b> {f.size}
+              <b>Detected by:</b> {DETECTED_BY_LABEL[f.detected_by] ?? humanise(f.detected_by)}
+              {developer ? (
+                <>
+                  {' '}
+                  · <b>Decided by:</b> {f.decided_by.model}
+                  {f.decided_by.escalated ? ' (escalated)' : ''}
+                </>
+              ) : null}{' '}
+              · <b>Size:</b> {f.size}
             </span>
             <span>
-              <b>Responsible party:</b> {f.responsible_party === 'airport' ? `airport: report to ${AIRPORT_ROUTE}` : 'airline: ramp crew removes'}
+              <b>Responsible party:</b>{' '}
+              {f.responsible_party === 'airport' ? `airport: report to ${AIRPORT_ROUTE}` : 'airline: ramp crew removes'}
             </span>
           </div>
 
@@ -115,7 +119,11 @@ export function FindingCard(props: Props) {
 
           <div className="crops">
             <figure>
-              {f.crop_url ? <img src={f.crop_url} alt={`Current crop of Finding ${number}`} loading="lazy" /> : <div className="nocrop">No crop</div>}
+              {f.crop_url ? (
+                <img src={f.crop_url} alt={`Current crop of Finding ${number}`} loading="lazy" />
+              ) : (
+                <div className="nocrop">No crop</div>
+              )}
               <figcaption>Current</figcaption>
             </figure>
             <figure>
@@ -129,7 +137,9 @@ export function FindingCard(props: Props) {
           </div>
           <p className="credit">
             Crops of the {f.angle} frame.{' '}
-            {attribution ? `Photo: ${attribution.author}, ${attribution.licence}${attribution.derived ? ` (${attribution.derived})` : ''}` : ''}
+            {attribution
+              ? `Photo: ${attribution.author}, ${attribution.licence}${attribution.derived ? ` (${attribution.derived})` : ''}`
+              : ''}
           </p>
         </>
       )}
@@ -192,7 +202,9 @@ export function FindingCard(props: Props) {
             <span aria-hidden="true">→</span>
             <span className={`step ${f.status === 'acknowledged' ? 'now' : ''}`}>2 Removed + re-inspection of {f.angle}</span>
           </div>
-          {person.role !== 'ramp_lead' && <p className="lead-note">Only a Ramp Lead can confirm a HOLD. You are signed in as Ramp Agent.</p>}
+          {person.role !== 'ramp_lead' && (
+            <p className="lead-note">Only a Ramp Lead can confirm a HOLD. You are signed in as Ramp Agent.</p>
+          )}
           <div className="factions">
             {f.status === 'open' ? (
               <button type="button" className="primary" disabled={busy} onClick={() => onConfirm({ outcome: 'acknowledged' })}>
@@ -203,7 +215,11 @@ export function FindingCard(props: Props) {
               type="button"
               className={f.status === 'acknowledged' ? 'good' : ''}
               disabled={busy || f.status !== 'acknowledged'}
-              title={f.status !== 'acknowledged' ? 'Acknowledge the HOLD first' : `Re-inspects ${f.angle}; the HOLD clears only if the new image is clean`}
+              title={
+                f.status !== 'acknowledged'
+                  ? 'Acknowledge the HOLD first'
+                  : `Re-inspects ${f.angle}; the HOLD clears only if the new image is clean`
+              }
               onClick={() => onConfirm({ outcome: 'removed' })}
             >
               Removed: re-inspect {f.angle}

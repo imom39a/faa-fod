@@ -7,8 +7,8 @@ import { formatClock } from '../lib/format';
 import { isAbnormal, shortPushback, stripLabel, tileModel } from '../lib/gates';
 import { PERSON_ROLE_LABEL } from '../lib/labels';
 import { isActiveTask } from '../lib/taskActions';
-import { CHAT_HREF, CREW_HREF, OVERVIEW_HREF, activityHref, turnHref, type Route } from '../route';
-import { BrandMark, ChatIcon, GridIcon, ListIcon, TaskIcon, ToneIcon, UserIcon } from './icons';
+import { CHAT_HREF, CREW_HREF, OVERVIEW_HREF, SETTINGS_HREF, activityHref, turnHref, type Route } from '../route';
+import { BrandMark, ChatIcon, GridIcon, ListIcon, SettingsIcon, TaskIcon, ToneIcon, UserIcon } from './icons';
 
 type Props = {
   route: Route;
@@ -27,6 +27,7 @@ const PAGES = [
   { key: 'chat', label: 'Chat', href: CHAT_HREF, Icon: ChatIcon, on: (r: Route) => r.name === 'chat' },
   { key: 'crew', label: 'Crew and Tasks', href: CREW_HREF, Icon: TaskIcon, on: (r: Route) => r.name === 'crew' },
   { key: 'activity', label: 'Activity', href: activityHref(), Icon: ListIcon, on: (r: Route) => r.name === 'activity' },
+  { key: 'settings', label: 'Settings', href: SETTINGS_HREF, Icon: SettingsIcon, on: (r: Route) => r.name === 'settings' },
 ] as const;
 
 /**

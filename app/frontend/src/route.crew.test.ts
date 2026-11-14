@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { CREW_HREF, parseRoute, turnHref } from './route';
+import { CREW_HREF, SETTINGS_HREF, parseRoute, turnHref } from './route';
 
 describe('router: Crew and Tasks and Finding links', () => {
   it('parses the Crew and Tasks route', () => {
     expect(parseRoute(CREW_HREF)).toEqual({ name: 'crew' });
+  });
+
+  it('parses the Settings route', () => {
+    expect(parseRoute(SETTINGS_HREF)).toEqual({ name: 'settings' });
   });
 
   it('keeps old Turn links working', () => {

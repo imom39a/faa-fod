@@ -8,6 +8,7 @@ import {
   crewEscalationLabel,
   crewStatusLabel,
   escalationsInProgress,
+  escalationLevelLabel,
   escalationWho,
   groupRoster,
   nextTimerIn,
@@ -15,6 +16,7 @@ import {
   openTasks,
   recentActivity,
   recentlyClosedTasks,
+  taskDetail,
   taskHref,
   taskInstruction,
   taskTarget,
@@ -23,13 +25,15 @@ import {
   type BoardTask,
 } from '../lib/crewTasks';
 import { formatClock, formatTime, formatUsd, plural } from '../lib/format';
+import { useDeveloperMode } from '../store/settings';
 import { personRoleLabel, SHIFT_LABEL } from '../lib/labels';
+import { isAbnormal, severityTone } from '../lib/gates';
 import { isActiveTask } from '../lib/taskActions';
 import { activityHref, turnHref } from '../route';
 import { useBoard } from '../store/boardStore';
 import { SeverityBadge } from './bits';
 import { ActivityCategoryIcon } from './ActivityCategoryIcon';
-import { AgentIcon, ArrowRightIcon, CheckCircleIcon, ClockIcon, EscalationIcon, SpinnerIcon, TaskIcon, UserIcon } from './icons';
+import { AgentIcon, ArrowRightIcon, CheckCircleIcon, EscalationIcon, SpinnerIcon, TaskIcon, UserIcon } from './icons';
 import '../crew-tasks.css';
 
 const KNOWN_SEVERITY: readonly string[] = ['HOLD', 'REMOVE', 'ADVISORY'];
@@ -43,6 +47,7 @@ const isSample = (t: Pick<BoardTask, 'created_by'>) => t.created_by === 'sample'
  * Read-only: it offers links, never an action.
  */
 export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
+  const developer = useDeveloperMode();
   const { board, receivedAt, error } = useBoard(agent);
 
   return (
@@ -58,7 +63,9 @@ export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
           Full activity log <ArrowRightIcon className="vicon" />
         </a>
       </div>
-      {MOCK_MODE ? <p className="small muted crew-note">Mock mode: no model is called; cost and token figures are illustrative.</p> : null}
+      {developer && MOCK_MODE ? (
+        <p className="small muted crew-note">Mock mode: no model is called; cost and token figures are illustrative.</p>
+      ) : null}
       {error ? (
         <div className="banner error" role="alert">
           <span className="grow">
@@ -80,8 +87,9 @@ export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
 }
 
 function CrewBoard({ board, now }: { board: Board; now: number }) {
+  const developer = useDeveloperMode();
   const open = openTasks(board.tasks);
-  const escalated = escalationsInProgress(board.tasks);
+  const escalated = escalationsInProgress(board.tasks).length;
   const closed = recentlyClosedTasks(board.tasks);
   const holds = open.filter((t) => t.severity === 'HOLD').length;
   const sample = board.tasks.some(isSample);
@@ -90,7 +98,8 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
     <>
       {sample ? (
         <p className="small muted crew-note" role="note">
-          <span className="crew-sample">Sample</span> Sample Tasks and activity, shown until the demo creates a Task. Sample Tasks do not open a Turn. Press Play for live Tasks that open their Turn and Finding.
+          <span className="crew-sample">Sample</span> Sample Tasks and activity, shown until the demo creates a Task. Sample Tasks do not
+          open a Turn. Press Play for live Tasks that open their Turn and Finding.
         </p>
       ) : null}
       <div className="crew-layout">
@@ -99,30 +108,12 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
             <h3 id="crew-open-h" className="crew-h">
               <TaskIcon className="vicon" /> Open Tasks <span className="crew-count">{open.length}</span>
               {holds > 0 ? <span className="crew-sub">{plural(holds, 'HOLD')}</span> : null}
+              {escalated > 0 ? <span className="crew-sub">{escalated} escalated</span> : null}
             </h3>
             {open.length === 0 ? (
               <p className="muted crew-empty">No open Tasks.</p>
             ) : (
-              <ul className="crew-tasks" aria-label="Open Tasks">
-                {open.map((t) => (
-                  <TaskRow key={t.task_id} task={t} roster={board.roster} now={now} />
-                ))}
-              </ul>
-            )}
-          </section>
-
-          <section className="panel crew-section" aria-labelledby="crew-esc-h">
-            <h3 id="crew-esc-h" className="crew-h">
-              <EscalationIcon className="vicon" /> Escalations in progress <span className="crew-count">{escalated.length}</span>
-            </h3>
-            {escalated.length === 0 ? (
-              <p className="muted crew-empty">No Escalations in progress.</p>
-            ) : (
-              <ul className="crew-escalations" aria-label="Escalations in progress">
-                {escalated.map((t) => (
-                  <EscalationRow key={t.task_id} task={t} board={board} />
-                ))}
-              </ul>
+              <TaskTable label="Open Tasks" tasks={open} board={board} now={now} />
             )}
           </section>
 
@@ -131,18 +122,14 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
               <summary className="crew-h">
                 <CheckCircleIcon className="vicon" /> Recently closed <span className="crew-count">{closed.length}</span>
               </summary>
-              <ul className="crew-tasks" aria-label="Recently closed Tasks">
-                {closed.map((t) => (
-                  <TaskRow key={t.task_id} task={t} roster={board.roster} now={now} />
-                ))}
-              </ul>
+              <TaskTable label="Recently closed Tasks" tasks={closed} board={board} now={now} />
             </details>
           ) : null}
         </div>
 
         <div className="crew-side">
           <RosterSection roster={board.roster} />
-          <CostSection board={board} />
+          {developer && <CostSection board={board} />}
           <ActivitySection entries={board.activity} roster={board.roster} />
         </div>
       </div>
@@ -150,18 +137,55 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
   );
 }
 
-function TaskRow({ task, roster, now }: { task: BoardTask; roster: BoardPerson[]; now: number }) {
+/**
+ * Tasks as rows, most urgent first (spec/design-system.md: "Prefer a table or rows to a
+ * grid of cards"). A HOLD or REMOVE row has its severity colour as a bar on the left edge
+ * and a severity badge; an escalated Task shows the double-chevron icon and its level in
+ * the status column. Neither relies on colour alone.
+ */
+function TaskTable({ label, tasks, board, now }: { label: string; tasks: BoardTask[]; board: Board; now: number }) {
+  return (
+    <div className="crew-table" role="table" aria-label={label}>
+      <div className="crew-row crew-row-head" role="row">
+        <span role="columnheader">Gate</span>
+        <span role="columnheader">Task</span>
+        <span role="columnheader">Severity</span>
+        <span role="columnheader">Assigned to · status</span>
+        <span role="columnheader" className="r">
+          Open
+        </span>
+      </div>
+      {tasks.map((t) => (
+        <TaskRow key={t.task_id} task={t} board={board} now={now} />
+      ))}
+    </div>
+  );
+}
+
+function TaskRow({ task, board, now }: { task: BoardTask; board: Board; now: number }) {
   const info = taskTypeInfo(task);
   const instruction = taskInstruction(task);
+  const detail = taskDetail(instruction);
   const active = isActiveTask(task);
   const hold = task.severity === 'HOLD';
   const escalation = active ? crewEscalationLabel(task.escalation_level) : null;
+  const level = active ? escalationLevelLabel(task.escalation_level) : null;
+  const next = level ? nextTimerIn(task.task_id, board.timers, board.clock_t) : null;
   const status = crewStatusLabel(task);
-  const assignee = assigneeLabel(task.assignee_id, roster);
+  const assignee = assigneeLabel(task.assignee_id, board.roster);
   const target = taskTarget(task);
   const age = active ? openFor(task.created_at, now) : '';
   const severity = task.severity && KNOWN_SEVERITY.includes(task.severity) ? (task.severity as Severity) : null;
-  const cls = ['crew-task', hold ? 'is-hold' : '', escalation ? 'is-escalated' : '', active ? '' : 'is-closed', info.known ? '' : 'is-unknown-type']
+  const tone = severity ? severityTone(severity) : null;
+  const cls = [
+    'crew-row',
+    tone ? `tone-${tone}` : '',
+    tone && isAbnormal(tone) ? 'is-abnormal' : '',
+    hold ? 'is-hold' : '',
+    escalation ? 'is-escalated' : '',
+    active ? '' : 'is-closed',
+    info.known ? '' : 'is-unknown-type',
+  ]
     .filter(Boolean)
     .join(' ');
   const name = [
@@ -177,56 +201,59 @@ function TaskRow({ task, roster, now }: { task: BoardTask; roster: BoardPerson[]
   ]
     .filter(Boolean)
     .join(', ');
+  const badge = severity ? <SeverityBadge severity={severity} /> : task.severity ? <span className="tag">{task.severity}</span> : null;
 
   return (
-    <li
+    <TaskLink
+      task={task}
+      name={name}
       className={cls}
-      data-task-id={task.task_id}
-      data-task-type={info.raw}
-      data-severity={task.severity ?? ''}
-      data-escalation-level={task.escalation_level}
-      data-status={task.status}
+      data={{
+        'data-task-id': task.task_id,
+        'data-task-type': info.raw,
+        'data-severity': task.severity ?? '',
+        'data-escalation-level': String(task.escalation_level),
+        'data-status': task.status,
+      }}
     >
-      <TaskLink task={task} name={name}>
-        <span className="crew-task-top">
-          <span className="gate-chip">{task.gate}</span>
-          <span className={`crew-task-type${info.known ? '' : ' mono'}`} title={info.known ? undefined : 'A Task type this dashboard does not know yet. Shown as the server names it.'}>
+      <span role="cell" className="crew-cell-gate">
+        {task.gate}
+      </span>
+      <span role="cell" className="crew-cell-task">
+        <span className="crew-task-type">
+          <b
+            className={info.known ? undefined : 'mono'}
+            title={info.known ? undefined : 'A Task type this dashboard does not know yet. Shown as the server names it.'}
+          >
             {info.label}
-          </span>
+          </b>
           {isSample(task) ? <span className="crew-sample">Sample</span> : null}
-          {severity ? <SeverityBadge severity={severity} /> : task.severity ? <span className="tag">{task.severity}</span> : null}
-          {escalation ? (
-            <span className="esc-flag crew-esc">
-              <EscalationIcon className="vicon" /> {escalation}
+          <span className="crew-sev-inline">{badge}</span>
+        </span>
+        <span className="crew-task-detail" title={instruction || undefined}>
+          <b>{target}</b>
+          {detail ? ` · ${detail}` : ''}
+        </span>
+      </span>
+      <span role="cell" className="crew-cell-sev">
+        {badge ?? <span className="muted">–</span>}
+      </span>
+      <span role="cell" className="crew-cell-status">
+        <span className="crew-who">{assignee}</span>
+        <span className="crew-status-line">
+          <span>{status}</span>
+          {level ? (
+            <span className="crew-esc-line" title={escalationWho(task.escalation_level)}>
+              <EscalationIcon className="vicon" /> {level}
+              {next !== null ? <span className="muted num"> · next {formatClock(next)}</span> : null}
             </span>
           ) : null}
-          <span className="spacer" />
-          <span className={`status-chip st-${task.status}`}>{status}</span>
         </span>
-        {instruction ? <span className="crew-task-instr">{instruction}</span> : null}
-        <span className="crew-task-meta">
-          <span>
-            <b>{target}</b>
-          </span>
-          <span>
-            <UserIcon className="vicon" /> {assignee}
-          </span>
-          {age ? (
-            <span className="num">
-              <ClockIcon className="vicon" /> open for {age}
-            </span>
-          ) : null}
-          <span className="muted mono">{task.task_id}</span>
-          {isSample(task) ? (
-            <span className="crew-go muted">Sample: no Turn to open</span>
-          ) : (
-            <span className="crew-go" aria-hidden="true">
-              Turn {task.turn_id} <ArrowRightIcon className="vicon" />
-            </span>
-          )}
-        </span>
-      </TaskLink>
-    </li>
+      </span>
+      <span role="cell" className="crew-cell-age r num">
+        {age || '–'}
+      </span>
+    </TaskLink>
   );
 }
 
@@ -235,46 +262,30 @@ function TaskRow({ task, roster, now }: { task: BoardTask; roster: BoardPerson[]
  * row: at page load the mock has no Inspection that holds its Finding, so a
  * link would open a Turn that says something else.
  */
-function TaskLink({ task, name, children }: { task: BoardTask; name: string; children: React.ReactNode }) {
+function TaskLink({
+  task,
+  name,
+  className,
+  data,
+  children,
+}: {
+  task: BoardTask;
+  name: string;
+  className: string;
+  data: Record<string, string>;
+  children: React.ReactNode;
+}) {
   if (isSample(task)) {
     return (
-      <div className="crew-task-link is-sample" aria-label={`${name}. Sample Task: no Turn to open.`}>
+      <div role="row" className={`${className} is-sample`} aria-label={`${name}. Sample Task: no Turn to open.`} {...data}>
         {children}
       </div>
     );
   }
   return (
-    <a className="crew-task-link" href={taskHref(task)} aria-label={`${name}. Open the Turn and Finding.`}>
+    <a role="row" className={className} href={taskHref(task)} aria-label={`${name}. Open the Turn and Finding.`} {...data}>
       {children}
     </a>
-  );
-}
-
-function EscalationRow({ task, board }: { task: BoardTask; board: Board }) {
-  const info = taskTypeInfo(task);
-  const label = crewEscalationLabel(task.escalation_level);
-  const next = nextTimerIn(task.task_id, board.timers, board.clock_t);
-  return (
-    <li className="crew-esc-row" data-task-id={task.task_id} data-escalation-level={task.escalation_level}>
-      <span className="esc-flag crew-esc">
-        <EscalationIcon className="vicon" /> {label}
-      </span>
-      <span className="crew-esc-body">
-        {isSample(task) ? (
-          <span>
-            <b>{task.task_id}</b> {info.label} · {task.gate} · {taskTarget(task)}
-          </span>
-        ) : (
-          <a href={taskHref(task)}>
-            <b>{task.task_id}</b> {info.label} · {task.gate} · {taskTarget(task)}
-          </a>
-        )}
-        <span className="small muted">
-          {escalationWho(task.escalation_level)} · assigned to {assigneeLabel(task.assignee_id, board.roster)}
-          {next !== null ? ` · next timer in ${formatClock(next)} (demo clock)` : ''}
-        </span>
-      </span>
-    </li>
   );
 }
 

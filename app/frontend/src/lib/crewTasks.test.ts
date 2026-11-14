@@ -4,6 +4,8 @@ import { actorLabel } from './activity';
 import {
   assigneeLabel,
   crewEscalationLabel,
+  escalationLevelLabel,
+  taskDetail,
   crewStatusLabel,
   escalationsInProgress,
   groupRoster,
@@ -161,6 +163,9 @@ describe('labels', () => {
     expect(crewEscalationLabel(1)).toBe('Escalated · level 1');
     expect(crewEscalationLabel(2)).toBe('Escalated · level 2');
     expect(crewEscalationLabel(Number.NaN)).toBeNull();
+    expect(escalationLevelLabel(0)).toBeNull();
+    expect(escalationLevelLabel(2)).toBe('Level 2');
+    expect(escalationLevelLabel(Number.NaN)).toBeNull();
   });
 
   it('says where a Task points', () => {
@@ -195,6 +200,17 @@ describe('labels', () => {
     expect(assigneeLabel(null, roster)).toBe('Unassigned');
     expect(actorLabel('Okafor', roster)).toBe('Okafor (Ramp Lead)');
     expect(actorLabel('timer', roster)).toBe('Timer');
+  });
+});
+
+describe('taskDetail: the line under the Task type', () => {
+  it('drops the restated Task before the first colon', () => {
+    expect(taskDetail('Acknowledge and clear the HOLD at T5 ENG-R: Hammer on the pavement.')).toBe('Hammer on the pavement.');
+  });
+  it('keeps an instruction without that shape whole', () => {
+    expect(taskDetail('Check T2 ENG-R by eye or re-inspect it')).toBe('Check T2 ENG-R by eye or re-inspect it');
+    expect(taskDetail('Nothing after: ')).toBe('Nothing after: ');
+    expect(taskDetail('')).toBe('');
   });
 });
 

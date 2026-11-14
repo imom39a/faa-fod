@@ -8,6 +8,7 @@ export type Route =
   | { name: 'turn'; turnId: string; inspectionId: string | null; /** `?finding=<finding_id>`: the Finding a link opens (its ID in that Inspection). */ finding: string | null }
   | { name: 'chat' }
   | { name: 'crew' }
+  | { name: 'settings' }
   | { name: 'activity'; filter: ActivityRouteFilter };
 
 export function parseRoute(hash: string): Route {
@@ -18,6 +19,7 @@ export function parseRoute(hash: string): Route {
   }
   if (parts[0] === 'chat') return { name: 'chat' };
   if (parts[0] === 'crew') return { name: 'crew' };
+  if (parts[0] === 'settings') return { name: 'settings' };
   if (parts[0] === 'activity') {
     const q = new URLSearchParams(query);
     const get = (k: string) => q.get(k) || null;
@@ -28,6 +30,7 @@ export function parseRoute(hash: string): Route {
 
 export const CHAT_HREF = '#/chat';
 export const CREW_HREF = '#/crew';
+export const SETTINGS_HREF = '#/settings';
 
 export function activityHref(filter: Partial<ActivityRouteFilter> = {}): string {
   const q = new URLSearchParams();
@@ -51,7 +54,7 @@ export function navigate(href: string): void {
   window.location.hash = href.replace(/^#/, '');
 }
 
-/** Minimal hash router: four views do not need a routing library. */
+/** Minimal hash router: five views do not need a routing library. */
 export function useRoute(): Route {
   const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
   useEffect(() => {

@@ -190,6 +190,14 @@ export const ArrowRightIcon = (p: IconProps) => (
     <path d="M4 12h15M13 6l6 6-6 6" />
   </Svg>
 );
+/** Settings: a slider panel. */
+export const SettingsIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 7h9M17 7h3M4 17h3M11 17h9" />
+    <circle cx="15" cy="7" r="2" />
+    <circle cx="9" cy="17" r="2" />
+  </Svg>
+);
 export const SignOutIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h9" />

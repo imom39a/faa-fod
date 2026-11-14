@@ -14,9 +14,23 @@ import {
   type ActivityCategory,
 } from '../lib/activity';
 import { formatClock, formatTime, formatUsd } from '../lib/format';
+import { useDeveloperMode } from '../store/settings';
 import { PERSON_ROLE_LABEL } from '../lib/labels';
 import { activityHref, navigate, turnHref, type ActivityRouteFilter } from '../route';
-import { AgentIcon, ArrowRightIcon, ChatIcon, CheckCircleIcon, ClockIcon, CrossIcon, DashIcon, EyeIcon, QuestionIcon, ReportIcon, TaskIcon, UserIcon } from './icons';
+import {
+  AgentIcon,
+  ArrowRightIcon,
+  ChatIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  CrossIcon,
+  DashIcon,
+  EyeIcon,
+  QuestionIcon,
+  ReportIcon,
+  TaskIcon,
+  UserIcon,
+} from './icons';
 
 const ICON: Record<ActivityCategory, React.ReactNode> = {
   inspection: <EyeIcon />,
@@ -35,6 +49,7 @@ const PAGE = 300;
 
 /** Everything that happened, newest first, with live updates from GET /api/agent/activity. */
 export function ActivityPage({ agent, filter }: { agent: AgentApi; filter: ActivityRouteFilter }) {
+  const developer = useDeveloperMode();
   const [entries, setEntries] = useState<ActivityEntry[]>([]);
   const [cost, setCost] = useState<AgentCost | null>(null);
   const [roster, setRoster] = useState<RosterPerson[]>([]);
@@ -70,7 +85,10 @@ export function ActivityPage({ agent, filter }: { agent: AgentApi; filter: Activ
       }
     };
     void poll();
-    void agent.roster().then((r) => !cancelled && setRoster(r.people), () => undefined);
+    void agent.roster().then(
+      (r) => !cancelled && setRoster(r.people),
+      () => undefined,
+    );
     const timer = setInterval(() => void poll(), 1000);
     return () => {
       cancelled = true;
@@ -100,7 +118,7 @@ export function ActivityPage({ agent, filter }: { agent: AgentApi; filter: Activ
         <h2 className="page-title">Activity log</h2>
         <span className="muted small">Newest first · updates every second</span>
         <span className="spacer" />
-        {cost ? (
+        {developer && cost ? (
           <div className="stat-row cost-row" aria-label="Agent session cost">
             <div className="stat">
               <b className="num">{formatUsd(cost.agent_session_usd)}</b>
@@ -126,7 +144,9 @@ export function ActivityPage({ agent, filter }: { agent: AgentApi; filter: Activ
           </div>
         ) : null}
       </div>
-      {MOCK_MODE ? <p className="small muted">Mock mode: no model is called; cost and token figures are illustrative.</p> : null}
+      {developer && MOCK_MODE ? (
+        <p className="small muted">Mock mode: no model is called; cost and token figures are illustrative.</p>
+      ) : null}
       {error ? (
         <div className="banner error" role="alert">
           <span className="grow">
@@ -218,7 +238,7 @@ export function ActivityPage({ agent, filter }: { agent: AgentApi; filter: Activ
                     </span>
                   )}
                   {cat === 'report' ? <span>A Report: nothing was recorded on the Inspection</span> : null}
-                  {usd !== null ? (
+                  {developer && usd !== null ? (
                     <span className="num">
                       Wake cost {formatUsd(usd)} · {String(e.data.tokens_in ?? 0)} in / {String(e.data.tokens_out ?? 0)} out
                     </span>
