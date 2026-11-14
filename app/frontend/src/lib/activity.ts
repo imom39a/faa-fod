@@ -1,5 +1,6 @@
 /** The activity log: grouping entries into kinds, working out who and where, and filtering. */
 import type { ActivityEntry, RosterPerson } from '../api/agentTypes';
+import { personRoleLabel } from './labels';
 
 export type ActivityCategory =
   | 'inspection'
@@ -155,4 +156,14 @@ export function entryInspectionId(entry: ActivityEntry): string | null {
 export function entryText(entry: ActivityEntry): string {
   if (entry.event !== 'message') return entry.text;
   return entry.text.replace(/^[\w-]+> /, '').replace(/^[\w-]+ to [\w-]+: /, '');
+}
+
+/** Who did an entry: System, Agent, Timer, "Okafor (Ramp Lead)", or the actor as sent. */
+export function actorLabel(actor: string, roster: readonly Pick<RosterPerson, 'person_id' | 'name' | 'role'>[]): string {
+  if (actor === 'code') return 'System';
+  if (actor === 'agent') return 'Agent';
+  if (actor === 'timer') return 'Timer';
+  // A Confirmation names the person ("Okafor"); everything else uses the person_id.
+  const p = roster.find((x) => x.person_id === actor.toLowerCase() || x.name === actor);
+  return p ? `${p.name} (${personRoleLabel(p.role)})` : actor;
 }

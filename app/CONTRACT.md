@@ -96,6 +96,7 @@ Pipeline per Inspection (requirements PL-1..PL-8, RU-3): usability check per Ang
 |---|---|---|
 | GET `/state` | | `State` |
 | GET `/turns/{turn_id}` | | `Turn` with `inspections: Report[]` (oldest first) and `events` |
+| GET `/turns/{turn_id}/record` | | `TurnRecord` (see "Turn record" below). Read-only; 404 `not_found` for an unknown Turn |
 | GET `/inspections/{id}` | | `Report` |
 | GET `/inspections/{id}/export` | | the `Report` as a JSON download |
 | POST `/inspections/{id}/findings/{finding_id}/confirm` | `{ outcome, false_alarm_reason?, possible_source?, role, name }` | `Report` |
@@ -156,9 +157,49 @@ type QueueItem = { gate: string; turn_id: string; inspection_id: string;
 
 The dashboard polls `GET /api/state` every second.
 
+### Turn record
+
+`GET /api/turns/{turn_id}/record` lists every Inspection, Task, Report and Confirmation of one Turn in time order, with who did each and the cost of the Turn. The dashboard shows it on the Turn's page and offers it as a JSON download. It only reads the store: it never writes and never calls a model. No session is needed. Unknown Turn: 404 `{ "error": "not_found", "message" }`.
+
+A Report is what a person said about a Task (accepted, done, not found, blocked, a note). A Confirmation is what was recorded. They are always separate entries, of kind `report` and `confirmation`.
+
+```ts
+type TurnRecord = {
+  turn_id: string; gate: string; flight: string | null;
+  generated_at: string;                          // ISO time the record was built
+  cost: { inspections_usd: number;               // sum of run_metadata.est_cost_usd of the Turn's Inspections
+          agent_usd: number;                     // agent wakes logged against this Turn (routing wakes)
+          total_usd: number;                     // inspections_usd + agent_usd
+          note: string | null };                 // set when some agent wakes belong to no Turn and are not counted
+  entries: RecordEntry[];
+};
+type RecordEntry = {
+  seq: number;                                   // 0..n-1 in the returned order
+  at: string;                                    // ISO time; sorted by at, ties broken by a stable source order
+  t: number | null;                              // demo seconds when known
+  kind: "inspection" | "task" | "report" | "confirmation";   // clients must also accept kinds not listed here
+  event: string;                                 // see below; clients must also accept events not listed here
+  person: { person_id: string | null; name: string | null; role: string | null } | null;
+  text: string;                                  // one plain line
+  refs: { inspection_id: string | null; task_id: string | null;
+          finding_id: string | null;             // the Inspection's Finding ID (data.finding_label has the short label, "F1")
+          angle: string | null };
+  data: object;                                  // details, by kind (below)
+};
+```
+
+| kind | event | person | data |
+|---|---|---|---|
+| `inspection` | `started`, `reinspected` (an on-demand Inspection), `completed` | `reinspected`: who asked, when known; else null | `inspection_kind`; on `started` / `reinspected`: `scene_id`, `angles`, `reason` (`requested` \| `hold_removed` \| null), `parent_inspection_id`; on `completed`: `verdict`, `highest_open_severity`, `missing_angles` (as they were when it finished), `new_findings`, `est_cost_usd`, `spent_usd` |
+| `task` | `assigned`, `reassigned`, `escalated`, `reopened`, `closed`, `cancelled`; any other Task event in the activity log (`handover`, or a `task_*` event a later ticket adds) appears by its log name without `task_`, with the log row's text | the Task's assignee at that point (an event the record does not know changes it only when its data names a `to`) | `task_type` (any string: types added later appear by name), `finding_label`, `severity`; `by` (`code` \| `agent` \| `timer` \| person_id) on every event except `closed` / `cancelled`; `assigned`: `instruction`; `reassigned`: `from`, `to`, `reason`; `escalated`: `level`, `reason`, `notified[]`; `closed` / `cancelled`: `reason`, `confirmation_id`; any other event: `log_event`, and `from`, `to`, `reason`, `level` when the log row has them |
+| `report` | named as in the commands: `accept`, `done`, `cant`, `not_found`, `note` | who reported | `report_id`, `report_kind` (as stored: `accepted`, `done`, `not_found`, `blocked`, `note`), `raw_text` (the note typed after a command, or the free text), `via` (`command` \| `free_text`), `finding_label` |
+| `confirmation` | the action: `acknowledged`, `removed`, `false_alarm`, `not_found_on_walk`, `checked_by_eye`, `signoff` | who recorded it, with role from the confirmations table and `person_id` from the chat session or the Roster | `confirmation_id`, `via` (`command` \| `accepted_proposal` \| `dashboard` for the section 2 endpoints), `raw_text`, `proposal_id`, `finding_label`, `severity`, `outcome_details` (`false_alarm_reason`, `possible_source`, `after_photo_ref` when set) |
+
+Order: store times have one-second resolution, so ties are common. They are broken by the activity log (section 5), the one ordered sequence of what happened; a Confirmation always comes before the Task close it caused. Entries with no activity-log row (for example with `FOD_AGENT=off`) follow, Inspections first, each in its table's order.
+
 ## 3. Dashboard (owner: frontend)
 
-Vite + React + TypeScript in `app/frontend/`. `npm run dev` proxies `/api` and `/images` to `http://localhost:8000`; `npm run build` writes `dist/`. Follow `spec/dashboard-ux.md`; the mock at `prototypes/dashboard/index.html` (variant A tiles + variant B queue) is the visual reference. Include: demo controls (play, pause, reset, speed), role switch (Ramp Agent / Ramp Lead, with a name field), Gate tiles + queue, Turn view with Inspection timeline, 6-Angle viewer with Finding boxes linked to the Findings list, current vs reference crops, Confirmation actions per the API rules above, checked-by-eye, sign-off with 6 thumbnails, per-Inspection cost and timing readout, JSON export link, an assistant panel calling `POST /api/assistant`, and photo attribution on every image. Ship a mock mode (`VITE_MOCK=1`) with fixture data so it can be developed without the backend.
+Vite + React + TypeScript in `app/frontend/`. `npm run dev` proxies `/api` and `/images` to `http://localhost:8000`; `npm run build` writes `dist/`. Follow `spec/dashboard-ux.md`; the mock at `prototypes/dashboard/index.html` (variant A tiles + variant B queue) is the visual reference. Include: demo controls (play, pause, reset, speed), role switch (Ramp Agent / Ramp Lead, with a name field), Gate tiles + queue, Turn view with Inspection timeline, 6-Angle viewer with Finding boxes linked to the Findings list, current vs reference crops, Confirmation actions per the API rules above, checked-by-eye, sign-off with 6 thumbnails, per-Inspection cost and timing readout, JSON export link, an assistant panel calling `POST /api/assistant`, and photo attribution on every image. The always-on agent adds the chat page (`#/chat`), the activity log (`#/activity`), the read-only Crew and Tasks page (`#/crew`, from `GET /api/agent/board`) and, on the Turn view, the read-only Turn record (`GET /api/turns/{turn_id}/record`). Ship a mock mode (`VITE_MOCK=1`) with fixture data so it can be developed without the backend.
 
 ## 4. Budget and hygiene
 
@@ -211,6 +252,7 @@ type Task = { task_id: string;                 // "K-3"
               type: "ack_hold" | "remove" | "walk_and_report" | "check_by_eye" | "report_outside_boundary" | "sign_off";
               gate: string; turn_id: string; inspection_id: string;   // always the Turn's latest Inspection
               finding_id: string | null;       // short label, "F1"; stable across re-inspections
+              inspection_finding_id: string | null;  // the same Finding's ID in inspection_id: a link opens it there
               angle: string | null;
               severity: "HOLD" | "REMOVE" | "ADVISORY" | null;   // copied from the Finding by code
               required_role: "ramp_lead" | "any";
@@ -251,7 +293,7 @@ type Board = { mode: "off" | "code" | "on"; model: string; model_available: bool
                cost: Cost };
 ```
 
-**Polling.** The chat page polls `GET /inbox?after=<cursor>` about once a second (this also keeps `signed_in` true) and `GET /activity?after=<cursor>` for the log page. Neither call reaches a model. `gate` and `turn_id` filter the log to entries tied to that Gate or Turn; entries that belong to no Gate (sign-ins, most messages) are left out when a filter is given.
+**Polling.** The chat page polls `GET /inbox?after=<cursor>` about once a second (this also keeps `signed_in` true) and `GET /activity?after=<cursor>` for the log page. The Crew and Tasks page polls `GET /board` about once a second, one request at a time. None of these calls reaches a model. `gate` and `turn_id` filter the log to entries tied to that Gate or Turn; entries that belong to no Gate (sign-ins, most messages) are left out when a filter is given.
 
 **Activity events.** `inspection_completed` (data: `inspection_id, kind, verdict, highest_open_severity, open_findings[]`), `task_assigned` (data: the `Task`), `hold_alert`, `task_reassigned`, `task_accepted`, `task_reported` (data: `task_id, kind, via, raw_text`), `task_reopened`, `task_escalated` (data: `task_id, level, reason, notified[]`), `task_closed` / `task_cancelled` (data: `task_ids[], reason, confirmation_id`), `timer_fired`, `message` (data: `message_id, from, to, kind, task_id, proposal_id`), `proposal_created`, `proposal_answered` (data: `proposal_id, status: accepted | declined | void, action`), `confirmation` (data: `action: acknowledged | removed | false_alarm | not_found_on_walk | checked_by_eye | signoff, finding_id, angle, by: { role, name }, inspection_id`; `at` is when), `command_refused` (data: `command, error`), `handover`, `signed_in`, `agent_wake_started`, `agent_tool` (data: `tool, args, ok, result`), `agent_note`, `agent_wake` (data: `trigger, model, outcome, tokens_in, tokens_out, est_cost_usd, seconds, tool_calls[]`), `agent_wake_failed`, `model_unavailable`, `free_text_not_interpreted`, `unroutable`, `departed`, `idle`, `dispatcher_started`, `demo_reset`.
 

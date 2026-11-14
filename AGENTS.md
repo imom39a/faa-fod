@@ -9,6 +9,7 @@ Read `README.md` first for what this is and how to run it. This file covers what
 - `app/CONTRACT.md` fixes the data layout and the API between backend, dashboard and data. If you change an endpoint or a field, change the contract, the backend, the dashboard types (`app/frontend/src/api/`) and the dashboard mock together.
 - `GLOSSARY.md` defines the vocabulary (Gate, Turn, Inspection, Angle, Candidate, Finding, Verdict, Confirmation, Ramp Agent, Ramp Lead, Roster, Shift, Task, Report, Escalation, Handover). Use these words exactly in code, API and UI.
 - The always-on agent is `app/backend/fodgate/dispatch/` (spec: `spec/dispatch.md`, API: `app/CONTRACT.md` section 5). It is started from a terminal and used from the browser: `dispatcher.py` is the code-only event loop, `agent.py` the Haiku tool loop, `commands.py` the slash commands. `fodgate/agent.py` is the process entry point with the display-only console.
+- The dashboard's read-only views of the agent: Crew and Tasks (`app/frontend/src/components/CrewTasksPage.tsx`, `lib/crewTasks.ts`, `store/boardStore.ts`, route `#/crew`, from `GET /api/agent/board`) and the Turn record (`components/TurnRecord.tsx`, `lib/turnRecord.ts`, backend `app/backend/fodgate/turn_record.py`, `GET /api/turns/{turn_id}/record`). Keep both read-only. Mock sample data for them: `src/mock/crewSample.ts` and `src/mock/turnRecord.ts`. Tests: `src/lib/crewTasks.test.ts` (Task order, unknown Task types, links), `src/store/boardStore.test.ts`, `src/lib/turnRecord.test.ts`, `src/mock/crewSample.test.ts`, `src/mock/turnRecord.test.ts`, `src/route.crew.test.ts`, and `app/backend/tests/test_turn_record.py`.
 - `prototypes/` is throwaway evidence. Do not import from it or extend it.
 - `issues/` is the decision record. Each file is one closed decision; `0001-map-...md` indexes them.
 
@@ -21,6 +22,7 @@ Read `README.md` first for what this is and how to run it. This file covers what
 cd app/backend  && uv run python -m fodgate.rehearse --keyless   # agent demo over HTTP, two scripted people, no cost
 cd app/backend  && uv run pytest               # must pass before you finish
 cd app/frontend && npm test && npm run build   # must pass before you finish
+cd app/frontend && npm run dev:mock           # dashboard with no backend; Crew and Tasks at http://localhost:5173/#/crew
 cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detection scoring, no API cost
 ```
 
@@ -34,6 +36,7 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 - **Only a Ramp Lead confirms a HOLD**, in two steps (acknowledged, then removed), and "removed" clears it only if a re-inspection of that Angle is clean.
 - **An unusable Angle makes the Verdict INCOMPLETE**, never ALL CLEAR. A failed analysis marks the Angle unusable.
 - **Models:** `claude-haiku-5-5` by default; `claude-sonnet-5-5` only behind `FOD_ESCALATION`. Opus is not used; the backend rejects it. The always-on agent runs on `claude-haiku-5-5` only.
+- **A Report and a Confirmation stay separate.** The Turn record shows them as different kinds of entry; never merge them. New Task types must show by name on Crew and Tasks without a dashboard change. New Task log events (`task_*`, `handover*`) reach the Turn record by name; the record tracks who holds a Task only for events whose data names a `to`.
 - **Real photographs only**, openly licensed, with attribution recorded in `app/data/ATTRIBUTION.md` and shown in the UI.
 
 ## Money and secrets
@@ -53,5 +56,8 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 - The equipment-inside-the-restraint-line check (FOD-R9) has little test evidence; the lines were drawn by eye on stand-in photos.
 - Accuracy numbers come from pasted debris and simulated reference images.
 - No real sign-in. The dashboard's role switch stands in for it, and its endpoints trust the role the browser sends. The always-on agent's endpoints use a roster PIN and resolve the role on the server, which narrows the gap without closing it.
-- The chat page for the always-on agent is not built yet; its API is. Agent wakes take roughly 5 to 15 seconds each.
+- Agent wakes take roughly 7 to 24 seconds each.
+- Crew and Tasks and the Turn record were checked in a browser in mock mode and against the real backend with `FOD_AGENT=code`. In mock mode at load, the sample Tasks are not links (no mock Inspection holds their Findings at demo time 0).
+- The Turn record's agent cost leaves out agent wakes for messages people typed, because those belong to no Turn. The record's `cost.note` says how many were left out.
+- A Task links to its Finding only through `inspection_finding_id` on the Board. If a change to the dispatcher drops that field, links fall back to the Inspection.
 - No live cameras, schedule feed or integrations. Each Inspection report can be exported as JSON.

@@ -1,0 +1,49 @@
+/* The Turn record (components/TurnRecord.tsx). Read-only. A Report and a
+   Confirmation differ without colour: a Report is a quote with a speech icon,
+   the label "Report" and "Said by"; a Confirmation is a stamped box with a
+   check icon, the label "Confirmation", a "Recorded" stamp and "Recorded by". */
+.trec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.trec-head .section-title { margin-bottom: 0; }
+.trec-head + div { margin-top: 12px; }
+.trec-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.trec-key { margin: 6px 0 10px; }
+
+.trec-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.trec-entry {
+  display: grid; grid-template-columns: 78px minmax(150px, 190px) minmax(0, 1fr); gap: 4px 14px;
+  padding: 10px 2px; border-bottom: 1px solid var(--line); align-items: start;
+}
+.trec-time { color: var(--muted); font-size: 13px; padding-top: 2px; }
+.trec-kind { display: flex; gap: 8px; align-items: flex-start; }
+.trec-kind b { font-weight: 700; }
+.trec-event { color: var(--muted); }
+.trec-level { font-weight: 700; }
+.trec-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; overflow-wrap: anywhere; }
+.trec-body p { margin: 0; }
+.trec-text { white-space: pre-line; }
+.trec-name { font-weight: 600; }
+.trec-role { margin-left: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); }
+.trec-refs { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.trec-sample { border: 1px dashed currentColor; border-radius: 3px; padding: 0 4px; font-family: inherit; text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+
+/* A Report: what a person said. */
+.trec-said { margin: 0; }
+.trec-quote { margin: 0; padding: 2px 0 2px 12px; border-left: 3px dotted var(--line-strong); font-style: italic; font-size: 16px; }
+.trec-quote-plain { font-style: normal; font-size: inherit; }
+.trec-said figcaption { margin-top: 4px; }
+.trec-line { display: block; }
+
+/* A Confirmation: what was recorded. */
+.trec-stamp { border: 3px double var(--line-strong); border-radius: 6px; padding: 6px 10px; display: flex; flex-direction: column; gap: 2px; }
+.trec-stamp-mark {
+  align-self: flex-start; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
+  border: 2px solid currentColor; border-radius: 3px; padding: 0 6px;
+}
+
+/* Kinds added later: shown by name with a dashed rule. */
+.trec-other .trec-kind b { text-decoration: underline dashed; text-underline-offset: 3px; }
+
+@media (max-width: 820px) {
+  .trec-entry { grid-template-columns: 70px minmax(0, 1fr); }
+  .trec-body { grid-column: 1 / -1; }
+}

@@ -22,6 +22,8 @@ import type {
   State,
   Turn,
 } from './types';
+import type { TurnRecord } from './turnRecordTypes';
+import { normaliseTurnRecord } from '../lib/turnRecord';
 
 /** A 4xx/5xx from the API (`{ error, message }`) or a transport failure. */
 export class ApiError extends Error {
@@ -55,6 +57,8 @@ export interface Api {
   demoSpeed(speed: DemoSpeed): Promise<State>;
   assistant(body: AssistantRequest): Promise<AssistantResponse>;
   getRules(): Promise<RuleSet>;
+  /** GET /turns/{turn_id}/record: the read-only Turn record. */
+  getTurnRecord(turnId: string): Promise<TurnRecord>;
   /** The always-on agent: roster, sign-in, chat thread, commands, activity log. */
   agent: AgentApi;
 }
@@ -164,6 +168,7 @@ export function createHttpApi(base = '/api', fetchImpl: FetchLike = (i, init) =>
     demoSpeed: (speed) => post<State>('/demo/speed', { speed }),
     assistant: (body) => post<AssistantResponse>('/assistant', body),
     getRules: () => get<RuleSet>('/rules'),
+    getTurnRecord: (turnId) => get<unknown>(`/turns/${enc(turnId)}/record`).then((r) => normaliseTurnRecord(r, turnId)),
     agent,
   };
 }

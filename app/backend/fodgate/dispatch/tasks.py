@@ -153,7 +153,8 @@ class Board:
     @staticmethod
     def task_view(t: dict) -> dict:
         return {"task_id": t["task_id"], "type": t["type"], "gate": t["gate"], "turn_id": t["turn_id"],
-                "inspection_id": t["inspection_id"], "finding_id": t["finding_label"], "angle": t["angle"],
+                "inspection_id": t["inspection_id"], "finding_id": t["finding_label"],
+                "inspection_finding_id": t["finding_id"], "angle": t["angle"],
                 "severity": t["severity"], "required_role": t["required_role"], "assignee_id": t["assignee_id"],
                 "instruction": t["instruction"], "status": t["status"], "created_by": t["created_by"],
                 "escalation_level": t["escalation_level"], "created_at": t["created_at"], "closed_at": t["closed_at"],

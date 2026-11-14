@@ -51,7 +51,7 @@ export const RULES = rulesJson as unknown as RuleSet;
 export const ANALYSIS_SECONDS = 4;
 /** One demo second stands for this many seconds of gate time (a 6-minute demo ≈ a 36-minute window). */
 export const GATE_TIME_SCALE = 6;
-const BASE_TIME = Date.UTC(2026, 10, 13, 14, 0, 0);
+export const BASE_TIME = Date.UTC(2026, 10, 13, 14, 0, 0);
 const SCRIPTED_LEAD: Person = { role: 'ramp_lead', name: 'T. Alvarez (scripted)' };
 const SEVERITY_RANK: Record<Severity, number> = { HOLD: 3, REMOVE: 2, ADVISORY: 1 };
 

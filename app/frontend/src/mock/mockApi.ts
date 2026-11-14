@@ -82,6 +82,7 @@ export function createMockApi(): Api {
     demoSpeed: (speed) => call('demoSpeed', speed),
     assistant: (body) => call('assistant', body.inspection_id, body.message),
     getRules: () => call('getRules'),
+    getTurnRecord: (turnId) => call('getTurnRecord', turnId),
     agent,
   };
 }
