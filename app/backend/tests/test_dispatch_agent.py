@@ -133,7 +133,9 @@ def test_free_text_send_kim_becomes_a_task_and_a_report_becomes_a_proposal(scene
     assert r.finding("F1")["status"] == "acknowledged" and r.finding("F2")["status"] == "open"
     assert "Report, not a Confirmation" in r.inbox("okafor")[-1]
     (prop,) = r.board.pending_proposals("kim")
-    assert prop["created_by"] == "agent" and prop["action"]["label"] == "F2"
+    assert prop["created_by"] == "code" and prop["action"]["label"] == "F2"          # code asks, after the Report
+    assert json.loads(results[1]["content"])["code_asked_proposal_id"] == prop["proposal_id"]
+    assert json.loads(results[2]["content"])["proposal_id"] == prop["proposal_id"]   # the model asking again adds nothing
     reports = r.board.reports(walk["task_id"])
     assert reports[0]["raw_text"].startswith("got the hammer") and reports[0]["via"] == "free_text"
 

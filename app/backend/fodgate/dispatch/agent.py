@@ -12,23 +12,24 @@ from typing import Callable
 
 from .. import assistant, config, report as R
 from ..llm import LLM, LLMUnavailable, add_spend, spend_allowed
-from .models import REPORT_KINDS, ROLE_LABEL, TASK_TYPES, DispatchError
+from .models import REPORT_KINDS, ROLE_LABEL, TASK_TYPES, TYPE_LABEL, DispatchError
 
 MAX_TURNS = 6
 MAX_TEXT = 600
 
 SYSTEM = """You are the dispatch agent of an airline gate FOD (Foreign Object Debris) inspection system. Cameras photograph a Gate before an aircraft arrives and before it pushes back; code analyses the photos and computes each Finding's severity (HOLD, REMOVE or ADVISORY), its rule ID and the Inspection's Verdict. Your job is to get the resulting work to the right person on the ramp and to take their reports back. Ramp staff talk to you from a chat page on their handheld or desk.
 
-You are woken for two reasons only, and the trigger tells you which:
+You are woken for three reasons only, and the trigger tells you which:
 1. inspection_completed: an Inspection finished and some work could go to more than one person. Give each item under work_needing_an_owner to one person with assign_task. Pick from the item's `eligible` list: prefer someone who covers the Gate, is signed in and has few open Tasks; prefer a Ramp Agent for removals so the Ramp Lead stays free. assign_task delivers the instruction to the person, so do not also message them. Write the instruction as the action, the object and the place only ("Remove the bag tag by the belt loader"): code adds the severity, Gate, Angle, Finding ID, Task ID and how to report back.
 2. human_message: a person typed free text. Work out what they mean from their role, their Tasks and the open Findings, act with the tools, and make sure the sender gets exactly one short reply (a proposal or a Task delivered to the sender counts as that reply).
+3. handover_requested: one person asked another to take over their open Tasks. Code has already sent the full list and the yes/no question. Send the person taking over one send_message of at most three short sentences saying what matters most in that list (any HOLD first, then anything escalated or waiting on a timer). Do nothing else.
 
-What code does without you, so do not repeat it: it sends the HOLD alert to the Ramp Leads and creates the "acknowledge HOLD" Task; it asks the Ramp Lead for sign-off when nothing is open; it runs the timers and the Escalation ladder; it closes Tasks when a Confirmation is recorded; and when you log a "done" report on a HOLD removal it tells the Ramp Lead who owns that HOLD.
+What code does without you, so do not repeat it: after you log a "done" or "not found" report it asks the right person the yes/no question (the result of log_report tells you); it sends the HOLD alert to the Ramp Leads and creates the "acknowledge HOLD" Task; it asks the Ramp Lead for sign-off when nothing is open; it runs the timers and the Escalation ladder; it closes Tasks when a Confirmation is recorded; and when you log a "done" report on a HOLD removal it tells the Ramp Lead who owns that HOLD.
 
 Typical free text and what to do:
 - A Ramp Lead says to send someone ("send kim", "get Patel on the bag tag"): assign_task with type "remove" (or "walk_and_report" if they should only look) for that Finding to that person, with a short concrete instruction that names the object and the place.
-- A person reports on their work ("got it", "it's in the FOD bin", "bag tag picked up too"): call log_report once for each Task the message covers, with the message's ID. A report is not a Confirmation and the Finding stays open. Then, for a REMOVE or ADVISORY Finding, call propose_confirmation to that same person so they can accept with y. For a HOLD, never propose anything to a Ramp Agent: when you log their report, code tells them it is logged and that a Ramp Lead records HOLDs, and tells that Ramp Lead.
-- A person says they cannot find the object: log_report with kind "not_found". For a REMOVE or ADVISORY Finding, propose_confirmation with outcome "not_found_on_walk" to that person. For a HOLD, propose_reinspection of that Angle to the Ramp Lead who owns it.
+- A person reports on their work ("got it", "it's in the FOD bin", "bag tag picked up too"): call log_report once for each Task the message covers, with the message's ID. A report is not a Confirmation and the Finding stays open. For a REMOVE or ADVISORY Finding, code then asks that same person to confirm with y (the log_report result carries the proposal ID), so do not call propose_confirmation as well. For a HOLD, never propose anything to a Ramp Agent: when you log their report, code tells them it is logged and that a Ramp Lead records HOLDs, and tells that Ramp Lead.
+- A person says they cannot find the object: log_report with kind "not_found". Code then asks the right person: for a REMOVE or ADVISORY Finding it offers "not found on walk" to the person who reported; for a HOLD it offers the Ramp Lead who owns it a new photo of that Angle and records nothing.
 - A person says they cannot do a Task: log_report with kind "blocked"; code tells the Ramp Lead.
 - A Ramp Lead asks to move a Task: reassign_task.
 - A question about why something was flagged: read it with get_finding or get_rule and answer with the rule ID and its basis.
@@ -260,10 +261,19 @@ class AgentTools:
         self.messaged.update(out["told"])
         return {"recorded": True, "task_id": out["task_id"], "kind": kind, "by": person["person_id"],
                 "finding_still_open": out["finding_still_open"], "code_already_told": out["told"],
-                "note": "A Report is not a Confirmation. " + " ".join(out["lines"])}
+                "code_asked_proposal_id": out["proposal_id"],
+                "note": "A Report is not a Confirmation. " + " ".join(out["lines"])
+                        + (" Code has asked the yes/no question; do not propose it again." if out["proposal_id"] else "")}
 
     def propose_confirmation(self, to_id: str, inspection_id: str, finding_id: str, outcome: str,
                              false_alarm_reason: str | None) -> dict:
+        person = self.d.roster.find(to_id)
+        for p in self.d.board.pending_proposals(person["person_id"]) if person else []:      # code may have asked already
+            a = p["action"]
+            if a.get("kind") == "confirm" and a.get("label") == self._label(finding_id) and a.get("outcome") == outcome:
+                self.messaged.add(p["to_id"])
+                return {"proposal_id": p["proposal_id"], "delivered_to": p["to_id"],
+                        "note": "Already asked (by code, after the Report). Nothing more to do."}
         prop = self.d.propose_confirmation(to_id, self._label(finding_id), outcome, false_alarm_reason, "agent")
         self.messaged.add(prop["to_id"])
         return {"proposal_id": prop["proposal_id"], "expires_in_s": self.d.ladder["proposal_expires_s"],
@@ -291,7 +301,9 @@ class AgentTools:
     # ------------------------------------------------------------------ dispatch
     def call(self, name: str, args: dict) -> tuple[str, bool]:
         """Run one tool. Returns (result text, is_error). Unknown tools and refused actions are errors."""
-        if name not in TOOL_NAMES:
+        if name not in TOOL_NAMES:                               # logged: the agent evals count these as attempts
+            self.d.board.log("agent", f"{name}(...)  [code: refused. There is no such tool.]", event="agent_tool",
+                             actor="agent", data={"tool": str(name), "args": args, "ok": False, "result": "Unknown tool"})
             return f"Unknown tool {name}", True
         self.calls.append(name)
         try:
@@ -347,6 +359,11 @@ def _ok_note(name: str, text: str) -> str:
     return ""
 
 
+TIMER_LABEL = {"hold_unack_1": "second call if not acknowledged", "hold_unack_2": "Escalation level 2 if not acknowledged",
+               "hold_pushback": "Escalation level 2 near pushback", "unusable_pushback": "Escalation level 2 near pushback",
+               "no_report_ask": "asked for an update", "no_report_offer": "reassignment offered to the Ramp Lead"}
+
+
 def handover_brief(d, from_id: str, to_id: str) -> str:
     """Text only. Used by the agent tool and by the /handover command."""
     src, dst = d.roster.find(from_id), d.roster.find(to_id)
@@ -355,12 +372,17 @@ def handover_brief(d, from_id: str, to_id: str) -> str:
     tasks = d.board.tasks(assignee_id=src["person_id"])
     lines = [f"Handover from {src['name']} ({ROLE_LABEL[src['role']]}) to {dst['name']} ({ROLE_LABEL[dst['role']]}): "
              f"{len(tasks)} open Task{'s' if len(tasks) != 1 else ''}."]
+    pending = d.timers.pending()
     for t in tasks:
-        last = d.board.reports(t["task_id"])[-1:] or [None]
-        said = f" Last Report: {last[0]['kind']} by {d._name(last[0]['by_person_id'])}." if last[0] else ""
-        lines.append(f"- {t['task_id']} {t['type']} at {t['gate']} {t['angle'] or ''} {t['finding_label'] or ''} "
+        said = "".join(f" Report: {r['kind'].replace('_', ' ')} by {d._name(r['by_person_id'])}"
+                       + (f" (\"{r['raw_text']}\")" if r["raw_text"] else "") + "." for r in d.board.reports(t["task_id"]))
+        waits = [f"{TIMER_LABEL.get(tm['kind'], tm['kind'])} in {max(0, round(tm['fire_t'] - d.clock())):g} s"
+                 for tm in pending if tm["task_id"] == t["task_id"]]
+        what = t["instruction"].rstrip(".")
+        lines.append(f"- {t['task_id']} {TYPE_LABEL[t['type']]} at {t['gate']} {t['angle'] or ''} {t['finding_label'] or ''} "
                      f"({t['severity'] or 'no severity'}), {t['status']}, Escalation level {t['escalation_level']}: "
-                     f"{t['instruction']}.{said}".replace("  ", " "))
+                     f"{what}{'' if what.endswith('…') else '.'}{said or ' No Report yet.'}"
+                     f"{' Timers: ' + '; '.join(waits) + '.' if waits else ''}".replace("  ", " "))
     lines.append("Nothing in this brief is a Confirmation; open Findings stay open until one is recorded.")
     return "\n".join(lines)
 
@@ -386,6 +408,15 @@ def build_prompt(d, req: dict) -> str:
                "work_needing_an_owner": work, "people_on_shift": people}
         head = ("An Inspection finished and the work under work_needing_an_owner has no owner yet. Assign each item "
                 "with assign_task, all in one turn. Do not repeat the Tasks code already assigned.")
+    elif req["kind"] == "handover":
+        src, dst = d.roster.person(req["from_id"]), d.roster.person(req["to_id"])
+        ctx = {"trigger": "handover_requested", "clock_t": round(d.clock(), 1), "from": _person_brief(src),
+               "to": _person_brief(dst), "proposal_id": req["proposal_id"],
+               "brief_already_sent_by_code": handover_brief(d, src["person_id"], dst["person_id"]),
+               "tasks": [_task_brief(t) for t in d.board.tasks(assignee_id=src["person_id"])]}
+        head = (f"{src['name']} asked {dst['name']} to take over their open Tasks. Code sent the list under "
+                f"brief_already_sent_by_code and the yes/no question. Send {dst['name']} ({dst['person_id']}) one short "
+                "summary with send_message and do nothing else.")
     else:
         person = d.roster.person(req["person_id"])
         mine = d.board.tasks(assignee_id=person["person_id"])
