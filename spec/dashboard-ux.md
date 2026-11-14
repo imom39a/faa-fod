@@ -1,8 +1,9 @@
 # Dashboard UX (PoC v1.0)
 
-Decided in issue 0009. Reference mock: `prototypes/dashboard/index.html` (throwaway; variant A tiles plus variant B's queue). Requirements: `spec/requirements-baseline.md` section 7.
+Decided in issue 0009. Reference mock: `prototypes/dashboard/index.html` (throwaway; variant A tiles plus variant B's queue). Requirements: `spec/requirements-baseline.md` section 7. Layout, colours and components: `spec/design-system.md` (issue 0019), which replaced the tiles and the top bar of the reference mock.
 
-- **Overview:** one tile per Gate (T1, T2, T4, T5, T8) with a "Needs a human" queue beside the tiles.
+- **Shell:** a page rail on the left and a Gate strip across the top of every page, one cell per Gate (T1, T2, T4, T5, T8). The demo controls and the role switch are in a tray behind the demo clock.
+- **Overview:** counters of what is waiting on a person (by reason) and of Gates confirmed clear; a table with one row per Gate (flight, status, Verdict, highest open severity, time to pushback); a "Needs a human" queue beside the table, numbered in priority order.
 - **Statuses:** idle, awaiting pre-arrival, inspecting, awaiting Confirmation (with the Verdict shown beneath: ALL CLEAR, FINDINGS or INCOMPLETE), confirmed clear. Anything not yet confirmed by a person is marked advisory. A Gate shows the highest severity among its unconfirmed Findings.
 - **Queue order:** HOLDs first, then by time to scheduled pushback.
 - **Turn view:** Inspections in time order with each Confirmation; the 6 Angle images with Finding boxes linked to the Findings list; current and reference crops side by side for each Finding.

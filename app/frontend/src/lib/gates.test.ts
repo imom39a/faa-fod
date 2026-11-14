@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { GateState, QueueItem } from '../api/types';
-import { formatPushback, queueRows, tileModel } from './gates';
+import { formatPushback, isAbnormal, overviewCounts, queueRows, shortPushback, stripLabel, tileModel, type Tone } from './gates';
 
 function gate(over: Partial<GateState> = {}, minutes: number | null = 30): GateState {
   return {
@@ -131,5 +131,50 @@ describe('queueRows', () => {
     expect(rows.map((r) => r.tone)).toEqual(['hold', 'advisory', 'incomplete', 'await']);
     expect(rows[3]?.pushbackText).toBeNull();
     expect(new Set(rows.map((r) => r.key)).size).toBe(4);
+  });
+});
+
+describe('calm display helpers', () => {
+  it('treats only the severities and INCOMPLETE as abnormal', () => {
+    const abnormal: Tone[] = ['hold', 'remove', 'advisory', 'incomplete'];
+    const normal: Tone[] = ['idle', 'waiting', 'busy', 'onstand', 'clear', 'await', 'confirmed'];
+    expect(abnormal.every(isAbnormal)).toBe(true);
+    expect(normal.some(isAbnormal)).toBe(false);
+  });
+
+  it('shortens the pushback countdown and flags an overdue one', () => {
+    expect(shortPushback(gate({}, 34.4))).toEqual({ text: '34 min', overdue: false });
+    expect(shortPushback(gate({}, 0))).toEqual({ text: 'due now', overdue: true });
+    expect(shortPushback(gate({}, -5))).toEqual({ text: '+5 min late', overdue: true });
+    expect(shortPushback(gate({}, null))).toBeNull();
+    expect(shortPushback(gate({ status: 'idle' }))).toBeNull();
+  });
+
+  it('puts an open severity before the Verdict, and an unconfirmed Verdict before the status', () => {
+    expect(stripLabel(tileModel(gate({ highest_open_severity: 'HOLD' })))).toBe('HOLD open');
+    expect(stripLabel(tileModel(gate({ verdict: 'ALL_CLEAR' })))).toBe('ALL CLEAR, unconfirmed');
+    expect(stripLabel(tileModel(gate({ status: 'confirmed_clear', verdict: 'ALL_CLEAR' })))).toBe('Confirmed clear');
+    expect(stripLabel(tileModel(gate({ status: 'inspecting', verdict: null })))).toBe('Inspecting');
+  });
+
+  it('counts the queue by reason and the Gates confirmed clear', () => {
+    const q = (reason: QueueItem['reason']): QueueItem => ({
+      gate: 'T1',
+      turn_id: 't',
+      inspection_id: 'i',
+      reason,
+      severity: null,
+      minutes_to_pushback: 10,
+      text: '',
+    });
+    const counts = overviewCounts([gate({ status: 'confirmed_clear' }), gate()], [q('hold'), q('hold'), q('signoff')]);
+    expect(counts.map((c) => [c.key, c.n])).toEqual([
+      ['hold', 2],
+      ['findings', 0],
+      ['incomplete', 0],
+      ['signoff', 1],
+      ['confirmed', 1],
+    ]);
+    expect(counts.find((c) => c.key === 'confirmed')?.calm).toBe(true);
   });
 });

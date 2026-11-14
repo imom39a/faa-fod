@@ -34,7 +34,7 @@
 .trec-line { display: block; }
 
 /* A Confirmation: what was recorded. */
-.trec-stamp { border: 3px double var(--line-strong); border-radius: 6px; padding: 6px 10px; display: flex; flex-direction: column; gap: 2px; }
+.trec-stamp { border: 3px double var(--line-strong); border-radius: var(--radius); padding: 6px 10px; display: flex; flex-direction: column; gap: 2px; }
 .trec-stamp-mark {
   align-self: flex-start; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
   border: 2px solid currentColor; border-radius: 3px; padding: 0 6px;

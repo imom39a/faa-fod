@@ -29,12 +29,14 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 The app replays a scripted 6 minutes at five gates. The schedule and the photos are scripted. The analysis, the rules and the human workflow are real.
 
-**Top bar**
+The dashboard is called **StandClear**. The dark rail on the left switches pages. The strip across the top shows every gate on every page: grey while normal, coloured when something is wrong.
+
+**Demo controls** (press the clock at the top right)
 - **Play / Pause / Reset:** run, stop or restart the scripted schedule. Reset wipes the records.
 - **1x to 10x:** how fast the schedule's clock runs.
 - **Ramp Agent / Ramp Lead:** who you are acting as. Only a Ramp Lead can clear a HOLD.
 
-**Gate tiles** show each gate's flight, status and the system's result:
+**The Gates table** shows each gate's flight, status and the system's result:
 - **ALL CLEAR:** nothing found.
 - **FINDINGS:** debris or misplaced equipment found. Severity is **HOLD** (aircraft must not move), **REMOVE** (clear before departure) or **ADVISORY** (log it).
 - **INCOMPLETE:** a camera view was unusable, so the system will not call the stand clear.
@@ -46,7 +48,7 @@ The app replays a scripted 6 minutes at five gates. The schedule and the photos 
 2. When a HOLD appears in the queue, click it. You see six photos with a box on the object and the rule it breaks.
 3. As Ramp Agent, try **Acknowledge**. You are refused.
 4. Switch to Ramp Lead. Press **Acknowledge**, then **Removed**. The system re-photographs that view; the HOLD clears only if the new photo is clean.
-5. Press **Sign off Inspection**. The tile turns to "Confirmed clear".
+5. Press **Sign off Inspection**. The gate turns to "Confirmed clear".
 
 The demo stages five moments: a small bolt in an engine intake zone (HOLD), equipment parked inside the restraint line before arrival (REMOVE), glare on an engine view (INCOMPLETE), the Ramp Lead-only HOLD clearance, and debris beyond the stand routed to ramp control.
 
@@ -65,7 +67,7 @@ Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.
 | View | What it is |
 |---|---|
 | Terminal | The agent's console. Display only: events, the agent's decisions, Tasks, timers and running cost. Lines marked `[code]` are ordinary code, `agent>` is the model, `[timer]` is a code timer, `[cost]` is measured spend. |
-| Dashboard | As before: Gate tiles, photos, Findings, Confirmations. |
+| Dashboard | As before: the Gates table, photos, Findings, Confirmations. |
 | Chat page | Where each person signs in, gets Tasks, reports back and records Confirmations. Open it at http://localhost:8000/#/chat and sign in with a name and PIN from the Roster. `uv run python -m fodgate.rehearse` (from `app/backend`) plays two people over the same API and prints both chat threads. |
 
 **Crew and Tasks, and the Turn record.** Both are read-only: neither one can confirm, sign off or reassign anything.
@@ -94,7 +96,7 @@ Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.
 6. Okafor sends `/ack F1`, then types "send kim, she's closest". The agent turns that into a Task for Kim.
 7. Kim types "got the hammer, its in the fod bin. bag tag picked up too". The agent logs two Reports, asks Kim to confirm the bag tag (she answers yes), and code tells Okafor that only he can record the HOLD. Both Findings were still open until then.
 8. Okafor sends `/removed F1`. Code takes a new photo of ENG-R; it is clean; the Confirmation is recorded.
-9. Okafor sends `/signoff T5`. Tasks close, timers are cancelled, the dashboard tile turns to "Confirmed clear".
+9. Okafor sends `/signoff T5`. Tasks close, timers are cancelled, the gate turns to "Confirmed clear" on the dashboard.
 10. Open the activity log (`GET /api/agent/activity`): every step with who and when, and the session cost (about $0.004).
 
 **More that people can do in the chat page** (each is a button; the same words work as typed commands)

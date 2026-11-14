@@ -16,6 +16,8 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
+    // src/design.test.ts reads the stylesheets; without this the test runner replaces CSS with an empty file.
+    css: true,
     include: ['src/**/*.test.ts'],
   },
 });

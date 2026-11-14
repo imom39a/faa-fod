@@ -92,6 +92,7 @@ No federal rule prescribes a gate FOD workflow (AC 00-34B). The PoC workflow fol
 | UI-5 | A role switch (Ramp Agent, Ramp Lead) stands in for sign-in. | 0006 |
 | UI-6 | All images shown are real photographs. | User direction |
 | UI-7 | Overview layout, Confirmation steps and urgency ordering: the six open questions in `prototypes/dashboard/NOTES.md`. Settled in `spec/dashboard-ux.md`. | 0009 |
+| UI-8 | Every screen follows `spec/design-system.md`: a grey display with colour only for abnormal states and never colour alone, the Gate strip on every page, colours as tokens, touch targets of 44px or more. | 0019 |
 
 ## 8. Cost, speed and accuracy targets
 
