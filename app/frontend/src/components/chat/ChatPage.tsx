@@ -3,9 +3,18 @@ import type { AgentApi, ChatMessage, CommandResult, Proposal, RosterPerson, SayR
 import { MOCK_MODE } from '../../api';
 import { describeAgentError } from '../../api/errors';
 import { formatClock, formatTime } from '../../lib/format';
-import { latestMessagePerTask, messageVariant, parseRefusal, reinspectionRunning, senderLabel, tidyMessageText, type MessageVariant } from '../../lib/inbox';
+import {
+  latestMessagePerTask,
+  messageVariant,
+  parseRefusal,
+  reinspectionRunning,
+  senderLabel,
+  splitDraftReport,
+  tidyMessageText,
+  type MessageVariant,
+} from '../../lib/inbox';
 import { PERSON_ROLE_LABEL, SHIFT_LABEL } from '../../lib/labels';
-import { isActiveTask, type Viewer } from '../../lib/taskActions';
+import { handoverCandidates, isActiveTask, type Viewer } from '../../lib/taskActions';
 import { turnHref } from '../../route';
 import { useInboxStore, type InboxStore } from '../../store/inboxStore';
 import { useSession, type Session, type SessionStore } from '../../store/session';
@@ -203,6 +212,10 @@ function resultNotice(lines: string[]): Notice | null {
   if (/^New photo of /.test(text)) return { tone: 'info', title: 'New photo taken. Nothing was recorded', text };
   if (/^Logged/.test(text)) return { tone: 'info', title: 'Report logged. Nothing was recorded on the Inspection', text };
   if (/^Declined/.test(text)) return { tone: 'info', title: 'Declined', text };
+  if (/^Asked .* to take over /.test(text)) return { tone: 'info', title: 'Handover asked. Nothing has moved yet', text };
+  if (/^Handover accepted/.test(text)) return { tone: 'ok', title: 'Handover accepted. No Confirmation was recorded', text };
+  if (/^You are on a break/.test(text)) return { tone: 'info', title: 'On a break', text };
+  if (/^You are back on shift/.test(text)) return { tone: 'ok', title: 'Back on shift', text };
   return null;
 }
 
@@ -280,6 +293,10 @@ function ChatRoom({ agent, session, sessionStore, inboxStore }: Props & { sessio
         </div>
       ) : null}
 
+      {person.role === 'supervisor' ? null : (
+        <ShiftControls person={person} people={people} openCount={openCount} busy={busy} run={run} />
+      )}
+
       <div className="chat-layout">
         <section className="panel thread-panel" aria-label="Thread with the agent">
           <Thread
@@ -311,7 +328,14 @@ function ChatRoom({ agent, session, sessionStore, inboxStore }: Props & { sessio
             </div>
           ) : null}
           {inbox.proposals.map((p) => (
-            <ProposalCard key={p.proposal_id} proposal={p} busy={busy} onAnswer={answer} names={names} />
+            <ProposalCard
+              key={p.proposal_id}
+              proposal={p}
+              asked={inbox.messages.find((m) => m.proposal_id === p.proposal_id && m.to === person.person_id)?.text ?? null}
+              busy={busy}
+              onAnswer={answer}
+              names={names}
+            />
           ))}
           <Composer onSend={say} sending={busy === 'say'} disabled={busy !== null} supervisor={person.role === 'supervisor'} />
         </section>
@@ -322,10 +346,101 @@ function ChatRoom({ agent, session, sessionStore, inboxStore }: Props & { sessio
   );
 }
 
+// ---------------------------------------------------------------------- Shift and Handover
+
+type ShiftProps = { person: RosterPerson; people: RosterPerson[]; openCount: number; busy: string | null; run: RunCommand };
+
+/**
+ * The signed-in person's own Shift: break, back, and asking someone to take over. Each button sends one
+ * command as this person; the server may refuse it, and the refusal is shown. None of them records a Confirmation.
+ */
+function ShiftControls({ person, people, openCount, busy, run }: ShiftProps) {
+  const [picking, setPicking] = useState(false);
+  const [toId, setToId] = useState('');
+  const candidates = handoverCandidates(people, person.person_id);
+  const onShift = person.shift === 'on';
+  const tasks = `${openCount} open ${openCount === 1 ? 'Task' : 'Tasks'}`;
+  return (
+    <section className="panel shift-panel" aria-label="Your Shift">
+      <div className="shift-row">
+        <h2 className="section-title">Your Shift</h2>
+        <span className={`status-chip shift-${person.shift}`}>{SHIFT_LABEL[person.shift] ?? person.shift}</span>
+        <span className="spacer" />
+        {onShift ? (
+          <button type="button" disabled={busy !== null} onClick={() => run('shift:break', { command: 'break', args: [] })}>
+            {busy === 'shift:break' ? <SpinnerIcon className="vicon" /> : null}
+            Go on a break
+          </button>
+        ) : (
+          <button type="button" className="primary" disabled={busy !== null} onClick={() => run('shift:back', { command: 'back', args: [] })}>
+            {busy === 'shift:back' ? <SpinnerIcon className="vicon" /> : null}
+            Back on shift
+          </button>
+        )}
+        <button type="button" disabled={busy !== null || openCount === 0} aria-expanded={picking} onClick={() => setPicking(!picking)}>
+          {busy === 'shift:handover' ? <SpinnerIcon className="vicon" /> : null}
+          Hand over…
+        </button>
+      </div>
+      <p className="small muted">
+        {onShift ? 'On a break, no new Tasks come to you; the ones you hold stay with you. ' : 'No new Tasks come to you until you are back on shift. '}
+        {openCount === 0 ? 'You have no open Tasks to hand over.' : `A Handover asks one person to take all of your ${tasks}.`}
+      </p>
+      {picking && openCount > 0 ? (
+        <form
+          className="reason-picker"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!toId) return;
+            run('shift:handover', { command: 'handover', args: [toId] });
+            setPicking(false);
+            setToId('');
+          }}
+        >
+          <label className="field">
+            Hand over your {tasks} to
+            <select value={toId} onChange={(e) => setToId(e.target.value)}>
+              <option value="">Pick a person on shift…</option>
+              {candidates.map((p) => (
+                <option key={p.person_id} value={p.person_id}>
+                  {p.name} · {PERSON_ROLE_LABEL[p.role]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <p className="small muted">
+            {candidates.length === 0 ? 'Nobody else is on shift. ' : ''}
+            They get the list and must accept. Nothing moves until they do; if they decline or do not answer, your Tasks stay with you and you are told. When they
+            accept, your Shift ends. A Handover confirms nothing: open Findings stay open.
+          </p>
+          <div className="action-buttons">
+            <button type="submit" className="primary" disabled={busy !== null || !toId}>
+              Ask to take over
+            </button>
+            <button type="button" className="quiet" onClick={() => setPicking(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : null}
+    </section>
+  );
+}
+
 // ---------------------------------------------------------------------- proposals
 
-function ProposalCard({ proposal: p, busy, onAnswer, names }: { proposal: Proposal; busy: string | null; onAnswer: (p: Proposal, accept: boolean) => void; names: Record<string, string> }) {
+type ProposalProps = {
+  proposal: Proposal;
+  /** The message that asked the question: for a Handover, the brief. */
+  asked: string | null;
+  busy: string | null;
+  onAnswer: (p: Proposal, accept: boolean) => void;
+  names: Record<string, string>;
+};
+
+function ProposalCard({ proposal: p, asked, busy, onAnswer, names }: ProposalProps) {
   const confirms = p.kind === 'confirm';
+  const from = p.action.from_id ? senderLabel(p.action.from_id, names) : 'the other person';
   const question = p.question ? `${p.question.charAt(0).toUpperCase()}${p.question.slice(1)}?` : 'Accept?';
   const turnId = p.action.turn_id;
   return (
@@ -340,12 +455,15 @@ function ProposalCard({ proposal: p, busy, onAnswer, names }: { proposal: Propos
         <span className={`expiry num${p.expires_in_s < 30 ? ' soon' : ''}`}>Expires in {formatClock(p.expires_in_s)}</span>
       </div>
       <p className="proposal-question">{question}</p>
+      {!confirms && asked ? <div className="proposal-brief">{tidyMessageText(asked)}</div> : null}
       <p className="small muted">
         {confirms
           ? 'Accept records this Confirmation in your name. Decline records nothing.'
           : p.kind === 'reinspect'
-            ? 'Accept takes a new photo. A re-inspection never closes a Finding by itself.'
-            : 'Accept moves these Tasks to you.'}
+            ? 'Accept takes a new photo. A re-inspection never closes a Finding by itself. Decline takes no photo.'
+            : p.kind === 'handover'
+              ? `Accept moves every open Task in the list to you and ends ${from}'s Shift; running timers carry on. Decline moves nothing and ${from} is told. Neither records a Confirmation.`
+              : 'Accept runs this as you. Decline does nothing.'}
       </p>
       <div className="action-buttons">
         <button type="button" className="good big" disabled={busy !== null} onClick={() => onAnswer(p, true)}>
@@ -371,6 +489,7 @@ function ProposalCard({ proposal: p, busy, onAnswer, names }: { proposal: Propos
 const VARIANT_TAG: Partial<Record<MessageVariant, { label: string; icon: React.ReactNode; cls: string }>> = {
   my_report: { label: 'Report · not a Confirmation', icon: <ReportIcon />, cls: 'k-report' },
   my_command: { label: 'Command', icon: <TaskIcon />, cls: 'k-command' },
+  my_handover: { label: 'Handover asked · nothing moved yet', icon: <QuestionIcon />, cls: 'k-question' },
   recorded: { label: 'Recorded · Confirmation', icon: <CheckCircleIcon />, cls: 'k-recorded' },
   refused: { label: 'Refused · nothing recorded', icon: <CrossIcon />, cls: 'k-refused' },
   report_logged: { label: 'Report logged · nothing recorded', icon: <ReportIcon />, cls: 'k-report' },
@@ -479,10 +598,13 @@ type RowProps = {
 
 function MessageRow({ message: m, meId, names, task, pending, spinning, children }: RowProps) {
   const variant = messageVariant(m, meId);
-  const mine = variant === 'my_report' || variant === 'my_command';
+  const mine = variant === 'my_report' || variant === 'my_command' || variant === 'my_handover';
   const tag = VARIANT_TAG[variant];
   const refusal = variant === 'refused' ? parseRefusal(m.text) : null;
-  const text = refusal ? refusal.message : tidyMessageText(m.text);
+  const [showDraft, setShowDraft] = useState(false);
+  // An outside-envelope Task carries a drafted report: long, so it is folded away until asked for.
+  const parts = mine || refusal ? null : splitDraftReport(tidyMessageText(m.text));
+  const text = refusal ? refusal.message : (parts?.body ?? tidyMessageText(m.text));
   const toOther = mine && m.to !== 'agent' && m.to !== 'code' ? ` to ${senderLabel(m.to, names)}` : '';
   const table = !mine && /\n/.test(text) && / {3,}/.test(text);
   return (
@@ -501,6 +623,15 @@ function MessageRow({ message: m, meId, names, task, pending, spinning, children
         </time>
       </div>
       <div className={`tmsg-text${variant === 'my_command' || table ? ' mono' : ''}`}>{text}</div>
+      {parts ? (
+        <div className="draft-wrap">
+          <button type="button" className="compact" aria-expanded={showDraft} onClick={() => setShowDraft(!showDraft)}>
+            <ReportIcon className="vicon" /> {showDraft ? 'Hide draft report' : 'Show draft report'}
+          </button>
+          {showDraft ? <div className="draft-report">{parts.draft}</div> : null}
+          <div className="tmsg-note">A draft for you to check and send yourself. The system sends nothing and records nothing until you press “Reported to…”.</div>
+        </div>
+      ) : null}
       {refusal ? <div className="tmsg-note mono">{refusal.code}</div> : null}
       {variant === 'my_report' && m.to === 'agent' ? (
         <div className="tmsg-note">Sent to the agent as a Report. It records nothing on the Inspection.</div>

@@ -16,7 +16,7 @@ Open http://localhost:5173. In real mode, start the backend first (`uv run uvico
 
 ## Mock mode
 
-`VITE_MOCK=1` swaps the HTTP client for an in-browser mock of the backend (`src/mock/`). It implements the same API and rules: role checks, HOLD acknowledge → removed → re-inspection, confirm-all, checked-by-eye, sign-off preconditions, the queue order and the demo clock. No model is called; the cost and timing figures are illustrative. The mock and its photos are left out of a normal `npm run build`.
+`VITE_MOCK=1` swaps the HTTP client for an in-browser mock of the backend (`src/mock/`). It implements the same API and rules: role checks, HOLD acknowledge → removed → re-inspection, confirm-all, checked-by-eye, sign-off preconditions, the queue order and the demo clock. A re-inspection never drops an open Finding: one the new photo no longer shows is carried, still open, until a Confirmation closes it. No model is called; the cost and timing figures are illustrative. The mock and its photos are left out of a normal `npm run build`.
 
 The scripted demo (6 minutes at 1x) covers every Gate status. Press Play, or jump with `?t=<seconds>`, for example `http://localhost:5173/?t=110`:
 
@@ -34,6 +34,34 @@ Flows worth trying at T1 (`?t=60`): as Ramp Agent, a HOLD action is refused. As 
 Mock-only behaviour: one demo second stands for 6 seconds of gate time (so the 6-minute demo spans about 36 minutes of timestamps and pushback countdowns); two scripted sign-offs are made by "T. Alvarez (scripted)"; a scheduled pushback waits until the pre-departure Inspection is signed off; Reset returns to the `?t=` start time.
 
 **Crew and Tasks in mock mode** (`http://localhost:5173/#/crew`). At load the demo has no Task yet, so the page shows a marked sample (`src/mock/crewSample.ts`): a Ramp Agent on a break ("Lee (sample)"), an escalated HOLD at level 2, an escalated REMOVE, a check-by-eye Task with a Report, a closed sign-off, a Task of a type the dashboard does not know (`handover_accept`), a short activity log and an illustrative cost. Each sample Task and activity entry has a "Sample" tag, and each sample Task opens a real mock Turn. The sample is only added to `GET /agent/board`; the chat page, the activity log and the Turn record never see it. When the demo creates its first Task (press Play, or open `?t=120#/crew`), the page shows the mock dispatcher's own Board. At `?t=120` a Task link opens its Turn with the Finding selected.
+
+## Chat page (`#/chat`)
+
+The chat page is where one person works with the always-on agent (`../CONTRACT.md` section 5). Every button sends one structured command to `POST /api/agent/command` as the signed-in person; the server decides and a refusal is shown in the thread and in a banner. Nothing on the page records a Confirmation except a button that person presses or a proposal they accept.
+
+- **Sign-in.** Pick a name from the Roster and enter the PIN. The role comes from the Roster on the server. Sign-in is kept per browser tab, so two tabs can be two people.
+- **Tasks and their buttons.** Each Task card groups its buttons: "Record on the Inspection" (a Confirmation, in your name), "Report to the agent" (not a Confirmation, dashed border), "New photo" (records nothing) and "Routing". The one or two next steps are repeated under the newest message about the Task.
+- **Not found.** On a removal or walk Task, "Not found" is a Report (`cant-find`, with an optional note). For a REMOVE or ADVISORY Finding the same person is then asked whether to record it as not found on walk; only their Accept records it. For a HOLD nothing is proposed to them: the Ramp Lead holding the HOLD is told and is asked whether to take a new photo. "Record not found" (a Confirmation) is offered only on a HOLD Task held by a Ramp Lead and on an outside-envelope Task.
+- **Reported to…** A Task for debris outside the gate safety envelope has two Confirmation buttons, "Reported to Ramp 1 control" and "Reported to Airport Ops" (`reported F3 ramp1` / `reported F3 airport-ops`). The one the Task's instruction names is the primary button. The Task's message carries a drafted report behind "Show draft report"; the system sends nothing.
+- **Shift controls** ("Your Shift", not shown to a supervisor). "Go on a break" (`break`), "Back on shift" (`back`, shown on a break or off shift) and "Hand over…". A break is refused while you hold an open HOLD Task.
+- **Handover.** "Hand over…" lists the Ramp Agents and Ramp Leads on shift and sends `handover <person>`. They get a question with the brief (every open Task, its Reports and running timers) and Accept / Decline. Nothing moves until they accept; then every open Task moves, timers keep running and your Shift ends. If they decline or do not answer before the question expires, your Tasks stay with you and you are told. A Handover confirms nothing.
+- **Still there.** When "Removed" on a HOLD takes a new photo that still shows the object, the banner says so, the removal Task goes back to its holder, the HOLD goes up one Escalation level and the reply says who else on shift could be sent.
+
+**Trying it in mock mode.** `npm run dev:mock`, then open `http://localhost:5173/?t=20#/chat` (the demo stays paused, so no question expires while you click; press Play to see timers fire). Mock PINs: Kim 1111, Okafor 2222, Patel 3333, Reyes 4444, Dana 9999. Open one tab per person: the tabs share one mock.
+
+| To see | Do |
+|---|---|
+| Not found on a REMOVE Task | As Kim: "Not found" on the T5 bag tag, send, then Accept the question |
+| Break refused with a HOLD | As Okafor: "Go on a break" |
+| Break and back | As Kim: "Go on a break", then "Back on shift" |
+| Handover refused | As Okafor: "Hand over…" to Kim (a Ramp Agent cannot take the HOLD) |
+| Handover | As Okafor: "Hand over…" to Reyes. As Reyes: Accept or Decline. To see no answer, press Play at 10x and wait 2 demo minutes |
+| Not found on a HOLD | Open the tabs with `?t=215`. As Reyes: Acknowledge the T1 NOSE HOLD, type `/send patel F1`. As Patel: "Not found". Reyes gets the new-photo question |
+| Still there | Continue as Reyes: "Removed (takes a new photo)" on the T1 NOSE HOLD |
+| Reported to… | With `?t=215`, as Kim: the T8 WIDE Task, "Show draft report", then "Reported to Ramp 1 control" |
+| Unusable Angle near pushback | Press Play from 0:00 as Reyes: the T2 check-by-eye Tasks reach Escalation level 2 at 3:50 |
+
+The new events show on `#/activity` under "Shift / Handover" (Handover asked, declined, expired, done; Shift changes; the only Ramp Lead trying to leave) and "Confirmation" (who an outside-envelope Finding was reported to).
 
 **Turn record in mock mode.** On a Turn's page, press "Show Turn record". The mock builds it from the mock backend's Inspections and Confirmations and from the mock dispatcher's activity log (`src/mock/turnRecord.ts`). The Turns signed off before the demo starts (T2, T5, T8) also get a sample sign-off Task and two sample Reports, tagged "Sample".
 

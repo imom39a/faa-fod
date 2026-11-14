@@ -48,6 +48,8 @@ export function describeAgentError(err: unknown): string {
     case 'not_signed_in':
       return 'You are not signed in, or the service was restarted. Sign in again.';
     case 'role_not_allowed':
+      // A refused Handover is about the other person's role; the server's sentence says whose and which Tasks.
+      if (/^Handover refused/.test(err.message)) return err.message;
       return `Your role cannot do this.${said}`;
     case 'hold_needs_acknowledge':
       return 'Acknowledge this HOLD first (someone is going to it), then record it as removed.';
@@ -64,7 +66,8 @@ export function describeAgentError(err: unknown): string {
     case 'proposal_void':
       return `That question no longer applies: the Finding changed after it was asked. Nothing was recorded.${said}`;
     case 'open_hold':
-      return `You hold an open HOLD Task. Hand it over before leaving.${said}`;
+      // The server names the Task and whose it is (a supervisor's /shift is about someone else), and says when the supervisor was told.
+      return err.message || 'You hold an open HOLD Task. Hand it over before leaving.';
     case 'nothing_to_hand_over':
       return 'You have no open Tasks to hand over.';
     case 'already_confirmed':

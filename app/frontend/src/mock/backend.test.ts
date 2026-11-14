@@ -132,6 +132,32 @@ describe('mock backend: HOLD Confirmation', () => {
     expect(next.findings.filter((f) => f.angle === 'NOSE' && f.confirmation === null)).toHaveLength(1);
   });
 
+  it('keeps a Finding that is found again acknowledged, so "removed" can be recorded again', () => {
+    const { b, report, cutter } = setup();
+    b.confirmFinding(report.inspection_id, cutter.finding_id, { ...LEAD, outcome: 'acknowledged' });
+    const next = b.confirmFinding(report.inspection_id, cutter.finding_id, { ...LEAD, outcome: 'removed' });
+    const again = next.findings.find((f) => f.angle === 'NOSE' && f.confirmation === null)!;
+    expect(again.finding_id).not.toBe(cutter.finding_id);
+    expect(again.status).toBe('acknowledged');
+    const third = b.confirmFinding(next.inspection_id, again.finding_id, { ...LEAD, outcome: 'removed' });
+    expect(third.highest_open_severity).toBe('HOLD');
+  });
+
+  it('never drops an open Finding on a re-inspection: a clean new photo is not a Confirmation', () => {
+    const { b, report, bolt } = setup();
+    // The ENG-L re-inspection frame is clean. Nobody has confirmed anything.
+    const next = b.reinspectAngle(report.inspection_id, 'ENG-L', AGENT);
+    const carried = next.findings.find((f) => f.finding_id === bolt.finding_id);
+    expect(carried).toMatchObject({ status: 'open', confirmation: null, carried_from_inspection_id: report.inspection_id });
+    expect(next.highest_open_severity).toBe('HOLD');
+    expect(canSignOff(next)).toBe(false);
+    // The Ramp Lead's two steps still close it, on the newest Inspection.
+    b.confirmFinding(next.inspection_id, bolt.finding_id, { ...LEAD, outcome: 'acknowledged' });
+    const cleared = b.confirmFinding(next.inspection_id, bolt.finding_id, { ...LEAD, outcome: 'removed' });
+    expect(cleared.findings.filter((f) => f.finding_id === bolt.finding_id)).toHaveLength(1);
+    expect(cleared.findings.find((f) => f.finding_id === bolt.finding_id)?.confirmation).toMatchObject({ outcome: 'removed', confirmed_by: LEAD });
+  });
+
   it('accepts a false alarm on a HOLD without a re-inspection, but needs a reason', () => {
     const { b, report, cutter } = setup();
     expect(codeOf(() => b.confirmFinding(report.inspection_id, cutter.finding_id, { ...LEAD, outcome: 'false_alarm' }))).toBe(

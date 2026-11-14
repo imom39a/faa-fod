@@ -84,6 +84,7 @@ export type Proposal = {
   kind: ProposalKind | (string & {});
   /** "record F2 as removed". */
   question: string;
+  /** confirm: `label, outcome, false_alarm_reason, turn_id`; reinspect: `gate, angle, turn_id`; handover: `from_id`. */
   action: {
     kind?: string;
     label?: string;
@@ -92,6 +93,7 @@ export type Proposal = {
     gate?: string;
     angle?: string;
     turn_id?: string;
+    /** Handover: the person whose open Tasks would move. */
     from_id?: string;
   };
   created_by: string;
@@ -194,7 +196,10 @@ export type CommandName =
   | 'accept'
   | 'done'
   | 'cant'
+  /** A Report: looked, could not find it. Never a Confirmation. */
+  | 'cant-find'
   | 'reassign'
+  | 'send'
   | 'handover'
   | 'break'
   | 'back'
@@ -203,6 +208,9 @@ export type CommandName =
   | 'tasks'
   | 'who'
   | 'help';
+
+/** Who debris outside the gate safety envelope was reported to: the second argument of `reported`. */
+export type ReportedTo = 'ramp1' | 'airport-ops';
 
 export type StructuredCommand = { command: CommandName; args: (string | number)[] };
 

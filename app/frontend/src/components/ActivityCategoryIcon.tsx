@@ -1,5 +1,5 @@
 import type { ActivityCategory } from '../lib/activity';
-import { AgentIcon, ChatIcon, CheckCircleIcon, ClockIcon, CrossIcon, DashIcon, EyeIcon, QuestionIcon, ReportIcon, TaskIcon } from './icons';
+import { AgentIcon, ChatIcon, CheckCircleIcon, ClockIcon, CrossIcon, DashIcon, EyeIcon, QuestionIcon, ReportIcon, TaskIcon, UserIcon } from './icons';
 
 const ICON: Record<ActivityCategory, React.ReactNode> = {
   inspection: <EyeIcon />,
@@ -7,6 +7,7 @@ const ICON: Record<ActivityCategory, React.ReactNode> = {
   report: <ReportIcon />,
   confirmation: <CheckCircleIcon />,
   refusal: <CrossIcon />,
+  shift: <UserIcon />,
   message: <ChatIcon />,
   proposal: <QuestionIcon />,
   timer: <ClockIcon />,
