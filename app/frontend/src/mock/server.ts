@@ -8,6 +8,8 @@ import type { StructuredCommand } from '../api/agentTypes';
 import type { AngleName, ConfirmBody, InspectBody, Person } from '../api/types';
 import { MockBackend } from './backend';
 import { MockDispatcher, isCommand } from './dispatch';
+import { createCrewSample } from './crewSample';
+import { buildMockTurnRecord } from './turnRecord';
 
 const TICK_MS = 250;
 const LATENCY_MS = 120;
@@ -25,6 +27,7 @@ export type MockMethod = keyof MockServer;
 export function createMockServer(options: { startAt?: number } = {}) {
   const backend = new MockBackend({ startAt: options.startAt ?? 0 });
   const dispatcher = new MockDispatcher(backend);
+  const withCrewSample = createCrewSample(backend);
 
   let last = Date.now();
   setInterval(() => {
@@ -81,6 +84,7 @@ export function createMockServer(options: { startAt?: number } = {}) {
     demoSpeed: (speed: number) => call(() => backend.setSpeed(speed)),
     assistant: (inspectionId: string, message: string) => call(() => backend.assistant(inspectionId, message), 700),
     getRules: () => call(() => backend.getRules()),
+    getTurnRecord: (turnId: string) => call(() => buildMockTurnRecord(backend, dispatcher, turnId), 60),
 
     agentRoster: () => call(() => dispatcher.roster(), 60),
     agentJoin: (personId: string, pin: string) => call(() => dispatcher.join(personId, pin)),
@@ -95,7 +99,7 @@ export function createMockServer(options: { startAt?: number } = {}) {
       setTimeout(() => dispatcher.drainWakes(), AGENT_REPLY_MS);
       return out;
     },
-    agentBoard: () => call(() => dispatcher.board(), 60),
+    agentBoard: () => call(() => withCrewSample(dispatcher.board()), 60),
     agentActivity: (after: number, gate?: string, turnId?: string, limit?: number) =>
       call(() => dispatcher.activity({ after, gate, turn_id: turnId, limit }), 30),
   };

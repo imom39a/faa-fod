@@ -1,8 +1,8 @@
 import type { RosterPerson, Task } from '../api/agentTypes';
 import { PERSON_ROLE_LABEL } from '../lib/labels';
 import { isActiveTask } from '../lib/taskActions';
-import { CHAT_HREF, OVERVIEW_HREF, activityHref, type Route } from '../route';
-import { ChatIcon, GridIcon, ListIcon, UserIcon } from './icons';
+import { CHAT_HREF, CREW_HREF, OVERVIEW_HREF, activityHref, type Route } from '../route';
+import { ChatIcon, GridIcon, ListIcon, TaskIcon, UserIcon } from './icons';
 
 type Props = {
   route: Route;
@@ -31,6 +31,9 @@ export function Nav({ route, person, tasks }: Props) {
               {holds > 0 ? ' · HOLD' : ''}
             </span>
           ) : null}
+        </a>
+        <a href={CREW_HREF} aria-current={here('crew')}>
+          <TaskIcon className="vicon" /> Crew and Tasks
         </a>
         <a href={activityHref()} aria-current={here('activity')}>
           <ListIcon className="vicon" /> Activity

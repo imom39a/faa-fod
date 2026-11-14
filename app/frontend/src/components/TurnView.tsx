@@ -25,6 +25,7 @@ import { FindingCard, type ConfirmRequest } from './FindingCard';
 import { CheckCircleIcon, EyeOffIcon, SpinnerIcon, ToneIcon } from './icons';
 import { SignoffDialog } from './SignoffDialog';
 import { Timeline } from './Timeline';
+import { TurnRecord } from './TurnRecord';
 
 type Notice = { tone: 'ok' | 'error' | 'warn' | 'info'; title: string; text?: string };
 
@@ -33,6 +34,8 @@ type Props = {
   turnId: string;
   /** Inspection named in the URL; null follows the latest Inspection of the Turn. */
   pinnedInspectionId: string | null;
+  /** Finding ID from `?finding=` (a link from the Crew and Tasks page): selected once when it loads. */
+  focusFindingId?: string | null;
   state: State | null;
   person: Person;
   rules: RuleSet | null;
@@ -47,7 +50,7 @@ function defaultAngle(report: Report): AngleName {
   return withOpen ?? unusable ?? report.angles[0]?.angle ?? 'NOSE';
 }
 
-export function TurnView({ api, turnId, pinnedInspectionId, state, person, rules, refreshState }: Props) {
+export function TurnView({ api, turnId, pinnedInspectionId, focusFindingId = null, state, person, rules, refreshState }: Props) {
   const [turn, setTurn] = useState<Turn | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -98,6 +101,18 @@ export function TurnView({ api, turnId, pinnedInspectionId, state, person, rules
     setConfirmingAll(false);
     setSignoffOpen(false);
   }, [selectedId]);
+
+  // Open the Finding a link names, once per Inspection and Finding, so polling does not undo the viewer's choice.
+  const focused = useRef('');
+  useEffect(() => {
+    const f = focusFindingId ? selected?.findings.find((x) => x.finding_id === focusFindingId) : undefined;
+    const key = `${selectedId}|${focusFindingId}`;
+    if (!f || !selected || focused.current === key) return;
+    focused.current = key;
+    setAngleChoice({ inspectionId: selected.inspection_id, angle: f.angle });
+    setSelectedFindingId(f.finding_id);
+    requestAnimationFrame(() => document.querySelector(`[data-finding="${CSS.escape(f.finding_id)}"]`)?.scrollIntoView({ block: 'nearest' }));
+  }, [focusFindingId, selected, selectedId]);
 
   const numbered: NumberedFinding[] = useMemo(
     () => (selected ? selected.findings.map((finding, i) => ({ finding, number: i + 1 })) : []),
@@ -507,6 +522,7 @@ export function TurnView({ api, turnId, pinnedInspectionId, state, person, rules
               />
             )}
           </div>
+          <TurnRecord api={api} turnId={turnId} />
         </div>
 
         <section className="panel turn-side" aria-label="Findings">

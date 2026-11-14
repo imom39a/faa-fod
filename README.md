@@ -66,7 +66,13 @@ Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.
 |---|---|
 | Terminal | The agent's console. Display only: events, the agent's decisions, Tasks, timers and running cost. Lines marked `[code]` are ordinary code, `agent>` is the model, `[timer]` is a code timer, `[cost]` is measured spend. |
 | Dashboard | As before: Gate tiles, photos, Findings, Confirmations. |
-| Chat page | Where each person signs in, gets Tasks, reports back and records Confirmations. **Chat page: to be added.** It is being built against the API in `app/CONTRACT.md` section 5. Until then, `uv run python -m fodgate.rehearse` (from `app/backend`) plays two people over that API and prints both chat threads. |
+| Chat page | Where each person signs in, gets Tasks, reports back and records Confirmations. Open it at http://localhost:8000/#/chat and sign in with a name and PIN from the Roster. `uv run python -m fodgate.rehearse` (from `app/backend`) plays two people over the same API and prints both chat threads. |
+
+**Crew and Tasks, and the Turn record.** Both are read-only: neither one can confirm, sign off or reassign anything.
+
+- **Crew and Tasks** (http://localhost:8000/#/crew, the "Crew and Tasks" link in the top bar) shows who is on shift, with role and Gates, and who is on a break. It shows every open Task (what it is, its Gate and Finding, who has it, its status and how long it has been open), the Escalations in progress with the level reached, recent agent activity and the session cost. It reads `GET /api/agent/board` every second. HOLDs come first, then the higher Escalation level. Click a Task to open its Turn at that Finding. A Task type added later shows by its name and instruction.
+- **The Turn record** is on each Turn's page: press "Show Turn record". It lists every Inspection, Task, Report and Confirmation of the Turn in time order, with who did each and when, and the Turn's cost. It updates while it is open. "Download JSON" saves it as `turn-<turn_id>-record.json`. It comes from `GET /api/turns/{turn_id}/record`. A Report (what a person said) and a Confirmation (what was recorded) are separate kinds of entry.
+- To see both without the backend, use the dashboard's mock mode (`app/frontend/README.md`).
 
 **The roster** (`app/data/roster/roster.json`; the PINs are demo stand-ins for sign-in, not secrets)
 

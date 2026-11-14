@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from . import assistant, config
+from . import assistant, config, turn_record
 from .demo import DemoPlayer
 from .dispatch import Dispatcher, commands
 from .dispatch.models import ACTIVE, ROLE_LABEL
@@ -147,6 +147,11 @@ def create_app(*, store: Store | None = None, llm: LLM | None = None, start_play
     @app.get("/api/turns/{turn_id}")
     def get_turn(turn_id: str):
         return wf.turn_view(turn_id)
+
+    @app.get("/api/turns/{turn_id}/record")
+    def get_turn_record(turn_id: str):
+        """Every Inspection, Task, Report and Confirmation of the Turn in time order. Read-only; no model call."""
+        return turn_record.build(store, turn_id)
 
     @app.get("/api/inspections/{inspection_id}")
     def get_inspection(inspection_id: str):

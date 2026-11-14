@@ -5,6 +5,7 @@ import { MOCK_MODE } from './api';
 import type { RuleSet } from './api/types';
 import { ActivityPage } from './components/ActivityPage';
 import { ChatPage } from './components/chat/ChatPage';
+import { CrewTasksPage } from './components/CrewTasksPage';
 import { DemoControls, RoleSwitch } from './components/Header';
 import { Nav } from './components/Nav';
 import { SpinnerIcon } from './components/icons';
@@ -102,6 +103,8 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
         ) : null}
         {route.name === 'chat' ? (
           <ChatPage agent={api.agent} sessionStore={sessionStore} inboxStore={inboxStore} />
+        ) : route.name === 'crew' ? (
+          <CrewTasksPage agent={api.agent} />
         ) : route.name === 'activity' ? (
           <ActivityPage agent={api.agent} filter={route.filter} />
         ) : route.name === 'turn' ? (
@@ -109,6 +112,7 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
             api={api}
             turnId={route.turnId}
             pinnedInspectionId={route.inspectionId}
+            focusFindingId={route.finding}
             state={state}
             person={person}
             rules={rules}

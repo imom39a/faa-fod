@@ -582,6 +582,7 @@ export class MockDispatcher {
           this.close([t], `${t.finding_id} ${how.replace(/_/g, ' ')}, confirmed by ${by}`, this.confirmationByLabel.get(t.finding_id ?? '') ?? null);
         } else {
           t.inspection_id = latest.inspection_id;
+          t.inspection_finding_id = f.finding_id;
           if (t.type === 'ack_hold' && f.status === 'acknowledged' && t.status === 'assigned') {
             t.status = 'accepted';
             this.cancelTimers(t.task_id, ['hold_unack_1', 'hold_unack_2']);
@@ -722,6 +723,7 @@ export class MockDispatcher {
       turn_id: turn.turn_id,
       inspection_id: latest.inspection_id,
       finding_id: label,
+      inspection_finding_id: f?.finding_id ?? null,
       angle,
       severity: f?.severity ?? null,
       required_role: requiredRole(a.type),

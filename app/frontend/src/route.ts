@@ -5,17 +5,19 @@ export type ActivityRouteFilter = { gate: string | null; turnId: string | null; 
 
 export type Route =
   | { name: 'overview' }
-  | { name: 'turn'; turnId: string; inspectionId: string | null }
+  | { name: 'turn'; turnId: string; inspectionId: string | null; /** `?finding=<finding_id>`: the Finding a link opens (its ID in that Inspection). */ finding: string | null }
   | { name: 'chat' }
+  | { name: 'crew' }
   | { name: 'activity'; filter: ActivityRouteFilter };
 
 export function parseRoute(hash: string): Route {
   const [path = '', query = ''] = hash.replace(/^#\/?/, '').split('?');
   const parts = path.split('/').filter(Boolean).map(decodeURIComponent);
   if (parts[0] === 'turn' && parts[1]) {
-    return { name: 'turn', turnId: parts[1], inspectionId: parts[2] ?? null };
+    return { name: 'turn', turnId: parts[1], inspectionId: parts[2] ?? null, finding: new URLSearchParams(query).get('finding') || null };
   }
   if (parts[0] === 'chat') return { name: 'chat' };
+  if (parts[0] === 'crew') return { name: 'crew' };
   if (parts[0] === 'activity') {
     const q = new URLSearchParams(query);
     const get = (k: string) => q.get(k) || null;
@@ -25,6 +27,7 @@ export function parseRoute(hash: string): Route {
 }
 
 export const CHAT_HREF = '#/chat';
+export const CREW_HREF = '#/crew';
 
 export function activityHref(filter: Partial<ActivityRouteFilter> = {}): string {
   const q = new URLSearchParams();
@@ -36,9 +39,10 @@ export function activityHref(filter: Partial<ActivityRouteFilter> = {}): string 
   return s ? `#/activity?${s}` : '#/activity';
 }
 
-export function turnHref(turnId: string, inspectionId?: string | null): string {
+export function turnHref(turnId: string, inspectionId?: string | null, finding?: string | null): string {
   const base = `#/turn/${encodeURIComponent(turnId)}`;
-  return inspectionId ? `${base}/${encodeURIComponent(inspectionId)}` : base;
+  const path = inspectionId ? `${base}/${encodeURIComponent(inspectionId)}` : base;
+  return finding ? `${path}?${new URLSearchParams({ finding })}` : path;
 }
 
 export const OVERVIEW_HREF = '#/';

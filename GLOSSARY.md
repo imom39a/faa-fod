@@ -40,4 +40,6 @@
 
 **Escalation**: Telling more people, in a fixed order, about a Task that is not moving: first the person again and the supervisor, then every Ramp Lead on Shift. Escalation only informs; it does not hold or release an aircraft.
 
+**Turn record**: Everything that happened in one Turn, in time order: each Inspection, Task, Report and Confirmation, with who did it and when, and what the Turn cost. It is read-only.
+
 **Handover**: One person passing all their open Tasks to another, who must accept them. A Handover confirms nothing.

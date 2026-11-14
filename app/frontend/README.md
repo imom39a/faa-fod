@@ -33,6 +33,10 @@ Flows worth trying at T1 (`?t=60`): as Ramp Agent, a HOLD action is refused. As 
 
 Mock-only behaviour: one demo second stands for 6 seconds of gate time (so the 6-minute demo spans about 36 minutes of timestamps and pushback countdowns); two scripted sign-offs are made by "T. Alvarez (scripted)"; a scheduled pushback waits until the pre-departure Inspection is signed off; Reset returns to the `?t=` start time.
 
+**Crew and Tasks in mock mode** (`http://localhost:5173/#/crew`). At load the demo has no Task yet, so the page shows a marked sample (`src/mock/crewSample.ts`): a Ramp Agent on a break ("Lee (sample)"), an escalated HOLD at level 2, an escalated REMOVE, a check-by-eye Task with a Report, a closed sign-off, a Task of a type the dashboard does not know (`handover_accept`), a short activity log and an illustrative cost. Each sample Task and activity entry has a "Sample" tag, and each sample Task opens a real mock Turn. The sample is only added to `GET /agent/board`; the chat page, the activity log and the Turn record never see it. When the demo creates its first Task (press Play, or open `?t=120#/crew`), the page shows the mock dispatcher's own Board. At `?t=120` a Task link opens its Turn with the Finding selected.
+
+**Turn record in mock mode.** On a Turn's page, press "Show Turn record". The mock builds it from the mock backend's Inspections and Confirmations and from the mock dispatcher's activity log (`src/mock/turnRecord.ts`). The Turns signed off before the demo starts (T2, T5, T8) also get a sample sign-off Task and two sample Reports, tagged "Sample".
+
 Fixture photos (`src/mock/img/`) are copied from `prototypes/dashboard/assets/img`, with boxes from its `scenes.json` ground truth. They are crops of Wikimedia Commons photographs by Bahnfrend (CC0 1.0 and CC BY-SA 4.0) and Andy Mabbett (CC BY-SA 3.0), some with debris composited from FOD-A (FOD-UNOmaha, MIT) or a synthetic glare overlay. Full per-file sources: `prototypes/dashboard/assets/ATTRIBUTION.md`. The UI shows the credit under every image from `angles[].attribution`.
 
 ## Layout
@@ -43,16 +47,21 @@ src/
   api/client.ts       Api interface + HTTP client, ApiError
   api/errors.ts       user-facing message for every contract error code
   api/index.ts        picks the HTTP client or the mock
+  api/turnRecordTypes.ts  Turn record types (GET /api/turns/{turn_id}/record)
   store/stateStore.ts polls GET /api/state every second
   store/identity.ts   role + name, remembered in localStorage
   lib/boxes.ts        Finding box scaling (original pixels → displayed size, minimum on-screen size)
   lib/gates.ts        Gate tile and "Needs a human" queue models
   lib/report.ts       open Findings, sign-off blockers, superseded Inspections, timeline, HOLD outcome
-  components/         Overview, TurnView, Timeline, AngleFrame, FindingCard, SignoffDialog, DetailsPanel, AssistantPanel
-  mock/               in-memory backend (backend.ts), fixtures, photos
+  lib/crewTasks.ts    Crew and Tasks: Task order, unknown Task types, Roster groups, links
+  lib/turnRecord.ts   Turn record: tolerant normaliser, time order, JSON download
+  store/boardStore.ts polls GET /api/agent/board about once a second, never two requests at once
+  components/         Overview, TurnView, Timeline, AngleFrame, FindingCard, SignoffDialog, DetailsPanel, AssistantPanel,
+                      CrewTasksPage (#/crew), TurnRecord (on the Turn view)
+  mock/               in-memory backend (backend.ts), fixtures, photos; crewSample.ts (sample Board), turnRecord.ts (mock Turn record)
 ```
 
-Views: `#/` is the overview (5 Gate tiles, queue, demo controls, role switch); `#/turn/<turn_id>[/<inspection_id>]` is the Turn view. Without an Inspection id it follows the latest Inspection of the Turn.
+Views: `#/` is the overview (5 Gate tiles, queue, demo controls, role switch); `#/turn/<turn_id>[/<inspection_id>][?finding=<finding_id>]` is the Turn view. Without an Inspection id it follows the latest Inspection of the Turn; `?finding=` selects that Finding once. `#/crew` is Crew and Tasks (read-only). `#/chat` and `#/activity` are the always-on agent's chat page and activity log.
 
 ## Decisions where the contract is silent
 
@@ -66,3 +75,6 @@ Views: `#/` is the overview (5 Gate tiles, queue, demo controls, role switch); `
 - The contract does not restrict who may sign off, so both roles can.
 - "Confirm all removed" also covers open REMOVE/ADVISORY Findings outside the boundary (the API marks them all), so the UI asks for one extra confirmation in that case.
 - Category labels come from `GET /api/rules`.
+- Crew and Tasks polls `GET /api/agent/board` every second, one request at a time. When a poll fails it waits longer each time (up to 8 s) and keeps the last Board on screen with a "Not connected" banner.
+- The Turn record is fetched only after "Show Turn record" is pressed, then every 2 s while it is open. The client drops an entry with no `kind` or no valid `at`, fills other missing fields, and shows an unknown `kind` or `event` by name.
+- A Task link uses `inspection_finding_id` for `?finding=`. A server that does not send that field gets a link to the Inspection only.

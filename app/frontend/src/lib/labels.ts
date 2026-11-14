@@ -18,6 +18,11 @@ export const ROLE_LABEL: Record<Role, string> = { ramp_agent: 'Ramp Agent', ramp
 /** Roster roles of the always-on agent. A supervisor routes work and records no Confirmations. */
 export const PERSON_ROLE_LABEL: Record<PersonRole, string> = { ramp_agent: 'Ramp Agent', ramp_lead: 'Ramp Lead', supervisor: 'Supervisor' };
 export const SHIFT_LABEL: Record<ShiftStatus, string> = { on: 'On shift', break: 'On a break', off: 'Off shift' };
+/** "Ramp Lead"; a role added later shows its own name; empty for no role. */
+export function personRoleLabel(role: string | null | undefined): string {
+  if (!role) return '';
+  return (PERSON_ROLE_LABEL as Record<string, string>)[role] ?? humanise(role);
+}
 
 export const GATE_STATUS_LABEL: Record<GateStatus, string> = {
   idle: 'Idle',

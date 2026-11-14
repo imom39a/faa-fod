@@ -37,6 +37,8 @@ export type Task = {
   inspection_id: string;
   /** The Finding's short label ("F1"), not the raw Finding ID. Null for Angle and sign-off Tasks. */
   finding_id: string | null;
+  /** The same Finding's raw ID in `inspection_id`, so a link can open it there. Optional: older servers omit it. */
+  inspection_finding_id?: string | null;
   angle: AngleName | null;
   /** Copied from the Finding by code. Null for Angle and sign-off Tasks. */
   severity: Severity | null;
