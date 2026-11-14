@@ -21,6 +21,14 @@ function Svg({ children, className }: { children: ReactNode; className?: string 
   );
 }
 
+/** Product mark: the corners of a stand with a check inside. */
+export const BrandMark = ({ className }: IconProps) => (
+  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
+    <path d="M4 11V4h7M21 4h7v7M28 21v7h-7M11 28H4v-7" />
+    <path d="M10 16.5l4.2 4.2L22.5 12" />
+  </svg>
+);
+
 /** HOLD: a stop octagon. */
 export const HoldIcon = (p: IconProps) => (
   <Svg {...p}>

@@ -128,3 +128,60 @@ export function queueRows(queue: readonly QueueItem[]): QueueRowModel[] {
     inspectionId: q.inspection_id,
   }));
 }
+
+/** Tones that mean something is abnormal. On the calm display these are the only ones drawn in colour
+ *  (spec/design-system.md, "Colour is for abnormal states"). */
+const ABNORMAL_TONES: ReadonlySet<Tone> = new Set<Tone>(['hold', 'remove', 'advisory', 'incomplete']);
+
+export function isAbnormal(tone: Tone): boolean {
+  return ABNORMAL_TONES.has(tone);
+}
+
+export type ShortPushback = { text: string; overdue: boolean };
+
+/** Compact countdown for the Gate strip and the Gates table: "34 min", "due now", "+5 min late". */
+export function shortPushback(g: GateState): ShortPushback | null {
+  const m = g.turn?.minutes_to_pushback;
+  if (m === null || m === undefined || !Number.isFinite(m) || g.status === 'departed' || g.status === 'idle') return null;
+  const r = Math.round(m);
+  if (r > 0) return { text: `${r} min`, overdue: false };
+  if (r === 0) return { text: 'due now', overdue: true };
+  return { text: `+${-r} min late`, overdue: true };
+}
+
+/** The one line a Gate strip cell shows: the open severity first, then an unconfirmed Verdict, then the status. */
+export function stripLabel(m: TileModel): string {
+  if (m.severity) return `${m.severity} open`;
+  if (m.verdictLabel && !m.humanConfirmed) return `${m.verdictLabel}, unconfirmed`;
+  return m.statusLabel;
+}
+
+export type OverviewCount = {
+  key: QueueReason | 'confirmed';
+  label: string;
+  n: number;
+  tone: Tone;
+  /** A count of something normal: never coloured. */
+  calm: boolean;
+};
+
+/** The counters above the Gates table: what is waiting on a person, by reason, and how many Gates are confirmed clear. */
+export function overviewCounts(gates: readonly GateState[], queue: readonly QueueItem[]): OverviewCount[] {
+  const reasons: QueueReason[] = ['hold', 'findings', 'incomplete', 'signoff'];
+  return [
+    ...reasons.map((r) => ({
+      key: r,
+      label: QUEUE_REASON_LABEL[r],
+      n: queue.filter((q) => q.reason === r).length,
+      tone: QUEUE_REASON_TONE[r],
+      calm: false,
+    })),
+    {
+      key: 'confirmed' as const,
+      label: 'Confirmed clear',
+      n: gates.filter((g) => g.status === 'confirmed_clear').length,
+      tone: 'confirmed' as Tone,
+      calm: true,
+    },
+  ];
+}

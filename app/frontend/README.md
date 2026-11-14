@@ -79,17 +79,21 @@ src/
   store/stateStore.ts polls GET /api/state every second
   store/identity.ts   role + name, remembered in localStorage
   lib/boxes.ts        Finding box scaling (original pixels → displayed size, minimum on-screen size)
-  lib/gates.ts        Gate tile and "Needs a human" queue models
+  lib/gates.ts        Gate row, Gate strip, counters and "Needs a human" queue models
+  lib/brand.ts        the product name shown in the UI
+  design.test.ts      checks the rules of spec/design-system.md that code can check
   lib/report.ts       open Findings, sign-off blockers, superseded Inspections, timeline, HOLD outcome
   lib/crewTasks.ts    Crew and Tasks: Task order, unknown Task types, Roster groups, links
   lib/turnRecord.ts   Turn record: tolerant normaliser, time order, JSON download
   store/boardStore.ts polls GET /api/agent/board about once a second, never two requests at once
-  components/         Overview, TurnView, Timeline, AngleFrame, FindingCard, SignoffDialog, DetailsPanel, AssistantPanel,
+  components/         AppShell (page rail, Gate strip, demo tray), Overview, TurnView, Timeline, AngleFrame, FindingCard, SignoffDialog, DetailsPanel, AssistantPanel,
                       CrewTasksPage (#/crew), TurnRecord (on the Turn view)
   mock/               in-memory backend (backend.ts), fixtures, photos; crewSample.ts (sample Board), turnRecord.ts (mock Turn record)
 ```
 
-Views: `#/` is the overview (5 Gate tiles, queue, demo controls, role switch); `#/turn/<turn_id>[/<inspection_id>][?finding=<finding_id>]` is the Turn view. Without an Inspection id it follows the latest Inspection of the Turn; `?finding=` selects that Finding once. `#/crew` is Crew and Tasks (read-only). `#/chat` and `#/activity` are the always-on agent's chat page and activity log.
+Layout and styling follow `spec/design-system.md`. Every page sits inside `AppShell`; the demo controls and the role switch are in the tray behind the demo clock.
+
+Views: `#/` is the overview (counters, Gates table, queue); `#/turn/<turn_id>[/<inspection_id>][?finding=<finding_id>]` is the Turn view. Without an Inspection id it follows the latest Inspection of the Turn; `?finding=` selects that Finding once. `#/crew` is Crew and Tasks (read-only). `#/chat` and `#/activity` are the always-on agent's chat page and activity log.
 
 ## Decisions where the contract is silent
 
