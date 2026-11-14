@@ -102,6 +102,19 @@ export function taskInstruction(task: { instruction?: unknown }): string {
   return typeof task.instruction === 'string' ? task.instruction.trim() : '';
 }
 
+/**
+ * The part of the instruction a row shows under the Task type. Instructions start by
+ * restating the Task ("Acknowledge and clear the HOLD at T5 ENG-R: Hammer on ...");
+ * the row already shows that, so it keeps what follows the first ": ". An instruction
+ * without that shape is shown whole.
+ */
+export function taskDetail(instruction: string): string {
+  const i = instruction.indexOf(': ');
+  if (i <= 0 || i > 80) return instruction;
+  const rest = instruction.slice(i + 2).trim();
+  return rest || instruction;
+}
+
 /** Status in words; an unknown status is shown as the server sent it. */
 export function crewStatusLabel(task: Pick<Task, 'type' | 'status'>): string {
   const status = typeof task.status === 'string' ? task.status : '';
@@ -119,6 +132,12 @@ export function escalationWho(level: number): string {
 export function crewEscalationLabel(escalationLevel: number): string | null {
   const n = Number.isFinite(escalationLevel) ? Math.floor(escalationLevel) : 0;
   return n > 0 ? `Escalated · level ${n}` : null;
+}
+
+/** "Level 2", or null for a Task that is not escalated. */
+export function escalationLevelLabel(escalationLevel: number): string | null {
+  const n = Number.isFinite(escalationLevel) ? Math.floor(escalationLevel) : 0;
+  return n > 0 ? `Level ${n}` : null;
 }
 
 /** Where in its Turn a Task points: the Finding's label, the Angle, or the whole Inspection. */
