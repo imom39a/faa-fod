@@ -9,6 +9,8 @@ Read `README.md` first for what this is and how to run it. This file covers what
 - `app/CONTRACT.md` fixes the data layout and the API between backend, dashboard and data. If you change an endpoint or a field, change the contract, the backend, the dashboard types (`app/frontend/src/api/`) and the dashboard mock together.
 - `GLOSSARY.md` defines the vocabulary (Gate, Turn, Inspection, Angle, Candidate, Finding, Verdict, Confirmation, Ramp Agent, Ramp Lead, Roster, Shift, Task, Report, Escalation, Handover). Use these words exactly in code, API and UI.
 - The always-on agent is `app/backend/fodgate/dispatch/` (spec: `spec/dispatch.md`, API: `app/CONTRACT.md` section 5). It is started from a terminal and used from the browser: `dispatcher.py` is the code-only event loop, `agent.py` the Haiku tool loop, `commands.py` the slash commands. `fodgate/agent.py` is the process entry point with the display-only console.
+- Later flows live in the same modules: Handover and break (`commands.py`, `Dispatcher.start_handover` / `complete_handover`), not found and still there (`Dispatcher.record_report`, `hold_still_present`), unusable views and debris outside the envelope (`Dispatcher._task_text`, `outside_recipient`, `/reported`). Tests: `tests/test_handover.py`, `test_not_found_still_there.py`, `test_other_work.py`. The chat page's buttons are in `app/frontend/src/lib/taskActions.ts`; the mock copy of the dispatcher is `app/frontend/src/mock/dispatch.ts` and must be changed with the backend.
+- Agent evals: `app/backend/fodgate/agent_evals.py`, scenarios in `app/data/agent-evals/` (README there), suite tests in `tests/test_agent_evals.py`. `fodgate/synthetic.py` builds the tiny scenes that the tests and the evals share.
 - The dashboard's read-only views of the agent: Crew and Tasks (`app/frontend/src/components/CrewTasksPage.tsx`, `lib/crewTasks.ts`, `store/boardStore.ts`, route `#/crew`, from `GET /api/agent/board`) and the Turn record (`components/TurnRecord.tsx`, `lib/turnRecord.ts`, backend `app/backend/fodgate/turn_record.py`, `GET /api/turns/{turn_id}/record`). Keep both read-only. Mock sample data for them: `src/mock/crewSample.ts` and `src/mock/turnRecord.ts`. Tests: `src/lib/crewTasks.test.ts` (Task order, unknown Task types, links), `src/store/boardStore.test.ts`, `src/lib/turnRecord.test.ts`, `src/mock/crewSample.test.ts`, `src/mock/turnRecord.test.ts`, `src/route.crew.test.ts`, and `app/backend/tests/test_turn_record.py`.
 - `prototypes/` is throwaway evidence. Do not import from it or extend it.
 - `issues/` is the decision record. Each file is one closed decision; `0001-map-...md` indexes them.
@@ -24,6 +26,8 @@ cd app/backend  && uv run pytest               # must pass before you finish
 cd app/frontend && npm test && npm run build   # must pass before you finish
 cd app/frontend && npm run dev:mock           # dashboard with no backend; Crew and Tasks at http://localhost:5173/#/crew
 cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detection scoring, no API cost
+cd app/backend  && uv run python -m fodgate.agent_evals --dry-run     # agent evals with a scripted stand-in, no API cost
+cd app/backend  && uv run python -m fodgate.rehearse_flows --keyless  # Handover, not found, still there, glare, outside: no API cost
 ```
 
 ## Rules that must hold
@@ -31,6 +35,8 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 - **Severity, rule ID and Verdict are computed in code** (`app/backend/fodgate/rules.py`, `report.py`) from `app/data/rules/fod-rules.json`. Never take them from model output.
 - **Nothing clears without a person.** No code path may confirm a Finding, sign off an Inspection or change a Verdict on the model's say-so. Neither the assistant nor the always-on agent has a tool that does any of these.
 - **In `fodgate/dispatch/`, only `commands.py` may call `confirm_finding`, `confirm_all`, `checked_by_eye` or `signoff`**, and only as the signed-in person: a slash command, or that person's yes to a proposal. A Report ("done") never closes a Finding. `tests/test_dispatch_rules.py` pins this and the agent's tool list; if you add a tool, it must not be able to clear anything.
+- **Code, not the model, takes the step after a Report.** After a done or not-found Report, code creates the proposal (or, for a HOLD, tells the Ramp Lead and offers a new photo). In a Handover, code writes the brief and moves the Tasks; timers are not restarted. The report draft for debris outside the envelope is a code template. Do not move any of these into the model.
+- **If you change agent behaviour, run the agent evals** (`--dry-run` always; live with `--max-usd 0.50` when the prompt or tools changed) and add a scenario for the new behaviour. Never loosen a scenario to make it pass; a safety violation is reported to the team at once.
 - **Role comes from the roster on the server** for `/api/agent/*`. Never read a role from a request body or from message text there.
 - **The HOLD alert is sent by code**, at once, to every Ramp Lead on shift. It must not depend on a model call. Idle time makes no model calls: wake on store events and code timers, never poll the model.
 - **Only a Ramp Lead confirms a HOLD**, in two steps (acknowledged, then removed), and "removed" clears it only if a re-inspection of that Angle is clean.
@@ -56,7 +62,11 @@ cd app/backend  && uv run python -m fodgate.evaluate --dry-run   # local detecti
 - The equipment-inside-the-restraint-line check (FOD-R9) has little test evidence; the lines were drawn by eye on stand-in photos.
 - Accuracy numbers come from pasted debris and simulated reference images.
 - No real sign-in. The dashboard's role switch stands in for it, and its endpoints trust the role the browser sends. The always-on agent's endpoints use a roster PIN and resolve the role on the server, which narrows the gap without closing it.
-- Agent wakes take roughly 7 to 24 seconds each.
+- Agent wakes took 3 to 8 seconds in the agent evals and 7 to 24 seconds in the first rehearsal.
+- The agent's wording check refuses any message containing phrases such as "is clear", including a correct refusal like "I can't tell Okafor the gate is clear". The agent rewords and nothing unsafe is sent, but a wake can be wasted (see the issue list).
+- No camera scene has a real "still there" photo; the tests use a synthetic one and `rehearse_flows` derives one at run time.
+- The recipient for debris outside the envelope is chosen from words in the location text (movement area, taxiway, runway, zipper), not from geometry. The person can always pick the other recipient when recording.
+- The mock dispatcher marks free-text Reports `via: "agent"` where the backend says `free_text`, and does not mirror the model's Handover summary.
 - Crew and Tasks and the Turn record were checked in a browser in mock mode and against the real backend with `FOD_AGENT=code`. In mock mode at load, the sample Tasks are not links (no mock Inspection holds their Findings at demo time 0).
 - The Turn record's agent cost leaves out agent wakes for messages people typed, because those belong to no Turn. The record's `cost.note` says how many were left out.
 - A Task links to its Finding only through `inspection_finding_id` on the Board. If a change to the dispatcher drops that field, links fall back to the Inspection.

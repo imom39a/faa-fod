@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import re
 
-from .. import config, report as R
+from .. import assistant, config, report as R
 from ..workflow import FALSE_ALARM_REASONS, WorkflowError
-from .agent import handover_brief
-from .models import ACTIVE, ROLE_LABEL, WORK_ROLES, DispatchError
+from .dispatcher import OUTSIDE_WORD, outside_recipient
+from .models import ACTIVE, ROLE_LABEL, TYPE_LABEL, WORK_ROLES, DispatchError, role_may_take
 from .tasks import follow_finding
 
 HELP = {
@@ -21,6 +21,7 @@ HELP = {
         "/accept K-3                 say you are on it",
         "/done K-3 [note]            report it done (a Report, not a Confirmation)",
         "/cant K-3 <reason>          say you cannot do it",
+        "/cant-find K-3 [note]       report that you looked and could not find it (a Report, not a Confirmation)",
         "/removed F2                 record a REMOVE or ADVISORY Finding as removed",
         "/false-alarm F2 <reason>    shadow | marking | equipment_in_place | other",
         "/not-found F2               record that you walked it and found nothing",
@@ -28,14 +29,15 @@ HELP = {
         "/reinspect T5 ENG-R         take a new photo of one Angle",
         "/signoff T5                 sign off the Gate's latest Inspection",
         "y / n                       answer the question the agent asked you",
-        "/handover <person>  /break  /back  /who",
+        "/reported F3 ramp1|airport-ops   record debris outside the envelope as reported, and who you told",
+        "/handover <person>          ask someone to take all your open Tasks; your Shift ends when they accept",
+        "/break  /back  /who",
         "Anything else you type goes to the agent as free text.",
     ],
     "ramp_lead": [
         "/ack F1                     acknowledge a HOLD: someone is going to it",
         "/removed F1                 record a HOLD as removed (takes a new photo; clears only if it is clean)",
         "/eye T4 ENG-R               record an unusable Angle as checked by eye",
-        "/reported F3                record debris outside the envelope as reported",
         "/send <person> F1 [text]    send someone to a Finding (they report back; you record the HOLD)",
         "/reassign K-3 <person>      move a Task",
     ],
@@ -128,14 +130,15 @@ def _finding(d, label: str | None) -> tuple[dict, dict, dict]:
         raise WorkflowError(404, "not_found", str(e)) from None
 
 
-def _recorded(d, before: int, person: dict, via: str, raw: str, proposal_id: str | None = None) -> None:
+def _recorded(d, before: int, person: dict, via: str, raw: str, proposal_id: str | None = None,
+              extra: dict | None = None) -> None:
     """Stamp how the Confirmation rows just written were made (spec/dispatch.md: audit)."""
     d.store.annotate_confirmations(before, {"via": via, "raw_text": raw, "person_id": person["person_id"],
-                                            **({"proposal_id": proposal_id} if proposal_id else {})})
+                                            **({"proposal_id": proposal_id} if proposal_id else {}), **(extra or {})})
 
 
 def _confirm(d, person: dict, label: str, outcome: str, *, reason: str | None = None, source: str | None = None,
-             via: str = "command", raw: str = "", proposal_id: str | None = None) -> list[str]:
+             via: str = "command", raw: str = "", proposal_id: str | None = None, extra: dict | None = None) -> list[str]:
     """Record a Confirmation on a Finding as this person, always on the Turn's latest Inspection."""
     by = _actor(person)
     ref, report, f = _finding(d, label)
@@ -146,7 +149,7 @@ def _confirm(d, person: dict, label: str, outcome: str, *, reason: str | None = 
     before = d.store.last_confirmation_id()
     new = d.wf.confirm_finding(report["inspection_id"], f["finding_id"], outcome=outcome, role=by["role"],
                                name=by["name"], false_alarm_reason=reason, possible_source=source)
-    _recorded(d, before, person, via, raw, proposal_id)
+    _recorded(d, before, person, via, raw, proposal_id, extra)
     if outcome == "acknowledged":
         return [f"Recorded: {label} acknowledged by {_who(person)}."]
     if not hold_removed:
@@ -155,8 +158,9 @@ def _confirm(d, person: dict, label: str, outcome: str, *, reason: str | None = 
     if after is not None and not R.is_open(after):
         return [f"New photo of {gate} {angle} is clean. Recorded: {label} removed, confirmed by {_who(person)}."]
     d.board.advance_refs(ref["turn_id"])
-    d.hold_still_present(label)
-    return [f"The new photo of {gate} {angle} still shows the object. {label} stays open (HOLD); nothing was recorded."]
+    more = d.hold_still_present(label, person["person_id"])
+    return [f"The new photo of {gate} {angle} still shows the object. {label} stays open (HOLD); nothing was recorded.",
+            *more]
 
 
 # ---------------------------------------------------------------------- Confirmation commands
@@ -179,11 +183,27 @@ def _not_found(d, person, args, text):
     return _confirm(d, person, args[0] if args else None, "not_found_on_walk", raw=text)
 
 
+_TOLD = {word: key for key, word in OUTSIDE_WORD.items()} | {"ramp-1": "ramp_1_control", "ramp1control": "ramp_1_control",
+                                                             "airport": "airport_operations", "ops": "airport_operations",
+                                                             "airportops": "airport_operations"}
+
+
 def _reported(d, person, args, text):
-    _, _, f = _finding(d, args[0] if args else None)
+    """Record debris outside the gate safety envelope as reported, with who was told. With no recipient named,
+    the one the Task's draft was addressed to is used."""
+    ref, report, f = _finding(d, args[0] if args else None)
     if f["zone_tier"] != "outside_boundary":
         raise _bad("/reported is for debris outside the gate safety envelope; use /removed, /false-alarm or /not-found")
-    return _confirm(d, person, args[0], "acknowledged", raw=text)
+    word = args[1].lower() if len(args) > 1 else None
+    if word is not None and word not in _TOLD:
+        raise _bad("Say who you told: /reported " + ref["label"] + " ramp1   or   /reported " + ref["label"] + " airport-ops")
+    told = _TOLD[word] if word else outside_recipient(f)
+    name = assistant.RECIPIENTS[told]
+    _confirm(d, person, ref["label"], "acknowledged", raw=text, extra={"reported_to": told, "reported_to_name": name})
+    d.board.log("code", f"Recorded: {ref['label']} at {report['gate']} reported to {name} by {_who(person)}.",
+                event="outside_reported", gate=report["gate"], turn={"turn_id": ref["turn_id"]}, actor=person["person_id"],
+                data={"finding_id": ref["label"], "reported_to": told, "by": person["person_id"]})
+    return [f"Recorded: {ref['label']} reported to {name} by {_who(person)}. The ramp crew does not remove it."]
 
 
 def _all_removed(d, person, args, text):
@@ -269,6 +289,15 @@ def _done(d, person, args, text):
     return d.record_report(t, person, "done", " ".join(args[1:]) or None, "command")["lines"]
 
 
+def _cant_find(d, person, args, text):
+    """A Report that the person looked and found nothing. It records no Confirmation: for a REMOVE or ADVISORY
+    Finding the person is offered a proposal; for a HOLD the Ramp Lead is told and offered a re-inspection."""
+    t = _my_task(d, person, args[0] if args else None)
+    if t["type"] not in ("remove", "walk_and_report"):
+        raise _bad(f"/cant-find is for a removal or walk Task; {t['task_id']} is '{t['type']}'. Use /cant {t['task_id']} <reason>.")
+    return d.record_report(t, person, "not_found", " ".join(args[1:]) or None, "command")["lines"]
+
+
 def _cant(d, person, args, text):
     t = _my_task(d, person, args[0] if args else None)
     return d.record_report(t, person, "blocked", " ".join(args[1:]) or None, "command")["lines"]
@@ -312,6 +341,10 @@ def _answer(d, person: dict, yes: bool, proposal_id: str | None, raw: str) -> li
     action = prop["action"]
     if not yes:
         d.board.set_proposal(prop["proposal_id"], "declined")
+        if action["kind"] == "handover":
+            d.timers.cancel(prop["proposal_id"], ("handover_timeout",))
+            d.handover_not_taken(prop, "declined")
+            return [f"Declined ({prop['proposal_id']}): no Task moved. {d._name(action['from_id'])} has been told."]
         return [f"Declined ({prop['proposal_id']}): nothing was recorded."]
     try:
         if action["kind"] == "confirm":
@@ -325,7 +358,8 @@ def _answer(d, person: dict, yes: bool, proposal_id: str | None, raw: str) -> li
         elif action["kind"] == "reinspect":
             lines = _reinspect(d, person, [action["gate"], action["angle"]], raw, via="accepted_proposal")
         elif action["kind"] == "handover":
-            lines = _take_handover(d, person, action)
+            d.timers.cancel(prop["proposal_id"], ("handover_timeout",))
+            lines = d.complete_handover(person, action)
         else:
             raise _bad("Unknown proposal")
     except WorkflowError:
@@ -344,59 +378,56 @@ def _holds_open_hold(d, person: dict) -> list[dict]:
 def _break(d, person, args, text):
     holds = _holds_open_hold(d, person)
     if holds:
+        told = d.sole_lead_leaving(person, "tried to go on a break")
         raise WorkflowError(409, "open_hold", "You hold an open HOLD Task (" + ", ".join(t["task_id"] for t in holds)
-                            + "). Hand it over first: /handover <person>")
+                            + "). Hand it over first: /handover <person>."
+                            + (" The supervisor has been told that no other Ramp Lead is on shift." if told else ""))
+    d.sole_lead_leaving(person, "went on a break")
     d.roster.set_shift(person["person_id"], "break")
     left = d.board.tasks(assignee_id=person["person_id"])
+    d.board.log("code", f"{_who(person)} went on a break.", event="shift_changed", actor=person["person_id"],
+                data={"person_id": person["person_id"], "shift": "break"})
     return ["You are on a break. No new Tasks will come to you. Type /back when you return."
             + (f" You still hold {len(left)} open Task{'s' if len(left) != 1 else ''}." if left else "")]
 
 
 def _back(d, person, args, text):
     d.roster.set_shift(person["person_id"], "on")
+    d.board.log("code", f"{_who(person)} is back on shift.", event="shift_changed", actor=person["person_id"],
+                data={"person_id": person["person_id"], "shift": "on"})
     d.resync()
     return ["You are back on shift."]
 
 
 def _handover(d, person, args, text):
+    if person["role"] not in WORK_ROLES:
+        raise WorkflowError(403, "role_not_allowed", "A supervisor holds no Tasks; move one with /reassign")
     target = d.roster.find(args[0] if args else None)
     if target is None or target["person_id"] == person["person_id"]:
         raise _bad("Usage: /handover <person>")
     tasks = d.board.tasks(assignee_id=person["person_id"])
     if not tasks:
         raise WorkflowError(409, "nothing_to_hand_over", "You have no open Tasks to hand over")
+    refusal = None
     if target["shift"] != "on":
-        raise WorkflowError(409, "refused", f"{target['name']} is not on shift ({target['shift']})")
-    from .models import role_may_take
-    blocked = [t["task_id"] for t in tasks if not role_may_take(target["role"], t["type"])]
-    if blocked:
-        raise WorkflowError(403, "role_not_allowed", f"{target['name']} is a {ROLE_LABEL[target['role']]} and cannot take "
-                            + ", ".join(blocked) + " (a Ramp Lead is required)")
-    prop = d.board.create_proposal(to_id=target["person_id"], created_by=person["person_id"],
-                                   expires_t=d.clock() + d.ladder["proposal_expires_s"],
-                                   action={"kind": "handover", "from_id": person["person_id"],
-                                           "text": f"take over {len(tasks)} Task(s) from {person['name']}"})
-    d.board.send(target["person_id"], handover_brief(d, person["person_id"], target["person_id"])
-                 + f"\nTake these over?   [y / n]   ({prop['proposal_id']})", from_id=person["person_id"],
-                 proposal_id=prop["proposal_id"])
+        refusal = WorkflowError(409, "refused", f"Handover refused: {target['name']} is not on shift ({target['shift']}). "
+                                "Your Tasks stay with you.")
+    blocked = [t for t in tasks if not role_may_take(target["role"], t["type"])]
+    if refusal is None and blocked:
+        refusal = WorkflowError(403, "role_not_allowed", f"Handover refused: {target['name']} is a "
+                                f"{ROLE_LABEL[target['role']]} and cannot take "
+                                + ", ".join(f"{t['task_id']} ({TYPE_LABEL[t['type']]})" for t in blocked)
+                                + ": a Ramp Lead is required. Your Tasks stay with you.")
+    if refusal is not None:
+        if d.sole_lead_leaving(person, f"tried to hand over to {target['name']}, which was refused,"):
+            refusal.message += " The supervisor has been told that no other Ramp Lead is on shift."
+        raise refusal
+    for p in d.board.pending_proposals(target["person_id"]):
+        if p["action"].get("kind") == "handover" and p["action"].get("from_id") == person["person_id"]:
+            raise WorkflowError(409, "refused", f"Already asked {target['name']} ({p['proposal_id']}); waiting for their answer")
+    d.start_handover(person, target)
     return [f"Asked {_who(target)} to take over {len(tasks)} Task{'s' if len(tasks) != 1 else ''}. "
-            "They stay yours until they accept."]
-
-
-def _take_handover(d, person: dict, action: dict) -> list[str]:
-    src = d.roster.person(action["from_id"])
-    moved = []
-    for t in d.board.tasks(assignee_id=action["from_id"]):
-        try:
-            d.reassign(t["task_id"], person["person_id"], f"Handover from {src['name']}", by=action["from_id"])
-            moved.append(t["task_id"])
-        except DispatchError:
-            pass
-    d.roster.store.execute("UPDATE shifts SET handed_to=? WHERE person_id=? AND ended_at IS NULL",
-                           (person["person_id"], action["from_id"]))
-    d.board.log("code", f"Handover: {', '.join(moved) or 'no Tasks'} moved from {src['name']} to {_who(person)}.",
-                event="handover", actor=person["person_id"], data={"from": action["from_id"], "to": person["person_id"], "tasks": moved})
-    return [f"Handover accepted: {', '.join(moved) or 'no Tasks'} are now yours."]
+            "They stay yours until they accept. You will be told if they decline or do not answer."]
 
 
 # ---------------------------------------------------------------------- information and supervisor commands
@@ -422,6 +453,8 @@ def _shift(d, person, args, text):
     if args[1].lower() != "on" and _holds_open_hold(d, target):
         raise WorkflowError(409, "open_hold", f"{target['name']} holds an open HOLD Task; move it first with /reassign")
     d.roster.set_shift(target["person_id"], args[1].lower())
+    d.board.log("code", f"{target['name']} is now {args[1].lower()} (set by {_who(person)}).", event="shift_changed",
+                actor=person["person_id"], data={"person_id": target["person_id"], "shift": args[1].lower()})
     d.resync()
     return [f"{target['name']} is now {args[1].lower()}."]
 
@@ -438,7 +471,7 @@ def _msg(d, person, args, text):
 
 COMMANDS = {
     "/help": _help, "/tasks": _tasks, "/who": _who_cmd, "/roster": _who_cmd,
-    "/accept": _accept, "/done": _done, "/cant": _cant, "/reassign": _reassign, "/send": _send,
+    "/accept": _accept, "/done": _done, "/cant": _cant, "/cant-find": _cant_find, "/reassign": _reassign, "/send": _send,
     "/ack": _ack, "/removed": _removed, "/false-alarm": _false_alarm, "/not-found": _not_found,
     "/reported": _reported, "/all-removed": _all_removed,
     "/reinspect": _reinspect, "/eye": _eye, "/signoff": _signoff,

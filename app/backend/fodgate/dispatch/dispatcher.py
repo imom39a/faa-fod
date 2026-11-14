@@ -17,7 +17,7 @@ import time
 from collections import deque
 from typing import Callable
 
-from .. import config, report as R
+from .. import assistant, config, report as R
 from ..llm import LLM, spend_allowed
 from ..rules import load_rules
 from ..workflow import Workflow
@@ -37,6 +37,7 @@ MAX_LEVEL = 2
 DEFAULT_LADDER = {
     "hold_unacknowledged_s": [30, 60],          # level 1, then level 2
     "hold_pushback_under_min": 2.0,             # an open HOLD this close to scheduled pushback is level 2
+    "unusable_pushback_under_min": 2.0,         # so is an unusable Angle nobody has re-inspected or checked
     "no_report_ask_s": 60, "no_report_offer_s": 120,
     "proposal_expires_s": 120,
 }
@@ -46,6 +47,18 @@ def load_ladder() -> dict:
     f = config.escalation_path()
     data = json.loads(f.read_text()) if f.is_file() else {}
     return DEFAULT_LADDER | {k: v for k, v in data.items() if k in DEFAULT_LADDER}
+
+
+OUTSIDE_WORD = {"ramp_1_control": "ramp1", "airport_operations": "airport-ops"}      # as typed after /reported
+OUTSIDE_WHY = {"ramp_1_control": "the shared taxilane between stands", "airport_operations": "the movement area"}
+_MOVEMENT_AREA = ("movement area", "taxiway", "runway", "zipper")
+
+
+def outside_recipient(finding: dict) -> str:
+    """Who debris outside the gate safety envelope is reported to (FOD-R10): the movement area goes to Airport
+    Operations, the shared taxilane to Ramp 1 control. When the location text does not settle it, Ramp 1 control."""
+    where = f"{finding.get('location_text') or ''} {finding.get('description') or ''}".lower()
+    return "airport_operations" if any(w in where for w in _MOVEMENT_AREA) else "ramp_1_control"
 
 
 def _short(text: str, limit: int = 90) -> str:
@@ -499,7 +512,8 @@ class Dispatcher:
         if type == "walk_and_report":
             return f"Walk to {gate} {angle}, look for the flagged object and report back: {_short(f['description'], 110)}"
         if type == "report_outside_boundary":
-            return f"Report the object outside the gate safety envelope at {gate}: {_short(f['description'], 110)}"
+            return (f"Report the object outside the gate safety envelope at {gate} to "
+                    f"{assistant.RECIPIENTS[outside_recipient(f)]}; do not remove it: {_short(f['description'], 90)}")
         if type == "check_by_eye":
             return f"Check {gate} {angle} by eye or re-inspect it"
         return f"Sign off the latest Inspection at {gate}"
@@ -515,9 +529,13 @@ class Dispatcher:
             return (f"Task {tid}: {task['instruction'].rstrip('.')} ({task['severity']}, {gate} {angle}, {label}). "
                     f"Report back here when done, or type /done {tid}.")
         if task["type"] == "report_outside_boundary":
+            to = outside_recipient(f)
+            draft = assistant.Tools(latest, turn).draft_outside_boundary_report(to, [f["finding_id"]])
             return (f"Task {tid}: {_short(f['description'])} lies outside the gate safety envelope at {gate} "
-                    f"({label}, {task['severity']}). It is not the ramp crew's to remove: report it to Ramp 1 control "
-                    f"or Airport Operations, then record /reported {label}.")
+                    f"({label}, {task['severity']}). Do not remove it: it is not the ramp crew's to remove. Report it to "
+                    f"{assistant.RECIPIENTS[to]} ({OUTSIDE_WHY[to]}), then record who you told: "
+                    f"/reported {label} {OUTSIDE_WORD[to]}. Draft to send (written by code from the camera images; "
+                    f"check it first):\n\n{draft}")
         if task["type"] == "check_by_eye":
             reason = next((a["unusable_reason"] for a in latest["angles"] if a["angle"] == angle), "unusable")
             return (f"Task {tid}: {gate} {angle} is unusable ({reason}), so the Inspection is INCOMPLETE. "
@@ -537,6 +555,8 @@ class Dispatcher:
         elif task["type"] != "sign_off":
             self.timers.set("no_report_ask", lad["no_report_ask_s"], tid)
             self.timers.set("no_report_offer", lad["no_report_offer_s"], tid)
+            if task["type"] == "check_by_eye" and turn.get("pushback_t") is not None:
+                self.timers.set_at("unusable_pushback", turn["pushback_t"] - lad["unusable_pushback_under_min"] * 60, tid)
 
     def reassign(self, task_id: str, assignee_id: str, reason: str, by: str) -> dict:
         with self.lock:
@@ -569,6 +589,95 @@ class Dispatcher:
                                        f"{_short(reason, 80)}.", event="task_reassigned", task=task, actor=by,
                                data={"task_id": task["task_id"], "from": old, "to": person["person_id"], "reason": reason})
             return task
+
+    # ------------------------------------------------------------------ Handover (moves Tasks; confirms nothing)
+    def sole_lead_leaving(self, person: dict, what: str) -> bool:
+        """Tell the supervisor when the only Ramp Lead on shift tries to leave while a HOLD is open at their
+        Gates. Returns whether that was the case."""
+        if person["role"] != "ramp_lead" or [p for p in self._leads() if p["person_id"] != person["person_id"]]:
+            return False
+        holds = [t for t in self.board.tasks() if t["type"] == "ack_hold" and t["gate"] in person["gates"]]
+        if not holds:
+            return False
+        where = ", ".join(f"{t['finding_label']} at {t['gate']}" for t in holds)
+        text = (f"{person['name']} is the only Ramp Lead on shift and {what} while a HOLD is open ({where}). "
+                "Nothing has moved. A Ramp Lead is needed: /shift <person> on.")
+        for s in self._supervisors():
+            self.board.send(s["person_id"], text, task_id=holds[0]["task_id"])
+        self.board.log("code", text + " Supervisor told.", event="sole_lead_leaving", task=holds[0],
+                       actor=person["person_id"], data={"person_id": person["person_id"], "holds": [t["task_id"] for t in holds]})
+        return True
+
+    def start_handover(self, person: dict, target: dict) -> dict:
+        """Ask `target` to take every open Task of `person`. Nothing moves until they accept."""
+        with self.lock:
+            tasks = self.board.tasks(assignee_id=person["person_id"])
+            prop = self.board.create_proposal(
+                to_id=target["person_id"], created_by=person["person_id"],
+                expires_t=self.clock() + self.ladder["proposal_expires_s"],
+                action={"kind": "handover", "from_id": person["person_id"],
+                        "text": f"take over {len(tasks)} Task(s) from {person['name']}"})
+            self.timers.set("handover_timeout", self.ladder["proposal_expires_s"], prop["proposal_id"])
+            self.board.send(target["person_id"], agent_mod.handover_brief(self, person["person_id"], target["person_id"])
+                            + f"\nTake these over?   [y / n]   ({prop['proposal_id']})", from_id=person["person_id"],
+                            proposal_id=prop["proposal_id"])
+            self.board.log("code", f"Handover asked: {self._who(person['person_id'])} to {self._who(target['person_id'])}, "
+                                   f"{len(tasks)} open Task{'s' if len(tasks) != 1 else ''} ({prop['proposal_id']}). "
+                                   "Nothing moves until it is accepted.", event="handover_requested", actor=person["person_id"],
+                           data={"from": person["person_id"], "to": target["person_id"],
+                                 "tasks": [t["task_id"] for t in tasks], "proposal_id": prop["proposal_id"]})
+            ok, _ = self.model_ready()
+            if ok:                                               # the list above is the brief; the model adds a summary
+                self._queue({"kind": "handover", "from_id": person["person_id"], "to_id": target["person_id"],
+                             "proposal_id": prop["proposal_id"], "trigger": "handover_requested"})
+            return prop
+
+    def complete_handover(self, person: dict, action: dict) -> list[str]:
+        """`person` accepted: move every open Task of the first person to them and end that person's Shift.
+        Timers are rows keyed by Task, so a running Escalation carries on against the new holder."""
+        with self.lock:
+            src = self.roster.person(action["from_id"])
+            moved, kept = [], []
+            for t in self.board.tasks(assignee_id=src["person_id"]):
+                if not role_may_take(person["role"], t["type"]) or person["shift"] != "on":
+                    kept.append(t["task_id"])
+                    continue
+                self.board.update_task(t["task_id"], assignee_id=person["person_id"])
+                moved.append(t["task_id"])
+                self.board.log("code", f"{t['task_id']} moved from {src['name']} to {self._who(person['person_id'])}: "
+                                       f"Handover.", event="task_reassigned", task=t, actor=src["person_id"],
+                               data={"task_id": t["task_id"], "from": src["person_id"], "to": person["person_id"],
+                                     "reason": "Handover"})
+            if not kept:
+                self.roster.set_shift(src["person_id"], "off", handed_to=person["person_id"])
+            ended = "" if kept else f" {src['name']}'s Shift has ended."
+            self.board.send(src["person_id"], f"{person['name']} accepted the Handover: {', '.join(moved) or 'no Tasks'} "
+                            f"moved." + (f" {', '.join(kept)} stayed with you ({person['name']} cannot take "
+                                         f"{'them' if len(kept) > 1 else 'it'})." if kept else " Your Shift has ended. "
+                                         "Type /back if you return."))
+            self.board.log("code", f"Handover: {', '.join(moved) or 'no Tasks'} moved from {src['name']} to "
+                                   f"{self._who(person['person_id'])}.{ended}", event="handover", actor=person["person_id"],
+                           data={"from": src["person_id"], "to": person["person_id"], "tasks": moved, "kept": kept,
+                                 "shift_ended": not kept})
+            return [f"Handover accepted: {', '.join(moved) or 'no Tasks'} "
+                    f"{'is' if len(moved) == 1 else 'are'} now yours. Running timers carry on.{ended}"]
+
+    def handover_not_taken(self, prop: dict, how: str) -> None:
+        """Declined or timed out: the Tasks stay where they are and the first person is told."""
+        src, dst = prop["action"]["from_id"], prop["to_id"]
+        self.board.send(src, f"{self._name(dst)} {how} your Handover ({prop['proposal_id']}). Your Tasks stay with you. "
+                        "You are still on shift.")
+        self.board.log("code", f"Handover from {self._name(src)} to {self._name(dst)} {how} ({prop['proposal_id']}). "
+                               "No Task moved.", event="handover_declined" if how == "declined" else "handover_expired",
+                       actor=dst, data={"from": src, "to": dst, "proposal_id": prop["proposal_id"]})
+
+    def _handover_timed_out(self, proposal_id: str) -> None:
+        prop = self.board.proposal(proposal_id)
+        if prop is None or prop["status"] not in ("pending", "expired"):
+            return
+        if prop["status"] == "pending":
+            self.store.execute("UPDATE proposals SET status='expired' WHERE proposal_id=?", (proposal_id,))
+        self.handover_not_taken(prop, "did not answer")
 
     # ------------------------------------------------------------------ Reports (never a Confirmation)
     def record_report(self, task: dict, person: dict, kind: str, raw_text: str | None, via: str) -> dict:
@@ -622,16 +731,26 @@ class Dispatcher:
                 out["told"] = [p["person_id"] for p in targets]
                 out["lines"].append(f"Logged your Report on {tid}. {label} stays open: a Ramp Lead records HOLDs. "
                                     f"{self._names(targets)} told.")
+                lead = next((p for p in targets if p["role"] == "ramp_lead"), None)
+                if kind == "not_found" and lead is not None:     # code asks; a person decides; nothing is recorded
+                    try:
+                        prop = self.propose_reinspection(lead["person_id"], gate, angle,
+                                                         f"{person['name']} could not find the object for HOLD {label}", "code")
+                        out["proposal_id"] = prop["proposal_id"]
+                    except DispatchError:
+                        pass
                 if via == "free_text":                           # a command gets these lines as its reply
                     self.board.send(person["person_id"], out["lines"][-1], task_id=tid)
                     out["told"].append(person["person_id"])
             elif kind in ("done", "not_found") and task["type"] in ("remove", "walk_and_report") and f is not None:
                 out["lines"].append(f"Logged your Report on {tid}. {label} stays open until a Confirmation is recorded.")
-                if via == "command" and self.rules.role_may_confirm(person["role"], f["severity"]):
+                if self.rules.role_may_confirm(person["role"], f["severity"]):
                     try:
                         prop = self.propose_confirmation(person["person_id"], label,
                                                          "removed" if kind == "done" else "not_found_on_walk", None, "code")
                         out["proposal_id"] = prop["proposal_id"]
+                        if via == "free_text":
+                            out["told"].append(person["person_id"])
                     except DispatchError as err:
                         out["lines"].append(str(err))
             elif kind in ("done", "not_found"):
@@ -728,6 +847,9 @@ class Dispatcher:
 
     # ------------------------------------------------------------------ timers and Escalation
     def _on_timer(self, tm: dict) -> None:
+        if tm["kind"] == "handover_timeout":                    # this timer's task_id column holds a proposal ID
+            self._handover_timed_out(tm["task_id"])
+            return
         task = self.board.task(tm["task_id"])
         if task is None or task["status"] not in ACTIVE:
             return
@@ -740,6 +862,9 @@ class Dispatcher:
         elif kind == "hold_pushback":
             self.escalate(task, f"HOLD still open with scheduled pushback under {lad['hold_pushback_under_min']:g} min",
                           level=2, by="timer")
+        elif kind == "unusable_pushback":
+            self.escalate(task, f"{task['angle']} is still unusable and unchecked with scheduled pushback under "
+                          f"{lad['unusable_pushback_under_min']:g} min", level=2, by="timer")
         elif kind == "no_report_ask" and waiting and task["assignee_id"]:
             self.board.send(task["assignee_id"], f"Any update on {tid} ({task['instruction']})? Reply here, or type "
                             f"/done {tid} or /cant {tid} <reason>.", kind="timer", task_id=tid)
@@ -755,15 +880,17 @@ class Dispatcher:
                                     f"Offered reassignment to {self._names(targets)}.", event="timer_fired", task=task,
                            actor="timer", data={"task_id": tid, "timer": kind})
 
-    def escalate(self, task: dict, reason: str, *, level: int | None = None, by: str = "code") -> dict:
+    def escalate(self, task: dict, reason: str, *, level: int | None = None, by: str = "code",
+                 again_at_top: bool = False) -> dict:
         """Raise a Task one level (or to `level`) and tell the people that level names. Escalation only tells
-        people; the system never holds or releases a pushback."""
+        people; the system never holds or releases a pushback. `again_at_top` tells the top level's people once
+        more when the Task is already there (a second "still there")."""
         with self.lock:
             task = self.board.need_task(task["task_id"])
             if task["status"] not in ACTIVE:
                 raise DispatchError(f"{task['task_id']} is {task['status']}")
             new = min(MAX_LEVEL, level if level is not None else task["escalation_level"] + 1)
-            if level is None and task["escalation_level"] >= MAX_LEVEL:
+            if level is None and task["escalation_level"] >= MAX_LEVEL and not again_at_top:
                 raise DispatchError(f"{task['task_id']} is already at the top Escalation level; the supervisor has been told")
             if new < task["escalation_level"]:
                 new = task["escalation_level"]
@@ -783,8 +910,9 @@ class Dispatcher:
             if new <= 1:
                 if task["assignee_id"]:
                     tell(task["assignee_id"], f"Second call: {subject}: {reason}. {self._pushback(turn)} "
-                         + (f"Type /ack {label} when someone is going to it." if task["type"] == "ack_hold" else
-                            f"Reply here or type /done {tid}."))
+                         + (f"Type /ack {label} when someone is going to it." if task["type"] == "ack_hold"
+                            and task["status"] == "assigned" else f"/removed {label} takes a new photo once it is gone."
+                            if task["type"] == "ack_hold" else f"Reply here or type /done {tid}."))
             else:
                 for p in self._leads():
                     tell(p["person_id"], f"Escalation level {new}: {subject}: {reason}. Assigned to {owner}. "
@@ -798,26 +926,47 @@ class Dispatcher:
                            actor=by, data={"task_id": tid, "level": new, "reason": reason, "notified": told})
             return {"task_id": tid, "level": new, "notified": told}
 
-    def hold_still_present(self, label: str) -> None:
+    def hold_still_present(self, label: str, by_person_id: str | None = None) -> list[str]:
         """A HOLD was recorded as removed but the new photo still shows the object: the Finding stays open (the
-        Workflow decided that), removal Tasks reopen and the HOLD goes up one level."""
+        Workflow decided that), the removal Task reopens, the HOLD goes up one level and the people that level
+        names are told. Returns the lines for the Ramp Lead who recorded it, with who else could be sent."""
         with self.lock:
-            for t in self.store.query("SELECT * FROM tasks WHERE finding_label=?", (label,)):
-                if t["status"] not in ACTIVE:
-                    continue
-                if t["type"] in ("remove", "walk_and_report") and t["status"] == "reported":
+            rows = [t for t in self.store.query("SELECT * FROM tasks WHERE finding_label=? ORDER BY seq", (label,))
+                    if t["status"] in ACTIVE]
+            lines, level, reopened = [], None, []
+            for t in rows:
+                if t["type"] in ("remove", "walk_and_report"):
                     self.board.update_task(t["task_id"], status="assigned")
                     self._start_timers(self.board.task(t["task_id"]), self.store.get_turn(t["turn_id"]))
-                    self.board.send(t["assignee_id"], f"The new photo of {t['gate']} {t['angle']} still shows the object "
-                                    f"for {label}. {t['task_id']} is open again: please go back and report here.",
-                                    task_id=t["task_id"])
+                    if t["assignee_id"]:
+                        self.board.send(t["assignee_id"], f"The new photo of {t['gate']} {t['angle']} still shows the "
+                                        f"object for {label}. {t['task_id']} is open again: please go back and report here.",
+                                        task_id=t["task_id"])
                     self.board.log("code", f"{t['task_id']} reopened: the new photo still shows the object for {label}.",
-                                   event="task_reopened", task=t, data={"task_id": t["task_id"]})
+                                   event="task_reopened", task=t, data={"task_id": t["task_id"], "to": t["assignee_id"]})
+                    reopened.append(t)
                 elif t["type"] == "ack_hold":
-                    try:
-                        self.escalate(t, "the re-inspection still shows the object")
-                    except DispatchError:
-                        pass
+                    level = self.escalate(t, "the re-inspection still shows the object", again_at_top=True)["level"]
+            hold = next((t for t in rows if t["type"] == "ack_hold"), None)
+            if level is not None:
+                lines.append(f"{label} is at Escalation level {level}; the people for that level have been told.")
+            if hold is not None:
+                for t in reopened:
+                    others = self._able(t["type"], t["gate"], (t["assignee_id"], by_person_id))
+                    lines.append(f"{t['task_id']} ({TYPE_LABEL[t['type']]}) is open again with {self._name(t['assignee_id'])}."
+                                 + (f" To send someone else: /reassign {t['task_id']} <person>. On shift and able: "
+                                    f"{', '.join(others)}." if others else " Nobody else on shift can take it."))
+                if not reopened:
+                    able = self._able("remove", hold["gate"], (by_person_id,))
+                    lines.append(f"Nobody is assigned to remove it. To send someone: /send <person> {label}."
+                                 + (f" On shift and able: {', '.join(able)}." if able else ""))
+            return lines
+
+    def _able(self, task_type: str, gate: str, exclude: tuple) -> list[str]:
+        """Names of everyone on shift whose role may take this Task, people who cover the Gate first."""
+        people = [p for p in self.roster.people(on_shift=True) if role_may_take(p["role"], task_type)
+                  and p["person_id"] not in exclude]
+        return [p["name"] for p in sorted(people, key=lambda p: (gate not in p["gates"], p["role"] != "ramp_agent", p["person_id"]))]
 
     # ------------------------------------------------------------------ waking the model
     def model_ready(self) -> tuple[bool, str]:
@@ -846,6 +995,8 @@ class Dispatcher:
                 q["message_ids"] += req["message_ids"]
                 return
             if q["kind"] == req["kind"] == "routing" and q["turn_id"] == req["turn_id"]:
+                return
+            if q["kind"] == req["kind"] == "handover" and q["proposal_id"] == req["proposal_id"]:
                 return
         self._wakes.append(req)
         self._idle_announced = False
@@ -937,6 +1088,8 @@ class Dispatcher:
             if req["kind"] == "routing":
                 self._routing_pending.discard(req["turn_id"])
                 self.sync_turn(req["turn_id"], allow_wake=False)     # anything the model left unowned
+            elif req["kind"] == "handover":
+                pass                                             # the code-written brief already went out
             elif result is None or (result["outcome"] != "ok" and req["person_id"] not in (tools.messaged if tools else ())):
                 self._free_text_fallback(req["person_id"], why if result is None else result["outcome"])
         self.store.notify()

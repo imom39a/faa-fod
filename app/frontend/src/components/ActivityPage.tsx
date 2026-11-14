@@ -16,7 +16,7 @@ import {
 import { formatClock, formatTime, formatUsd } from '../lib/format';
 import { PERSON_ROLE_LABEL } from '../lib/labels';
 import { activityHref, navigate, turnHref, type ActivityRouteFilter } from '../route';
-import { AgentIcon, ArrowRightIcon, ChatIcon, CheckCircleIcon, ClockIcon, CrossIcon, DashIcon, EyeIcon, QuestionIcon, ReportIcon, TaskIcon } from './icons';
+import { AgentIcon, ArrowRightIcon, ChatIcon, CheckCircleIcon, ClockIcon, CrossIcon, DashIcon, EyeIcon, QuestionIcon, ReportIcon, TaskIcon, UserIcon } from './icons';
 
 const ICON: Record<ActivityCategory, React.ReactNode> = {
   inspection: <EyeIcon />,
@@ -24,6 +24,7 @@ const ICON: Record<ActivityCategory, React.ReactNode> = {
   report: <ReportIcon />,
   confirmation: <CheckCircleIcon />,
   refusal: <CrossIcon />,
+  shift: <UserIcon />,
   message: <ChatIcon />,
   proposal: <QuestionIcon />,
   timer: <ClockIcon />,

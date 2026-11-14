@@ -1,0 +1,36 @@
+{
+ "id": "flow-handover-refused",
+ "title": "Handover of a HOLD to a Ramp Agent is refused and nothing moves",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/handover kim",
+    "refused": true
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "okafor"
+   }
+  ],
+  "shifts": {
+   "okafor": "on"
+  },
+  "no_proposals_to": [
+   "kim"
+  ],
+  "confirmations": [],
+  "model_calls": 0
+ }
+}

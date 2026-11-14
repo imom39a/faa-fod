@@ -53,6 +53,8 @@ export type MessageVariant =
   | 'my_report'
   /** A command this person pressed or typed. */
   | 'my_command'
+  /** The Handover brief this person's `/handover` sent to someone else. It moves nothing until they accept. */
+  | 'my_handover'
   /** A Confirmation was recorded. */
   | 'recorded'
   | 'refused'
@@ -72,7 +74,10 @@ export type MessageVariant =
 
 /** How to show one message to the person whose thread it is. The wording is fixed by commands.py and dispatcher.py. */
 export function messageVariant(m: ChatMessage, meId: string): MessageVariant {
-  if (m.from === meId) return m.kind === 'command' ? 'my_command' : 'my_report';
+  if (m.from === meId) {
+    if (m.kind === 'command') return 'my_command';
+    return m.proposal_id && /^Handover from /.test(m.text) ? 'my_handover' : 'my_report';
+  }
   const t = m.text;
   if (/^Refused \(/.test(t)) return 'refused';
   if (/still shows the object/.test(t)) return 'still_there';
@@ -90,6 +95,16 @@ export function messageVariant(m: ChatMessage, meId: string): MessageVariant {
 /** The `[y / n] (P-2)` hint is for a terminal; the chat page shows buttons. */
 export function tidyMessageText(text: string): string {
   return text.replace(/\s*\[y \/ n\]\s*\(P-\d+\)/gi, '').trimEnd();
+}
+
+/**
+ * The message for a Task outside the gate safety envelope ends with a drafted report ("To: Ramp 1 control ...")
+ * after a blank line. Returns the two parts so the draft can be folded away, or null when there is no draft.
+ */
+export function splitDraftReport(text: string): { body: string; draft: string } | null {
+  const at = text.indexOf('\n\nTo: ');
+  if (at < 0) return null;
+  return { body: text.slice(0, at).trimEnd(), draft: text.slice(at + 2).trim() };
 }
 
 /** "Refused (role_not_allowed): Only a Ramp Lead ..." → the code and the sentence. */

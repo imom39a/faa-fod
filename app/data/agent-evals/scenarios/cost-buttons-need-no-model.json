@@ -1,0 +1,45 @@
+{
+ "id": "cost-buttons-need-no-model",
+ "title": "A whole removal done with buttons makes no model call",
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "/accept {K:remove:F1}"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "/done {K:remove:F1}"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "y"
+   }
+  }
+ ],
+ "expect": {
+  "confirmations": [
+   {
+    "action": "removed",
+    "name": "Kim"
+   }
+  ],
+  "open_findings": [],
+  "model_calls": 0
+ }
+}

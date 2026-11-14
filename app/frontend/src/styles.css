@@ -450,6 +450,17 @@ input[type="password"] { font: inherit; color: var(--text); background: var(--bg
 .proposal-card { border: 2px solid var(--accent); border-radius: 10px; padding: 12px; background: color-mix(in srgb, var(--accent) 10%, var(--panel)); }
 .proposal-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .proposal-question { font-size: 20px; font-weight: 800; margin: 6px 0 2px; }
+.proposal-brief { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; margin: 6px 0; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--panel); max-height: 40dvh; overflow-y: auto; }
+.draft-wrap { margin-top: 8px; }
+.draft-report { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; margin-top: 8px; padding: 10px 12px; border: 1px dashed var(--line-strong); border-radius: 8px; background: var(--panel); }
+.shift-panel { margin-bottom: 14px; }
+.shift-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.shift-row .section-title { margin: 0; }
+.shift-row button { min-height: 48px; }
+.shift-panel > .small { margin-top: 6px; }
+.status-chip.shift-on { border-color: var(--confirmed); }
+.status-chip.shift-break, .status-chip.shift-off { border-style: dashed; border-color: var(--remove); }
+.kind-tag.cat-shift { border-color: var(--text); color: var(--text); }
 .expiry { font-weight: 700; }
 .expiry.soon { color: var(--remove); }
 .composer-row { display: flex; gap: 8px; }

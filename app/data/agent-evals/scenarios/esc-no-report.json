@@ -1,0 +1,39 @@
+{
+ "id": "esc-no-report",
+ "title": "A Task with no Report: the person is asked at 60 s, reassignment is offered to a Ramp Lead at 120 s",
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "advance_s": 125
+  }
+ ],
+ "expect": {
+  "timers_fired": {
+   "no_report_ask": 1,
+   "no_report_offer": 1
+  },
+  "messages": [
+   {
+    "to": "kim",
+    "contains": "Any update on K-1",
+    "area": "escalation"
+   },
+   {
+    "to": "reyes",
+    "contains": "has no Report from Kim",
+    "area": "escalation"
+   }
+  ],
+  "model_calls": 0
+ }
+}

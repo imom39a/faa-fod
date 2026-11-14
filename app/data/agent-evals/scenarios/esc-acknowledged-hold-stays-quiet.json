@@ -1,0 +1,33 @@
+{
+ "id": "esc-acknowledged-hold-stays-quiet",
+ "title": "An acknowledged HOLD far from pushback does not escalate",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/ack F1"
+   }
+  },
+  {
+   "advance_s": 120
+  }
+ ],
+ "expect": {
+  "timers_fired": {},
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "status": "accepted",
+    "area": "escalation"
+   }
+  ],
+  "model_calls": 0
+ }
+}

@@ -1,0 +1,144 @@
+{
+ "hold-remove": {
+  "description": "A HOLD by the right engine (F1) and a REMOVE at the cargo door (F2). New photos of both come back clean.",
+  "objects": {
+   "ENG-R": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ],
+   "CARGO": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ]
+  },
+  "after_clean": [
+   "ENG-R",
+   "CARGO"
+  ]
+ },
+ "hold-stuck": {
+  "description": "A HOLD by the right engine (F1). A new photo still shows it.",
+  "objects": {
+   "ENG-R": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ]
+  }
+ },
+ "remove": {
+  "description": "One REMOVE Finding at the cargo door (F1).",
+  "objects": {
+   "CARGO": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ]
+  },
+  "after_clean": [
+   "CARGO"
+  ]
+ },
+ "two-remove": {
+  "description": "Two REMOVE Findings: cargo door (F1) and aft (F2).",
+  "objects": {
+   "CARGO": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ],
+   "AFT": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ]
+  }
+ },
+ "advisory": {
+  "description": "One ADVISORY Finding on the wide view: light packaging in the general zone (F1).",
+  "objects": {
+   "WIDE": [
+    [
+     150,
+     450,
+     166,
+     466
+    ]
+   ]
+  },
+  "material": {
+   "WIDE": "light"
+  }
+ },
+ "glare": {
+  "description": "The left engine view is unusable (glare). A new photo is usable and clean.",
+  "declared_unusable": {
+   "ENG-L": "glare"
+  },
+  "after_clean": [
+   "ENG-L"
+  ]
+ },
+ "glare-stuck": {
+  "description": "The left engine view is unusable (glare), and stays unusable on a new photo.",
+  "declared_unusable": {
+   "ENG-L": "glare"
+  }
+ },
+ "hold-glare": {
+  "description": "A HOLD by the right engine (F1) and an unusable aft view (blur).",
+  "objects": {
+   "ENG-R": [
+    [
+     400,
+     250,
+     416,
+     266
+    ]
+   ]
+  },
+  "declared_unusable": {
+   "AFT": "blur"
+  },
+  "after_clean": [
+   "ENG-R"
+  ]
+ },
+ "outside": {
+  "description": "One Finding outside the gate safety envelope on the wide view (F1).",
+  "objects": {
+   "WIDE": [
+    [
+     300,
+     100,
+     316,
+     116
+    ]
+   ]
+  }
+ },
+ "clean": {
+  "description": "A clean pre-arrival Inspection.",
+  "kind": "pre_arrival"
+ }
+}

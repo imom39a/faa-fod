@@ -8,6 +8,7 @@ export type ActivityCategory =
   | 'report'
   | 'confirmation'
   | 'refusal'
+  | 'shift'
   | 'message'
   | 'proposal'
   | 'timer'
@@ -20,6 +21,7 @@ export const CATEGORY_LABEL: Record<ActivityCategory, string> = {
   report: 'Report',
   confirmation: 'Confirmation',
   refusal: 'Refusal',
+  shift: 'Shift / Handover',
   message: 'Message',
   proposal: 'Proposal',
   timer: 'Timer / Escalation',
@@ -33,6 +35,7 @@ export const CATEGORY_ORDER: readonly ActivityCategory[] = [
   'report',
   'confirmation',
   'refusal',
+  'shift',
   'proposal',
   'timer',
   'message',
@@ -50,12 +53,20 @@ const BY_EVENT: Record<string, ActivityCategory> = {
   task_reopened: 'task',
   hold_alert: 'task',
   unroutable: 'task',
-  handover: 'task',
+  // A Handover moves Tasks between people and a Shift says who is available. Neither confirms anything.
+  handover_requested: 'shift',
+  handover_declined: 'shift',
+  handover_expired: 'shift',
+  handover: 'shift',
+  shift_changed: 'shift',
+  sole_lead_leaving: 'shift',
   // A Report is what a person said about a Task. It never changes a Finding.
   task_accepted: 'report',
   task_reported: 'report',
   // A Confirmation is recorded on the Inspection by a named person.
   confirmation: 'confirmation',
+  // Who an outside-envelope Finding was reported to: written with the Confirmation that records it.
+  outside_reported: 'confirmation',
   command_refused: 'refusal',
   message: 'message',
   proposal_created: 'proposal',

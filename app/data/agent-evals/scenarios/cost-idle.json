@@ -1,0 +1,20 @@
+{
+ "id": "cost-idle",
+ "title": "Fifteen idle minutes after a clean Inspection: no model call, no timer",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "clean",
+    "gate": "T5"
+   }
+  },
+  {
+   "advance_s": 900
+  }
+ ],
+ "expect": {
+  "model_calls": 0,
+  "timers_fired": {},
+  "confirmations": []
+ }
+}

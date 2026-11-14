@@ -1,0 +1,30 @@
+{
+ "id": "route-advisory",
+ "title": "An ADVISORY Finding still gets a removal Task",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "advisory",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "remove",
+    "finding": "F1",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   }
+  ],
+  "task_types": {
+   "remove": 1
+  },
+  "open_findings": [
+   "F1"
+  ]
+ }
+}

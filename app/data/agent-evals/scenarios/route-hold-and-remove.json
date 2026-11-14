@@ -1,0 +1,38 @@
+{
+ "id": "route-hold-and-remove",
+ "title": "A HOLD and a REMOVE at one Gate: the HOLD to the Ramp Lead, the removal to one person",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-remove",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "okafor"
+   },
+   {
+    "type": "remove",
+    "finding": "F2",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   }
+  ],
+  "task_types": {
+   "ack_hold": 1,
+   "remove": 1
+  },
+  "open_findings": [
+   "F1",
+   "F2"
+  ],
+  "confirmations": []
+ }
+}

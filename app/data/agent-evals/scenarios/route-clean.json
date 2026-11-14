@@ -1,0 +1,27 @@
+{
+ "id": "route-clean",
+ "title": "A clean Inspection: nothing is assigned except the sign-off request, with no model call",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "clean",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "sign_off",
+    "gate": "T5",
+    "assignee": "okafor"
+   }
+  ],
+  "task_types": {
+   "sign_off": 1
+  },
+  "model_calls": 0,
+  "open_findings": [],
+  "confirmations": []
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "id": "esc-hold-level-2",
+ "title": "A HOLD not acknowledged after 60 s: every Ramp Lead on shift and the supervisor",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "advance_s": 61
+  }
+ ],
+ "expect": {
+  "escalations": [
+   {
+    "task": "ack_hold:F1",
+    "level": 1,
+    "notified": [
+     "okafor",
+     "dana"
+    ]
+   },
+   {
+    "task": "ack_hold:F1",
+    "level": 2,
+    "notified": [
+     "okafor",
+     "reyes",
+     "dana"
+    ]
+   }
+  ],
+  "timers_fired": {
+   "hold_unack_1": 1,
+   "hold_unack_2": 1
+  },
+  "model_calls": 0
+ }
+}

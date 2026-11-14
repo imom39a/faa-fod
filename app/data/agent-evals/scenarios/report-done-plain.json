@@ -1,0 +1,49 @@
+{
+ "id": "report-done-plain",
+ "title": "Plain 'done' is a Report, then a proposal to the same person",
+ "tags": [
+  "report"
+ ],
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "say": {
+    "from": "kim",
+    "text": "done, picked it up and binned it"
+   }
+  }
+ ],
+ "expect": {
+  "reports": [
+   {
+    "task": "remove:F1",
+    "kind": "done",
+    "by": "kim",
+    "via": "free_text"
+   }
+  ],
+  "free_text_reports": 1,
+  "proposals": [
+   {
+    "to": "kim",
+    "kind": "confirm",
+    "outcome": "removed",
+    "finding": "F1"
+   }
+  ],
+  "open_findings": [
+   "F1"
+  ],
+  "confirmations": []
+ }
+}

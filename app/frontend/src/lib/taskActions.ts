@@ -8,7 +8,7 @@
  * - `confirmation`: records a Confirmation on the Inspection, as this person.
  * - `report`: tells the agent about the Task. It never changes a Finding.
  */
-import { ACTIVE_TASK_STATUSES, type PersonRole, type StructuredCommand, type Task, type TaskStatus } from '../api/agentTypes';
+import { ACTIVE_TASK_STATUSES, type PersonRole, type ReportedTo, type RosterPerson, type StructuredCommand, type Task, type TaskStatus } from '../api/agentTypes';
 import type { FalseAlarmReason } from '../api/types';
 
 export type ActionId =
@@ -16,7 +16,8 @@ export type ActionId =
   | 'removed'
   | 'false_alarm'
   | 'not_found'
-  | 'reported'
+  | 'reported_ramp1'
+  | 'reported_airport_ops'
   | 'all_removed'
   | 'reinspect'
   | 'eye'
@@ -24,6 +25,7 @@ export type ActionId =
   | 'accept'
   | 'done'
   | 'cant'
+  | 'cant_find'
   | 'reassign';
 
 /** `photo` takes a new photo and records nothing; `routing` moves the Task. */
@@ -36,7 +38,7 @@ export type TaskAction = {
   /** False when the role or the Task's state rules it out; `why` says so. */
   enabled: boolean;
   why?: string;
-  /** Something to pick or type before it can be sent. */
+  /** Something to pick or type before it can be sent. A `note` may be left empty. */
   needs?: 'reason' | 'note' | 'person';
   /** The main next step for this Task. */
   primary?: boolean;
@@ -59,6 +61,15 @@ export function isActiveTask(task: Pick<Task, 'status'>): boolean {
 export function roleMayConfirm(role: PersonRole, severity: Task['severity']): boolean {
   if (role === 'ramp_lead') return true;
   return role === 'ramp_agent' && severity !== 'HOLD' && severity !== null;
+}
+
+/**
+ * Who the Task's instruction says debris outside the gate safety envelope goes to
+ * ("Report the object ... to Airport Operations; do not remove it: ..."). Ramp 1
+ * control when the instruction names nobody.
+ */
+export function outsideRecipient(task: Pick<Task, 'instruction'>): ReportedTo {
+  return /\bto Airport Op(eration)?s\b/i.test(task.instruction) ? 'airport-ops' : 'ramp1';
 }
 
 export function taskActions(task: Task, viewer: Viewer): TaskAction[] {
@@ -88,7 +99,11 @@ export function taskActions(task: Task, viewer: Viewer): TaskAction[] {
     reinspects: true,
   };
   const falseAlarm = confirm({ id: 'false_alarm', label: 'False alarm…', needs: 'reason' });
-  const notFound = confirm({ id: 'not_found', label: 'Not found' });
+  // Recording "not found on walk" is a Confirmation. It is offered where the decision is this person's to
+  // record (a HOLD's Ramp Lead, an outside-envelope Finding), never on a removal or walk Task.
+  const notFound = confirm({ id: 'not_found', label: 'Record not found' });
+  // "Looked, could not find it" is a Report. Code then asks the right person; nothing is recorded by it.
+  const cantFind: TaskAction = { id: 'cant_find', label: 'Not found', group: 'report', enabled: true, needs: 'note' };
   const out: TaskAction[] = [];
 
   switch (task.type) {
@@ -106,18 +121,22 @@ export function taskActions(task: Task, viewer: Viewer): TaskAction[] {
     case 'walk_and_report': {
       if (task.status === 'assigned') out.push({ id: 'accept', label: 'Accept', group: 'report', enabled: true, quick: true });
       if (task.status !== 'reported') out.push({ id: 'done', label: 'Done', group: 'report', enabled: true, primary: true, quick: true });
-      out.push(cant);
+      out.push(cantFind, cant);
       const hold = sev === 'HOLD';
       out.push(confirm({ id: 'removed', label: hold ? 'Removed (takes a new photo)' : 'Removed', reinspects: hold, primary: task.status === 'reported' && !hold }));
-      out.push(falseAlarm, notFound);
+      out.push(falseAlarm);
       if (!hold) out.push({ id: 'all_removed', label: `Confirm all removed at ${task.gate}`, group: 'confirmation', enabled: true });
       out.push(reinspect);
       break;
     }
-    case 'report_outside_boundary':
-      out.push(confirm({ id: 'reported', label: 'Reported to Ramp 1 control / Airport Ops', primary: true, quick: true }));
+    case 'report_outside_boundary': {
+      // Which one was told is part of the record, so there is one button for each.
+      const to = outsideRecipient(task);
+      out.push(confirm({ id: 'reported_ramp1', label: 'Reported to Ramp 1 control', primary: to === 'ramp1', quick: to === 'ramp1' }));
+      out.push(confirm({ id: 'reported_airport_ops', label: 'Reported to Airport Ops', primary: to === 'airport-ops', quick: to === 'airport-ops' }));
       out.push(falseAlarm, notFound, cant);
       break;
+    }
     case 'check_by_eye':
       out.push({ ...reinspect, primary: true, quick: true });
       out.push({
@@ -138,6 +157,11 @@ export function taskActions(task: Task, viewer: Viewer): TaskAction[] {
   return [...out, ...reassign];
 }
 
+/** Who a Handover can be asked of: Ramp Agents and Ramp Leads on shift, other than the person asking. The server still checks roles. */
+export function handoverCandidates<P extends Pick<RosterPerson, 'person_id' | 'role' | 'shift'>>(roster: readonly P[], meId: string): P[] {
+  return roster.filter((p) => p.person_id !== meId && p.role !== 'supervisor' && p.shift === 'on');
+}
+
 export type ActionInput = { reason?: FalseAlarmReason; note?: string; personId?: string };
 
 /** The structured command for `POST /api/agent/command`. */
@@ -154,8 +178,10 @@ export function actionCommand(action: ActionId, task: Task, input: ActionInput =
       return { command: 'false-alarm', args: [label, input.reason ?? 'other'] };
     case 'not_found':
       return { command: 'not-found', args: [label] };
-    case 'reported':
-      return { command: 'reported', args: [label] };
+    case 'reported_ramp1':
+      return { command: 'reported', args: [label, 'ramp1' satisfies ReportedTo] };
+    case 'reported_airport_ops':
+      return { command: 'reported', args: [label, 'airport-ops' satisfies ReportedTo] };
     case 'all_removed':
       return { command: 'all-removed', args: [task.gate] };
     case 'reinspect':
@@ -170,6 +196,8 @@ export function actionCommand(action: ActionId, task: Task, input: ActionInput =
       return { command: 'done', args: note ? [task.task_id, note] : [task.task_id] };
     case 'cant':
       return { command: 'cant', args: note ? [task.task_id, note] : [task.task_id] };
+    case 'cant_find':
+      return { command: 'cant-find', args: note ? [task.task_id, note] : [task.task_id] };
     case 'reassign':
       return { command: 'reassign', args: [task.task_id, input.personId ?? ''] };
   }

@@ -12,6 +12,7 @@ from fodgate.workflow import Workflow
 from tests.conftest import make_scene
 
 OBJ = [400, 250, 416, 266]
+OUTSIDE = [300, 100, 316, 116]          # above the envelope polygon on the WIDE view
 ROSTER = {"people": [
     {"person_id": "kim", "name": "Kim", "role": "ramp_agent", "gates": ["T5", "T8"], "pin": "1111"},
     {"person_id": "okafor", "name": "Okafor", "role": "ramp_lead", "gates": ["T5", "T8"], "pin": "2222"},
@@ -119,6 +120,8 @@ def scenes(data_dir):
     make_scene("pd-stuck", objects={"ENG-R": [OBJ]})                    # no `after` frame: a new photo shows it again
     make_scene("pd-glare", declared_unusable={"ENG-L": "glare"}, after_clean=("ENG-L",))
     make_scene("pa-clean", kind="pre_arrival")
+    make_scene("pd-outside", objects={"WIDE": [OUTSIDE]})               # debris outside the gate safety envelope
+    make_scene("pd-two-glare", declared_unusable={"ENG-L": "glare", "AFT": "blur"})   # no `after`: stays unusable
 
 
 @pytest.fixture

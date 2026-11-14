@@ -49,6 +49,8 @@ export const MOCK_ROSTER: { person_id: string; name: string; role: PersonRole; g
 export const LADDER = {
   hold_unacknowledged_s: [30, 60] as const,
   hold_pushback_under_min: 2,
+  /** An unusable Angle nobody has re-inspected or checked this close to scheduled pushback is level 2 too. */
+  unusable_pushback_under_min: 2,
   no_report_ask_s: 60,
   no_report_offer_s: 120,
   proposal_expires_s: 120,
@@ -69,6 +71,29 @@ const TYPE_LABEL: Record<TaskType, string> = {
   report_outside_boundary: 'report outside the envelope',
   sign_off: 'sign off',
 };
+/** Who debris outside the gate safety envelope is reported to (FOD-R10), and the word typed after /reported. */
+type OutsideRecipient = 'ramp_1_control' | 'airport_operations';
+const RECIPIENTS: Record<OutsideRecipient, string> = { ramp_1_control: 'Ramp 1 control', airport_operations: 'Airport Operations' };
+const OUTSIDE_WORD: Record<OutsideRecipient, string> = { ramp_1_control: 'ramp1', airport_operations: 'airport-ops' };
+const OUTSIDE_WHY: Record<OutsideRecipient, string> = { ramp_1_control: 'the shared taxilane between stands', airport_operations: 'the movement area' };
+const MOVEMENT_AREA = ['movement area', 'taxiway', 'runway', 'zipper'];
+const TOLD: Record<string, OutsideRecipient> = {
+  ramp1: 'ramp_1_control',
+  'ramp-1': 'ramp_1_control',
+  ramp1control: 'ramp_1_control',
+  'airport-ops': 'airport_operations',
+  airport: 'airport_operations',
+  ops: 'airport_operations',
+  airportops: 'airport_operations',
+};
+const TIMER_LABEL: Record<string, string> = {
+  hold_unack_1: 'second call if not acknowledged',
+  hold_unack_2: 'Escalation level 2 if not acknowledged',
+  hold_pushback: 'Escalation level 2 near pushback',
+  unusable_pushback: 'Escalation level 2 near pushback',
+  no_report_ask: 'asked for an update',
+  no_report_offer: 'reassignment offered to the Ramp Lead',
+};
 const FALSE_ALARM_REASONS = ['shadow', 'marking', 'equipment_in_place', 'other'];
 const ANSWERS: Record<string, boolean> = { y: true, yes: true, '/y': true, '/yes': true, n: false, no: false, '/n': false, '/no': false };
 
@@ -78,6 +103,7 @@ const HELP: Record<PersonRole, string[]> = {
     '/accept K-3                 say you are on it',
     '/done K-3 [note]            report it done (a Report, not a Confirmation)',
     '/cant K-3 <reason>          say you cannot do it',
+    '/cant-find K-3 [note]       report that you looked and could not find it (a Report, not a Confirmation)',
     '/removed F2                 record a REMOVE or ADVISORY Finding as removed',
     '/false-alarm F2 <reason>    shadow | marking | equipment_in_place | other',
     '/not-found F2               record that you walked it and found nothing',
@@ -85,14 +111,16 @@ const HELP: Record<PersonRole, string[]> = {
     '/reinspect T5 ENG-R         take a new photo of one Angle',
     "/signoff T5                 sign off the Gate's latest Inspection",
     'y / n                       answer the question the agent asked you',
-    '/handover <person>  /break  /back  /who',
+    '/reported F3 ramp1|airport-ops   record debris outside the envelope as reported, and who you told',
+    '/handover <person>          ask someone to take all your open Tasks; your Shift ends when they accept',
+    '/break  /back  /who',
     'Anything else you type goes to the agent as free text.',
   ],
   ramp_lead: [
     '/ack F1                     acknowledge a HOLD: someone is going to it',
     '/removed F1                 record a HOLD as removed (takes a new photo; clears only if it is clean)',
     '/eye T4 ENG-R               record an unusable Angle as checked by eye',
-    '/reported F3                record debris outside the envelope as reported',
+    '/send <person> F1 [text]    send someone to a Finding (they report back; you record the HOLD)',
     '/reassign K-3 <person>      move a Task',
   ],
   supervisor: [
@@ -155,6 +183,12 @@ function bad(message: string): never {
 function short(text: string, limit = 90): string {
   const t = String(text).split(/\s+/).filter(Boolean).join(' ');
   return t.length <= limit ? t : `${t.slice(0, limit - 1)}…`;
+}
+
+/** The movement area goes to Airport Operations, the shared taxilane to Ramp 1 control. When the location text does not settle it, Ramp 1 control. */
+function outsideRecipient(f: Pick<Finding, 'location_text' | 'description'>): OutsideRecipient {
+  const where = `${f.location_text ?? ''} ${f.description ?? ''}`.toLowerCase();
+  return MOVEMENT_AREA.some((w) => where.includes(w)) ? 'airport_operations' : 'ramp_1_control';
 }
 
 const requiredRole = (type: TaskType): 'ramp_lead' | 'any' => (LEAD_ONLY.includes(type) ? 'ramp_lead' : 'any');
@@ -411,6 +445,10 @@ export class MockDispatcher {
     this.timers.push({ id: this.timers.length + 1, task_id: taskId, kind, fire_t: this.clock() + Math.max(0, afterS), fired: false, cancelled: false });
   }
 
+  private setTimerAt(kind: string, fireT: number, taskId: string): void {
+    this.timers.push({ id: this.timers.length + 1, task_id: taskId, kind, fire_t: fireT, fired: false, cancelled: false });
+  }
+
   private cancelTimers(taskId: string, kinds?: string[]): void {
     for (const tm of this.timers) {
       if (tm.task_id === taskId && !tm.fired && (!kinds || kinds.includes(tm.kind))) tm.cancelled = true;
@@ -426,12 +464,14 @@ export class MockDispatcher {
       }
       if (turn?.pushback_t != null) {
         // The mock's pushback countdown runs GATE_TIME_SCALE times faster than its demo clock.
-        const fireT = turn.pushback_t - (LADDER.hold_pushback_under_min * 60) / GATE_TIME_SCALE;
-        this.timers.push({ id: this.timers.length + 1, task_id: task.task_id, kind: 'hold_pushback', fire_t: fireT, fired: false, cancelled: false });
+        this.setTimerAt('hold_pushback', turn.pushback_t - (LADDER.hold_pushback_under_min * 60) / GATE_TIME_SCALE, task.task_id);
       }
     } else if (task.type !== 'sign_off') {
       this.setTimer('no_report_ask', LADDER.no_report_ask_s, task.task_id);
       this.setTimer('no_report_offer', LADDER.no_report_offer_s, task.task_id);
+      if (task.type === 'check_by_eye' && turn?.pushback_t != null) {
+        this.setTimerAt('unusable_pushback', turn.pushback_t - (LADDER.unusable_pushback_under_min * 60) / GATE_TIME_SCALE, task.task_id);
+      }
     }
   }
 
@@ -776,7 +816,9 @@ export class MockDispatcher {
     if (type === 'ack_hold') return `Acknowledge and clear the HOLD at ${gate} ${angle}: ${short(d)}`;
     if (type === 'remove') return `Remove the object flagged at ${gate} ${angle}: ${short(d, 110)}`;
     if (type === 'walk_and_report') return `Walk to ${gate} ${angle}, look for the flagged object and report back: ${short(d, 110)}`;
-    if (type === 'report_outside_boundary') return `Report the object outside the gate safety envelope at ${gate}: ${short(d, 110)}`;
+    if (type === 'report_outside_boundary') {
+      return `Report the object outside the gate safety envelope at ${gate} to ${RECIPIENTS[outsideRecipient(f ?? { location_text: '', description: '' })]}; do not remove it: ${short(d, 90)}`;
+    }
     if (type === 'check_by_eye') return `Check ${gate} ${angle} by eye or re-inspect it`;
     return `Sign off the latest Inspection at ${gate}`;
   }
@@ -791,13 +833,36 @@ export class MockDispatcher {
       return `Task ${tid}: ${task.instruction.replace(/\.$/, '')} (${task.severity}, ${gate} ${angle}, ${label}). Report back here when done, or type /done ${tid}.`;
     }
     if (task.type === 'report_outside_boundary' && f) {
-      return `Task ${tid}: ${short(f.description)} lies outside the gate safety envelope at ${gate} (${label}, ${task.severity}). It is not the ramp crew's to remove: report it to Ramp 1 control or Airport Operations, then record /reported ${label}.`;
+      const to = outsideRecipient(f);
+      return `Task ${tid}: ${short(f.description)} lies outside the gate safety envelope at ${gate} (${label}, ${task.severity}). Do not remove it: it is not the ramp crew's to remove. Report it to ${RECIPIENTS[to]} (${OUTSIDE_WHY[to]}), then record who you told: /reported ${label} ${OUTSIDE_WORD[to]}. Draft to send (written by code from the camera images; check it first):\n\n${this.draftOutsideReport(latest, turn, to, f)}`;
     }
     if (task.type === 'check_by_eye') {
       const reason = latest.angles.find((a) => a.angle === angle)?.unusable_reason ?? 'unusable';
       return `Task ${tid}: ${gate} ${angle} is unusable (${reason}), so the Inspection is INCOMPLETE. Take a new photo with /reinspect ${gate} ${angle}, or check it in person and record /eye ${gate} ${angle}.`;
     }
     return `Task ${tid}: ${gate} ${turn.flight} has no open Findings. Ready for your sign-off: /signoff ${gate}. ${push}`.trim();
+  }
+
+  /** The draft report for one Finding outside the gate safety envelope. Text for a person to review and send; nothing is sent. */
+  private draftOutsideReport(r: Report, turn: MockTurnInfo, to: OutsideRecipient, f: Finding): string {
+    const rule = RULES.rules.find((x) => x.id === 'FOD-R10');
+    const cat = RULES.categories[f.category ?? '']?.label ?? 'Unidentified object';
+    return [
+      `To: ${RECIPIENTS[to]}`,
+      `From: Ramp crew, Gate ${r.gate}${turn.flight ? ` (flight ${turn.flight})` : ''}`,
+      `Subject: FOD outside the gate safety envelope near Gate ${r.gate}`,
+      `Seen: ${r.captured_at} (Inspection ${r.inspection_id}, ${r.kind.replace(/_/g, '-')}, WIDE camera)`,
+      '',
+      'The gate FOD inspection system flagged 1 item outside our gate safety envelope. The ramp crew has not been assigned to remove it.',
+      '',
+      `1. ${f.description} (${cat}, size ${f.size}, ${f.confidence} confidence). Location: ${f.location_text}. Displayed severity: ${f.severity}. Image ${f.image_ref}, box [${f.bbox.join(', ')}].`,
+      '',
+      `Rule: ${rule?.id ?? 'FOD-R10'}. ${rule?.text ?? ''}`.trimEnd(),
+      `Basis: ${rule?.basis ?? ''}`.trimEnd(),
+      '',
+      'Requested action: please arrange inspection and removal, and tell the gate when the area is clear.',
+      'This is a draft written by the inspection system from camera images. A person must review it before it is sent.',
+    ].join('\n');
   }
 
   private reassign(taskId: string | undefined, assigneeId: string, reason: string, by: string): TaskRow {
@@ -908,11 +973,20 @@ export class MockDispatcher {
         this.send(p.person_id, text, { taskId: tid });
       }
       lines.push(`Logged your Report on ${tid}. ${label} stays open: a Ramp Lead records HOLDs. ${names(targets)} told.`);
+      const lead = targets.find((p) => p.role === 'ramp_lead');
+      if (kind === 'not_found' && lead && angle) {
+        // Code asks; a person decides; nothing is recorded.
+        try {
+          proposalId = this.proposeReinspection(lead.person_id, gate, angle, `${person.name} could not find the object for HOLD ${label}`, 'code').proposal_id;
+        } catch (err) {
+          if (!(err instanceof DispatchError)) throw err;
+        }
+      }
     } else if ((kind === 'done' || kind === 'not_found') && removal && f !== null && label) {
       lines.push(`Logged your Report on ${tid}. ${label} stays open until a Confirmation is recorded.`);
       if (roleMayConfirm(person.role, f.severity)) {
         try {
-          const prop = this.proposeConfirmation(person.person_id, label, kind === 'done' ? 'removed' : 'not_found_on_walk', null, via === 'command' ? 'code' : 'agent');
+          const prop = this.proposeConfirmation(person.person_id, label, kind === 'done' ? 'removed' : 'not_found_on_walk', null, 'code');
           proposalId = prop.proposal_id;
         } catch (err) {
           if (!(err instanceof DispatchError)) throw err;
@@ -924,7 +998,7 @@ export class MockDispatcher {
         ack_hold: `/removed ${label} records a HOLD as removed (it takes a new photo first).`,
         check_by_eye: `/eye ${gate} ${angle} records the check; /reinspect ${gate} ${angle} takes a new photo.`,
         sign_off: `/signoff ${gate} records the sign-off.`,
-        report_outside_boundary: `/reported ${label} records that it was reported.`,
+        report_outside_boundary: `/reported ${label} ramp1|airport-ops records that it was reported, and who you told.`,
       };
       lines.push(`Logged your Report on ${tid}. A Report does not record anything on the Inspection. ${hint[task.type] ?? ''}`.trim());
     } else {
@@ -1029,9 +1103,153 @@ export class MockDispatcher {
     return prop;
   }
 
+  private proposeReinspection(toId: string, gate: string, angle: string, reason: string, createdBy: string): ProposalRow {
+    const person = this.person(toId);
+    if (!person || person.role === 'supervisor') throw new DispatchError(`${toId} is not a Ramp Agent or Ramp Lead on the roster`);
+    const turn = this.backend.currentTurn(gate);
+    const latest = turn && turn.phase !== 'departed' ? this.settledLatest(turn.turn_id) : null;
+    if (!turn || !latest) throw new DispatchError(`Gate ${gate} has no finished Inspection in a Turn in progress`);
+    if (!(ANGLE_ORDER as readonly string[]).includes(angle)) throw new DispatchError(`angle must be one of ${ANGLE_ORDER.join(', ')}`);
+    for (const p of this.pendingProposals(person.person_id)) {
+      if (p.action.kind === 'reinspect' && p.action.gate === gate && p.action.angle === angle) {
+        throw new DispatchError(`Already proposed to ${person.name}: ${p.proposal_id}`);
+      }
+    }
+    const prop = this.createProposal(person.person_id, { kind: 'reinspect', gate, angle, turn_id: turn.turn_id, text: `take a new photo of ${gate} ${angle}` }, createdBy);
+    this.send(
+      person.person_id,
+      `Take a new photo of ${gate} ${angle} now (${short(reason, 120)})? A re-inspection never closes a Finding by itself.   [y / n]   (${prop.proposal_id})`,
+      { kind: createdBy === 'agent' ? 'agent' : 'code', from: createdBy, proposalId: prop.proposal_id },
+    );
+    return prop;
+  }
+
+  // ------------------------------------------------------------------ Handover (moves Tasks; confirms nothing)
+
+  /** Tell the supervisor when the only Ramp Lead on shift tries to leave while a HOLD is open at their Gates. */
+  private soleLeadLeaving(person: PersonRow, what: string): boolean {
+    if (person.role !== 'ramp_lead' || this.leads().some((p) => p.person_id !== person.person_id)) return false;
+    const holds = this.activeTasks().filter((t) => t.type === 'ack_hold' && person.gates.includes(t.gate));
+    const first = holds[0];
+    if (!first) return false;
+    const where = holds.map((t) => `${t.finding_id} at ${t.gate}`).join(', ');
+    const text = `${person.name} is the only Ramp Lead on shift and ${what} while a HOLD is open (${where}). Nothing has moved. A Ramp Lead is needed: /shift <person> on.`;
+    for (const s of this.supervisors()) this.send(s.person_id, text, { taskId: first.task_id });
+    this.writeLog('code', `${text} Supervisor told.`, {
+      event: 'sole_lead_leaving',
+      task: first,
+      actor: person.person_id,
+      data: { person_id: person.person_id, holds: holds.map((t) => t.task_id) },
+    });
+    return true;
+  }
+
+  /** What the person taking over needs: every open Task, its Reports and the timers still running on it. */
+  private handoverBrief(src: PersonRow, dst: PersonRow): string {
+    const tasks = this.activeTasks({ assigneeId: src.person_id });
+    const lines = [`Handover from ${who(src)} to ${who(dst)}: ${tasks.length} open Task${plural(tasks.length)}.`];
+    const pending = this.timers.filter((tm) => !tm.fired && !tm.cancelled).sort((a, b) => a.fire_t - b.fire_t);
+    for (const t of tasks) {
+      const said = t.reports
+        .map((r) => ` Report: ${r.kind.replace(/_/g, ' ')} by ${this.name(r.by_person_id)}${r.raw_text ? ` ("${r.raw_text}")` : ''}.`)
+        .join('');
+      const waits = pending
+        .filter((tm) => tm.task_id === t.task_id)
+        .map((tm) => `${TIMER_LABEL[tm.kind] ?? tm.kind} in ${Math.max(0, Math.round(tm.fire_t - this.clock()))} s`);
+      lines.push(
+        `- ${t.task_id} ${t.type} at ${t.gate} ${t.angle ?? ''} ${t.finding_id ?? ''} (${t.severity ?? 'no severity'}), ${t.status}, Escalation level ${t.escalation_level}: ${t.instruction.replace(/\.+$/, '')}.${said || ' No Report yet.'}${waits.length > 0 ? ` Timers: ${waits.join('; ')}.` : ''}`.replace(/ {2}/g, ' '),
+      );
+    }
+    lines.push('Nothing in this brief is a Confirmation; open Findings stay open until one is recorded.');
+    return lines.join('\n');
+  }
+
+  /** Ask `target` to take every open Task of `person`. Nothing moves until they accept. */
+  private startHandover(person: PersonRow, target: PersonRow): ProposalRow {
+    const tasks = this.activeTasks({ assigneeId: person.person_id });
+    const prop = this.createProposal(
+      target.person_id,
+      { kind: 'handover', from_id: person.person_id, text: `take over ${tasks.length} Task(s) from ${person.name}` },
+      person.person_id,
+    );
+    // This timer's task_id holds a proposal ID.
+    this.setTimer('handover_timeout', LADDER.proposal_expires_s, prop.proposal_id);
+    this.send(target.person_id, `${this.handoverBrief(person, target)}\nTake these over?   [y / n]   (${prop.proposal_id})`, {
+      from: person.person_id,
+      proposalId: prop.proposal_id,
+    });
+    this.writeLog('code', `Handover asked: ${who(person)} to ${who(target)}, ${tasks.length} open Task${plural(tasks.length)} (${prop.proposal_id}). Nothing moves until it is accepted.`, {
+      event: 'handover_requested',
+      actor: person.person_id,
+      data: { from: person.person_id, to: target.person_id, tasks: tasks.map((t) => t.task_id), proposal_id: prop.proposal_id },
+    });
+    return prop;
+  }
+
+  /** `person` accepted: every open Task of the first person moves to them and that person's Shift ends. Timers are keyed by Task, so a running Escalation carries on. */
+  private completeHandover(person: PersonRow, action: ProposalAction): string[] {
+    const src = this.person(action.from_id);
+    if (!src) throw new DispatchError(`No such person: ${action.from_id}`);
+    const moved: string[] = [];
+    const kept: string[] = [];
+    for (const t of this.activeTasks({ assigneeId: src.person_id })) {
+      if (!roleMayTake(person.role, t.type) || person.shift !== 'on') {
+        kept.push(t.task_id);
+        continue;
+      }
+      t.assignee_id = person.person_id;
+      moved.push(t.task_id);
+      this.writeLog('code', `${t.task_id} moved from ${src.name} to ${who(person)}: Handover.`, {
+        event: 'task_reassigned',
+        task: t,
+        actor: src.person_id,
+        data: { task_id: t.task_id, from: src.person_id, to: person.person_id, reason: 'Handover' },
+      });
+    }
+    if (kept.length === 0) src.shift = 'off';
+    const ended = kept.length > 0 ? '' : ` ${src.name}'s Shift has ended.`;
+    const list = moved.join(', ') || 'no Tasks';
+    this.send(
+      src.person_id,
+      `${person.name} accepted the Handover: ${list} moved.` +
+        (kept.length > 0
+          ? ` ${kept.join(', ')} stayed with you (${person.name} cannot take ${kept.length > 1 ? 'them' : 'it'}).`
+          : ' Your Shift has ended. Type /back if you return.'),
+    );
+    this.writeLog('code', `Handover: ${list} moved from ${src.name} to ${who(person)}.${ended}`, {
+      event: 'handover',
+      actor: person.person_id,
+      data: { from: src.person_id, to: person.person_id, tasks: moved, kept, shift_ended: kept.length === 0 },
+    });
+    return [`Handover accepted: ${list} ${moved.length === 1 ? 'is' : 'are'} now yours. Running timers carry on.${ended}`];
+  }
+
+  /** Declined or timed out: the Tasks stay where they are and the first person is told. */
+  private handoverNotTaken(prop: ProposalRow, how: 'declined' | 'did not answer'): void {
+    const src = prop.action.from_id ?? '';
+    const dst = prop.to_id;
+    this.send(src, `${this.name(dst)} ${how} your Handover (${prop.proposal_id}). Your Tasks stay with you. You are still on shift.`);
+    this.writeLog('code', `Handover from ${this.name(src)} to ${this.name(dst)} ${how} (${prop.proposal_id}). No Task moved.`, {
+      event: how === 'declined' ? 'handover_declined' : 'handover_expired',
+      actor: dst,
+      data: { from: src, to: dst, proposal_id: prop.proposal_id },
+    });
+  }
+
+  private handoverTimedOut(proposalId: string): void {
+    const prop = this.proposals.find((p) => p.proposal_id === proposalId);
+    if (!prop || (prop.status !== 'pending' && prop.status !== 'expired')) return;
+    prop.status = 'expired';
+    this.handoverNotTaken(prop, 'did not answer');
+  }
+
   // ------------------------------------------------------------------ timers and Escalation
 
   private onTimer(tm: TimerRow): void {
+    if (tm.kind === 'handover_timeout') {
+      this.handoverTimedOut(tm.task_id);
+      return;
+    }
     const task = this.task(tm.task_id);
     if (!task || !ACTIVE.includes(task.status)) return;
     const tid = task.task_id;
@@ -1042,6 +1260,8 @@ export class MockDispatcher {
       this.escalate(task, `not acknowledged after ${LADDER.hold_unacknowledged_s[1]} s`, 2, 'timer');
     } else if (tm.kind === 'hold_pushback') {
       this.escalate(task, `HOLD still open with scheduled pushback under ${LADDER.hold_pushback_under_min} min`, 2, 'timer');
+    } else if (tm.kind === 'unusable_pushback') {
+      this.escalate(task, `${task.angle} is still unusable and unchecked with scheduled pushback under ${LADDER.unusable_pushback_under_min} min`, 2, 'timer');
     } else if (tm.kind === 'no_report_ask' && waiting && task.assignee_id) {
       this.send(task.assignee_id, `Any update on ${tid} (${task.instruction})? Reply here, or type /done ${tid} or /cant ${tid} <reason>.`, {
         kind: 'timer',
@@ -1071,10 +1291,13 @@ export class MockDispatcher {
     }
   }
 
-  /** Raise a Task one level (or to `level`) and tell the people that level names. Escalation only tells people. */
-  private escalate(task: TaskRow, reason: string, level: number | null, by: 'timer' | 'code'): void {
+  /**
+   * Raise a Task one level (or to `level`) and tell the people that level names. Escalation only tells people.
+   * `againAtTop` tells the top level's people once more when the Task is already there (a second "still there").
+   */
+  private escalate(task: TaskRow, reason: string, level: number | null, by: 'timer' | 'code', againAtTop = false): number {
     if (!ACTIVE.includes(task.status)) throw new DispatchError(`${task.task_id} is ${task.status}`);
-    if (level === null && task.escalation_level >= MAX_LEVEL) {
+    if (level === null && task.escalation_level >= MAX_LEVEL && !againAtTop) {
       throw new DispatchError(`${task.task_id} is already at the top Escalation level; the supervisor has been told`);
     }
     const next = Math.max(task.escalation_level, Math.min(MAX_LEVEL, level ?? task.escalation_level + 1));
@@ -1111,12 +1334,21 @@ export class MockDispatcher {
       actor: by,
       data: { task_id: tid, level: next, reason, notified: told },
     });
+    return next;
   }
 
-  /** A HOLD was recorded as removed but the new photo still shows the object. */
-  private holdStillPresent(label: string): void {
-    for (const t of this.tasks.filter((x) => x.finding_id === label && ACTIVE.includes(x.status))) {
-      if ((t.type === 'remove' || t.type === 'walk_and_report') && t.status === 'reported') {
+  /**
+   * A HOLD was recorded as removed but the new photo still shows the object: the Finding stays open (the mock
+   * backend decided that), the removal Task reopens, the HOLD goes up one level and the people that level names
+   * are told. Returns the lines for the Ramp Lead who recorded it, with who else could be sent.
+   */
+  private holdStillPresent(label: string, byPersonId: string | null = null): string[] {
+    const rows = this.tasks.filter((x) => x.finding_id === label && ACTIVE.includes(x.status));
+    const lines: string[] = [];
+    const reopened: TaskRow[] = [];
+    let level: number | null = null;
+    for (const t of rows) {
+      if (t.type === 'remove' || t.type === 'walk_and_report') {
         t.status = 'assigned';
         this.startTimers(t, this.backend.turn(t.turn_id));
         if (t.assignee_id) {
@@ -1127,16 +1359,29 @@ export class MockDispatcher {
         this.writeLog('code', `${t.task_id} reopened: the new photo still shows the object for ${label}.`, {
           event: 'task_reopened',
           task: t,
-          data: { task_id: t.task_id },
+          data: { task_id: t.task_id, to: t.assignee_id },
         });
+        reopened.push(t);
       } else if (t.type === 'ack_hold') {
-        try {
-          this.escalate(t, 'the re-inspection still shows the object', null, 'code');
-        } catch (err) {
-          if (!(err instanceof DispatchError)) throw err;
-        }
+        level = this.escalate(t, 'the re-inspection still shows the object', null, 'code', true);
       }
     }
+    const hold = rows.find((t) => t.type === 'ack_hold');
+    if (level !== null) lines.push(`${label} is at Escalation level ${level}; the people for that level have been told.`);
+    if (hold) {
+      for (const t of reopened) {
+        const others = this.eligible(t.type, t.gate, null).filter((p) => p.person_id !== t.assignee_id).map((p) => p.name);
+        lines.push(
+          `${t.task_id} (${TYPE_LABEL[t.type]}) is open again with ${this.name(t.assignee_id)}.` +
+            (others.length > 0 ? ` To send someone else: /reassign ${t.task_id} <person>. On shift and able: ${others.join(', ')}.` : ' Nobody else on shift can take it.'),
+        );
+      }
+      if (reopened.length === 0) {
+        const able = this.eligible('remove', hold.gate, null).filter((p) => p.person_id !== byPersonId).map((p) => p.name);
+        lines.push(`Nobody is assigned to remove it. To send someone: /send <person> ${label}.${able.length > 0 ? ` On shift and able: ${able.join(', ')}.` : ''}`);
+      }
+    }
+    return lines;
   }
 
   private announceIdle(): void {
@@ -1220,9 +1465,10 @@ export class MockDispatcher {
         const out = this.recordReport(t, person, done ? 'done' : 'not_found', w.text, 'agent');
         this.agentTool('record_task_report', `${t.task_id}, ${done ? 'done' : 'not_found'}`, true, out.lines.join(' '), t.gate);
         tools.push('record_task_report');
-        if (out.proposalId) tools.push('propose_confirmation');
         reply.push(...out.lines);
-        if (out.proposalId) reply.push(`I have asked you to confirm ${t.finding_id} below: only your own answer records it.`);
+        // Code asked the yes/no question after the Report; the agent does not propose it again.
+        const asked = this.proposals.find((p) => p.proposal_id === out.proposalId);
+        if (asked?.to_id === person.person_id) reply.push(`You have been asked to confirm ${t.finding_id} below: only your own answer records it.`);
       }
       // A HOLD they hold no Task for: pass the Report to the Ramp Lead who holds it.
       const reported = new Set(removal.map((t) => t.finding_id));
@@ -1308,8 +1554,8 @@ export class MockDispatcher {
     const after = next.inspection_id !== report.inspection_id ? next.findings.find((x) => this.backend.itemKey(x.finding_id) === ref.key) : undefined;
     if (after && !isOpen(after)) return [`New photo of ${report.gate} ${f.angle} is clean. Recorded: ${label} removed, confirmed by ${who(person)}.`];
     this.advanceRefs(ref.turn_id);
-    this.holdStillPresent(label);
-    return [`The new photo of ${report.gate} ${f.angle} still shows the object. ${label} stays open (HOLD); nothing was recorded.`];
+    const more = this.holdStillPresent(label, person.person_id);
+    return [`The new photo of ${report.gate} ${f.angle} still shows the object. ${label} stays open (HOLD); nothing was recorded.`, ...more];
   }
 
   private reinspectCmd(person: PersonRow, args: string[]): string[] {
@@ -1352,6 +1598,11 @@ export class MockDispatcher {
     const action = prop.action;
     if (!yes) {
       this.setProposal(prop, 'declined');
+      if (action.kind === 'handover') {
+        this.cancelTimers(prop.proposal_id, ['handover_timeout']);
+        this.handoverNotTaken(prop, 'declined');
+        return [`Declined (${prop.proposal_id}): no Task moved. ${this.name(action.from_id)} has been told.`];
+      }
       return [`Declined (${prop.proposal_id}): nothing was recorded.`];
     }
     let lines: string[];
@@ -1366,7 +1617,8 @@ export class MockDispatcher {
       } else if (action.kind === 'reinspect') {
         lines = this.reinspectCmd(person, [action.gate ?? '', action.angle ?? '']);
       } else {
-        lines = this.takeHandover(person, action);
+        this.cancelTimers(prop.proposal_id, ['handover_timeout']);
+        lines = this.completeHandover(person, action);
       }
     } catch (err) {
       if (prop.status === 'pending') this.setProposal(prop, 'void');
@@ -1374,25 +1626,6 @@ export class MockDispatcher {
     }
     this.setProposal(prop, 'accepted');
     return lines;
-  }
-
-  private takeHandover(person: PersonRow, action: ProposalAction): string[] {
-    const src = this.person(action.from_id);
-    const moved: string[] = [];
-    for (const t of this.activeTasks({ assigneeId: action.from_id })) {
-      try {
-        this.reassign(t.task_id, person.person_id, `Handover from ${src?.name}`, action.from_id ?? 'code');
-        moved.push(t.task_id);
-      } catch (err) {
-        if (!(err instanceof DispatchError)) throw err;
-      }
-    }
-    this.writeLog('code', `Handover: ${moved.join(', ') || 'no Tasks'} moved from ${src?.name} to ${who(person)}.`, {
-      event: 'handover',
-      actor: person.person_id,
-      data: { from: action.from_id, to: person.person_id, tasks: moved },
-    });
-    return [`Handover accepted: ${moved.join(', ') || 'no Tasks'} are now yours.`];
   }
 
   private run(person: PersonRow, text: string): string[] {
@@ -1427,6 +1660,30 @@ export class MockDispatcher {
         return this.recordReport(this.myTask(person, args[0]), person, 'done', args.slice(1).join(' ') || null, 'command').lines;
       case '/cant':
         return this.recordReport(this.myTask(person, args[0]), person, 'blocked', args.slice(1).join(' ') || null, 'command').lines;
+      case '/cant-find': {
+        // A Report that the person looked and found nothing. It records no Confirmation.
+        const t = this.myTask(person, args[0]);
+        if (t.type !== 'remove' && t.type !== 'walk_and_report') {
+          bad(`/cant-find is for a removal or walk Task; ${t.task_id} is '${t.type}'. Use /cant ${t.task_id} <reason>.`);
+        }
+        return this.recordReport(t, person, 'not_found', args.slice(1).join(' ') || null, 'command').lines;
+      }
+      case '/send': {
+        if (person.role === 'ramp_agent') fail(403, 'role_not_allowed', 'Only a Ramp Lead or the supervisor can send someone to a Finding');
+        const target = this.find(args[0]);
+        if (!target || args.length < 2) bad('Usage: /send <person> F1 [instruction]');
+        const { ref, report, finding } = this.findingByLabel(args[1]);
+        const t = this.assign({
+          type: finding.zone_tier === 'outside_boundary' ? 'report_outside_boundary' : 'remove',
+          gate: report.gate,
+          label: ref.label,
+          angle: null,
+          assigneeId: target.person_id,
+          instruction: args.slice(2).join(' ') || null,
+          createdBy: person.person_id,
+        });
+        return [`${t.task_id} is with ${who(target)}: ${t.instruction}. ${ref.label} stays open until a Confirmation is recorded.`];
+      }
       case '/reassign': {
         if (person.role === 'ramp_agent') fail(403, 'role_not_allowed', 'Only a Ramp Lead or the supervisor can move a Task');
         if (args.length < 2) bad('Usage: /reassign K-3 <person>');
@@ -1447,11 +1704,25 @@ export class MockDispatcher {
       case '/not-found':
         return this.confirm(person, args[0], 'not_found_on_walk');
       case '/reported': {
-        const { finding } = this.findingByLabel(args[0]);
+        // With no recipient named, the one the Task's draft was addressed to is used.
+        const { ref, report, finding } = this.findingByLabel(args[0]);
         if (finding.zone_tier !== 'outside_boundary') {
           bad('/reported is for debris outside the gate safety envelope; use /removed, /false-alarm or /not-found');
         }
-        return this.confirm(person, args[0], 'acknowledged');
+        const word = args[1]?.toLowerCase();
+        if (word !== undefined && !(word in TOLD)) {
+          bad(`Say who you told: /reported ${ref.label} ramp1   or   /reported ${ref.label} airport-ops`);
+        }
+        const told = word !== undefined ? TOLD[word]! : outsideRecipient(finding);
+        this.confirm(person, ref.label, 'acknowledged');
+        this.writeLog('code', `Recorded: ${ref.label} at ${report.gate} reported to ${RECIPIENTS[told]} by ${who(person)}.`, {
+          event: 'outside_reported',
+          gate: report.gate,
+          turn: { turn_id: ref.turn_id },
+          actor: person.person_id,
+          data: { finding_id: ref.label, reported_to: told, by: person.person_id },
+        });
+        return [`Recorded: ${ref.label} reported to ${RECIPIENTS[told]} by ${who(person)}. The ramp crew does not remove it.`];
       }
       case '/all-removed': {
         const by = this.actor(person);
@@ -1483,37 +1754,50 @@ export class MockDispatcher {
       case '/break': {
         const holds = this.holdsOpenHold(person);
         if (holds.length > 0) {
-          fail(409, 'open_hold', `You hold an open HOLD Task (${holds.map((t) => t.task_id).join(', ')}). Hand it over first: /handover <person>`);
+          const told = this.soleLeadLeaving(person, 'tried to go on a break');
+          fail(
+            409,
+            'open_hold',
+            `You hold an open HOLD Task (${holds.map((t) => t.task_id).join(', ')}). Hand it over first: /handover <person>` +
+              (told ? ' The supervisor has been told that no other Ramp Lead is on shift.' : ''),
+          );
         }
+        this.soleLeadLeaving(person, 'went on a break');
         person.shift = 'break';
         const left = this.activeTasks({ assigneeId: person.person_id }).length;
+        this.writeLog('code', `${who(person)} went on a break.`, { event: 'shift_changed', actor: person.person_id, data: { person_id: person.person_id, shift: 'break' } });
         return [`You are on a break. No new Tasks will come to you. Type /back when you return.${left ? ` You still hold ${left} open Task${plural(left)}.` : ''}`];
       }
       case '/back':
         person.shift = 'on';
+        this.writeLog('code', `${who(person)} is back on shift.`, { event: 'shift_changed', actor: person.person_id, data: { person_id: person.person_id, shift: 'on' } });
         this.resync();
         return ['You are back on shift.'];
       case '/handover': {
+        if (person.role === 'supervisor') fail(403, 'role_not_allowed', 'A supervisor holds no Tasks; move one with /reassign');
         const target = this.find(args[0]);
         if (!target || target.person_id === person.person_id) bad('Usage: /handover <person>');
         const tasks = this.activeTasks({ assigneeId: person.person_id });
         if (tasks.length === 0) fail(409, 'nothing_to_hand_over', 'You have no open Tasks to hand over');
-        if (target.shift !== 'on') fail(409, 'refused', `${target.name} is not on shift (${target.shift})`);
-        const blockedIds = tasks.filter((t) => !roleMayTake(target.role, t.type)).map((t) => t.task_id);
-        if (blockedIds.length > 0) {
-          fail(403, 'role_not_allowed', `${target.name} is a ${ROLE_LABEL[target.role]} and cannot take ${blockedIds.join(', ')} (a Ramp Lead is required)`);
+        let refusal: { status: number; code: string; message: string } | null = null;
+        const blocked = tasks.filter((t) => !roleMayTake(target.role, t.type));
+        if (target.shift !== 'on') {
+          refusal = { status: 409, code: 'refused', message: `Handover refused: ${target.name} is not on shift (${target.shift}). Your Tasks stay with you.` };
+        } else if (blocked.length > 0) {
+          refusal = {
+            status: 403,
+            code: 'role_not_allowed',
+            message: `Handover refused: ${target.name} is a ${ROLE_LABEL[target.role]} and cannot take ${blocked.map((t) => `${t.task_id} (${t.type.replace(/_/g, ' ')})`).join(', ')}: a Ramp Lead is required. Your Tasks stay with you.`,
+          };
         }
-        const prop = this.createProposal(
-          target.person_id,
-          { kind: 'handover', from_id: person.person_id, text: `take over ${tasks.length} Task(s) from ${person.name}` },
-          person.person_id,
-        );
-        const brief = tasks.map((t) => `${t.task_id} ${t.gate} ${t.finding_id ?? t.angle ?? ''} ${t.severity ?? ''}: ${t.instruction} (${t.status})`.replace(/ {2,}/g, ' '));
-        this.send(target.person_id, `Handover from ${who(person)}:\n${brief.join('\n')}\nTake these over?   [y / n]   (${prop.proposal_id})`, {
-          from: person.person_id,
-          proposalId: prop.proposal_id,
-        });
-        return [`Asked ${who(target)} to take over ${tasks.length} Task${plural(tasks.length)}. They stay yours until they accept.`];
+        if (refusal) {
+          const told = this.soleLeadLeaving(person, `tried to hand over to ${target.name}, which was refused,`);
+          fail(refusal.status, refusal.code, refusal.message + (told ? ' The supervisor has been told that no other Ramp Lead is on shift.' : ''));
+        }
+        const asked = this.pendingProposals(target.person_id).find((p) => p.action.kind === 'handover' && p.action.from_id === person.person_id);
+        if (asked) fail(409, 'refused', `Already asked ${target.name} (${asked.proposal_id}); waiting for their answer`);
+        this.startHandover(person, target);
+        return [`Asked ${who(target)} to take over ${tasks.length} Task${plural(tasks.length)}. They stay yours until they accept. You will be told if they decline or do not answer.`];
       }
       case '/shift': {
         if (person.role !== 'supervisor') fail(403, 'role_not_allowed', "Only the supervisor sets someone else's shift; use /break and /back");
@@ -1525,6 +1809,11 @@ export class MockDispatcher {
           fail(409, 'open_hold', `${target.name} holds an open HOLD Task; move it first with /reassign`);
         }
         target.shift = status;
+        this.writeLog('code', `${target.name} is now ${status} (set by ${who(person)}).`, {
+          event: 'shift_changed',
+          actor: person.person_id,
+          data: { person_id: target.person_id, shift: status },
+        });
         this.resync();
         return [`${target.name} is now ${status}.`];
       }

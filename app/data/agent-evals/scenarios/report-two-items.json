@@ -1,0 +1,60 @@
+{
+ "id": "report-two-items",
+ "title": "One message reporting two items",
+ "tags": [
+  "report"
+ ],
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "two-remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "say": {
+    "from": "kim",
+    "text": "got both, the one at the cargo door and the one at the back"
+   }
+  }
+ ],
+ "expect": {
+  "reports": [
+   {
+    "task": "remove:F1",
+    "kind": "done",
+    "by": "kim"
+   },
+   {
+    "task": "remove:F2",
+    "kind": "done",
+    "by": "kim"
+   }
+  ],
+  "free_text_reports": 2,
+  "proposals": [
+   {
+    "to": "kim",
+    "kind": "confirm",
+    "outcome": "removed",
+    "finding": "F1"
+   },
+   {
+    "to": "kim",
+    "kind": "confirm",
+    "outcome": "removed",
+    "finding": "F2"
+   }
+  ],
+  "open_findings": [
+   "F1",
+   "F2"
+  ],
+  "confirmations": []
+ }
+}

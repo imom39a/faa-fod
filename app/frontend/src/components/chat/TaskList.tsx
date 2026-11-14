@@ -11,6 +11,7 @@ import {
   taskStatusLabel,
   TASK_TYPE_LABEL,
   type ActionGroup,
+  type ActionId,
   type ActionInput,
   type TaskAction,
   type Viewer,
@@ -38,6 +39,25 @@ const GROUP_TITLE: Record<ActionGroup, string> = {
 };
 const GROUP_ORDER: ActionGroup[] = ['confirmation', 'report', 'photo', 'routing'];
 
+/** What the note form asks, for each action that takes a note. Both are Reports. */
+const NOTE_FORM: Partial<Record<ActionId, { label: (task: Task) => string; placeholder: string; submit: string }>> = {
+  cant: {
+    label: (t) => `Why can you not do ${t.task_id}? The Ramp Lead is told. This is a Report, not a Confirmation.`,
+    placeholder: 'For example: at another Gate',
+    submit: 'Send',
+  },
+  cant_find: {
+    label: (t) =>
+      `You looked and could not find it. This is a Report on ${t.task_id}, not a Confirmation: ${t.finding_id ?? 'the Finding'} stays open. ` +
+      (t.severity === 'HOLD'
+        ? 'The Ramp Lead who holds the HOLD is told and is asked whether to take a new photo.'
+        : `You are then asked whether to record ${t.finding_id ?? 'it'} as not found on walk.`) +
+      ' Note (optional):',
+    placeholder: 'For example: walked both sides of the belt loader',
+    submit: 'Send Report: not found',
+  },
+};
+
 export const actionKey = (task: Task, action: TaskAction) => `${task.task_id}:${action.id}`;
 
 function buttonClass(a: TaskAction): string {
@@ -59,8 +79,10 @@ export function TaskActions({ task, viewer, roster, busy, run }: CommonProps & {
     setNote('');
   };
   const press = (a: TaskAction) => {
-    if (a.needs) setOpen(open?.id === a.id ? null : a);
-    else send(a);
+    if (a.needs) {
+      setOpen(open?.id === a.id ? null : a);
+      setNote('');
+    } else send(a);
   };
   const candidates = roster.filter((p) => p.person_id !== task.assignee_id && p.role !== 'supervisor');
 
@@ -126,12 +148,19 @@ export function TaskActions({ task, viewer, roster, busy, run }: CommonProps & {
           }}
         >
           <label className="field">
-            Why can you not do {task.task_id}? The Ramp Lead is told. This is a Report, not a Confirmation.
-            <input type="text" value={note} onChange={(e) => setNote(e.target.value)} maxLength={200} placeholder="For example: at another Gate" autoFocus />
+            {(NOTE_FORM[open.id] ?? NOTE_FORM.cant!).label(task)}
+            <input
+              type="text"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              maxLength={200}
+              placeholder={(NOTE_FORM[open.id] ?? NOTE_FORM.cant!).placeholder}
+              autoFocus
+            />
           </label>
           <div className="action-buttons">
             <button type="submit" className="primary" disabled={busy !== null}>
-              Send
+              {(NOTE_FORM[open.id] ?? NOTE_FORM.cant!).submit}
             </button>
             <button type="button" className="quiet" onClick={() => setOpen(null)}>
               Cancel

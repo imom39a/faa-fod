@@ -295,7 +295,7 @@ type Board = { mode: "off" | "code" | "on"; model: string; model_available: bool
 
 **Polling.** The chat page polls `GET /inbox?after=<cursor>` about once a second (this also keeps `signed_in` true) and `GET /activity?after=<cursor>` for the log page. The Crew and Tasks page polls `GET /board` about once a second, one request at a time. None of these calls reaches a model. `gate` and `turn_id` filter the log to entries tied to that Gate or Turn; entries that belong to no Gate (sign-ins, most messages) are left out when a filter is given.
 
-**Activity events.** `inspection_completed` (data: `inspection_id, kind, verdict, highest_open_severity, open_findings[]`), `task_assigned` (data: the `Task`), `hold_alert`, `task_reassigned`, `task_accepted`, `task_reported` (data: `task_id, kind, via, raw_text`), `task_reopened`, `task_escalated` (data: `task_id, level, reason, notified[]`), `task_closed` / `task_cancelled` (data: `task_ids[], reason, confirmation_id`), `timer_fired`, `message` (data: `message_id, from, to, kind, task_id, proposal_id`), `proposal_created`, `proposal_answered` (data: `proposal_id, status: accepted | declined | void, action`), `confirmation` (data: `action: acknowledged | removed | false_alarm | not_found_on_walk | checked_by_eye | signoff, finding_id, angle, by: { role, name }, inspection_id`; `at` is when), `command_refused` (data: `command, error`), `handover`, `signed_in`, `agent_wake_started`, `agent_tool` (data: `tool, args, ok, result`), `agent_note`, `agent_wake` (data: `trigger, model, outcome, tokens_in, tokens_out, est_cost_usd, seconds, tool_calls[]`), `agent_wake_failed`, `model_unavailable`, `free_text_not_interpreted`, `unroutable`, `departed`, `idle`, `dispatcher_started`, `demo_reset`.
+**Activity events.** `inspection_completed` (data: `inspection_id, kind, verdict, highest_open_severity, open_findings[]`), `task_assigned` (data: the `Task`), `hold_alert`, `task_reassigned`, `task_accepted`, `task_reported` (data: `task_id, kind, via, raw_text`), `task_reopened` (data: `task_id, to`), `task_escalated` (data: `task_id, level, reason, notified[]`), `task_closed` / `task_cancelled` (data: `task_ids[], reason, confirmation_id`), `timer_fired`, `message` (data: `message_id, from, to, kind, task_id, proposal_id`), `proposal_created`, `proposal_answered` (data: `proposal_id, status: accepted | declined | void, action`), `confirmation` (data: `action: acknowledged | removed | false_alarm | not_found_on_walk | checked_by_eye | signoff, finding_id, angle, by: { role, name }, inspection_id`; `at` is when), `command_refused` (data: `command, error`), `handover`, `signed_in`, `agent_wake_started`, `agent_tool` (data: `tool, args, ok, result`), `agent_note`, `agent_wake` (data: `trigger, model, outcome, tokens_in, tokens_out, est_cost_usd, seconds, tool_calls[]`), `agent_wake_failed`, `model_unavailable`, `free_text_not_interpreted`, `unroutable`, `departed`, `idle`, `dispatcher_started`, `demo_reset`.
 
 **Commands** (the `text` form; the structured form is the same word without the slash, with `args` in the same order). Finding IDs are the short labels (`F1`), Task IDs are `K-n`, Gates are `T5`.
 
@@ -303,20 +303,28 @@ type Board = { mode: "off" | "code" | "on"; model: string; model_available: bool
 |---|---|---|
 | `/tasks` | anyone | list open Tasks (supervisor: everyone's) |
 | `/accept K-3` `/done K-3 [note]` `/cant K-3 <reason>` | the assignee | a Report on the Task. Never a Confirmation. `/done` on a REMOVE or ADVISORY Task creates a proposal for that person |
+| `/cant-find K-3 [note]` | the assignee of a `remove` or `walk_and_report` Task | a `not_found` Report (the "Not found" button). REMOVE or ADVISORY: a `confirm` proposal (`not_found_on_walk`) for that person. HOLD: nothing for them; the Ramp Lead holding the HOLD is told and gets a `reinspect` proposal |
 | `/ack F1` | Ramp Lead (HOLD) | Confirmation `acknowledged` |
 | `/removed F1 [possible source]` | by severity | Confirmation `removed`. On a HOLD: takes a new photo first; recorded only if clean |
 | `/false-alarm F2 <shadow\|marking\|equipment_in_place\|other>` `/not-found F2` | by severity | Confirmation |
-| `/reported F3` | by severity | records an outside-envelope Finding as reported |
+| `/reported F3 [ramp1\|airport-ops]` | by severity | records an outside-envelope Finding as reported, and who was told (Ramp 1 control or Airport Operations). With no recipient: the one the Task's draft is addressed to |
 | `/all-removed T5` | Ramp Agent or Ramp Lead | every open REMOVE and ADVISORY Finding at the Gate; never a HOLD |
 | `/reinspect T5 ENG-R` | Ramp Agent or Ramp Lead | new photo of one Angle; closes nothing |
 | `/eye T5 ENG-R` | Ramp Lead | checked by eye |
 | `/signoff T5` | Ramp Agent or Ramp Lead | sign off the Gate's latest Inspection |
 | `/send <person> F1 [instruction]` `/reassign K-3 <person>` | Ramp Lead, supervisor | create or move a Task |
-| `/handover <person>` `/break` `/back` | Ramp Agent or Ramp Lead | Handover (the other person accepts with `y`), Shift |
+| `/handover <person>` | Ramp Agent or Ramp Lead | asks that person to take every open Task. They get a brief and a `handover` proposal. On `y`: Tasks move, timers carry on, the first person's Shift becomes `off`. On `n` or no answer before it expires: nothing moves and the first person is told |
+| `/break` `/back` | Ramp Agent or Ramp Lead | Shift. `/break` is refused (`open_hold`) while holding an open HOLD Task |
 | `/shift <person> on\|break\|off` `/msg <person> <text>` | supervisor | |
 | `y` `n` (optionally `y P-2`) | the person asked | answer a proposal; same as `POST /proposals/{id}/answer` |
 | `/who` `/help` | anyone | Roster; command list for the caller's role |
 
 **Errors.** HTTP 4xx with `{ error, message }`, as in section 2. A refused command also appears in the person's thread and in the activity log. Codes: `bad_credentials` (401), `not_signed_in` (401), `role_not_allowed` (403), `not_your_task` (403), `not_found` (404), `invalid_command` (422), `invalid_request` (422), and 409 for `refused` (a routing check failed; the message says why), `nothing_to_answer`, `proposal_void`, `open_hold`, `task_closed`, `nothing_to_hand_over`, plus the section 2 codes `hold_needs_acknowledge`, `open_findings`, `unusable_angles`, `already_confirmed`, `already_signed_off`, `inspection_in_progress`, `angle_usable`.
 
-**Audit.** A Confirmation made through these endpoints carries, in the `confirmations` table's data, `via` (`command` or `accepted_proposal`), `raw_text`, `person_id` and, for a proposal, `proposal_id`.
+**Audit.** A Confirmation made through these endpoints carries, in the `confirmations` table's data, `via` (`command` or `accepted_proposal`), `raw_text`, `person_id` and, for a proposal, `proposal_id`. One made with `/reported` also carries `reported_to` (`ramp_1_control` or `airport_operations`) and `reported_to_name`.
+
+**More activity events (Handover, Shift, outside the envelope).** `handover_requested` (data: `from, to, tasks[], proposal_id`), `handover` (accepted; data: `from, to, tasks[], kept[], shift_ended`), `handover_declined` and `handover_expired` (data: `from, to, proposal_id`), `task_reassigned` (one per Task moved; data: `task_id, from, to, reason`), `shift_changed` (data: `person_id, shift`), `sole_lead_leaving` (the supervisor was told; data: `person_id, holds[]`), `outside_reported` (data: `finding_id, reported_to, by`).
+
+**Timers on the Board.** `kind` is one of `hold_unack_1`, `hold_unack_2`, `hold_pushback`, `unusable_pushback`, `no_report_ask`, `no_report_offer`, `handover_timeout`. For `handover_timeout` the `task_id` field holds the proposal ID (`P-2`), not a Task ID.
+
+**Outside-envelope Task message.** The message that delivers a `report_outside_boundary` Task ends with a drafted report after a blank line, starting `To: Ramp 1 control` or `To: Airport Operations`. It is plain text with line breaks.

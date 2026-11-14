@@ -1,0 +1,50 @@
+{
+ "id": "route-two-gates",
+ "title": "Two Gates need attention at once: each Task goes to people for its own Gate",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T1"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "gate": "T5",
+    "assignee": "okafor"
+   },
+   {
+    "type": "remove",
+    "finding": "F2",
+    "gate": "T5",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   },
+   {
+    "type": "remove",
+    "finding": "F3",
+    "gate": "T1",
+    "assignee_in": [
+     "patel",
+     "reyes"
+    ]
+   }
+  ],
+  "task_types": {
+   "ack_hold": 1,
+   "remove": 2
+  }
+ }
+}

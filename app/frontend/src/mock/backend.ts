@@ -494,9 +494,13 @@ export class MockBackend {
       // only if the item is gone from the new frame.
       const next = this.reinspect(turn, report, finding.angle);
       const key = this.seedKeys.get(finding.finding_id);
-      const stillThere = next.findings.some((f) => f.angle === finding.angle && this.seedKeys.get(f.finding_id) === key);
+      // Found again means a fresh Finding; the same ID is the open one carried because the new frame does not show it.
+      const stillThere = next.findings.some(
+        (f) => f.angle === finding.angle && f.finding_id !== finding.finding_id && this.seedKeys.get(f.finding_id) === key,
+      );
       if (!stillThere) {
         const angle = next.angles.find((a) => a.angle === finding.angle);
+        next.findings = next.findings.filter((f) => f.finding_id !== finding.finding_id);
         next.findings.push({
           ...structuredClone(finding),
           status: 'confirmed',
@@ -773,13 +777,17 @@ export class MockBackend {
         // Already judged a false alarm by a person: keep that Confirmation.
         findings.push({ ...structuredClone(prev), carried_from_inspection_id: prev.carried_from_inspection_id ?? parent.inspection_id });
       } else {
-        findings.push(this.newFinding(seed, angle, nextFrame, prev ? parent.inspection_id : null));
+        const found = this.newFinding(seed, angle, nextFrame, prev ? parent.inspection_id : null);
+        // As the real pipeline: an acknowledged Finding that is found again stays acknowledged.
+        if (prev?.status === 'acknowledged') found.status = 'acknowledged';
+        findings.push(found);
       }
     }
     for (const prev of previous) {
-      // Keep the record of items confirmed earlier that are no longer in view.
+      // As the real pipeline: a re-inspection never drops a Finding, because only a Confirmation closes one.
+      // What the new frame no longer shows is carried as it stands: confirmed stays confirmed, open stays open.
       const key = this.seedKeys.get(prev.finding_id);
-      if (prev.status === 'confirmed' && !seeds.some((s) => s.key === key)) {
+      if (!seeds.some((s) => s.key === key)) {
         findings.push({ ...structuredClone(prev), carried_from_inspection_id: prev.carried_from_inspection_id ?? parent.inspection_id });
       }
     }

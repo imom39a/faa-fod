@@ -1,0 +1,39 @@
+{
+ "id": "route-two-removes",
+ "title": "Two REMOVE Findings each get their own Task",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "two-remove",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "remove",
+    "finding": "F1",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   },
+   {
+    "type": "remove",
+    "finding": "F2",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   }
+  ],
+  "task_types": {
+   "remove": 2
+  },
+  "open_findings": [
+   "F1",
+   "F2"
+  ]
+ }
+}
