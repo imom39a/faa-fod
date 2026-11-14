@@ -16,6 +16,14 @@ import { useIdentity } from './store/identity';
 import { createInboxStore, useInboxStore } from './store/inboxStore';
 import { createSessionStore, useSession } from './store/session';
 import { useStateStore, type StateStore } from './store/stateStore';
+// PROTOTYPE (throwaway): layout variants, switched with ?variant=A|B|C|0.
+import { PrototypeSwitcher, useVariant } from './prototype/shared';
+import { ShellA } from './prototype/VariantA';
+import { ShellB } from './prototype/VariantB';
+import { ShellC } from './prototype/VariantC';
+import './prototype/prototype.css';
+
+const SHELLS = { A: ShellA, B: ShellB, C: ShellC };
 
 export function App({ api, store }: { api: Api; store: StateStore }) {
   const { state, error } = useStateStore(store);
@@ -55,20 +63,8 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
     };
   }, [api, connected, rules]);
 
-  return (
-    <>
-      <header className="topbar">
-        <div className="brand">
-          <h1>
-            <a href={OVERVIEW_HREF}>Gate FOD Inspection</a>
-          </h1>
-          {MOCK_MODE && (
-            <span className="mock-tag" title="Fixture data served in the browser. No backend, no model calls.">
-              MOCK DATA
-            </span>
-          )}
-        </div>
-        <Nav route={route} person={session?.person ?? null} tasks={inbox.tasks} />
+  const variant = useVariant();
+  const demoControls = (
         <DemoControls
           api={api}
           demo={state?.demo ?? null}
@@ -78,9 +74,12 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
           }}
           onError={setDemoError}
         />
+  );
+  const roleSwitch = (
         <RoleSwitch identity={identity} setRole={setRole} setName={setName} />
-      </header>
-      <main>
+  );
+  const banners = (
+    <>
         {error ? (
           <div className="banner error" role="alert">
             <span className="grow">
@@ -101,7 +100,10 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
             </button>
           </div>
         ) : null}
-        {route.name === 'chat' ? (
+    </>
+  );
+  const page =
+    route.name === 'chat' ? (
           <ChatPage agent={api.agent} sessionStore={sessionStore} inboxStore={inboxStore} />
         ) : route.name === 'crew' ? (
           <CrewTasksPage agent={api.agent} />
@@ -118,14 +120,49 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
             rules={rules}
             refreshState={() => void store.refresh()}
           />
-        ) : state ? (
-          <Overview state={state} />
-        ) : !error ? (
-          <p className="muted row">
-            <SpinnerIcon className="vicon" /> Loading Gates…
-          </p>
-        ) : null}
+        ) : null;
+
+  if (variant !== '0') {
+    const Shell = SHELLS[variant];
+    return (
+      <>
+        <Shell route={route} state={state} person={session?.person ?? null} tasks={inbox.tasks} demoControls={demoControls} roleSwitch={roleSwitch} banners={banners}>
+          {page}
+        </Shell>
+        <PrototypeSwitcher current={variant} />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <header className="topbar">
+        <div className="brand">
+          <h1>
+            <a href={OVERVIEW_HREF}>Gate FOD Inspection</a>
+          </h1>
+          {MOCK_MODE && (
+            <span className="mock-tag" title="Fixture data served in the browser. No backend, no model calls.">
+              MOCK DATA
+            </span>
+          )}
+        </div>
+        <Nav route={route} person={session?.person ?? null} tasks={inbox.tasks} />
+        {demoControls}
+        {roleSwitch}
+      </header>
+      <main>
+        {banners}
+        {page ??
+          (state ? (
+            <Overview state={state} />
+          ) : !error ? (
+            <p className="muted row">
+              <SpinnerIcon className="vicon" /> Loading Gates…
+            </p>
+          ) : null)}
       </main>
+      <PrototypeSwitcher current={variant} />
     </>
   );
 }
