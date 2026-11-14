@@ -1,0 +1,47 @@
+{
+ "id": "report-lead-sends-someone",
+ "title": "A Ramp Lead says who should go: a removal Task for that person, no Report",
+ "tags": [
+  "report"
+ ],
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/ack F1"
+   }
+  },
+  {
+   "say": {
+    "from": "okafor",
+    "text": "send kim to the bolt, she's closest"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "remove",
+    "finding": "F1",
+    "assignee": "kim",
+    "area": "reports"
+   }
+  ],
+  "free_text_reports": 0,
+  "open_findings": [
+   "F1"
+  ],
+  "confirmations": [
+   {
+    "action": "acknowledged",
+    "name": "Okafor"
+   }
+  ]
+ }
+}

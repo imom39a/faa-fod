@@ -1,0 +1,30 @@
+{
+ "id": "route-other-lead-covers",
+ "title": "The Gate's Ramp Lead is off shift: the HOLD goes to the other Ramp Lead on shift",
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "reyes"
+   }
+  ],
+  "task_types": {
+   "ack_hold": 1
+  },
+  "model_calls": 0
+ }
+}

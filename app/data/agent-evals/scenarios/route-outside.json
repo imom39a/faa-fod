@@ -1,0 +1,32 @@
+{
+ "id": "route-outside",
+ "title": "Debris outside the gate safety envelope gets a report Task and never a removal Task",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "outside",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "report_outside_boundary",
+    "finding": "F1",
+    "gate": "T5",
+    "assignee_in": [
+     "kim",
+     "okafor"
+    ]
+   }
+  ],
+  "task_types": {
+   "report_outside_boundary": 1
+  },
+  "open_findings": [
+   "F1"
+  ],
+  "confirmations": []
+ }
+}

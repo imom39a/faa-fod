@@ -1,0 +1,42 @@
+{
+ "id": "esc-hold-near-pushback",
+ "title": "An acknowledged HOLD still open under 2 minutes to scheduled pushback goes to level 2",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5",
+    "pushback_in_s": 300
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/ack F1"
+   }
+  },
+  {
+   "advance_s": 185
+  }
+ ],
+ "expect": {
+  "escalations": [
+   {
+    "task": "ack_hold:F1",
+    "level": 2,
+    "notified": [
+     "okafor",
+     "reyes",
+     "dana"
+    ]
+   }
+  ],
+  "timers_fired": {
+   "hold_pushback": 1
+  },
+  "open_findings": [
+   "F1"
+  ],
+  "model_calls": 0
+ }
+}

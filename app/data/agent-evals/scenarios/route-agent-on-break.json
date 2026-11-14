@@ -1,0 +1,33 @@
+{
+ "id": "route-agent-on-break",
+ "title": "A person on a break gets no new Task",
+ "setup": {
+  "shifts": {
+   "kim": "break"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "remove",
+    "finding": "F1",
+    "assignee_in": [
+     "okafor",
+     "patel",
+     "reyes"
+    ]
+   }
+  ],
+  "task_types": {
+   "remove": 1
+  }
+ }
+}

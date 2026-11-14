@@ -1,0 +1,48 @@
+{
+ "id": "flow-handover-accepted",
+ "title": "Handover: Tasks move only when the other Ramp Lead accepts, and the first Shift ends",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/handover reyes"
+   }
+  },
+  {
+   "command": {
+    "from": "reyes",
+    "text": "y"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "reyes"
+   }
+  ],
+  "shifts": {
+   "okafor": "off",
+   "reyes": "on"
+  },
+  "confirmations": [],
+  "open_findings": [
+   "F1"
+  ],
+  "messages": [
+   {
+    "to": "reyes",
+    "contains": "Handover from Okafor",
+    "area": "routing"
+   }
+  ]
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "id": "flow-outside-reported",
+ "title": "Debris outside the envelope closes only when a person records who they told",
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "outside",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "/reported F1 ramp1"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "report_outside_boundary",
+    "finding": "F1",
+    "assignee": "kim",
+    "status": "closed"
+   }
+  ],
+  "confirmations": [
+   {
+    "action": "acknowledged",
+    "name": "Kim"
+   }
+  ],
+  "open_findings": [],
+  "model_calls": 0
+ }
+}

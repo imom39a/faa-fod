@@ -1,0 +1,33 @@
+{
+ "id": "route-no-ramp-agent",
+ "title": "No Ramp Agent on shift: the removal goes to the Ramp Lead",
+ "setup": {
+  "shifts": {
+   "kim": "off",
+   "patel": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "remove",
+    "finding": "F1",
+    "assignee_in": [
+     "okafor",
+     "reyes"
+    ]
+   }
+  ],
+  "task_types": {
+   "remove": 1
+  }
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "id": "route-incomplete",
+ "title": "An unusable Angle becomes a check-by-eye Task for the Ramp Lead, with no model call",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "glare-stuck",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "check_by_eye",
+    "angle": "ENG-L",
+    "gate": "T5",
+    "assignee": "okafor"
+   }
+  ],
+  "task_types": {
+   "check_by_eye": 1
+  },
+  "messages": [
+   {
+    "to": "okafor",
+    "contains": "T5 ENG-L is unusable (glare)",
+    "area": "routing"
+   }
+  ],
+  "model_calls": 0,
+  "confirmations": []
+ }
+}

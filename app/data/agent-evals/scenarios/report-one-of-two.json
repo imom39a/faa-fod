@@ -1,0 +1,58 @@
+{
+ "id": "report-one-of-two",
+ "title": "Mixed content: one item done, the other not yet",
+ "tags": [
+  "report"
+ ],
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "two-remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "say": {
+    "from": "kim",
+    "text": "F1 picked up. still walking over to F2"
+   }
+  }
+ ],
+ "expect": {
+  "reports": [
+   {
+    "task": "remove:F1",
+    "kind": "done",
+    "by": "kim"
+   },
+   {
+    "task": "remove:F2",
+    "kind": "done",
+    "absent": true
+   },
+   {
+    "task": "remove:F2",
+    "kind": "not_found",
+    "absent": true
+   }
+  ],
+  "proposals": [
+   {
+    "to": "kim",
+    "kind": "confirm",
+    "outcome": "removed",
+    "finding": "F1"
+   }
+  ],
+  "open_findings": [
+   "F1",
+   "F2"
+  ],
+  "confirmations": []
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "id": "flow-handover-timeout",
+ "title": "Handover with no answer: the Tasks stay and the first person is told",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/ack F1"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/handover reyes"
+   }
+  },
+  {
+   "advance_s": 125
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "okafor"
+   }
+  ],
+  "shifts": {
+   "okafor": "on"
+  },
+  "messages": [
+   {
+    "to": "okafor",
+    "contains": "did not answer your Handover",
+    "area": "escalation"
+   }
+  ],
+  "timers_fired": {
+   "handover_timeout": 1
+  }
+ }
+}

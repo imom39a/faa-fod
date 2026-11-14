@@ -1,0 +1,32 @@
+{
+ "id": "esc-hold-level-1",
+ "title": "A HOLD not acknowledged after 30 s: second call to the Ramp Lead, supervisor told",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "advance_s": 31
+  }
+ ],
+ "expect": {
+  "escalations": [
+   {
+    "task": "ack_hold:F1",
+    "level": 1,
+    "notified": [
+     "okafor",
+     "dana"
+    ]
+   }
+  ],
+  "timers_fired": {
+   "hold_unack_1": 1
+  },
+  "model_calls": 0,
+  "confirmations": []
+ }
+}

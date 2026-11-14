@@ -1,0 +1,36 @@
+{
+ "id": "esc-unusable-near-pushback",
+ "title": "An unusable Angle nobody dealt with goes to level 2 under 2 minutes to scheduled pushback",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "glare-stuck",
+    "gate": "T5",
+    "pushback_in_s": 300
+   }
+  },
+  {
+   "advance_s": 185
+  }
+ ],
+ "expect": {
+  "escalations": [
+   {
+    "task": "check_by_eye:ENG-L",
+    "level": 2,
+    "notified": [
+     "okafor",
+     "reyes",
+     "dana"
+    ]
+   }
+  ],
+  "timers_fired": {
+   "no_report_ask": 1,
+   "no_report_offer": 1,
+   "unusable_pushback": 1
+  },
+  "confirmations": [],
+  "model_calls": 0
+ }
+}

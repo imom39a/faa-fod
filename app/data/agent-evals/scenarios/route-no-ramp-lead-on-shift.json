@@ -1,0 +1,37 @@
+{
+ "id": "route-no-ramp-lead-on-shift",
+ "title": "A HOLD with no Ramp Lead on shift: no Task is forced on anyone and the supervisor is told",
+ "setup": {
+  "shifts": {
+   "okafor": "off",
+   "reyes": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "task_types": {},
+  "messages": [
+   {
+    "to": "dana",
+    "contains": "Cannot route",
+    "area": "routing"
+   },
+   {
+    "to": "dana",
+    "contains": "Ramp Lead is required",
+    "area": "routing"
+   }
+  ],
+  "open_findings": [
+   "F1"
+  ],
+  "model_calls": 0
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "id": "report-hold-not-found",
+ "title": "A Ramp Agent cannot find a HOLD object: nothing recorded, the Ramp Lead is offered a new photo",
+ "tags": [
+  "report"
+ ],
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/ack F1"
+   }
+  },
+  {
+   "command": {
+    "from": "okafor",
+    "text": "/send kim F1 get the bolt by the right engine"
+   }
+  },
+  {
+   "say": {
+    "from": "kim",
+    "text": "cant find any bolt by the engine, nothing there"
+   }
+  }
+ ],
+ "expect": {
+  "reports": [
+   {
+    "task": "remove:F1",
+    "kind": "not_found",
+    "by": "kim"
+   }
+  ],
+  "no_proposals_to": [
+   "kim"
+  ],
+  "proposals": [
+   {
+    "to": "okafor",
+    "kind": "reinspect",
+    "angle": "ENG-R"
+   }
+  ],
+  "open_findings": [
+   "F1"
+  ],
+  "confirmations": [
+   {
+    "action": "acknowledged",
+    "name": "Okafor"
+   }
+  ]
+ }
+}

@@ -1,0 +1,31 @@
+{
+ "id": "route-hold-and-unusable",
+ "title": "A HOLD and an unusable Angle together: both go to the Ramp Lead",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "hold-glare",
+    "gate": "T5"
+   }
+  }
+ ],
+ "expect": {
+  "tasks": [
+   {
+    "type": "ack_hold",
+    "finding": "F1",
+    "assignee": "okafor"
+   },
+   {
+    "type": "check_by_eye",
+    "angle": "AFT",
+    "assignee": "okafor"
+   }
+  ],
+  "task_types": {
+   "ack_hold": 1,
+   "check_by_eye": 1
+  },
+  "model_calls": 0
+ }
+}

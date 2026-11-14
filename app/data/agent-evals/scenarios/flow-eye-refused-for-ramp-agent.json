@@ -1,0 +1,32 @@
+{
+ "id": "flow-eye-refused-for-ramp-agent",
+ "title": "A Ramp Agent pressing 'checked by eye' is refused",
+ "steps": [
+  {
+   "inspect": {
+    "scene": "glare-stuck",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "/eye T5 ENG-L",
+    "refused": true
+   }
+  }
+ ],
+ "expect": {
+  "confirmations": [],
+  "tasks": [
+   {
+    "type": "check_by_eye",
+    "angle": "ENG-L",
+    "assignee": "okafor",
+    "status": "assigned",
+    "area": "safety"
+   }
+  ],
+  "model_calls": 0
+ }
+}

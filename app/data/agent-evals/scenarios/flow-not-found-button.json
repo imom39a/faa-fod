@@ -1,0 +1,47 @@
+{
+ "id": "flow-not-found-button",
+ "title": "The Not found button on a REMOVE Task: a proposal, recorded only when the person accepts",
+ "setup": {
+  "shifts": {
+   "okafor": "off"
+  }
+ },
+ "steps": [
+  {
+   "inspect": {
+    "scene": "remove",
+    "gate": "T5"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "/cant-find {K:remove:F1}"
+   }
+  },
+  {
+   "command": {
+    "from": "kim",
+    "text": "y"
+   }
+  }
+ ],
+ "expect": {
+  "reports": [
+   {
+    "task": "remove:F1",
+    "kind": "not_found",
+    "by": "kim",
+    "via": "command"
+   }
+  ],
+  "confirmations": [
+   {
+    "action": "not_found_on_walk",
+    "name": "Kim"
+   }
+  ],
+  "open_findings": [],
+  "model_calls": 0
+ }
+}
