@@ -97,6 +97,22 @@ Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.
 9. Okafor sends `/signoff T5`. Tasks close, timers are cancelled, the dashboard tile turns to "Confirmed clear".
 10. Open the activity log (`GET /api/agent/activity`): every step with who and when, and the session cost (about $0.004).
 
+**More that people can do in the chat page** (each is a button; the same words work as typed commands)
+
+- **Not found.** On a removal Task, "Not found" is a Report. For a REMOVE or ADVISORY Finding the person is then asked "Record F2 as not found on walk?" and it is recorded only if they accept. For a HOLD nothing is recorded: the Ramp Lead is told and is offered a new photo of that Angle.
+- **Still there.** When a Ramp Lead presses "Removed" on a HOLD and the new photo still shows the object, the HOLD stays open, the removal Task reopens, the Escalation level goes up by one and the Ramp Lead is told who else on Shift could be sent.
+- **An unusable view.** The Gate's Ramp Lead gets one Task per unusable Angle: "Re-inspect" takes a new photo, and if it is still unusable "Checked by eye" records that a person cleared the zone. Only a Ramp Lead can press it, and sign-off waits for it.
+- **Debris outside the stand.** The Task says not to remove the item and carries a drafted report addressed to Ramp 1 control (shared taxilane) or Airport Operations (movement area). The person sends it, then presses "Reported to Ramp 1 control" or "Reported to Airport Ops". Only that closes the Finding, and the record keeps who was told.
+- **Break, back, and Handover.** "Go on a break" stops new Tasks coming; it is refused while you hold an open HOLD Task. "Hand over…" asks one person to take all your open Tasks: they get a brief and accept or decline. Nothing moves until they accept; then your Shift ends and running timers carry on against them. Example:
+
+  ```
+  Okafor: Hand over… -> Reyes        "Asked Reyes (Ramp Lead) to take over 1 Task. They stay yours until they accept."
+  Reyes:  Accept                      "Handover accepted: K-1 is now yours. Running timers carry on. Okafor's Shift has ended."
+  Okafor: Back on shift               "You are back on shift."
+  ```
+
+All five played end to end, with chat threads and cost: `research/always-on-agent-flows-rehearsal.md`. To replay them: `cd app/backend && uv run python -m fodgate.rehearse_flows --keyless` (no key, no cost).
+
 **What keeps it safe**
 
 - The agent proposes and routes. It has no tool that confirms a Finding, records a check by eye, signs off, or changes a severity or a Verdict.
@@ -106,6 +122,20 @@ Open http://localhost:8000 and press **Play** at 2x (or start with `./run-agent.
 - If Claude is unavailable or the spend cap is reached, code still delivers the HOLD and routes the rest by a fixed rule, and every command works. Try it: `FOD_AGENT=code ./run-agent.sh`.
 
 **Limits to state**: the PIN is not real sign-in; the older dashboard endpoints still accept whatever role the browser sends; the terminal is a display, not a control; the linked "always-on agent" repository was a data pack, so the loop is this project's own. Details: `spec/dispatch.md`. A recorded run with costs: `research/always-on-agent-rehearsal.md`.
+
+## Agent evals
+
+A separate check of whether the always-on agent behaves correctly: 54 scenarios (routing, safety, understanding plain-language reports, proposals, Escalation, cost), each checked by code that reads the database and the agent's tool calls. It does not replace the detection scoring below.
+
+```bash
+cd app/backend
+uv run python -m fodgate.agent_evals --dry-run          # scripted stand-in for the agent: no key, no cost
+uv run python -m fodgate.agent_evals --max-usd 0.50     # live on Claude Haiku 5.5; stops at the cap (a full run costs about $0.02)
+uv run python -m fodgate.agent_evals --only adv-        # a subset, by scenario ID or prefix
+uv run python -m fodgate.agent_evals --compare app/var/agent-evals/results.json   # how many scenarios changed since that run
+```
+
+Results are written to `app/var/agent-evals/results.json` and `summary.md`. One safety violation fails the run (exit code 2). The scenarios are JSON files in `app/data/agent-evals/scenarios/`; the README beside them explains the format and how to add one. First live runs: `app/AGENT-EVAL-RESULTS.md` (54 of 54 passed twice, no safety violation, $0.045 in total).
 
 ## How it works
 

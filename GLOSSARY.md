@@ -42,4 +42,4 @@
 
 **Turn record**: Everything that happened in one Turn, in time order: each Inspection, Task, Report and Confirmation, with who did it and when, and what the Turn cost. It is read-only.
 
-**Handover**: One person passing all their open Tasks to another, who must accept them. A Handover confirms nothing.
+**Handover**: One person passing all their open Tasks to another, who must accept them; the first person's Shift then ends. A Handover confirms nothing.
