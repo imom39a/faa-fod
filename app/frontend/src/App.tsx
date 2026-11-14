@@ -9,6 +9,7 @@ import { CrewTasksPage } from './components/CrewTasksPage';
 import { DemoControls, RoleSwitch } from './components/Header';
 import { SpinnerIcon } from './components/icons';
 import { Overview } from './components/Overview';
+import { SettingsPage } from './components/SettingsPage';
 import { TurnView } from './components/TurnView';
 import { useRoute } from './route';
 import { useIdentity } from './store/identity';
@@ -97,6 +98,8 @@ export function App({ api, store }: { api: Api; store: StateStore }) {
         <ChatPage agent={api.agent} sessionStore={sessionStore} inboxStore={inboxStore} />
       ) : route.name === 'crew' ? (
         <CrewTasksPage agent={api.agent} />
+      ) : route.name === 'settings' ? (
+        <SettingsPage />
       ) : route.name === 'activity' ? (
         <ActivityPage agent={api.agent} filter={route.filter} />
       ) : route.name === 'turn' ? (

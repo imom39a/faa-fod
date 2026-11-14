@@ -23,6 +23,7 @@ import {
   type BoardTask,
 } from '../lib/crewTasks';
 import { formatClock, formatTime, formatUsd, plural } from '../lib/format';
+import { useDeveloperMode } from '../store/settings';
 import { personRoleLabel, SHIFT_LABEL } from '../lib/labels';
 import { isActiveTask } from '../lib/taskActions';
 import { activityHref, turnHref } from '../route';
@@ -43,6 +44,7 @@ const isSample = (t: Pick<BoardTask, 'created_by'>) => t.created_by === 'sample'
  * Read-only: it offers links, never an action.
  */
 export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
+  const developer = useDeveloperMode();
   const { board, receivedAt, error } = useBoard(agent);
 
   return (
@@ -58,7 +60,9 @@ export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
           Full activity log <ArrowRightIcon className="vicon" />
         </a>
       </div>
-      {MOCK_MODE ? <p className="small muted crew-note">Mock mode: no model is called; cost and token figures are illustrative.</p> : null}
+      {developer && MOCK_MODE ? (
+        <p className="small muted crew-note">Mock mode: no model is called; cost and token figures are illustrative.</p>
+      ) : null}
       {error ? (
         <div className="banner error" role="alert">
           <span className="grow">
@@ -80,6 +84,7 @@ export function CrewTasksPage({ agent }: { agent: Pick<AgentApi, 'board'> }) {
 }
 
 function CrewBoard({ board, now }: { board: Board; now: number }) {
+  const developer = useDeveloperMode();
   const open = openTasks(board.tasks);
   const escalated = escalationsInProgress(board.tasks);
   const closed = recentlyClosedTasks(board.tasks);
@@ -90,7 +95,8 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
     <>
       {sample ? (
         <p className="small muted crew-note" role="note">
-          <span className="crew-sample">Sample</span> Sample Tasks and activity, shown until the demo creates a Task. Sample Tasks do not open a Turn. Press Play for live Tasks that open their Turn and Finding.
+          <span className="crew-sample">Sample</span> Sample Tasks and activity, shown until the demo creates a Task. Sample Tasks do not
+          open a Turn. Press Play for live Tasks that open their Turn and Finding.
         </p>
       ) : null}
       <div className="crew-layout">
@@ -142,7 +148,7 @@ function CrewBoard({ board, now }: { board: Board; now: number }) {
 
         <div className="crew-side">
           <RosterSection roster={board.roster} />
-          <CostSection board={board} />
+          {developer && <CostSection board={board} />}
           <ActivitySection entries={board.activity} roster={board.roster} />
         </div>
       </div>
@@ -161,7 +167,13 @@ function TaskRow({ task, roster, now }: { task: BoardTask; roster: BoardPerson[]
   const target = taskTarget(task);
   const age = active ? openFor(task.created_at, now) : '';
   const severity = task.severity && KNOWN_SEVERITY.includes(task.severity) ? (task.severity as Severity) : null;
-  const cls = ['crew-task', hold ? 'is-hold' : '', escalation ? 'is-escalated' : '', active ? '' : 'is-closed', info.known ? '' : 'is-unknown-type']
+  const cls = [
+    'crew-task',
+    hold ? 'is-hold' : '',
+    escalation ? 'is-escalated' : '',
+    active ? '' : 'is-closed',
+    info.known ? '' : 'is-unknown-type',
+  ]
     .filter(Boolean)
     .join(' ');
   const name = [
@@ -190,7 +202,10 @@ function TaskRow({ task, roster, now }: { task: BoardTask; roster: BoardPerson[]
       <TaskLink task={task} name={name}>
         <span className="crew-task-top">
           <span className="gate-chip">{task.gate}</span>
-          <span className={`crew-task-type${info.known ? '' : ' mono'}`} title={info.known ? undefined : 'A Task type this dashboard does not know yet. Shown as the server names it.'}>
+          <span
+            className={`crew-task-type${info.known ? '' : ' mono'}`}
+            title={info.known ? undefined : 'A Task type this dashboard does not know yet. Shown as the server names it.'}
+          >
             {info.label}
           </span>
           {isSample(task) ? <span className="crew-sample">Sample</span> : null}

@@ -42,6 +42,7 @@ Each principle is followed by the rule that makes it checkable.
 - **Gate strip** (sticky, top): one cell per Gate with the Gate, the flight, the time to pushback and one status line. A cell is grey when normal and filled with its severity colour when abnormal. The cell of the Turn being viewed has a bar along its bottom edge. Each cell links to its Turn.
 - **Page**: 14px padding, full width. A page with a main column and a side column puts the side column on the right at 380 to 420px.
 - **Gates page** (`#/`): counters across the top, the Gates table on the left, the "Needs a human" queue on the right.
+- **Settings** (`#/settings`): choices saved in this browser. **Developer mode** (off by default) shows details only the people who build and run the app need: estimated model cost, tokens, LLM calls, stage timings, local models, which model decided a Finding, and the agent's session and wake cost. Anything of that kind goes behind `useDeveloperMode()` from `store/settings.ts`; it must never hide something a person needs to clear a Gate.
 
 Widths:
 

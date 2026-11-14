@@ -3,6 +3,7 @@ import type { Api } from '../api/client';
 import { describeError } from '../api/errors';
 import type { TurnRecord as TurnRecordData, TurnRecordEntry } from '../api/turnRecordTypes';
 import { formatTime, formatUsd, plural } from '../lib/format';
+import { useDeveloperMode } from '../store/settings';
 import { personRoleLabel } from '../lib/labels';
 import { buildRecordDownload, entryEventLabel, entryKindLabel, normaliseTurnRecord } from '../lib/turnRecord';
 import { turnHref } from '../route';
@@ -29,6 +30,7 @@ const text = (v: unknown) => (typeof v === 'string' ? v : null);
  * download. Read-only: it offers no action that writes.
  */
 export function TurnRecord({ api, turnId }: { api: Api; turnId: string }) {
+  const developer = useDeveloperMode();
   const [open, setOpen] = useState(false);
   const [record, setRecord] = useState<TurnRecordData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -101,27 +103,29 @@ export function TurnRecord({ api, turnId }: { api: Api; turnId: string }) {
           ) : (
             <>
               <div className="trec-top">
-                <div className="stat-row" aria-label="Cost of this Turn">
-                  <div className="stat">
-                    <b className="num">{formatUsd(record.cost.inspections_usd)}</b>
-                    <span>Inspections</span>
+                {developer && (
+                  <div className="stat-row" aria-label="Cost of this Turn">
+                    <div className="stat">
+                      <b className="num">{formatUsd(record.cost.inspections_usd)}</b>
+                      <span>Inspections</span>
+                    </div>
+                    <div className="stat">
+                      <b className="num">{formatUsd(record.cost.agent_usd)}</b>
+                      <span>Agent</span>
+                    </div>
+                    <div className="stat">
+                      <b className="num">{formatUsd(record.cost.total_usd)}</b>
+                      <span>Turn cost</span>
+                    </div>
                   </div>
-                  <div className="stat">
-                    <b className="num">{formatUsd(record.cost.agent_usd)}</b>
-                    <span>Agent</span>
-                  </div>
-                  <div className="stat">
-                    <b className="num">{formatUsd(record.cost.total_usd)}</b>
-                    <span>Turn cost</span>
-                  </div>
-                </div>
+                )}
                 {download && (
                   <a className="btn compact" href={download.href} download={download.filename}>
                     Download JSON
                   </a>
                 )}
               </div>
-              {record.cost.note && <p className="muted small">{record.cost.note}</p>}
+              {developer && record.cost.note && <p className="muted small">{record.cost.note}</p>}
               <p className="muted small trec-key">
                 {plural(record.entries.length, 'entry', 'entries')}, oldest first. A Report is what a person said. A Confirmation is what
                 was recorded.
